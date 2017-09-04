@@ -40,7 +40,7 @@ namespace WolfPaw_ScreenSnip
             if (move)
             {
                 Left = e.Location.X - movexy.X;
-                Top = e.Location.Y - movexy.X;
+                Top = e.Location.Y - movexy.X; 
             }
         }
         
