@@ -33,14 +33,38 @@ namespace WolfPaw_ScreenSnip
             panel1.MouseDown += Panel1_MouseDown;
             panel1.MouseUp += Panel1_MouseUp;
             panel1.MouseMove += Panel1_MouseMove;
+			panel1.MouseEnter += Panel1_MouseEnter;
+			panel1.MouseLeave += Panel1_MouseLeave;
+
+			Load += Uc_CutoutHolder_Load;
         }
 
-        private void Panel1_MouseMove(object sender, MouseEventArgs e)
+		private void Uc_CutoutHolder_Load(object sender, EventArgs e)
+		{
+			BringToFront();
+		}
+
+		private void Panel1_MouseLeave(object sender, EventArgs e)
+		{
+			BorderStyle = BorderStyle.None;
+			panel1.Height = 0;
+		}
+
+		private void Panel1_MouseEnter(object sender, EventArgs e)
+		{
+			BorderStyle = BorderStyle.FixedSingle;
+		}
+
+		private void Panel1_MouseMove(object sender, MouseEventArgs e)
         {
             if (move)
             {
-                Left = e.Location.X - movexy.X;
-                Top = e.Location.Y - movexy.X; 
+				Point p = new Point(0,0);
+				p.X = Left + e.X;
+				p.Y = Top + e.Y;
+
+				Left = p.X - movexy.X;
+				Top = p.Y - movexy.Y; 
             }
         }
         
@@ -52,8 +76,9 @@ namespace WolfPaw_ScreenSnip
 
         private void Panel1_MouseDown(object sender, MouseEventArgs e)
         {
-            move = true;
-            movexy = new Point(e.X, e.Y);
+			BringToFront();
+			move = true;
+            movexy = e.Location;
         }
 
         private void Uc_CutoutHolder_MouseMove(object sender, MouseEventArgs e)
@@ -61,10 +86,7 @@ namespace WolfPaw_ScreenSnip
             if(e.Y < 20)
             {
                 panel1.Height = 20;
-            }else
-            {
-                panel1.Height = 0;
-            }
+			}
 
             if(e.X >= Width - 10 && e.Y >= Height - 10)
             {
@@ -113,5 +135,10 @@ namespace WolfPaw_ScreenSnip
         {
             panel1.Width = Width;
         }
-    }
+
+		private void pb_BringToFront_Click(object sender, EventArgs e)
+		{
+			
+		}
+	}
 }
