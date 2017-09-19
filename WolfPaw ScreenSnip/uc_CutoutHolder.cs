@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 
 namespace WolfPaw_ScreenSnip
 {
@@ -156,7 +157,7 @@ namespace WolfPaw_ScreenSnip
             img = i;
             redraw = true;
         }
-
+		
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -165,7 +166,13 @@ namespace WolfPaw_ScreenSnip
             {
                 using (Graphics g = Graphics.FromHwnd(this.Handle))
                 {
-                    Rectangle r = this.Bounds;
+					c_returnGraphicSettings cg = new c_returnGraphicSettings();
+
+					g.SmoothingMode = cg.getSM();
+					g.InterpolationMode = cg.getIM();
+					g.PixelOffsetMode = cg.getPOM();
+
+					Rectangle r = this.Bounds;
                     r.Y = panel1.Height;
 
                     Rectangle rr = new Rectangle(0, 0, r.Width, r.Height);

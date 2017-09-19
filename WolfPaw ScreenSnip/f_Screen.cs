@@ -26,13 +26,16 @@ namespace WolfPaw_ScreenSnip
 
         public void addImage(Bitmap img)
         {
-            var box = new uc_CutoutHolder();
-            box.Parent = this;
+			if (img != null)
+			{
+				var box = new uc_CutoutHolder();
+				box.Parent = this;
 
-			box.Width = img.Width;
-			box.Height = img.Height;
+				box.Width = img.Width;
+				box.Height = img.Height;
 
-            box.BMP = img;
+				box.BMP = img;
+			}
         }
     }
 }
