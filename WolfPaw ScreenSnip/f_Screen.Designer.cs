@@ -28,16 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // f_Screen
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(642, 526);
-            this.Name = "f_Screen";
-            this.Text = "f_Screen";
-            this.ResumeLayout(false);
+			this.SuspendLayout();
+			// 
+			// f_Screen
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.ClientSize = new System.Drawing.Size(965, 633);
+			this.DoubleBuffered = true;
+			this.Name = "f_Screen";
+			this.Text = "f_Screen";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.f_Screen_FormClosing);
+			this.ResumeLayout(false);
 
         }
 

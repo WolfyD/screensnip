@@ -38,24 +38,23 @@
 			this.p_Border = new System.Windows.Forms.Panel();
 			this.label3 = new System.Windows.Forms.Label();
 			this.btn_Pen = new System.Windows.Forms.Button();
-			this.button1 = new System.Windows.Forms.Button();
-			this.button2 = new System.Windows.Forms.Button();
-			this.button3 = new System.Windows.Forms.Button();
-			this.button4 = new System.Windows.Forms.Button();
-			this.button5 = new System.Windows.Forms.Button();
+			this.btn_Marker = new System.Windows.Forms.Button();
+			this.btn_Line = new System.Windows.Forms.Button();
+			this.btn_Square = new System.Windows.Forms.Button();
+			this.btn_Oval = new System.Windows.Forms.Button();
+			this.btn_Text = new System.Windows.Forms.Button();
 			this.label4 = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.label5 = new System.Windows.Forms.Label();
 			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
 			this.label6 = new System.Windows.Forms.Label();
-			this.button6 = new System.Windows.Forms.Button();
+			this.btn_Font = new System.Windows.Forms.Button();
 			this.label7 = new System.Windows.Forms.Label();
-			this.cb_Transparent = new System.Windows.Forms.CheckBox();
-			this.num_Transparency = new System.Windows.Forms.NumericUpDown();
-			this.label8 = new System.Windows.Forms.Label();
+			this.cb_Follow = new System.Windows.Forms.CheckBox();
+			this.btn_Eraser = new System.Windows.Forms.Button();
+			this.lbl_Demo = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.num_Border)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.num_Transparency)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -93,12 +92,14 @@
 			// p_BgColor
 			// 
 			this.p_BgColor.BackColor = System.Drawing.Color.White;
-			this.p_BgColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.p_BgColor.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.p_BgColor.Location = new System.Drawing.Point(137, 28);
 			this.p_BgColor.Name = "p_BgColor";
 			this.p_BgColor.Size = new System.Drawing.Size(20, 20);
 			this.p_BgColor.TabIndex = 3;
+			this.p_BgColor.Tag = "0";
+			this.p_BgColor.Click += new System.EventHandler(this.p_BgColor_Click);
+			this.p_BgColor.MouseEnter += new System.EventHandler(this.p_BgColor_MouseEnter);
 			// 
 			// label2
 			// 
@@ -130,16 +131,19 @@
             0,
             0,
             0});
+			this.num_Border.ValueChanged += new System.EventHandler(this.num_Border_ValueChanged);
 			// 
 			// p_Border
 			// 
 			this.p_Border.BackColor = System.Drawing.Color.Black;
-			this.p_Border.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.p_Border.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.p_Border.Location = new System.Drawing.Point(137, 61);
 			this.p_Border.Name = "p_Border";
 			this.p_Border.Size = new System.Drawing.Size(20, 20);
 			this.p_Border.TabIndex = 4;
+			this.p_Border.Tag = "0";
+			this.p_Border.Click += new System.EventHandler(this.p_Border_Click);
+			this.p_Border.MouseEnter += new System.EventHandler(this.p_Border_MouseEnter);
 			// 
 			// label3
 			// 
@@ -161,60 +165,60 @@
 			this.btn_Pen.TabIndex = 8;
 			this.btn_Pen.UseVisualStyleBackColor = true;
 			// 
-			// button1
+			// btn_Marker
 			// 
-			this.button1.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-			this.button1.FlatAppearance.BorderSize = 3;
-			this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.button1.Location = new System.Drawing.Point(86, 101);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(20, 20);
-			this.button1.TabIndex = 9;
-			this.button1.UseVisualStyleBackColor = true;
+			this.btn_Marker.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+			this.btn_Marker.FlatAppearance.BorderSize = 3;
+			this.btn_Marker.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.btn_Marker.Location = new System.Drawing.Point(86, 101);
+			this.btn_Marker.Name = "btn_Marker";
+			this.btn_Marker.Size = new System.Drawing.Size(20, 20);
+			this.btn_Marker.TabIndex = 9;
+			this.btn_Marker.UseVisualStyleBackColor = true;
 			// 
-			// button2
+			// btn_Line
 			// 
-			this.button2.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-			this.button2.FlatAppearance.BorderSize = 3;
-			this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.button2.Location = new System.Drawing.Point(112, 101);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(20, 20);
-			this.button2.TabIndex = 10;
-			this.button2.UseVisualStyleBackColor = true;
+			this.btn_Line.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+			this.btn_Line.FlatAppearance.BorderSize = 3;
+			this.btn_Line.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.btn_Line.Location = new System.Drawing.Point(112, 101);
+			this.btn_Line.Name = "btn_Line";
+			this.btn_Line.Size = new System.Drawing.Size(20, 20);
+			this.btn_Line.TabIndex = 10;
+			this.btn_Line.UseVisualStyleBackColor = true;
 			// 
-			// button3
+			// btn_Square
 			// 
-			this.button3.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-			this.button3.FlatAppearance.BorderSize = 3;
-			this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.button3.Location = new System.Drawing.Point(60, 127);
-			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(20, 20);
-			this.button3.TabIndex = 11;
-			this.button3.UseVisualStyleBackColor = true;
+			this.btn_Square.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+			this.btn_Square.FlatAppearance.BorderSize = 3;
+			this.btn_Square.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.btn_Square.Location = new System.Drawing.Point(60, 127);
+			this.btn_Square.Name = "btn_Square";
+			this.btn_Square.Size = new System.Drawing.Size(20, 20);
+			this.btn_Square.TabIndex = 11;
+			this.btn_Square.UseVisualStyleBackColor = true;
 			// 
-			// button4
+			// btn_Oval
 			// 
-			this.button4.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-			this.button4.FlatAppearance.BorderSize = 3;
-			this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.button4.Location = new System.Drawing.Point(86, 127);
-			this.button4.Name = "button4";
-			this.button4.Size = new System.Drawing.Size(20, 20);
-			this.button4.TabIndex = 12;
-			this.button4.UseVisualStyleBackColor = true;
+			this.btn_Oval.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+			this.btn_Oval.FlatAppearance.BorderSize = 3;
+			this.btn_Oval.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.btn_Oval.Location = new System.Drawing.Point(86, 127);
+			this.btn_Oval.Name = "btn_Oval";
+			this.btn_Oval.Size = new System.Drawing.Size(20, 20);
+			this.btn_Oval.TabIndex = 12;
+			this.btn_Oval.UseVisualStyleBackColor = true;
 			// 
-			// button5
+			// btn_Text
 			// 
-			this.button5.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-			this.button5.FlatAppearance.BorderSize = 3;
-			this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.button5.Location = new System.Drawing.Point(112, 127);
-			this.button5.Name = "button5";
-			this.button5.Size = new System.Drawing.Size(20, 20);
-			this.button5.TabIndex = 13;
-			this.button5.UseVisualStyleBackColor = true;
+			this.btn_Text.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+			this.btn_Text.FlatAppearance.BorderSize = 3;
+			this.btn_Text.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.btn_Text.Location = new System.Drawing.Point(112, 127);
+			this.btn_Text.Name = "btn_Text";
+			this.btn_Text.Size = new System.Drawing.Size(20, 20);
+			this.btn_Text.TabIndex = 13;
+			this.btn_Text.UseVisualStyleBackColor = true;
 			// 
 			// label4
 			// 
@@ -260,80 +264,78 @@
 			this.label6.TabIndex = 17;
 			this.label6.Text = "Font: ";
 			// 
-			// button6
+			// btn_Font
 			// 
-			this.button6.Location = new System.Drawing.Point(60, 217);
-			this.button6.Name = "button6";
-			this.button6.Size = new System.Drawing.Size(53, 23);
-			this.button6.TabIndex = 18;
-			this.button6.Text = "Change";
-			this.button6.UseVisualStyleBackColor = true;
+			this.btn_Font.Location = new System.Drawing.Point(60, 217);
+			this.btn_Font.Name = "btn_Font";
+			this.btn_Font.Size = new System.Drawing.Size(53, 23);
+			this.btn_Font.TabIndex = 18;
+			this.btn_Font.Text = "Change";
+			this.btn_Font.UseVisualStyleBackColor = true;
+			this.btn_Font.Click += new System.EventHandler(this.btn_Font_Click);
 			// 
 			// label7
 			// 
 			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(11, 302);
+			this.label7.Location = new System.Drawing.Point(1, 308);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(70, 13);
+			this.label7.Size = new System.Drawing.Size(77, 13);
 			this.label7.TabIndex = 19;
-			this.label7.Text = "Transparent: ";
+			this.label7.Text = "Follow Parent: ";
 			// 
-			// cb_Transparent
+			// cb_Follow
 			// 
-			this.cb_Transparent.AutoSize = true;
-			this.cb_Transparent.Location = new System.Drawing.Point(77, 302);
-			this.cb_Transparent.Name = "cb_Transparent";
-			this.cb_Transparent.Size = new System.Drawing.Size(15, 14);
-			this.cb_Transparent.TabIndex = 20;
-			this.cb_Transparent.UseVisualStyleBackColor = true;
-			this.cb_Transparent.CheckedChanged += new System.EventHandler(this.cb_Transparent_CheckedChanged);
+			this.cb_Follow.AutoSize = true;
+			this.cb_Follow.Checked = true;
+			this.cb_Follow.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cb_Follow.Location = new System.Drawing.Point(77, 307);
+			this.cb_Follow.Name = "cb_Follow";
+			this.cb_Follow.Size = new System.Drawing.Size(15, 14);
+			this.cb_Follow.TabIndex = 20;
+			this.cb_Follow.UseVisualStyleBackColor = true;
 			// 
-			// num_Transparency
+			// btn_Eraser
 			// 
-			this.num_Transparency.Location = new System.Drawing.Point(102, 300);
-			this.num_Transparency.Maximum = new decimal(new int[] {
-            99,
-            0,
-            0,
-            0});
-			this.num_Transparency.Name = "num_Transparency";
-			this.num_Transparency.Size = new System.Drawing.Size(45, 20);
-			this.num_Transparency.TabIndex = 21;
-			this.num_Transparency.Value = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
+			this.btn_Eraser.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+			this.btn_Eraser.FlatAppearance.BorderSize = 3;
+			this.btn_Eraser.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.btn_Eraser.Location = new System.Drawing.Point(137, 101);
+			this.btn_Eraser.Name = "btn_Eraser";
+			this.btn_Eraser.Size = new System.Drawing.Size(20, 46);
+			this.btn_Eraser.TabIndex = 21;
+			this.btn_Eraser.UseVisualStyleBackColor = true;
 			// 
-			// label8
+			// lbl_Demo
 			// 
-			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(153, 302);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(15, 13);
-			this.label8.TabIndex = 22;
-			this.label8.Text = "%";
+			this.lbl_Demo.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.lbl_Demo.AutoSize = true;
+			this.lbl_Demo.Location = new System.Drawing.Point(45, 260);
+			this.lbl_Demo.Name = "lbl_Demo";
+			this.lbl_Demo.Size = new System.Drawing.Size(81, 13);
+			this.lbl_Demo.TabIndex = 22;
+			this.lbl_Demo.Text = "DEMO aAbBcC";
+			this.lbl_Demo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// f_SettingPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(173, 324);
-			this.Controls.Add(this.label8);
-			this.Controls.Add(this.num_Transparency);
-			this.Controls.Add(this.cb_Transparent);
+			this.ClientSize = new System.Drawing.Size(166, 324);
+			this.Controls.Add(this.lbl_Demo);
+			this.Controls.Add(this.btn_Eraser);
+			this.Controls.Add(this.cb_Follow);
 			this.Controls.Add(this.label7);
-			this.Controls.Add(this.button6);
+			this.Controls.Add(this.btn_Font);
 			this.Controls.Add(this.label6);
 			this.Controls.Add(this.numericUpDown1);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.label4);
-			this.Controls.Add(this.button5);
-			this.Controls.Add(this.button4);
-			this.Controls.Add(this.button3);
-			this.Controls.Add(this.button2);
-			this.Controls.Add(this.button1);
+			this.Controls.Add(this.btn_Text);
+			this.Controls.Add(this.btn_Oval);
+			this.Controls.Add(this.btn_Square);
+			this.Controls.Add(this.btn_Line);
+			this.Controls.Add(this.btn_Marker);
 			this.Controls.Add(this.btn_Pen);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.p_Border);
@@ -348,12 +350,11 @@
 			this.Name = "f_SettingPanel";
 			this.Opacity = 0.9D;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-			this.Text = "Settings";
-			this.MouseEnter += new System.EventHandler(this.f_SettingPanel_MouseEnter);
-			this.MouseLeave += new System.EventHandler(this.f_SettingPanel_MouseLeave);
+			this.Text = "Tools";
+			this.TopMost = true;
+			this.LocationChanged += new System.EventHandler(this.f_SettingPanel_LocationChanged);
 			((System.ComponentModel.ISupportInitialize)(this.num_Border)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.num_Transparency)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -371,20 +372,20 @@
 		private System.Windows.Forms.Panel p_Border;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Button btn_Pen;
-		private System.Windows.Forms.Button button1;
-		private System.Windows.Forms.Button button2;
-		private System.Windows.Forms.Button button3;
-		private System.Windows.Forms.Button button4;
-		private System.Windows.Forms.Button button5;
+		private System.Windows.Forms.Button btn_Marker;
+		private System.Windows.Forms.Button btn_Line;
+		private System.Windows.Forms.Button btn_Square;
+		private System.Windows.Forms.Button btn_Oval;
+		private System.Windows.Forms.Button btn_Text;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.NumericUpDown numericUpDown1;
 		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Button button6;
+		private System.Windows.Forms.Button btn_Font;
 		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.CheckBox cb_Transparent;
-		private System.Windows.Forms.NumericUpDown num_Transparency;
-		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.CheckBox cb_Follow;
+		private System.Windows.Forms.Button btn_Eraser;
+		private System.Windows.Forms.Label lbl_Demo;
 	}
 }

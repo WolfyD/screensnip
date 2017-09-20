@@ -12,7 +12,9 @@ namespace WolfPaw_ScreenSnip
 {
     public partial class f_Screen : Form
     {
-        public f_Screen()
+		public f_SettingPanel child = null;
+
+		public f_Screen()
         {
             InitializeComponent();
 
@@ -37,5 +39,10 @@ namespace WolfPaw_ScreenSnip
 				box.BMP = img;
 			}
         }
-    }
+
+		private void f_Screen_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if(child != null) { child.Close(); }
+		}
+	}
 }

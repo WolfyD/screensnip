@@ -24,7 +24,17 @@ namespace WolfPaw_ScreenSnip
         private bool move = false;
         private Point movexy = new Point(0, 0);
 
-        public uc_CutoutHolder()
+		protected override CreateParams CreateParams
+		{
+			get
+			{
+				CreateParams cp = base.CreateParams;
+				cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
+				return cp;
+			}
+		}
+
+		public uc_CutoutHolder()
         {
             InitializeComponent();
 
@@ -191,5 +201,10 @@ namespace WolfPaw_ScreenSnip
         {
             this.Dispose();
         }
-    }
+
+		private void uc_CutoutHolder_LocationChanged(object sender, EventArgs e)
+		{
+			Parent.Invalidate();
+		}
+	}
 }

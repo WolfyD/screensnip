@@ -37,9 +37,23 @@ namespace WolfPaw_ScreenSnip
 
         private void btn_Exit_Click(object sender, EventArgs e)
         {
-            //TODO:EXIT
+			//TODO:EXIT
 
-            Application.Exit();
+			try
+			{
+				Application.Exit();
+			}
+			catch
+			{
+				try
+				{
+					Application.Exit();
+				}
+				catch
+				{
+
+				}
+			}
         }
 
 		public Size getScreenSize()
@@ -119,6 +133,7 @@ namespace WolfPaw_ScreenSnip
 				fs.Show();
 				tools = new f_SettingPanel();
 				tools.parent = fs;
+				fs.child = tools;
 				tools.Show();
 			}
 
@@ -305,7 +320,7 @@ namespace WolfPaw_ScreenSnip
 				}
 			}
 
-			bm.MakeTransparent();
+			
 
 			return bm;
 		}

@@ -64,6 +64,7 @@
 			this.Controls.Add(this.panel1);
 			this.Name = "uc_CutoutHolder";
 			this.Size = new System.Drawing.Size(169, 155);
+			this.LocationChanged += new System.EventHandler(this.uc_CutoutHolder_LocationChanged);
 			this.SizeChanged += new System.EventHandler(this.uc_CutoutHolder_SizeChanged);
 			this.panel1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pb_btn_Delete)).EndInit();
