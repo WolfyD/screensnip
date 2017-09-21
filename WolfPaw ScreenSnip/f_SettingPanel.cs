@@ -15,6 +15,7 @@ namespace WolfPaw_ScreenSnip
 		public Form parent = null;
 		public Point pos = new Point(-1, -1);
 		public bool posChange = true;
+        public bool docked = false;
 
 
 		public f_SettingPanel()
@@ -26,6 +27,8 @@ namespace WolfPaw_ScreenSnip
 
 		private void F_SettingPanel_Load(object sender, EventArgs e)
 		{
+            TopMost = true;
+            BringToFront();
 
 			if (parent != null)
 			{
@@ -34,6 +37,7 @@ namespace WolfPaw_ScreenSnip
 
 				pos = new Point(Left - parent.Left, Top - parent.Top);
 				parent.LocationChanged += Parent_LocationChanged;
+                parent.SizeChanged += Parent_SizeChanged;
 			}
 
 			lbl_Demo.Font = Properties.Settings.Default.s_font;
@@ -43,7 +47,20 @@ namespace WolfPaw_ScreenSnip
 			if (Properties.Settings.Default.s_hasBorder) { cb_Border.Checked = true; p_Border.BackColor = Properties.Settings.Default.s_borderColor; num_Border.Value = Properties.Settings.Default.s_borderWidth; } else { num_Border.Enabled = false; p_Border.Tag = 0; }
 		}
 
-		private void Parent_LocationChanged(object sender, EventArgs e)
+        private void Parent_SizeChanged(object sender, EventArgs e)
+        {
+            if (docked)
+            {
+                Height = parent.Height - 39;
+                pos = new Point(parent.Right - Width - parent.Left - 12, parent.Bottom - Height - parent.Top - 8);
+                posChange = false;
+                Left = pos.X + parent.Left;
+                Top = pos.Y + parent.Top;
+                posChange = true;
+            }
+        }
+
+        private void Parent_LocationChanged(object sender, EventArgs e)
 		{
 			if (cb_Follow.Checked)
 			{
@@ -158,5 +175,42 @@ namespace WolfPaw_ScreenSnip
 
 			
 		}
-	}
+
+        private void btn_Dock_Click(object sender, EventArgs e)
+        {
+            if (docked)
+            {
+                cb_Follow.Enabled = true;
+                FormBorderStyle = FormBorderStyle.FixedToolWindow;
+                Width += 8;
+                Height = 363;
+                pos = new Point(parent.Right - Width - parent.Left, parent.Top + 31 - parent.Top);
+                posChange = false;
+                Left = pos.X + parent.Left;
+                Top = parent.Top + 31;
+                posChange = true;
+                docked = false;
+            }
+            else
+            {
+                cb_Follow.Checked = true;
+                cb_Follow.Enabled = false;
+                FormBorderStyle = FormBorderStyle.None;
+                Width -= 8;
+                Height = parent.Height - 39;
+                pos = new Point(parent.Right - Width - parent.Left - 12, parent.Bottom - Height - parent.Top - 8);
+                posChange = false;
+                Left = pos.X + parent.Left;
+                Top = pos.Y + parent.Top;
+                posChange = true;
+                docked = true;
+            }
+        }
+
+        private void f_SettingPanel_SizeChanged(object sender, EventArgs e)
+        {
+            TopMost = true;
+            BringToFront();
+        }
+    }
 }
