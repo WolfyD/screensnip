@@ -343,5 +343,37 @@ namespace WolfPaw_ScreenSnip
 			//TODO SORT cutouts
 			cutouts = cutouts.OrderByDescending(r => r.Key).ToDictionary(r => r.Key, r => r.Value);
 		}
+
+		private void btn_Clear_Click(object sender, EventArgs e)
+		{
+			List<uc_CutoutHolder> lst = new List<uc_CutoutHolder>();
+
+			if (fs != null)
+			{
+				foreach (var v in fs.Controls)
+				{
+					if (v is uc_CutoutHolder)
+					{
+						lst.Add((uc_CutoutHolder)v);
+					}
+				}
+			}
+
+			if (lst.Count > 0)
+			{
+				if (MessageBox.Show("You are about to remove all of your cutouts.\r\nAre you sure you wish to continue?", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+				{
+					for (int i = 0; i < lst.Count; i++)
+					{
+						lst[i].Dispose();
+					}
+				}
+			}
+		}
+
+		private void btn_AttachToEmail_Click(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

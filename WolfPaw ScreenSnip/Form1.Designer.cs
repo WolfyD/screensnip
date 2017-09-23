@@ -81,6 +81,7 @@
 			this.btn_AttachToEmail.Size = new System.Drawing.Size(40, 40);
 			this.btn_AttachToEmail.TabIndex = 3;
 			this.btn_AttachToEmail.UseVisualStyleBackColor = true;
+			this.btn_AttachToEmail.Click += new System.EventHandler(this.btn_AttachToEmail_Click);
 			// 
 			// btn_Clear
 			// 
@@ -91,6 +92,7 @@
 			this.btn_Clear.Size = new System.Drawing.Size(40, 40);
 			this.btn_Clear.TabIndex = 4;
 			this.btn_Clear.UseVisualStyleBackColor = true;
+			this.btn_Clear.Click += new System.EventHandler(this.btn_Clear_Click);
 			// 
 			// btn_Exit
 			// 

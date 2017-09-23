@@ -38,6 +38,7 @@
 			this.DoubleBuffered = true;
 			this.Name = "f_Screen";
 			this.Text = "f_Screen";
+			this.TopMost = true;
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.f_Screen_FormClosing);
 			this.ResumeLayout(false);
 

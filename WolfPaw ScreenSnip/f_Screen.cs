@@ -13,7 +13,7 @@ namespace WolfPaw_ScreenSnip
     public partial class f_Screen : Form
     {
 		public f_SettingPanel child = null;
-
+		
 		public f_Screen()
         {
             InitializeComponent();
@@ -23,7 +23,7 @@ namespace WolfPaw_ScreenSnip
 
         private void F_Screen_Load(object sender, EventArgs e)
         {
-            
+			BackColor = Properties.Settings.Default.s_Background;
         }
 
         public void addImage(Bitmap img)
