@@ -9,6 +9,7 @@ namespace WolfPaw_ScreenSnip
 {
 	static class c_ImgGen
 	{
+
 		public static Bitmap createImage(Rectangle rec, Dictionary<int, uc_CutoutHolder> cutouts)
 		{
 			return createImage(rec, cutouts, false);

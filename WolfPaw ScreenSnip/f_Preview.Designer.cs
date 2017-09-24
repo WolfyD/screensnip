@@ -30,16 +30,18 @@
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(f_Preview));
 			this.ss_Status = new System.Windows.Forms.StatusStrip();
-			this.ts_Tools = new System.Windows.Forms.ToolStrip();
-			this.pb_Pic = new System.Windows.Forms.PictureBox();
-			this.btn_ED_Background = new System.Windows.Forms.ToolStripButton();
-			this.btn_ED_Border = new System.Windows.Forms.ToolStripButton();
-			this.btn_ED_TransparencyRender = new System.Windows.Forms.ToolStripButton();
-			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.lbl_Info = new System.Windows.Forms.ToolStripStatusLabel();
+			this.ts_Tools = new System.Windows.Forms.ToolStrip();
+			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+			this.btn_ED_Background = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.btn_ED_Border = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.btn_ED_TransparencyRender = new System.Windows.Forms.ToolStripButton();
+			this.pb_Pic = new System.Windows.Forms.PictureBox();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.btn_ED_EditLayer = new System.Windows.Forms.ToolStripButton();
 			this.ss_Status.SuspendLayout();
 			this.ts_Tools.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pb_Pic)).BeginInit();
@@ -49,12 +51,24 @@
 			// 
 			this.ss_Status.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
-            this.toolStripStatusLabel2});
+            this.lbl_Info});
 			this.ss_Status.Location = new System.Drawing.Point(0, 612);
 			this.ss_Status.Name = "ss_Status";
 			this.ss_Status.Size = new System.Drawing.Size(872, 22);
 			this.ss_Status.TabIndex = 0;
 			this.ss_Status.Text = "statusStrip1";
+			// 
+			// toolStripStatusLabel1
+			// 
+			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+			this.toolStripStatusLabel1.Size = new System.Drawing.Size(92, 17);
+			this.toolStripStatusLabel1.Text = "Image Statistics:";
+			// 
+			// lbl_Info
+			// 
+			this.lbl_Info.Name = "lbl_Info";
+			this.lbl_Info.Size = new System.Drawing.Size(32, 17);
+			this.lbl_Info.Text = "|LBL|";
 			// 
 			// ts_Tools
 			// 
@@ -66,12 +80,60 @@
             this.toolStripSeparator1,
             this.btn_ED_Border,
             this.toolStripSeparator2,
-            this.btn_ED_TransparencyRender});
+            this.btn_ED_TransparencyRender,
+            this.toolStripSeparator3,
+            this.btn_ED_EditLayer});
 			this.ts_Tools.Location = new System.Drawing.Point(0, 0);
 			this.ts_Tools.Name = "ts_Tools";
 			this.ts_Tools.Size = new System.Drawing.Size(872, 25);
 			this.ts_Tools.TabIndex = 1;
 			this.ts_Tools.Text = "toolStrip1";
+			// 
+			// toolStripLabel1
+			// 
+			this.toolStripLabel1.Name = "toolStripLabel1";
+			this.toolStripLabel1.Size = new System.Drawing.Size(88, 22);
+			this.toolStripLabel1.Text = "Enable/Disable:";
+			// 
+			// btn_ED_Background
+			// 
+			this.btn_ED_Background.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.btn_ED_Background.Image = ((System.Drawing.Image)(resources.GetObject("btn_ED_Background.Image")));
+			this.btn_ED_Background.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btn_ED_Background.Name = "btn_ED_Background";
+			this.btn_ED_Background.Size = new System.Drawing.Size(107, 22);
+			this.btn_ED_Background.Text = "Background Color";
+			this.btn_ED_Background.Click += new System.EventHandler(this.btn_ED_Background_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+			// 
+			// btn_ED_Border
+			// 
+			this.btn_ED_Border.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.btn_ED_Border.Image = ((System.Drawing.Image)(resources.GetObject("btn_ED_Border.Image")));
+			this.btn_ED_Border.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btn_ED_Border.Name = "btn_ED_Border";
+			this.btn_ED_Border.Size = new System.Drawing.Size(46, 22);
+			this.btn_ED_Border.Text = "Border";
+			this.btn_ED_Border.Click += new System.EventHandler(this.btn_ED_Border_Click);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+			// 
+			// btn_ED_TransparencyRender
+			// 
+			this.btn_ED_TransparencyRender.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.btn_ED_TransparencyRender.Image = ((System.Drawing.Image)(resources.GetObject("btn_ED_TransparencyRender.Image")));
+			this.btn_ED_TransparencyRender.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btn_ED_TransparencyRender.Name = "btn_ED_TransparencyRender";
+			this.btn_ED_TransparencyRender.Size = new System.Drawing.Size(122, 22);
+			this.btn_ED_TransparencyRender.Text = "Transparency Render";
+			this.btn_ED_TransparencyRender.Click += new System.EventHandler(this.btn_ED_TransparencyRender_Click);
 			// 
 			// pb_Pic
 			// 
@@ -84,63 +146,19 @@
 			this.pb_Pic.TabIndex = 2;
 			this.pb_Pic.TabStop = false;
 			// 
-			// btn_ED_Background
+			// toolStripSeparator3
 			// 
-			this.btn_ED_Background.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.btn_ED_Background.Image = ((System.Drawing.Image)(resources.GetObject("btn_ED_Background.Image")));
-			this.btn_ED_Background.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.btn_ED_Background.Name = "btn_ED_Background";
-			this.btn_ED_Background.Size = new System.Drawing.Size(107, 22);
-			this.btn_ED_Background.Text = "Background Color";
-			this.btn_ED_Background.Click += new System.EventHandler(this.btn_ED_Background_Click);
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
 			// 
-			// btn_ED_Border
+			// btn_ED_EditLayer
 			// 
-			this.btn_ED_Border.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.btn_ED_Border.Image = ((System.Drawing.Image)(resources.GetObject("btn_ED_Border.Image")));
-			this.btn_ED_Border.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.btn_ED_Border.Name = "btn_ED_Border";
-			this.btn_ED_Border.Size = new System.Drawing.Size(46, 22);
-			this.btn_ED_Border.Text = "Border";
-			this.btn_ED_Border.Click += new System.EventHandler(this.btn_ED_Border_Click);
-			// 
-			// btn_ED_TransparencyRender
-			// 
-			this.btn_ED_TransparencyRender.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.btn_ED_TransparencyRender.Image = ((System.Drawing.Image)(resources.GetObject("btn_ED_TransparencyRender.Image")));
-			this.btn_ED_TransparencyRender.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.btn_ED_TransparencyRender.Name = "btn_ED_TransparencyRender";
-			this.btn_ED_TransparencyRender.Size = new System.Drawing.Size(122, 22);
-			this.btn_ED_TransparencyRender.Text = "Transparency Render";
-			this.btn_ED_TransparencyRender.Click += new System.EventHandler(this.btn_ED_TransparencyRender_Click);
-			// 
-			// toolStripLabel1
-			// 
-			this.toolStripLabel1.Name = "toolStripLabel1";
-			this.toolStripLabel1.Size = new System.Drawing.Size(88, 22);
-			this.toolStripLabel1.Text = "Enable/Disable:";
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-			// 
-			// toolStripStatusLabel1
-			// 
-			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-			this.toolStripStatusLabel1.Size = new System.Drawing.Size(92, 17);
-			this.toolStripStatusLabel1.Text = "Image Statistics:";
-			// 
-			// toolStripStatusLabel2
-			// 
-			this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-			this.toolStripStatusLabel2.Size = new System.Drawing.Size(32, 17);
-			this.toolStripStatusLabel2.Text = "|LBL|";
+			this.btn_ED_EditLayer.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.btn_ED_EditLayer.Image = ((System.Drawing.Image)(resources.GetObject("btn_ED_EditLayer.Image")));
+			this.btn_ED_EditLayer.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btn_ED_EditLayer.Name = "btn_ED_EditLayer";
+			this.btn_ED_EditLayer.Size = new System.Drawing.Size(62, 22);
+			this.btn_ED_EditLayer.Text = "Edit Layer";
 			// 
 			// f_Preview
 			// 
@@ -152,6 +170,7 @@
 			this.Controls.Add(this.ss_Status);
 			this.Name = "f_Preview";
 			this.Text = "Snip preview Window";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.f_Preview_FormClosing);
 			this.ss_Status.ResumeLayout(false);
 			this.ss_Status.PerformLayout();
 			this.ts_Tools.ResumeLayout(false);
@@ -174,6 +193,8 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripButton btn_ED_TransparencyRender;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+		private System.Windows.Forms.ToolStripStatusLabel lbl_Info;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.ToolStripButton btn_ED_EditLayer;
 	}
 }

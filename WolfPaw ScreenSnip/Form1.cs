@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -36,6 +37,7 @@ namespace WolfPaw_ScreenSnip
 			Top = 0;
 
             Load += Form1_Load;
+			
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -192,6 +194,15 @@ namespace WolfPaw_ScreenSnip
 		public void saveImage()
 		{
 			Bitmap _b = c_ImgGen.createPng(fs,cutouts);
+			string savename = "ScreenSnip_";
+			
+			if (true || Properties.Settings.Default.s_SaveHasDateTime)
+			{
+				string date = "";
+				DateTime n = DateTime.Now;
+				date = n.Year + "." + n.Month.ToString().PadLeft(2, '0') + "." + n.Day.ToString().PadLeft(2, '0') + "_" + n.Hour.ToString().PadLeft(2, '0') + "." + n.Minute.ToString().PadLeft(2, '0') + "." + n.Second.ToString().PadLeft(2, '0');
+				savename += date;
+			}
 			SaveFileDialog sfd = new SaveFileDialog();
 			sfd.Filter = "Portable Network Graphics Image (PNG)|*.png|" +
 							"Bitmap Image (BMP)|*.bmp|" +
@@ -199,8 +210,10 @@ namespace WolfPaw_ScreenSnip
 							"Graphics Interchange Format Image (GIF)|*.gif|" +
 							"Tagged Image File Format Image (TIFF)|*.tif;*.tiff|" +
 							"Windows Metafile Image (WMF)|*.wmf";
-
+			
 			sfd.FilterIndex = Properties.Settings.Default.s_lastSaveFormat;
+
+			sfd.FileName = savename;
 
 			if(sfd.ShowDialog() == DialogResult.OK)
 			{
@@ -323,8 +336,27 @@ namespace WolfPaw_ScreenSnip
 			f_Preview fp = new f_Preview();
 			fp.fs = fs;
 			fp.cutouts = cutouts;
-			fp.Show();
+			fp.ShowDialog();
 			fp.TopMost = true;
+		}
+
+		private void btn_Print_Click(object sender, EventArgs e)
+		{
+			PageSettings ps = new PageSettings();
+			ps.Margins = new Margins(10, 10, 10, 10);
+
+			pageSetupDialog1.PageSettings = ps;
+			pageSetupDialog1.ShowDialog();
+			printPreviewDialog1.Document = printDocument1;
+			printDocument1.DefaultPageSettings = ps;
+			printPreviewDialog1.ShowDialog();
+		}
+
+		private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+		{
+			e.Graphics.DrawImage(c_ImgGen.createPng(fs, cutouts), new Point(10, 10));
+			printPreviewDialog1.Document = printDocument1;
+			//printPreviewDialog1.ShowDialog();
 		}
 	}
 }

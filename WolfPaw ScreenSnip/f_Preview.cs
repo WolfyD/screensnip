@@ -46,6 +46,8 @@ namespace WolfPaw_ScreenSnip
 		{
 			Bitmap _b = c_ImgGen.createPng(fs, cutouts, trender);
 			pb_Pic.Image = _b;
+
+			lbl_Info.Text = "Size: " + _b.Width + "x" + _b.Height + "px | # of layers: " + cutouts.Count;
 			//_b.Dispose();
 		}
 
@@ -65,6 +67,12 @@ namespace WolfPaw_ScreenSnip
 		{
 			Properties.Settings.Default.s_hasBgColor = !Properties.Settings.Default.s_hasBgColor;
 			generateImage();
+		}
+
+		private void f_Preview_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			Properties.Settings.Default.s_hasBgColor = hbg;
+			Properties.Settings.Default.s_hasBorder = hbd;
 		}
 	}
 }

@@ -39,6 +39,9 @@
 			this.btn_Settings = new System.Windows.Forms.Button();
 			this.btn_Print = new System.Windows.Forms.Button();
 			this.btn_Preview = new System.Windows.Forms.Button();
+			this.printDocument1 = new System.Drawing.Printing.PrintDocument();
+			this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
+			this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
 			this.SuspendLayout();
 			// 
 			// brn_New
@@ -144,6 +147,7 @@
 			this.btn_Print.Size = new System.Drawing.Size(40, 40);
 			this.btn_Print.TabIndex = 9;
 			this.btn_Print.UseVisualStyleBackColor = true;
+			this.btn_Print.Click += new System.EventHandler(this.btn_Print_Click);
 			// 
 			// btn_Preview
 			// 
@@ -156,6 +160,21 @@
 			this.btn_Preview.TabIndex = 10;
 			this.btn_Preview.UseVisualStyleBackColor = true;
 			this.btn_Preview.Click += new System.EventHandler(this.btn_Preview_Click);
+			// 
+			// printDocument1
+			// 
+			this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
+			// 
+			// printPreviewDialog1
+			// 
+			this.printPreviewDialog1.AutoScrollMargin = new System.Drawing.Size(0, 0);
+			this.printPreviewDialog1.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+			this.printPreviewDialog1.ClientSize = new System.Drawing.Size(400, 300);
+			this.printPreviewDialog1.Enabled = true;
+			this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
+			this.printPreviewDialog1.Name = "printPreviewDialog1";
+			this.printPreviewDialog1.UseAntiAlias = true;
+			this.printPreviewDialog1.Visible = false;
 			// 
 			// Form1
 			// 
@@ -198,6 +217,9 @@
 		private System.Windows.Forms.Button btn_Settings;
 		private System.Windows.Forms.Button btn_Print;
 		private System.Windows.Forms.Button btn_Preview;
+		private System.Drawing.Printing.PrintDocument printDocument1;
+		private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
+		private System.Windows.Forms.PageSetupDialog pageSetupDialog1;
 	}
 }
 
