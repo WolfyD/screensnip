@@ -37,13 +37,16 @@
 			this.btn_Exit = new System.Windows.Forms.Button();
 			this.btn_Options = new System.Windows.Forms.Button();
 			this.btn_Settings = new System.Windows.Forms.Button();
+			this.btn_Print = new System.Windows.Forms.Button();
+			this.btn_Preview = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// brn_New
 			// 
+			this.brn_New.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.brn_New.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("brn_New.BackgroundImage")));
 			this.brn_New.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-			this.brn_New.Location = new System.Drawing.Point(0, 0);
+			this.brn_New.Location = new System.Drawing.Point(0, 10);
 			this.brn_New.Name = "brn_New";
 			this.brn_New.Size = new System.Drawing.Size(40, 40);
 			this.brn_New.TabIndex = 0;
@@ -52,9 +55,10 @@
 			// 
 			// btn_Copy
 			// 
+			this.btn_Copy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btn_Copy.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.clipboard;
 			this.btn_Copy.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-			this.btn_Copy.Location = new System.Drawing.Point(88, 0);
+			this.btn_Copy.Location = new System.Drawing.Point(134, 10);
 			this.btn_Copy.Name = "btn_Copy";
 			this.btn_Copy.Size = new System.Drawing.Size(40, 40);
 			this.btn_Copy.TabIndex = 1;
@@ -63,9 +67,10 @@
 			// 
 			// btn_Save
 			// 
+			this.btn_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btn_Save.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.save;
 			this.btn_Save.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-			this.btn_Save.Location = new System.Drawing.Point(129, 0);
+			this.btn_Save.Location = new System.Drawing.Point(175, 10);
 			this.btn_Save.Name = "btn_Save";
 			this.btn_Save.Size = new System.Drawing.Size(40, 40);
 			this.btn_Save.TabIndex = 2;
@@ -74,9 +79,10 @@
 			// 
 			// btn_AttachToEmail
 			// 
+			this.btn_AttachToEmail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btn_AttachToEmail.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.attach;
 			this.btn_AttachToEmail.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-			this.btn_AttachToEmail.Location = new System.Drawing.Point(170, 0);
+			this.btn_AttachToEmail.Location = new System.Drawing.Point(257, 10);
 			this.btn_AttachToEmail.Name = "btn_AttachToEmail";
 			this.btn_AttachToEmail.Size = new System.Drawing.Size(40, 40);
 			this.btn_AttachToEmail.TabIndex = 3;
@@ -84,9 +90,10 @@
 			// 
 			// btn_Clear
 			// 
+			this.btn_Clear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btn_Clear.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.shredder;
 			this.btn_Clear.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-			this.btn_Clear.Location = new System.Drawing.Point(42, 0);
+			this.btn_Clear.Location = new System.Drawing.Point(42, 10);
 			this.btn_Clear.Name = "btn_Clear";
 			this.btn_Clear.Size = new System.Drawing.Size(40, 40);
 			this.btn_Clear.TabIndex = 4;
@@ -94,10 +101,10 @@
 			// 
 			// btn_Exit
 			// 
-			this.btn_Exit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btn_Exit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btn_Exit.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.exit;
 			this.btn_Exit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-			this.btn_Exit.Location = new System.Drawing.Point(311, 0);
+			this.btn_Exit.Location = new System.Drawing.Point(400, 10);
 			this.btn_Exit.Name = "btn_Exit";
 			this.btn_Exit.Size = new System.Drawing.Size(40, 40);
 			this.btn_Exit.TabIndex = 6;
@@ -106,9 +113,10 @@
 			// 
 			// btn_Options
 			// 
+			this.btn_Options.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btn_Options.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.gear;
 			this.btn_Options.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-			this.btn_Options.Location = new System.Drawing.Point(216, 0);
+			this.btn_Options.Location = new System.Drawing.Point(308, 10);
 			this.btn_Options.Name = "btn_Options";
 			this.btn_Options.Size = new System.Drawing.Size(40, 40);
 			this.btn_Options.TabIndex = 7;
@@ -116,20 +124,48 @@
 			// 
 			// btn_Settings
 			// 
-			this.btn_Settings.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.gear;
+			this.btn_Settings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btn_Settings.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.screw;
 			this.btn_Settings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-			this.btn_Settings.Location = new System.Drawing.Point(257, 0);
+			this.btn_Settings.Location = new System.Drawing.Point(349, 10);
 			this.btn_Settings.Name = "btn_Settings";
 			this.btn_Settings.Size = new System.Drawing.Size(40, 40);
 			this.btn_Settings.TabIndex = 8;
 			this.btn_Settings.UseVisualStyleBackColor = true;
+			this.btn_Settings.Click += new System.EventHandler(this.btn_Settings_Click);
+			// 
+			// btn_Print
+			// 
+			this.btn_Print.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btn_Print.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.print;
+			this.btn_Print.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+			this.btn_Print.Location = new System.Drawing.Point(216, 10);
+			this.btn_Print.Name = "btn_Print";
+			this.btn_Print.Size = new System.Drawing.Size(40, 40);
+			this.btn_Print.TabIndex = 9;
+			this.btn_Print.UseVisualStyleBackColor = true;
+			// 
+			// btn_Preview
+			// 
+			this.btn_Preview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btn_Preview.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.preview;
+			this.btn_Preview.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+			this.btn_Preview.Location = new System.Drawing.Point(93, 10);
+			this.btn_Preview.Name = "btn_Preview";
+			this.btn_Preview.Size = new System.Drawing.Size(40, 40);
+			this.btn_Preview.TabIndex = 10;
+			this.btn_Preview.UseVisualStyleBackColor = true;
+			this.btn_Preview.Click += new System.EventHandler(this.btn_Preview_Click);
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(351, 40);
+			this.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.handle;
+			this.ClientSize = new System.Drawing.Size(440, 50);
 			this.ControlBox = false;
+			this.Controls.Add(this.btn_Preview);
+			this.Controls.Add(this.btn_Print);
 			this.Controls.Add(this.btn_Settings);
 			this.Controls.Add(this.btn_Options);
 			this.Controls.Add(this.btn_Exit);
@@ -138,10 +174,14 @@
 			this.Controls.Add(this.btn_Save);
 			this.Controls.Add(this.btn_Copy);
 			this.Controls.Add(this.brn_New);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "Form1";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Screen Snip";
+			this.LocationChanged += new System.EventHandler(this.Form1_LocationChanged);
+			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
 			this.ResumeLayout(false);
 
         }
@@ -156,6 +196,8 @@
         private System.Windows.Forms.Button btn_Exit;
         private System.Windows.Forms.Button btn_Options;
 		private System.Windows.Forms.Button btn_Settings;
+		private System.Windows.Forms.Button btn_Print;
+		private System.Windows.Forms.Button btn_Preview;
 	}
 }
 

@@ -175,6 +175,21 @@ namespace WolfPaw_ScreenSnip
 
 			
 		}
+		/*
+		protected override CreateParams CreateParams
+		{
+			get
+			{
+				CreateParams cp = base.CreateParams;
+				cp.ExStyle |= 0x00000040;  // Turn on WS_EX_COMPOSITED
+				return cp;
+			}
+		}
+		*/
+		public void makeWindow()
+		{
+
+		}
 
         private void btn_Dock_Click(object sender, EventArgs e)
         {

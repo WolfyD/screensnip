@@ -15,6 +15,15 @@ namespace WolfPaw_ScreenSnip
 {
     public partial class Form1 : Form
     {
+		public const int WM_NCLBUTTONDOWN = 0xA1;
+		public const int HT_CAPTION = 0x2;
+
+		[System.Runtime.InteropServices.DllImportAttribute("user32.dll")]
+		public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+		[System.Runtime.InteropServices.DllImportAttribute("user32.dll")]
+		public static extern bool ReleaseCapture();
+
+
 		f_Screen fs = null;
 		f_SettingPanel tools = null;
 		Dictionary<int, uc_CutoutHolder> cutouts = new Dictionary<int, uc_CutoutHolder>();
@@ -33,9 +42,22 @@ namespace WolfPaw_ScreenSnip
         {
             TopMost = true;
             Icon = Properties.Resources.scissors;
+
+			this.Activated += Form1_Activated;
+			this.Deactivate += Form1_Deactivate;
         }
 
-        private void btn_Exit_Click(object sender, EventArgs e)
+		private void Form1_Deactivate(object sender, EventArgs e)
+		{
+			this.BackgroundImage = Properties.Resources.handle2;
+		}
+
+		private void Form1_Activated(object sender, EventArgs e)
+		{
+			this.BackgroundImage = Properties.Resources.handle;
+		}
+
+		private void btn_Exit_Click(object sender, EventArgs e)
         {
 			//TODO:EXIT
 
@@ -130,6 +152,7 @@ namespace WolfPaw_ScreenSnip
 			if (i == 0)
 			{
 				fs = new f_Screen();
+				fs.parent = this;
 				fs.Show();
 				tools = new f_SettingPanel();
 				tools.parent = fs;
@@ -152,47 +175,12 @@ namespace WolfPaw_ScreenSnip
 		{
 			saveImage();
 		}
-
-		public Bitmap createPng()
-		{
-			if (fs != null)
-			{
-				fillDict();
-
-				int left = 999999;
-				int top = 999999;
-
-				int right = 0;
-				int bottom = 0;
-
-				foreach (var v in cutouts)
-				{
-					var k = v.Value;
-					if (k.Left < left) { left = k.Left; }
-					if (k.Top < top) { top = k.Top; }
-					if (k.Right > right) { right = k.Right; }
-					if (k.Bottom > bottom) { bottom = k.Bottom; }
-				}
-
-
-
-				int height = bottom - top;
-				int width = right - left;
-
-				Rectangle picrec = new Rectangle(left, top, width, height);
-
-				Bitmap _b = createImage(picrec);
-
-				return _b;
-			}
-			else { return null; }
-		}
-
+		
 		public void copyImage()
 		{
 			try
 			{
-				Bitmap _b = createPng();
+				Bitmap _b = c_ImgGen.createPng(fs,cutouts);
 				Clipboard.SetImage(_b);
 			}
 			catch
@@ -203,7 +191,7 @@ namespace WolfPaw_ScreenSnip
 
 		public void saveImage()
 		{
-			Bitmap _b = createPng();
+			Bitmap _b = c_ImgGen.createPng(fs,cutouts);
 			SaveFileDialog sfd = new SaveFileDialog();
 			sfd.Filter = "Portable Network Graphics Image (PNG)|*.png|" +
 							"Bitmap Image (BMP)|*.bmp|" +
@@ -272,76 +260,71 @@ namespace WolfPaw_ScreenSnip
 			}
 			
 		}
-
-		public Bitmap createImage(Rectangle rec)
+		
+		private void Form1_MouseDown(object sender, MouseEventArgs e)
 		{
-			int border = 0;
-
-			if (Properties.Settings.Default.s_hasBorder)
+			if (e.Button == MouseButtons.Left)
 			{
-				border = Properties.Settings.Default.s_borderWidth;
+				ReleaseCapture();
+				SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
 			}
-
-			Bitmap bm = new Bitmap(rec.Width + (border * 2), rec.Height + (border * 2));
-
-			using (Graphics g = Graphics.FromImage(bm))
-			{
-				c_returnGraphicSettings cg = new c_returnGraphicSettings();
-
-				g.SmoothingMode = cg.getSM();
-				g.InterpolationMode = cg.getIM();
-				g.PixelOffsetMode = cg.getPOM();
-
-				g.Clear(Color.Transparent);
-
-				if (Properties.Settings.Default.s_hasBgColor)
-				{
-					g.Clear(Properties.Settings.Default.s_bgColor);
-				}
-				else
-				{
-					g.Clear(Color.Transparent);
-				}
-
-				foreach (KeyValuePair<int, uc_CutoutHolder> kvp in cutouts)
-				{
-					uc_CutoutHolder k = kvp.Value;
-					g.DrawImage(k.BMP, new Rectangle(k.Left - rec.Left + border, k.Top - rec.Top + border, k.Width,k.Height), new Rectangle(0,0,k.BMP.Width,k.BMP.Height), GraphicsUnit.Pixel);
-				}
-
-				if (Properties.Settings.Default.s_hasBorder)
-				{
-					Brush b = new SolidBrush(Properties.Settings.Default.s_borderColor);
-
-					g.FillRectangle(b, new RectangleF(0, 0, bm.Width, border));
-					g.FillRectangle(b, new RectangleF(0, bm.Height - border, bm.Width,border));
-					g.FillRectangle(b, new RectangleF(0, 0, border, bm.Height));
-					g.FillRectangle(b, new RectangleF(bm.Width - border, 0, border, bm.Height));
-				}
-			}
-
-			
-
-			return bm;
 		}
 
-		public void fillDict()
+		private void Form1_LocationChanged(object sender, EventArgs e)
 		{
-			cutouts.Clear();
-			foreach (var v in fs.Controls)
+			int fsw = 0;
+			int fsh = 0;
+
+			foreach (Screen s in Screen.AllScreens)
 			{
-				if (v != null && v is uc_CutoutHolder)
+				fsw += s.WorkingArea.Width;
+				if(fsh < s.WorkingArea.Height)
 				{
-					int i = fs.Controls.GetChildIndex(((uc_CutoutHolder)v));
-					if (!cutouts.ContainsKey(i))
-					{
-						cutouts.Add(i, ((uc_CutoutHolder)v));
-					}
+					fsh = s.WorkingArea.Height;
 				}
 			}
 
-			//TODO SORT cutouts
-			cutouts = cutouts.OrderByDescending(r => r.Key).ToDictionary(r => r.Key, r => r.Value);
+			if(Left < 0) { Left = 0; }
+			if(Top < 0) { Top = 0; }
+			if(Right > fsw) { Left = fsw - Width;  }
+			if(Bottom > fsh) { Top = fsh - Height; }
+		}
+
+		private void btn_Settings_Click(object sender, EventArgs e)
+		{
+			bool open = false;
+			foreach (var v in Application.OpenForms)
+			{
+				if (v is f_SettingPanel)
+				{
+					open = true;
+					break;
+				}
+			}
+
+			if (tools != null && open)
+			{
+				tools.Dispose();
+			}
+			else
+			{
+				if(fs != null)
+				{
+					tools = new f_SettingPanel();
+					tools.parent = fs;
+					fs.child = tools;
+					tools.Show();
+				}
+			}
+		}
+
+		private void btn_Preview_Click(object sender, EventArgs e)
+		{
+			f_Preview fp = new f_Preview();
+			fp.fs = fs;
+			fp.cutouts = cutouts;
+			fp.Show();
+			fp.TopMost = true;
 		}
 	}
 }

@@ -13,6 +13,7 @@ namespace WolfPaw_ScreenSnip
     public partial class f_Screen : Form
     {
 		public f_SettingPanel child = null;
+		public Form1 parent = null;
 
 		public f_Screen()
         {
@@ -21,7 +22,9 @@ namespace WolfPaw_ScreenSnip
             Load += F_Screen_Load;
         }
 
-        private void F_Screen_Load(object sender, EventArgs e)
+
+
+		private void F_Screen_Load(object sender, EventArgs e)
         {
             
         }
@@ -43,6 +46,7 @@ namespace WolfPaw_ScreenSnip
 		private void f_Screen_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			if(child != null) { child.Close(); }
+			parent.Activate();
 		}
 	}
 }

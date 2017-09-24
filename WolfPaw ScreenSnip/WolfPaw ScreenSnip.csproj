@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="c_ImgGen.cs" />
     <Compile Include="c_returnGraphicSettings.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -57,6 +58,12 @@
     </Compile>
     <Compile Include="f_Canvas.Designer.cs">
       <DependentUpon>f_Canvas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="f_Preview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="f_Preview.Designer.cs">
+      <DependentUpon>f_Preview.cs</DependentUpon>
     </Compile>
     <Compile Include="f_Screen.cs">
       <SubType>Form</SubType>
@@ -83,6 +90,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="f_Canvas.resx">
       <DependentUpon>f_Canvas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="f_Preview.resx">
+      <DependentUpon>f_Preview.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="f_Screen.resx">
       <DependentUpon>f_Screen.cs</DependentUpon>
@@ -148,6 +158,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\handle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\handle2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\print.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\screw.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transparentBG.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
