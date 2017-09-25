@@ -26,6 +26,9 @@ namespace WolfPaw_ScreenSnip
 
 		private void F_Preview_Load(object sender, EventArgs e)
 		{
+            if (fs.child != null && !fs.child.IsDisposed)
+            { fs.child.Hide(); }
+
 			hbg = Properties.Settings.Default.s_hasBgColor;
 			hbd = Properties.Settings.Default.s_hasBorder;
 
@@ -69,8 +72,9 @@ namespace WolfPaw_ScreenSnip
 			generateImage();
 		}
 
-		private void f_Preview_FormClosing(object sender, FormClosingEventArgs e)
-		{
+        private void f_Preview_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (fs.child != null && !fs.child.IsDisposed) { fs.child.Show(); }
 			Properties.Settings.Default.s_hasBgColor = hbg;
 			Properties.Settings.Default.s_hasBorder = hbd;
 		}

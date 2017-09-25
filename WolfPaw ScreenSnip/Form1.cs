@@ -29,7 +29,17 @@ namespace WolfPaw_ScreenSnip
 		f_SettingPanel tools = null;
 		Dictionary<int, uc_CutoutHolder> cutouts = new Dictionary<int, uc_CutoutHolder>();
 
-		public Form1()
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
+                return cp;
+            }
+        }
+
+        public Form1()
         {
             InitializeComponent();
 
@@ -97,6 +107,9 @@ namespace WolfPaw_ScreenSnip
 		{
 			Hide();
 			if(fs != null) { fs.Hide(); }
+            if(tools != null) { tools.Hide(); }
+
+            Thread.Sleep(Properties.Settings.Default.s_BaseDelay);
 
 			if (Properties.Settings.Default.s_hasDelay)
 			{
@@ -132,8 +145,9 @@ namespace WolfPaw_ScreenSnip
 			
 			Show();
 			if(fs != null && !fs.IsDisposed) { fs.Show(); }
+            if (tools != null && !tools.IsDisposed) { tools.Show(); }
 
-			return bmp;
+            return bmp;
 		}
 
         private void brn_New_Click(object sender, EventArgs e)

@@ -26,6 +26,8 @@ namespace WolfPaw_ScreenSnip
         private bool move = false;
         private Point movexy = new Point(0, 0);
 
+        private bool keepAspectRatio = false;
+        
 		protected override CreateParams CreateParams
 		{
 			get
@@ -35,7 +37,7 @@ namespace WolfPaw_ScreenSnip
 				return cp;
 			}
 		}
-
+        
 		public uc_CutoutHolder()
         {
             InitializeComponent();
@@ -122,6 +124,18 @@ namespace WolfPaw_ScreenSnip
 
         private void Uc_CutoutHolder_MouseMove(object sender, MouseEventArgs e)
         {
+            System.Windows.Input.Key lc = System.Windows.Input.Key.LeftCtrl;
+            System.Windows.Input.Key rc = System.Windows.Input.Key.RightCtrl;
+
+            if (System.Windows.Input.Keyboard.IsKeyDown(lc) || 
+                System.Windows.Input.Keyboard.IsKeyDown(rc))
+            {
+                keepAspectRatio = true;
+            }else
+            {
+                keepAspectRatio = false;
+            }
+
             if (move)
             {
                 Point p = new Point(0, 0);
@@ -132,8 +146,16 @@ namespace WolfPaw_ScreenSnip
                 Top = p.Y - movexy.Y;
             }else if (resize)
             {
-                Width = e.X;
-                Height = e.Y;
+                if (keepAspectRatio)
+                {
+                    //TODO:KEEP ASPECT RATIO
+                }
+                else
+                {
+                    Width = e.X;
+                    Height = e.Y;
+                }
+
                 Invalidate();
             }
 
@@ -144,7 +166,14 @@ namespace WolfPaw_ScreenSnip
 
             if(e.X >= Width - 20 && e.Y >= Height - 20)
             {
-                Cursor = Cursors.SizeNWSE;
+                if (keepAspectRatio)
+                {
+                    Cursor = Cursors.SizeAll;
+                }
+                else
+                {
+                    Cursor = Cursors.SizeNWSE;
+                }
                 overresize = true;
             }
             else
@@ -400,5 +429,15 @@ namespace WolfPaw_ScreenSnip
 
 			}
 		}
-	}
+
+        private void uc_CutoutHolder_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.LControlKey || e.KeyCode == Keys.RControlKey)
+        }
+
+        private void uc_CutoutHolder_KeyUp(object sender, KeyEventArgs e)
+        {
+
+        }
+    }
 }
