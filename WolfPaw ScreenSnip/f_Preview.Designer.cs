@@ -39,9 +39,9 @@
 			this.btn_ED_Border = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.btn_ED_TransparencyRender = new System.Windows.Forms.ToolStripButton();
-			this.pb_Pic = new System.Windows.Forms.PictureBox();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.btn_ED_EditLayer = new System.Windows.Forms.ToolStripButton();
+			this.pb_Pic = new System.Windows.Forms.PictureBox();
 			this.ss_Status.SuspendLayout();
 			this.ts_Tools.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pb_Pic)).BeginInit();
@@ -67,8 +67,7 @@
 			// lbl_Info
 			// 
 			this.lbl_Info.Name = "lbl_Info";
-			this.lbl_Info.Size = new System.Drawing.Size(32, 17);
-			this.lbl_Info.Text = "|LBL|";
+			this.lbl_Info.Size = new System.Drawing.Size(0, 17);
 			// 
 			// ts_Tools
 			// 
@@ -135,17 +134,6 @@
 			this.btn_ED_TransparencyRender.Text = "Transparency Render";
 			this.btn_ED_TransparencyRender.Click += new System.EventHandler(this.btn_ED_TransparencyRender_Click);
 			// 
-			// pb_Pic
-			// 
-			this.pb_Pic.BackColor = System.Drawing.Color.Black;
-			this.pb_Pic.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pb_Pic.Location = new System.Drawing.Point(0, 25);
-			this.pb_Pic.Name = "pb_Pic";
-			this.pb_Pic.Size = new System.Drawing.Size(872, 587);
-			this.pb_Pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-			this.pb_Pic.TabIndex = 2;
-			this.pb_Pic.TabStop = false;
-			// 
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
@@ -159,6 +147,17 @@
 			this.btn_ED_EditLayer.Name = "btn_ED_EditLayer";
 			this.btn_ED_EditLayer.Size = new System.Drawing.Size(62, 22);
 			this.btn_ED_EditLayer.Text = "Edit Layer";
+			// 
+			// pb_Pic
+			// 
+			this.pb_Pic.BackColor = System.Drawing.Color.Black;
+			this.pb_Pic.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pb_Pic.Location = new System.Drawing.Point(0, 25);
+			this.pb_Pic.Name = "pb_Pic";
+			this.pb_Pic.Size = new System.Drawing.Size(872, 587);
+			this.pb_Pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+			this.pb_Pic.TabIndex = 2;
+			this.pb_Pic.TabStop = false;
 			// 
 			// f_Preview
 			// 

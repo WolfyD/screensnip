@@ -25,6 +25,7 @@ namespace WolfPaw_ScreenSnip
         private bool overresize = false;
         private bool move = false;
         private Point movexy = new Point(0, 0);
+		private bool overCorner = false;
 
         private bool keepAspectRatio = false;
         
@@ -144,12 +145,15 @@ namespace WolfPaw_ScreenSnip
 
                 Left = p.X - movexy.X;
                 Top = p.Y - movexy.Y;
-            }else if (resize)
+            }
+			else if (resize && Height >= 24)
             {
                 if (keepAspectRatio)
                 {
-                    //TODO:KEEP ASPECT RATIO
-                }
+					//TODO:KEEP ASPECT RATIO
+					Height = e.Y;
+					Width = getRatio(bmp.Width, bmp.Height, e.Y);
+				}
                 else
                 {
                     Width = e.X;
@@ -159,6 +163,8 @@ namespace WolfPaw_ScreenSnip
                 Invalidate();
             }
 
+			if(Height < 24) { Height = 24; }
+
             if (e.Y < 20)
             {
                 panel1.Height = 20;
@@ -166,6 +172,7 @@ namespace WolfPaw_ScreenSnip
 
             if(e.X >= Width - 20 && e.Y >= Height - 20)
             {
+				overCorner = true;
                 if (keepAspectRatio)
                 {
                     Cursor = Cursors.SizeAll;
@@ -182,6 +189,18 @@ namespace WolfPaw_ScreenSnip
                 overresize = false;
             }
         }
+
+		public int getRatio(int ow, int oh, int height)
+		{
+			int ret = 0;
+
+			double ratio = (ow * 1.0) / (oh * 1.0);
+			double wid = ratio * height;
+
+			ret = (int)Math.Floor(wid);
+
+			return ret;
+		}
 
         private void Uc_CutoutHolder_MouseLeave(object sender, EventArgs e)
         {
@@ -432,7 +451,20 @@ namespace WolfPaw_ScreenSnip
 
         private void uc_CutoutHolder_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.LControlKey || e.KeyCode == Keys.RControlKey)
+			if (overCorner)
+			{
+				if (e.KeyCode == Keys.LControlKey || 
+					e.KeyCode == Keys.RControlKey || 
+					e.KeyCode == Keys.ControlKey)
+				{
+					Cursor = Cursors.SizeAll;
+				}
+				else
+				{
+					Cursor = Cursors.SizeNWSE;
+				}
+			}
+			
         }
 
         private void uc_CutoutHolder_KeyUp(object sender, KeyEventArgs e)

@@ -82,7 +82,7 @@ namespace WolfPaw_ScreenSnip
 		{
 			if (fs != null)
 			{
-				fillDict(fs,cutouts);
+				fillDict(fs,out cutouts);
 
 				int left = 999999;
 				int top = 999999;
@@ -111,9 +111,9 @@ namespace WolfPaw_ScreenSnip
 			else { return null; }
 		}
 
-		public static void fillDict(f_Screen fs,Dictionary<int, uc_CutoutHolder> cutouts)
+		public static void fillDict(f_Screen fs,out Dictionary<int, uc_CutoutHolder> cutouts)
 		{
-			cutouts.Clear();
+			cutouts = new Dictionary<int, uc_CutoutHolder>();
 			foreach (var v in fs.Controls)
 			{
 				if (v != null && v is uc_CutoutHolder)

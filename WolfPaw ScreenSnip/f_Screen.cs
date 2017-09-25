@@ -48,5 +48,10 @@ namespace WolfPaw_ScreenSnip
 			if(child != null) { child.Close(); }
 			parent.Activate();
 		}
+
+		public void f_Screen_KeyDown(object sender, KeyEventArgs e)
+		{
+			parent.Form1_KeyDown(sender, e);
+		}
 	}
 }

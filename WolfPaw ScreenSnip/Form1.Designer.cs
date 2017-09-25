@@ -101,6 +101,7 @@
 			this.btn_Clear.Size = new System.Drawing.Size(40, 40);
 			this.btn_Clear.TabIndex = 4;
 			this.btn_Clear.UseVisualStyleBackColor = true;
+			this.btn_Clear.Click += new System.EventHandler(this.btn_Clear_Click);
 			// 
 			// btn_Exit
 			// 
@@ -124,6 +125,7 @@
 			this.btn_Options.Size = new System.Drawing.Size(40, 40);
 			this.btn_Options.TabIndex = 7;
 			this.btn_Options.UseVisualStyleBackColor = true;
+			this.btn_Options.Click += new System.EventHandler(this.btn_Options_Click);
 			// 
 			// btn_Settings
 			// 
@@ -140,13 +142,15 @@
 			// btn_Print
 			// 
 			this.btn_Print.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btn_Print.BackColor = System.Drawing.SystemColors.ControlDark;
 			this.btn_Print.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.print;
 			this.btn_Print.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+			this.btn_Print.Enabled = false;
 			this.btn_Print.Location = new System.Drawing.Point(216, 10);
 			this.btn_Print.Name = "btn_Print";
 			this.btn_Print.Size = new System.Drawing.Size(40, 40);
 			this.btn_Print.TabIndex = 9;
-			this.btn_Print.UseVisualStyleBackColor = true;
+			this.btn_Print.UseVisualStyleBackColor = false;
 			this.btn_Print.Click += new System.EventHandler(this.btn_Print_Click);
 			// 
 			// btn_Preview
@@ -194,13 +198,16 @@
 			this.Controls.Add(this.btn_Copy);
 			this.Controls.Add(this.brn_New);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+			this.KeyPreview = true;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "Form1";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Screen Snip";
 			this.LocationChanged += new System.EventHandler(this.Form1_LocationChanged);
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
 			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
+			this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Form1_PreviewKeyDown);
 			this.ResumeLayout(false);
 
         }

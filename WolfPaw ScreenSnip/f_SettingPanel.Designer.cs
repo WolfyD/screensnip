@@ -364,6 +364,7 @@
 			this.Controls.Add(this.r_BgTransparent);
 			this.Controls.Add(this.label1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.KeyPreview = true;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "f_SettingPanel";
@@ -373,6 +374,7 @@
 			this.TopMost = true;
 			this.LocationChanged += new System.EventHandler(this.f_SettingPanel_LocationChanged);
 			this.SizeChanged += new System.EventHandler(this.f_SettingPanel_SizeChanged);
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.f_SettingPanel_KeyDown);
 			((System.ComponentModel.ISupportInitialize)(this.num_Border)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
 			this.ResumeLayout(false);

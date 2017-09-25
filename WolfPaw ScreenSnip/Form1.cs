@@ -29,6 +29,9 @@ namespace WolfPaw_ScreenSnip
 		f_SettingPanel tools = null;
 		Dictionary<int, uc_CutoutHolder> cutouts = new Dictionary<int, uc_CutoutHolder>();
 
+		private bool highHandle = false;
+		public bool clearRequireAuth = false;
+
         protected override CreateParams CreateParams
         {
             get
@@ -50,6 +53,21 @@ namespace WolfPaw_ScreenSnip
 			
         }
 
+		public void loadSettings()
+		{
+			//Set handle size
+			highHandle = Properties.Settings.Default.s_HighHandle;
+			if (highHandle){Height = 65;}
+			else{Height = 50;}
+			Form1_Activated(null, null);
+
+			//Set clear
+			clearRequireAuth = Properties.Settings.Default.s_ClearRequireAuth;
+
+			//TODO: rest of settings
+
+		}
+
         private void Form1_Load(object sender, EventArgs e)
         {
             TopMost = true;
@@ -61,12 +79,26 @@ namespace WolfPaw_ScreenSnip
 
 		private void Form1_Deactivate(object sender, EventArgs e)
 		{
-			this.BackgroundImage = Properties.Resources.handle2;
+			if (highHandle)
+			{
+				this.BackgroundImage = Properties.Resources.handle2_tall;
+			}
+			else
+			{
+				this.BackgroundImage = Properties.Resources.handle2;
+			}
 		}
 
 		private void Form1_Activated(object sender, EventArgs e)
 		{
-			this.BackgroundImage = Properties.Resources.handle;
+			if (highHandle)
+			{
+				this.BackgroundImage = Properties.Resources.handle_tall;
+			}
+			else
+			{
+				this.BackgroundImage = Properties.Resources.handle;
+			}
 		}
 
 		private void btn_Exit_Click(object sender, EventArgs e)
@@ -357,20 +389,106 @@ namespace WolfPaw_ScreenSnip
 		private void btn_Print_Click(object sender, EventArgs e)
 		{
 			PageSettings ps = new PageSettings();
-			ps.Margins = new Margins(10, 10, 10, 10);
+			ps.Margins = new Margins(100, 10, 10, 10);
+			printDocument1.DefaultPageSettings = ps;
 
+			f_PrintSetup fps = new f_PrintSetup();
+			fps.pd = printDocument1;
+			fps.ps = ps;
+			fps.cutouts = cutouts;
+			fps.fs = fs;
+			fps.ShowDialog();
+
+			/*
 			pageSetupDialog1.PageSettings = ps;
 			pageSetupDialog1.ShowDialog();
 			printPreviewDialog1.Document = printDocument1;
 			printDocument1.DefaultPageSettings = ps;
 			printPreviewDialog1.ShowDialog();
+			*/
 		}
 
 		private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
 		{
-			e.Graphics.DrawImage(c_ImgGen.createPng(fs, cutouts), new Point(10, 10));
-			printPreviewDialog1.Document = printDocument1;
-			//printPreviewDialog1.ShowDialog();
+			try
+			{
+				e.Graphics.DrawImage(c_ImgGen.createPng(fs, cutouts), new Point(10, 10));
+				c_returnGraphicSettings cg = new c_returnGraphicSettings();
+
+				e.Graphics.SmoothingMode = cg.getSM();
+				e.Graphics.InterpolationMode = cg.getIM();
+				e.Graphics.PixelOffsetMode = cg.getPOM();
+				printPreviewDialog1.Document = printDocument1;
+			}
+			catch
+			{
+
+			}
+		}
+
+		private void btn_Clear_Click(object sender, EventArgs e)
+		{
+			if (!clearRequireAuth || MessageBox.Show("You are about to clear your cutouts.\r\nAre you sure you wish to continue?\r\n\r\nTo continue click Yes!","Are you sure?",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
+			{
+				if (fs != null && !fs.IsDisposed)
+				{
+					List<uc_CutoutHolder> v = new List<uc_CutoutHolder>();
+					foreach (Control c in fs.Controls)
+					{
+						if (c != null && c is uc_CutoutHolder)
+						{
+							v.Add(c as uc_CutoutHolder);
+						}
+					}
+
+					foreach (var vv in v)
+					{
+						vv.Dispose();
+					}
+				}
+			}
+		}
+
+		private void btn_Options_Click(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.s_HighHandle = !highHandle;
+			loadSettings();
+		}
+
+		public void Form1_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Modifiers == Keys.Control)
+			{
+				if (e.KeyCode == Keys.N)
+				{
+					brn_New_Click(null, null);
+				}
+				else if (e.KeyCode == Keys.C)
+				{
+					btn_Copy_Click(null, null);
+				}
+				else if (e.KeyCode == Keys.S)
+				{
+					btn_Save_Click(null, null);
+				}
+				else if (e.KeyCode == Keys.X || e.KeyCode == Keys.Delete)
+				{
+					btn_Clear_Click(null, null);
+				}
+
+			}
+			else if (e.Modifiers == (Keys.Control | Keys.Shift))
+			{
+				if (e.KeyCode == Keys.P)
+				{
+					btn_Preview_Click(null, null);
+				}
+			}
+		}
+
+		private void Form1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+		{
+			
 		}
 	}
 }

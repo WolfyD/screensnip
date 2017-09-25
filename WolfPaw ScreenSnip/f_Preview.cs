@@ -26,8 +26,11 @@ namespace WolfPaw_ScreenSnip
 
 		private void F_Preview_Load(object sender, EventArgs e)
 		{
-            if (fs.child != null && !fs.child.IsDisposed)
-            { fs.child.Hide(); }
+			if (fs != null && !fs.IsDisposed)
+			{
+				if (fs.child != null && !fs.child.IsDisposed)
+				{ fs.child.Hide(); }
+			}
 
 			hbg = Properties.Settings.Default.s_hasBgColor;
 			hbd = Properties.Settings.Default.s_hasBorder;
@@ -49,8 +52,13 @@ namespace WolfPaw_ScreenSnip
 		{
 			Bitmap _b = c_ImgGen.createPng(fs, cutouts, trender);
 			pb_Pic.Image = _b;
+			List<uc_CutoutHolder> cut = new List<uc_CutoutHolder>();
+			foreach(Control c in fs.Controls)
+			{
+				if(c != null && c is uc_CutoutHolder) { cut.Add(c as uc_CutoutHolder); }
+			}
 
-			lbl_Info.Text = "Size: " + _b.Width + "x" + _b.Height + "px | # of layers: " + cutouts.Count;
+			lbl_Info.Text = "Size: " + _b.Width + "x" + _b.Height + "px | # of layers: " + cut.Count;
 			//_b.Dispose();
 		}
 
@@ -74,7 +82,10 @@ namespace WolfPaw_ScreenSnip
 
         private void f_Preview_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (fs.child != null && !fs.child.IsDisposed) { fs.child.Show(); }
+			if (fs != null && !fs.IsDisposed)
+			{
+				if (fs.child != null && !fs.child.IsDisposed) { fs.child.Show(); }
+			}
 			Properties.Settings.Default.s_hasBgColor = hbg;
 			Properties.Settings.Default.s_hasBorder = hbd;
 		}

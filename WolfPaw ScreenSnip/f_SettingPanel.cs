@@ -12,7 +12,7 @@ namespace WolfPaw_ScreenSnip
 {
 	public partial class f_SettingPanel : Form
 	{
-		public Form parent = null;
+		public f_Screen parent = null;
 		public Point pos = new Point(-1, -1);
 		public bool posChange = true;
         public bool docked = false;
@@ -227,5 +227,10 @@ namespace WolfPaw_ScreenSnip
             TopMost = true;
             BringToFront();
         }
-    }
+
+		private void f_SettingPanel_KeyDown(object sender, KeyEventArgs e)
+		{
+			parent.f_Screen_KeyDown(sender, e);
+		}
+	}
 }
