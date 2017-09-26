@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FontAwesome.Sharp;
 
 namespace WolfPaw_ScreenSnip
 {
@@ -24,6 +25,7 @@ namespace WolfPaw_ScreenSnip
 		[System.Runtime.InteropServices.DllImportAttribute("user32.dll")]
 		public static extern bool ReleaseCapture();
 
+        //TODO: Add save to DB
 
 		f_Screen fs = null;
 		f_SettingPanel tools = null;
@@ -32,15 +34,7 @@ namespace WolfPaw_ScreenSnip
 		private bool highHandle = false;
 		public bool clearRequireAuth = false;
 
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams cp = base.CreateParams;
-                cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
-                return cp;
-            }
-        }
+       
 
         public Form1()
         {
@@ -68,8 +62,148 @@ namespace WolfPaw_ScreenSnip
 
 		}
 
+        public void setIcons(string btn, Button b, Control parent)
+        {
+            IconButton ib = new IconButton();
+            ib.Parent = parent;
+            ib.Size = new Size(40, 40);
+
+            switch (btn)
+            {
+                case "new":
+                    ib.Icon = IconChar.Scissors;
+                    break;
+
+                case "clear":
+                    ib.Icon = IconChar.TrashO;
+                    break;
+
+                case "preview":
+                    ib.Icon = IconChar.PictureO;
+                    break;
+
+                case "copy":
+                    ib.Icon = IconChar.FilesO;
+                    break;
+
+                case "save":
+                    ib.Icon = IconChar.FloppyO;
+                    break;
+
+                case "print":
+                    ib.Icon = IconChar.Print;
+                    break;
+
+                case "mail":
+                    ib.Icon = IconChar.EnvelopeO;
+                    break;
+
+                case "settings":
+                    ib.Icon = IconChar.Cogs;
+                    break;
+
+                case "tools":
+                    ib.Icon = IconChar.Wrench;
+                    break;
+
+                case "exit":
+                    ib.Icon = IconChar.WindowClose;
+                    break;
+                    
+                default:
+                    break;
+            }
+
+            b.Hide();
+            ib.Left = b.Left;
+            ib.Top = b.Top;
+            ib.IconSize = 40;
+            ib.ImageAlign = ContentAlignment.MiddleCenter;
+            ib.Padding = new Padding(2, 4, 0, 0);
+            ib.Anchor = b.Anchor;
+            ib.Tag = b;
+            ib.Click += Ib_Click;
+        }
+
+        public void cleanButtons()
+        {
+            setIcons("new", brn_New,this);
+            setIcons("clear", btn_Clear, this);
+            setIcons("preview", btn_Preview, this);
+            setIcons("copy", btn_Copy, this);
+            setIcons("save", btn_Save, this);
+            setIcons("print", btn_Print, this);
+            setIcons("mail", btn_AttachToEmail, this);
+            setIcons("settings", btn_Options, this);
+            setIcons("tools", btn_Settings, this);
+            setIcons("exit", btn_Exit, this);
+        }
+
+        private void Ib_Click(object sender, EventArgs e)
+        {
+            IconButton ib = sender as IconButton;
+            if(ib != null && ib.Tag != null && ib.Tag is Button)
+            {
+                string i = ((Button)ib.Tag).Tag.ToString();
+
+                switch (i)
+                {
+                    case "0":
+                        brn_New_Click(null, null);
+                        break;
+
+                    case "1":
+                        btn_Clear_Click(null, null);
+                        break;
+
+                    case "2":
+                        btn_Preview_Click(null, null);
+                        break;
+
+                    case "3":
+                        btn_Copy_Click(null, null);
+                        break;
+
+                    case "4":
+                        btn_Save_Click(null, null);
+                        break;
+
+                    case "5":
+                        btn_Print_Click(null, null);
+                        break;
+
+                    case "6":
+                        btn_AttachToEmail_Click(null, null);
+                        break;
+
+                    case "7":
+                        btn_Options_Click(null, null);
+                        break;
+
+                    case "8":
+                        btn_Settings_Click(null, null);
+                        break;
+
+                    case "9":
+                        btn_Exit_Click(null, null);
+                        break;
+
+                    default:
+                        break;
+
+
+                }
+            }
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
+            if (Properties.Settings.Default.s_UseCleanButtons)
+            {
+                cleanButtons();
+            }
+            
+
             TopMost = true;
             Icon = Properties.Resources.scissors;
 
@@ -490,5 +624,10 @@ namespace WolfPaw_ScreenSnip
 		{
 			
 		}
-	}
+
+        private void btn_AttachToEmail_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
 }
