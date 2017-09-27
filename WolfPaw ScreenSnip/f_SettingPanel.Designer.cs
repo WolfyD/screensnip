@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(f_SettingPanel));
 			this.label1 = new System.Windows.Forms.Label();
 			this.r_BgTransparent = new System.Windows.Forms.RadioButton();
 			this.r_BgColor = new System.Windows.Forms.RadioButton();
@@ -37,12 +38,6 @@
 			this.num_Border = new System.Windows.Forms.NumericUpDown();
 			this.p_Border = new System.Windows.Forms.Panel();
 			this.label3 = new System.Windows.Forms.Label();
-			this.btn_Pen = new System.Windows.Forms.Button();
-			this.btn_Marker = new System.Windows.Forms.Button();
-			this.btn_Line = new System.Windows.Forms.Button();
-			this.btn_Square = new System.Windows.Forms.Button();
-			this.btn_Oval = new System.Windows.Forms.Button();
-			this.btn_Text = new System.Windows.Forms.Button();
 			this.label4 = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.label5 = new System.Windows.Forms.Label();
@@ -51,9 +46,15 @@
 			this.btn_Font = new System.Windows.Forms.Button();
 			this.label7 = new System.Windows.Forms.Label();
 			this.cb_Follow = new System.Windows.Forms.CheckBox();
-			this.btn_Eraser = new System.Windows.Forms.Button();
 			this.lbl_Demo = new System.Windows.Forms.Label();
-			this.btn_Dock = new System.Windows.Forms.Button();
+			this.btn_Pen = new FontAwesome.Sharp.IconButton();
+			this.btn_Marker = new FontAwesome.Sharp.IconButton();
+			this.btn_Line = new FontAwesome.Sharp.IconButton();
+			this.btn_Square = new FontAwesome.Sharp.IconButton();
+			this.btn_Oval = new FontAwesome.Sharp.IconButton();
+			this.btn_Text = new FontAwesome.Sharp.IconButton();
+			this.btn_Eraser = new FontAwesome.Sharp.IconButton();
+			this.btn_Dock = new FontAwesome.Sharp.IconButton();
 			((System.ComponentModel.ISupportInitialize)(this.num_Border)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
 			this.SuspendLayout();
@@ -155,72 +156,6 @@
 			this.label3.TabIndex = 7;
 			this.label3.Text = "Tool: ";
 			// 
-			// btn_Pen
-			// 
-			this.btn_Pen.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-			this.btn_Pen.FlatAppearance.BorderSize = 3;
-			this.btn_Pen.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.btn_Pen.Location = new System.Drawing.Point(60, 101);
-			this.btn_Pen.Name = "btn_Pen";
-			this.btn_Pen.Size = new System.Drawing.Size(20, 20);
-			this.btn_Pen.TabIndex = 8;
-			this.btn_Pen.UseVisualStyleBackColor = true;
-			// 
-			// btn_Marker
-			// 
-			this.btn_Marker.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-			this.btn_Marker.FlatAppearance.BorderSize = 3;
-			this.btn_Marker.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.btn_Marker.Location = new System.Drawing.Point(86, 101);
-			this.btn_Marker.Name = "btn_Marker";
-			this.btn_Marker.Size = new System.Drawing.Size(20, 20);
-			this.btn_Marker.TabIndex = 9;
-			this.btn_Marker.UseVisualStyleBackColor = true;
-			// 
-			// btn_Line
-			// 
-			this.btn_Line.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-			this.btn_Line.FlatAppearance.BorderSize = 3;
-			this.btn_Line.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.btn_Line.Location = new System.Drawing.Point(112, 101);
-			this.btn_Line.Name = "btn_Line";
-			this.btn_Line.Size = new System.Drawing.Size(20, 20);
-			this.btn_Line.TabIndex = 10;
-			this.btn_Line.UseVisualStyleBackColor = true;
-			// 
-			// btn_Square
-			// 
-			this.btn_Square.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-			this.btn_Square.FlatAppearance.BorderSize = 3;
-			this.btn_Square.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.btn_Square.Location = new System.Drawing.Point(60, 127);
-			this.btn_Square.Name = "btn_Square";
-			this.btn_Square.Size = new System.Drawing.Size(20, 20);
-			this.btn_Square.TabIndex = 11;
-			this.btn_Square.UseVisualStyleBackColor = true;
-			// 
-			// btn_Oval
-			// 
-			this.btn_Oval.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-			this.btn_Oval.FlatAppearance.BorderSize = 3;
-			this.btn_Oval.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.btn_Oval.Location = new System.Drawing.Point(86, 127);
-			this.btn_Oval.Name = "btn_Oval";
-			this.btn_Oval.Size = new System.Drawing.Size(20, 20);
-			this.btn_Oval.TabIndex = 12;
-			this.btn_Oval.UseVisualStyleBackColor = true;
-			// 
-			// btn_Text
-			// 
-			this.btn_Text.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-			this.btn_Text.FlatAppearance.BorderSize = 3;
-			this.btn_Text.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.btn_Text.Location = new System.Drawing.Point(112, 127);
-			this.btn_Text.Name = "btn_Text";
-			this.btn_Text.Size = new System.Drawing.Size(20, 20);
-			this.btn_Text.TabIndex = 13;
-			this.btn_Text.UseVisualStyleBackColor = true;
-			// 
 			// label4
 			// 
 			this.label4.AutoSize = true;
@@ -295,17 +230,6 @@
 			this.cb_Follow.TabIndex = 20;
 			this.cb_Follow.UseVisualStyleBackColor = true;
 			// 
-			// btn_Eraser
-			// 
-			this.btn_Eraser.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-			this.btn_Eraser.FlatAppearance.BorderSize = 3;
-			this.btn_Eraser.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.btn_Eraser.Location = new System.Drawing.Point(137, 101);
-			this.btn_Eraser.Name = "btn_Eraser";
-			this.btn_Eraser.Size = new System.Drawing.Size(20, 46);
-			this.btn_Eraser.TabIndex = 21;
-			this.btn_Eraser.UseVisualStyleBackColor = true;
-			// 
 			// lbl_Demo
 			// 
 			this.lbl_Demo.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -314,21 +238,111 @@
 			this.lbl_Demo.Name = "lbl_Demo";
 			this.lbl_Demo.Size = new System.Drawing.Size(81, 13);
 			this.lbl_Demo.TabIndex = 22;
-			this.lbl_Demo.Text = "DEMO aAbBcC";
+			this.lbl_Demo.Text = "DEMO AaBbCc";
 			this.lbl_Demo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// btn_Pen
+			// 
+			this.btn_Pen.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.btn_Pen.Icon = FontAwesome.Sharp.IconChar.Pencil;
+			this.btn_Pen.IconColor = System.Drawing.Color.Black;
+			this.btn_Pen.IconSize = 20;
+			this.btn_Pen.Image = ((System.Drawing.Image)(resources.GetObject("btn_Pen.Image")));
+			this.btn_Pen.Location = new System.Drawing.Point(60, 101);
+			this.btn_Pen.Name = "btn_Pen";
+			this.btn_Pen.Size = new System.Drawing.Size(20, 20);
+			this.btn_Pen.TabIndex = 24;
+			this.btn_Pen.UseVisualStyleBackColor = true;
+			// 
+			// btn_Marker
+			// 
+			this.btn_Marker.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.btn_Marker.Icon = FontAwesome.Sharp.IconChar.PencilSquare;
+			this.btn_Marker.IconColor = System.Drawing.Color.Black;
+			this.btn_Marker.IconSize = 22;
+			this.btn_Marker.Image = ((System.Drawing.Image)(resources.GetObject("btn_Marker.Image")));
+			this.btn_Marker.Location = new System.Drawing.Point(86, 101);
+			this.btn_Marker.Name = "btn_Marker";
+			this.btn_Marker.Size = new System.Drawing.Size(20, 20);
+			this.btn_Marker.TabIndex = 25;
+			this.btn_Marker.UseVisualStyleBackColor = true;
+			// 
+			// btn_Line
+			// 
+			this.btn_Line.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.btn_Line.Icon = FontAwesome.Sharp.IconChar.Minus;
+			this.btn_Line.IconColor = System.Drawing.Color.Black;
+			this.btn_Line.IconSize = 20;
+			this.btn_Line.Image = ((System.Drawing.Image)(resources.GetObject("btn_Line.Image")));
+			this.btn_Line.Location = new System.Drawing.Point(111, 101);
+			this.btn_Line.Name = "btn_Line";
+			this.btn_Line.Size = new System.Drawing.Size(20, 20);
+			this.btn_Line.TabIndex = 25;
+			this.btn_Line.UseVisualStyleBackColor = true;
+			// 
+			// btn_Square
+			// 
+			this.btn_Square.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.btn_Square.Icon = FontAwesome.Sharp.IconChar.SquareO;
+			this.btn_Square.IconColor = System.Drawing.Color.Black;
+			this.btn_Square.IconSize = 20;
+			this.btn_Square.Image = ((System.Drawing.Image)(resources.GetObject("btn_Square.Image")));
+			this.btn_Square.Location = new System.Drawing.Point(60, 127);
+			this.btn_Square.Name = "btn_Square";
+			this.btn_Square.Size = new System.Drawing.Size(20, 20);
+			this.btn_Square.TabIndex = 24;
+			this.btn_Square.UseVisualStyleBackColor = true;
+			// 
+			// btn_Oval
+			// 
+			this.btn_Oval.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.btn_Oval.Icon = FontAwesome.Sharp.IconChar.CircleO;
+			this.btn_Oval.IconColor = System.Drawing.Color.Black;
+			this.btn_Oval.IconSize = 20;
+			this.btn_Oval.Image = ((System.Drawing.Image)(resources.GetObject("btn_Oval.Image")));
+			this.btn_Oval.Location = new System.Drawing.Point(86, 127);
+			this.btn_Oval.Name = "btn_Oval";
+			this.btn_Oval.Size = new System.Drawing.Size(20, 20);
+			this.btn_Oval.TabIndex = 24;
+			this.btn_Oval.UseVisualStyleBackColor = true;
+			// 
+			// btn_Text
+			// 
+			this.btn_Text.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.btn_Text.Icon = FontAwesome.Sharp.IconChar.Font;
+			this.btn_Text.IconColor = System.Drawing.Color.Black;
+			this.btn_Text.IconSize = 20;
+			this.btn_Text.Image = ((System.Drawing.Image)(resources.GetObject("btn_Text.Image")));
+			this.btn_Text.Location = new System.Drawing.Point(111, 127);
+			this.btn_Text.Name = "btn_Text";
+			this.btn_Text.Size = new System.Drawing.Size(20, 20);
+			this.btn_Text.TabIndex = 24;
+			this.btn_Text.UseVisualStyleBackColor = true;
+			// 
+			// btn_Eraser
+			// 
+			this.btn_Eraser.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.btn_Eraser.Icon = FontAwesome.Sharp.IconChar.Eraser;
+			this.btn_Eraser.IconColor = System.Drawing.Color.Black;
+			this.btn_Eraser.IconSize = 20;
+			this.btn_Eraser.Image = ((System.Drawing.Image)(resources.GetObject("btn_Eraser.Image")));
+			this.btn_Eraser.Location = new System.Drawing.Point(137, 101);
+			this.btn_Eraser.Name = "btn_Eraser";
+			this.btn_Eraser.Size = new System.Drawing.Size(20, 46);
+			this.btn_Eraser.TabIndex = 25;
+			this.btn_Eraser.UseVisualStyleBackColor = true;
 			// 
 			// btn_Dock
 			// 
 			this.btn_Dock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btn_Dock.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.arrow;
-			this.btn_Dock.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-			this.btn_Dock.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-			this.btn_Dock.FlatAppearance.BorderSize = 3;
-			this.btn_Dock.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.btn_Dock.Location = new System.Drawing.Point(134, 292);
+			this.btn_Dock.Icon = FontAwesome.Sharp.IconChar.ArrowsAlt;
+			this.btn_Dock.IconColor = System.Drawing.Color.Black;
+			this.btn_Dock.IconSize = 32;
+			this.btn_Dock.Image = ((System.Drawing.Image)(resources.GetObject("btn_Dock.Image")));
+			this.btn_Dock.Location = new System.Drawing.Point(135, 293);
 			this.btn_Dock.Name = "btn_Dock";
 			this.btn_Dock.Size = new System.Drawing.Size(32, 32);
-			this.btn_Dock.TabIndex = 23;
+			this.btn_Dock.TabIndex = 26;
 			this.btn_Dock.UseVisualStyleBackColor = true;
 			this.btn_Dock.Click += new System.EventHandler(this.btn_Dock_Click);
 			// 
@@ -338,8 +352,14 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(166, 324);
 			this.Controls.Add(this.btn_Dock);
-			this.Controls.Add(this.lbl_Demo);
 			this.Controls.Add(this.btn_Eraser);
+			this.Controls.Add(this.btn_Line);
+			this.Controls.Add(this.btn_Marker);
+			this.Controls.Add(this.btn_Text);
+			this.Controls.Add(this.btn_Oval);
+			this.Controls.Add(this.btn_Square);
+			this.Controls.Add(this.btn_Pen);
+			this.Controls.Add(this.lbl_Demo);
 			this.Controls.Add(this.cb_Follow);
 			this.Controls.Add(this.label7);
 			this.Controls.Add(this.btn_Font);
@@ -348,12 +368,6 @@
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.label4);
-			this.Controls.Add(this.btn_Text);
-			this.Controls.Add(this.btn_Oval);
-			this.Controls.Add(this.btn_Square);
-			this.Controls.Add(this.btn_Line);
-			this.Controls.Add(this.btn_Marker);
-			this.Controls.Add(this.btn_Pen);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.p_Border);
 			this.Controls.Add(this.num_Border);
@@ -393,12 +407,6 @@
 		private System.Windows.Forms.NumericUpDown num_Border;
 		private System.Windows.Forms.Panel p_Border;
 		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Button btn_Pen;
-		private System.Windows.Forms.Button btn_Marker;
-		private System.Windows.Forms.Button btn_Line;
-		private System.Windows.Forms.Button btn_Square;
-		private System.Windows.Forms.Button btn_Oval;
-		private System.Windows.Forms.Button btn_Text;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Label label5;
@@ -407,8 +415,14 @@
 		private System.Windows.Forms.Button btn_Font;
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.CheckBox cb_Follow;
-		private System.Windows.Forms.Button btn_Eraser;
 		private System.Windows.Forms.Label lbl_Demo;
-        private System.Windows.Forms.Button btn_Dock;
-    }
+		private FontAwesome.Sharp.IconButton btn_Pen;
+		private FontAwesome.Sharp.IconButton btn_Marker;
+		private FontAwesome.Sharp.IconButton btn_Line;
+		private FontAwesome.Sharp.IconButton btn_Square;
+		private FontAwesome.Sharp.IconButton btn_Oval;
+		private FontAwesome.Sharp.IconButton btn_Text;
+		private FontAwesome.Sharp.IconButton btn_Eraser;
+		private FontAwesome.Sharp.IconButton btn_Dock;
+	}
 }
