@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FontAwesome.Sharp;
 
+using System.Data.SQLite;
+
 namespace WolfPaw_ScreenSnip
 {
     public partial class Form1 : Form
@@ -106,6 +108,10 @@ namespace WolfPaw_ScreenSnip
                     ib.Icon = IconChar.Wrench;
                     break;
 
+                case "db":
+                    ib.Icon = IconChar.Database;
+                    break;
+
                 case "exit":
                     ib.Icon = IconChar.WindowClose;
                     break;
@@ -132,6 +138,7 @@ namespace WolfPaw_ScreenSnip
             setIcons("preview", btn_Preview, this);
             setIcons("copy", btn_Copy, this);
             setIcons("save", btn_Save, this);
+            setIcons("db", btn_SaveToDB, this);
             setIcons("print", btn_Print, this);
             setIcons("mail", btn_AttachToEmail, this);
             setIcons("settings", btn_Options, this);
@@ -186,6 +193,10 @@ namespace WolfPaw_ScreenSnip
 
                     case "9":
                         btn_Exit_Click(null, null);
+                        break;
+
+                    case "10":
+                        btn_SaveToDB_Click(null, null);
                         break;
 
                     default:
@@ -620,12 +631,12 @@ namespace WolfPaw_ScreenSnip
 			}
 		}
 
-		private void Form1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-		{
-			
-		}
-
         private void btn_AttachToEmail_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_SaveToDB_Click(object sender, EventArgs e)
         {
 
         }
