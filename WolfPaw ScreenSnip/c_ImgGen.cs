@@ -24,53 +24,63 @@ namespace WolfPaw_ScreenSnip
 				border = Properties.Settings.Default.s_borderWidth;
 			}
 
-			Bitmap bm = new Bitmap(rec.Width + (border * 2), rec.Height + (border * 2));
+			Bitmap bm = null;
 
-			using (Graphics g = Graphics.FromImage(bm))
+			try
 			{
-				c_returnGraphicSettings cg = new c_returnGraphicSettings();
+				bm = new Bitmap(rec.Width + (border * 2), rec.Height + (border * 2));
 
-				g.SmoothingMode = cg.getSM();
-				g.InterpolationMode = cg.getIM();
-				g.PixelOffsetMode = cg.getPOM();
-
-				g.Clear(Color.Transparent);
-				
-				if (Properties.Settings.Default.s_hasBgColor)
-				{ g.Clear(Properties.Settings.Default.s_bgColor); } else { g.Clear(Color.Transparent); }
-
-				if (drawTBG)
+				using (Graphics g = Graphics.FromImage(bm))
 				{
-					int x = 0;
-					int y = 0;
-					while (y < bm.Height)
-					{
-						while (x < bm.Width)
-						{
-							g.DrawImageUnscaled(Properties.Resources.transparentBG, new Point(x, y));
-							x += Properties.Resources.transparentBG.Width;
-						}
+					c_returnGraphicSettings cg = new c_returnGraphicSettings();
 
-						y += Properties.Resources.transparentBG.Height;
-						x = 0;
+					g.SmoothingMode = cg.getSM();
+					g.InterpolationMode = cg.getIM();
+					g.PixelOffsetMode = cg.getPOM();
+
+					g.Clear(Color.Transparent);
+
+					if (Properties.Settings.Default.s_hasBgColor)
+					{ g.Clear(Properties.Settings.Default.s_bgColor); }
+					else { g.Clear(Color.Transparent); }
+
+					if (drawTBG)
+					{
+						int x = 0;
+						int y = 0;
+						while (y < bm.Height)
+						{
+							while (x < bm.Width)
+							{
+								g.DrawImageUnscaled(Properties.Resources.transparentBG, new Point(x, y));
+								x += Properties.Resources.transparentBG.Width;
+							}
+
+							y += Properties.Resources.transparentBG.Height;
+							x = 0;
+						}
+					}
+
+					foreach (KeyValuePair<int, uc_CutoutHolder> kvp in cutouts)
+					{
+						uc_CutoutHolder k = kvp.Value;
+						g.DrawImage(k.BMP, new Rectangle(k.Left - rec.Left + border, k.Top - rec.Top + border, k.Width, k.Height), new Rectangle(0, 0, k.BMP.Width, k.BMP.Height), GraphicsUnit.Pixel);
+					}
+
+					if (Properties.Settings.Default.s_hasBorder)
+					{
+						Brush b = new SolidBrush(Properties.Settings.Default.s_borderColor);
+
+						g.FillRectangle(b, new RectangleF(0, 0, bm.Width, border));
+						g.FillRectangle(b, new RectangleF(0, bm.Height - border, bm.Width, border));
+						g.FillRectangle(b, new RectangleF(0, 0, border, bm.Height));
+						g.FillRectangle(b, new RectangleF(bm.Width - border, 0, border, bm.Height));
 					}
 				}
+			}
+			catch
+			{
 
-				foreach (KeyValuePair<int, uc_CutoutHolder> kvp in cutouts)
-				{
-					uc_CutoutHolder k = kvp.Value;
-					g.DrawImage(k.BMP, new Rectangle(k.Left - rec.Left + border, k.Top - rec.Top + border, k.Width, k.Height), new Rectangle(0, 0, k.BMP.Width, k.BMP.Height), GraphicsUnit.Pixel);
-				}
-
-				if (Properties.Settings.Default.s_hasBorder)
-				{
-					Brush b = new SolidBrush(Properties.Settings.Default.s_borderColor);
-
-					g.FillRectangle(b, new RectangleF(0, 0, bm.Width, border));
-					g.FillRectangle(b, new RectangleF(0, bm.Height - border, bm.Width, border));
-					g.FillRectangle(b, new RectangleF(0, 0, border, bm.Height));
-					g.FillRectangle(b, new RectangleF(bm.Width - border, 0, border, bm.Height));
-				}
 			}
 
 			return bm;

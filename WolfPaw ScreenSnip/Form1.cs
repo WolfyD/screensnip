@@ -69,8 +69,9 @@ namespace WolfPaw_ScreenSnip
             IconButton ib = new IconButton();
             ib.Parent = parent;
             ib.Size = new Size(40, 40);
+			ib.IconSize = 40;
 
-            switch (btn)
+			switch (btn)
             {
                 case "new":
                     ib.Icon = IconChar.Scissors;
@@ -108,11 +109,16 @@ namespace WolfPaw_ScreenSnip
                     ib.Icon = IconChar.Wrench;
                     break;
 
-                case "db":
-                    ib.Icon = IconChar.Database;
-                    break;
+				case "db":
+					ib.Icon = IconChar.Database;
+					ib.IconSize = 36;
+					break;
 
-                case "exit":
+				case "db1":
+					ib.Icon = IconChar.FolderOpenO;
+					break;
+
+				case "exit":
                     ib.Icon = IconChar.WindowClose;
                     break;
                     
@@ -123,7 +129,6 @@ namespace WolfPaw_ScreenSnip
             b.Hide();
             ib.Left = b.Left;
             ib.Top = b.Top;
-            ib.IconSize = 40;
             ib.ImageAlign = ContentAlignment.MiddleCenter;
             ib.Padding = new Padding(2, 4, 0, 0);
             ib.Anchor = b.Anchor;
@@ -138,8 +143,9 @@ namespace WolfPaw_ScreenSnip
             setIcons("preview", btn_Preview, this);
             setIcons("copy", btn_Copy, this);
             setIcons("save", btn_Save, this);
-            setIcons("db", btn_SaveToDB, this);
-            setIcons("print", btn_Print, this);
+			setIcons("db", btn_SaveToDB, this);
+			setIcons("db1", btn_DatabaseLoad, this);
+			setIcons("print", btn_Print, this);
             setIcons("mail", btn_AttachToEmail, this);
             setIcons("settings", btn_Options, this);
             setIcons("tools", btn_Settings, this);
@@ -195,11 +201,15 @@ namespace WolfPaw_ScreenSnip
                         btn_Exit_Click(null, null);
                         break;
 
-                    case "10":
-                        btn_SaveToDB_Click(null, null);
-                        break;
+					case "10":
+						btn_SaveToDB_Click(null, null);
+						break;
 
-                    default:
+					case "11":
+						btn_DatabaseLoad_Click(null, null);
+						break;
+
+					default:
                         break;
 
 
@@ -638,7 +648,18 @@ namespace WolfPaw_ScreenSnip
 
         private void btn_SaveToDB_Click(object sender, EventArgs e)
         {
-
+			if (fs != null && !fs.IsDisposed)
+			{
+				f_SaveToDB fsd = new f_SaveToDB();
+				fsd.img = c_ImgGen.createPng(fs, cutouts);
+				fsd.ShowDialog();
+			}
         }
-    }
+
+		private void btn_DatabaseLoad_Click(object sender, EventArgs e)
+		{
+			f_LoadImageDB flid = new f_LoadImageDB();
+			flid.ShowDialog();
+		}
+	}
 }

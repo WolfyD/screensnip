@@ -46,6 +46,9 @@
       <HintPath>..\packages\FontAwesome.Sharp.4.7.0\lib\net40\FontAwesome.Sharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="histogram_dll">
+      <HintPath>..\packages\histogram_dll.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -76,7 +79,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="c_Converter.cs" />
+    <Compile Include="c_DatabaseHandler.cs" />
     <Compile Include="c_ImgGen.cs" />
+    <Compile Include="c_Object.cs" />
     <Compile Include="c_returnGraphicSettings.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -89,6 +95,12 @@
     </Compile>
     <Compile Include="f_Canvas.Designer.cs">
       <DependentUpon>f_Canvas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="f_LoadImageDB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="f_LoadImageDB.Designer.cs">
+      <DependentUpon>f_LoadImageDB.cs</DependentUpon>
     </Compile>
     <Compile Include="f_Preview.cs">
       <SubType>Form</SubType>
@@ -114,6 +126,12 @@
     <Compile Include="f_Screen.Designer.cs">
       <DependentUpon>f_Screen.cs</DependentUpon>
     </Compile>
+    <Compile Include="f_SearchBy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="f_SearchBy.Designer.cs">
+      <DependentUpon>f_SearchBy.cs</DependentUpon>
+    </Compile>
     <Compile Include="f_SettingPanel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,6 +146,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\tagLog.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>tagLog.settings</DependentUpon>
+    </Compile>
     <Compile Include="uc_CutoutHolder.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -140,6 +163,9 @@
     <EmbeddedResource Include="f_Canvas.resx">
       <DependentUpon>f_Canvas.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="f_LoadImageDB.resx">
+      <DependentUpon>f_LoadImageDB.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="f_Preview.resx">
       <DependentUpon>f_Preview.cs</DependentUpon>
     </EmbeddedResource>
@@ -151,6 +177,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="f_Screen.resx">
       <DependentUpon>f_Screen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="f_SearchBy.resx">
+      <DependentUpon>f_SearchBy.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="f_SettingPanel.resx">
       <DependentUpon>f_SettingPanel.cs</DependentUpon>
@@ -186,6 +215,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\tagLog.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>tagLog.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Resources\scissors.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -268,6 +301,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\db.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\db1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.105.2\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.105.2\build\net45\System.Data.SQLite.Core.targets')" />
