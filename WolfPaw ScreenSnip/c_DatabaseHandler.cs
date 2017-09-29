@@ -162,6 +162,8 @@ namespace WolfPaw_ScreenSnip
 					break;
 				}
 			}
+
+            r1.Close();
 			
 			if (ids.Count > 0)
 			{

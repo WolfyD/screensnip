@@ -19,9 +19,17 @@ namespace WolfPaw_ScreenSnip
 		public f_SearchBy()
 		{
 			InitializeComponent();
+
+            Load += F_SearchBy_Load;
 		}
 
-		private void btn_Cancel_Click(object sender, EventArgs e)
+        private void F_SearchBy_Load(object sender, EventArgs e)
+        {
+            btn_Search.Top = Height - (btn_Search.Height + 39 + 10);
+            btn_Cancel.Top = btn_Search.Top;
+        }
+
+        private void btn_Cancel_Click(object sender, EventArgs e)
 		{
 			OK = false;
 			this.Close();
@@ -42,6 +50,15 @@ namespace WolfPaw_ScreenSnip
 			}
 			else if (rb_Tags.Checked)
 			{
+                if(tb_Tags.Tag == null)
+                {
+                    if(tb_Tags.Text != "") { tb_Tags.Tag = tb_Tags.Text.Split(';'); }
+                    else
+                    {
+                        return;
+                    }
+                }
+
 				loc = c_DatabaseHandler.getImagesByTags(sqlc, tb_Tags.Tag as String[]);
 				if (loc != null && loc.Count > 0)
 				{
@@ -54,10 +71,30 @@ namespace WolfPaw_ScreenSnip
 			{
 				MessageBox.Show("There was an error while handling your request. \r\nPlease reopen this window an try again.", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-			else
+			else if(loc.Count == 0)
 			{
 				MessageBox.Show("No results were found for your search. \r\nPlease try again with different settings.", "No Results", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 		}
-	}
+
+        private void tb_Title_Click(object sender, EventArgs e)
+        {
+            rb_Title.Checked = true;
+        }
+
+        private void tb_Description_Click(object sender, EventArgs e)
+        {
+            rb_Description.Checked = true;
+        }
+
+        private void tb_Tags_Click(object sender, EventArgs e)
+        {
+            rb_Tags.Checked = true;
+        }
+
+        private void tb_Date_Click(object sender, EventArgs e)
+        {
+            rb_Date.Checked = true;
+        }
+    }
 }
