@@ -138,6 +138,12 @@
     <Compile Include="f_SettingPanel.Designer.cs">
       <DependentUpon>f_SettingPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="f_TagEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="f_TagEditor.Designer.cs">
+      <DependentUpon>f_TagEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="f_TCP.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -183,6 +189,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="f_SettingPanel.resx">
       <DependentUpon>f_SettingPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="f_TagEditor.resx">
+      <DependentUpon>f_TagEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="f_TCP.resx">
       <DependentUpon>f_TCP.cs</DependentUpon>
@@ -304,6 +313,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\db1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\histogram_dll.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.105.2\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.105.2\build\net45\System.Data.SQLite.Core.targets')" />

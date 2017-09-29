@@ -60,7 +60,15 @@ namespace WolfPaw_ScreenSnip
             try
             {
                 pb_Img.Image = loc[i].getImage();
-                lbl_Title.Text = loc[i].getTitle();
+
+				//h_Hist.setImage(@"C:\Users\WolfyD\Desktop\rb\1.jpg");
+				Bitmap bmp = pb_Img.Image as Bitmap;
+				h_Hist.showCatchExceptions = true;
+				h_Hist.setImage(bmp);
+				h_Hist.getHistogram();
+				
+
+				lbl_Title.Text = loc[i].getTitle();
                 lbl_Desc.Text = loc[i].getDescription();
                 //btn_Tags.Tag = loc[i].getTags();
 
@@ -87,6 +95,8 @@ namespace WolfPaw_ScreenSnip
                 {
                     btn_Next.Enabled = true;
                 }
+
+				
 
                 lbl_numOfNum.Text = (i + 1) + " of " + loc.Count;
             }

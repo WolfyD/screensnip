@@ -201,6 +201,16 @@ namespace WolfPaw_ScreenSnip.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] histogram_dll {
+            get {
+                object obj = ResourceManager.GetObject("histogram_dll", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap preview {

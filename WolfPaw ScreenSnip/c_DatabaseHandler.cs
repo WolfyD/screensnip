@@ -129,6 +129,42 @@ namespace WolfPaw_ScreenSnip
 			return lco;
 		}
 
+		public static List<c_Object> getImagesByDescription(SQLiteConnection sqlc, string desc, bool like)
+		{
+			List<c_Object> lco = new List<c_Object>();
+
+			if (sqlc.State != System.Data.ConnectionState.Open)
+			{
+				return null;
+			}
+
+			SQLiteCommand sqlComm = new SQLiteCommand();
+			sqlComm.Connection = sqlc;
+			if (like)
+			{
+				sqlComm.CommandText = string.Format("SELECT * FROM images WHERE desc like '%{0}%'", desc);
+			}
+			else
+			{
+				sqlComm.CommandText = string.Format("SELECT * FROM images WHERE desc='{0}'", desc);
+			}
+			SQLiteDataReader r = sqlComm.ExecuteReader();
+			while (r.Read())
+			{
+				string _title = r.GetString(1);
+				string _desc = r.GetString(2);
+				string _image = r.GetString(3);
+				string _tags = r.GetString(4);
+				string _savedate = r.GetString(5);
+
+				c_Object obj = new c_Object(_title, _desc, _image, _tags, _savedate);
+				lco.Add(obj);
+			}
+
+			//c_Object obj = new c_Object();
+			return lco;
+		}
+
 		/// <summary>
 		/// //TODO:ADD SUMMARY 2
 		/// </summary>
@@ -159,15 +195,14 @@ namespace WolfPaw_ScreenSnip
 				foreach (string s in tags)
 				{
 					if (tagStr.ToLower().Split(';').Contains(s.ToLower())) { ids.Add(id); }
-					break;
 				}
 			}
 
-            r1.Close();
-			
+			r1.Close();
+
 			if (ids.Count > 0)
 			{
-				foreach(int i in ids) { idString += i + ","; }
+				foreach (int i in ids) { idString += i + ","; }
 				idString = idString.Trim(',');
 
 				sqlComm.CommandText = string.Format("SELECT * FROM images WHERE id IN ( {0} )", idString);
@@ -184,6 +219,36 @@ namespace WolfPaw_ScreenSnip
 					c_Object obj = new c_Object(_title, _desc, _image, _tags, _savedate);
 					lco.Add(obj);
 				}
+			}
+
+			//c_Object obj = new c_Object();
+			return lco;
+		}
+
+		public static List<c_Object> getImagesAll(SQLiteConnection sqlc)
+		{
+			List<c_Object> lco = new List<c_Object>();
+
+			if (sqlc.State != System.Data.ConnectionState.Open)
+			{
+				return null;
+			}
+
+			SQLiteCommand sqlComm = new SQLiteCommand();
+			sqlComm.Connection = sqlc;
+			sqlComm.CommandText = "SELECT * FROM images";
+
+			SQLiteDataReader r = sqlComm.ExecuteReader();
+			while (r.Read())
+			{
+				string _title = r.GetString(1);
+				string _desc = r.GetString(2);
+				string _image = r.GetString(3);
+				string _tags = r.GetString(4);
+				string _savedate = r.GetString(5);
+
+				c_Object obj = new c_Object(_title, _desc, _image, _tags, _savedate);
+				lco.Add(obj);
 			}
 
 			//c_Object obj = new c_Object();

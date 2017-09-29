@@ -25,8 +25,10 @@ namespace WolfPaw_ScreenSnip
 
         private void F_SearchBy_Load(object sender, EventArgs e)
         {
+			/*
             btn_Search.Top = Height - (btn_Search.Height + 39 + 10);
             btn_Cancel.Top = btn_Search.Top;
+			*/
         }
 
         private void btn_Cancel_Click(object sender, EventArgs e)
@@ -48,18 +50,36 @@ namespace WolfPaw_ScreenSnip
 					this.Close();
 				}
 			}
+			else if (rb_Description.Checked)
+			{
+				loc = c_DatabaseHandler.getImagesByDescription(sqlc, tb_Description.Text, cb_Description.Checked);
+				if (loc != null && loc.Count > 0)
+				{
+					OK = true;
+					this.Close();
+				}
+			}
 			else if (rb_Tags.Checked)
 			{
-                if(tb_Tags.Tag == null)
-                {
-                    if(tb_Tags.Text != "") { tb_Tags.Tag = tb_Tags.Text.Split(';'); }
-                    else
-                    {
-                        return;
-                    }
-                }
+				if (tb_Tags.Tag == null)
+				{
+					if (tb_Tags.Text != "") { tb_Tags.Tag = tb_Tags.Text.Split(';'); }
+					else
+					{
+						return;
+					}
+				}
 
 				loc = c_DatabaseHandler.getImagesByTags(sqlc, tb_Tags.Tag as String[]);
+				if (loc != null && loc.Count > 0)
+				{
+					OK = true;
+					this.Close();
+				}
+			}
+			else if (rb_All.Checked)
+			{
+				loc = c_DatabaseHandler.getImagesAll(sqlc);
 				if (loc != null && loc.Count > 0)
 				{
 					OK = true;
@@ -96,5 +116,14 @@ namespace WolfPaw_ScreenSnip
         {
             rb_Date.Checked = true;
         }
-    }
+
+		private void btn_EditTags_Click(object sender, EventArgs e)
+		{
+			f_TagEditor ftag = new f_TagEditor();
+			ftag.openTags = tb_Tags.Text;
+			ftag.ShowDialog();
+			tb_Tags.Text = ftag.closeTags;
+			tb_Tags.Tag = ftag.tagarray;
+		}
+	}
 }

@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+//TODO: ADD DRAG DROP
+
 namespace WolfPaw_ScreenSnip
 {
     public partial class f_Screen : Form
