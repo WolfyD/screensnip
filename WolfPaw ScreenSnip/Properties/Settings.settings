@@ -74,5 +74,11 @@
     <Setting Name="s_DBFileLocation" Type="System.String" Scope="User">
       <Value Profile="(Default)">%this%\db.sqlite</Value>
     </Setting>
+    <Setting Name="s_ButtonSize" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">40</Value>
+    </Setting>
+    <Setting Name="s_HandleSize" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

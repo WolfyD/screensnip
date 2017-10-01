@@ -219,6 +219,10 @@ namespace WolfPaw_ScreenSnip
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+			Height = Properties.Settings.Default.s_HandleSize + Properties.Settings.Default.s_ButtonSize;
+			Width = btn_Exit.Right;
+
             if (Properties.Settings.Default.s_UseCleanButtons)
             {
                 cleanButtons();
@@ -660,6 +664,90 @@ namespace WolfPaw_ScreenSnip
 		{
 			f_LoadImageDB flid = new f_LoadImageDB();
 			flid.ShowDialog();
+		}
+
+		private void btn_Minimize_MouseEnter(object sender, EventArgs e)
+		{
+			btn_Minimize.Image = Properties.Resources.minimize_white;
+		}
+
+		private void btn_Minimize_MouseLeave(object sender, EventArgs e)
+		{
+			btn_Minimize.Image = Properties.Resources.minimize_black;
+		}
+
+		private void btn_Minimize_Click(object sender, EventArgs e)
+		{
+			WindowState = FormWindowState.Minimized;
+		}
+
+		private void btn_Rollup_Click(object sender, EventArgs e)
+		{
+			if(Height == 20)
+			{
+				Height = 60;
+			}
+			else
+			{
+				Height = 20;
+			}
+		}
+
+		private void btn_Rollup_MouseEnter(object sender, EventArgs e)
+		{
+			if(Height == 20)
+			{
+				btn_Rollup.Image = Properties.Resources.rolldown_white;
+			}
+			else
+			{
+				btn_Rollup.Image = Properties.Resources.rollup_white;
+			}
+		}
+
+		private void btn_Rollup_MouseLeave(object sender, EventArgs e)
+		{
+			if (Height == 20)
+			{
+				btn_Rollup.Image = Properties.Resources.rolldown_black;
+			}
+			else
+			{
+				btn_Rollup.Image = Properties.Resources.rollup_black;
+			}
+		}
+
+		private void btn_Question_Click(object sender, EventArgs e)
+		{
+			//TODO: Help
+		}
+
+		private void btn_Question_MouseEnter(object sender, EventArgs e)
+		{
+			btn_Question.Image = Properties.Resources.questionmark_white;
+		}
+
+		private void btn_Question_MouseLeave(object sender, EventArgs e)
+		{
+			btn_Question.Image = Properties.Resources.questionmark_black;
+		}
+
+		private void btn_Screen_Click(object sender, EventArgs e)
+		{
+			if(fs != null && !fs.IsDisposed)
+			{
+				fs.WindowState = FormWindowState.Normal;
+				fs.BringToFront();
+				fs.Focus();
+				fs.Show();
+
+			}
+			else
+			{
+				fs = new f_Screen();
+				fs.parent = this;
+				fs.Show();
+			}
 		}
 	}
 }

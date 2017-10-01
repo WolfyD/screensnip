@@ -163,6 +163,12 @@
   <data name="histogram_dll" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\histogram_dll.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="minimize_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\minimize_black.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="minimize_white" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\minimize_white.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="preview" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\preview.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -178,6 +184,24 @@
   <data name="printer_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\printer_32.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="questionmark_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\questionmark_black.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="questionmark_white" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\questionmark_white.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rolldown_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rolldown_black.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rolldown_white" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rolldown_white.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rollup_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rollup_black.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rollup_white" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rollup_white.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="save" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -192,6 +216,9 @@
   </data>
   <data name="scissors_add" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\scissors_add.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="screen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\screen.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="screw" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\screw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

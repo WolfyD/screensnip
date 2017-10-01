@@ -310,5 +310,29 @@ namespace WolfPaw_ScreenSnip.Properties {
                 this["s_DBFileLocation"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("40")]
+        public int s_ButtonSize {
+            get {
+                return ((int)(this["s_ButtonSize"]));
+            }
+            set {
+                this["s_ButtonSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        public int s_HandleSize {
+            get {
+                return ((int)(this["s_HandleSize"]));
+            }
+            set {
+                this["s_HandleSize"] = value;
+            }
+        }
     }
 }
