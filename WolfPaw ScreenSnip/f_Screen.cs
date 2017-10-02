@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FontAwesome.Sharp;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -39,8 +40,11 @@ namespace WolfPaw_ScreenSnip
 
 		private void F_Screen_Load(object sender, EventArgs e)
         {
-
-		}
+            Bitmap b = IconChar.Desktop.ToBitmap(128, Color.Black);
+            b.MakeTransparent(Color.White);
+            System.IntPtr icH = b.GetHicon();
+            this.Icon = System.Drawing.Icon.FromHandle(icH);
+        }
 
 		public void addImage(Bitmap img)
 		{

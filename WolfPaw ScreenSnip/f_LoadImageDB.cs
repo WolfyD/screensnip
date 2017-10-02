@@ -117,7 +117,7 @@ namespace WolfPaw_ScreenSnip
 
         private void btn_Next_Click(object sender, EventArgs e)
         {
-            if(currentIndex < loc.Count - 1)
+            if(loc != null && currentIndex < loc.Count - 1)
             {
                 currentIndex++;
                 setImg(currentIndex);
@@ -126,7 +126,7 @@ namespace WolfPaw_ScreenSnip
 
         private void btn_Prev_Click(object sender, EventArgs e)
         {
-            if (currentIndex > 0)
+            if (loc != null && currentIndex > 0)
             {
                 currentIndex--;
                 setImg(currentIndex);
@@ -241,6 +241,38 @@ namespace WolfPaw_ScreenSnip
 
                 _b.Save(sfd.FileName, _if);
 
+            }
+        }
+
+        
+        
+
+        private void f_LoadImageDB_KeyDown(object sender, KeyEventArgs e)
+        {
+            MessageBox.Show(e.KeyCode.ToString());
+        }
+
+        private void f_LoadImageDB_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Left || e.KeyCode == Keys.Right)
+            {
+                e.IsInputKey = true;
+            }
+        }
+
+        private void f_LoadImageDB_KeyDown_1(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Left)
+            {
+                btn_Prev_Click(null, null);
+            }
+            else if (e.KeyCode == Keys.Right)
+            {
+                btn_Next_Click(null, null);
+            }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                this.Close();
             }
         }
     }

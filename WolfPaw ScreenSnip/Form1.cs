@@ -686,11 +686,13 @@ namespace WolfPaw_ScreenSnip
 			if(Height == 20)
 			{
 				Height = 60;
-			}
+                btn_Rollup.Image = Properties.Resources.rollup_white;
+            }
 			else
 			{
 				Height = 20;
-			}
+                btn_Rollup.Image = Properties.Resources.rolldown_white;
+            }
 		}
 
 		private void btn_Rollup_MouseEnter(object sender, EventArgs e)
