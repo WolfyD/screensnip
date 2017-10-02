@@ -334,5 +334,17 @@ namespace WolfPaw_ScreenSnip.Properties {
                 this["s_HandleSize"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int s_ToolbarPanel {
+            get {
+                return ((int)(this["s_ToolbarPanel"]));
+            }
+            set {
+                this["s_ToolbarPanel"] = value;
+            }
+        }
     }
 }

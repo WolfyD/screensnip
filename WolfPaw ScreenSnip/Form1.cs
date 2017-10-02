@@ -361,10 +361,13 @@ namespace WolfPaw_ScreenSnip
 				fs = new f_Screen();
 				fs.parent = this;
 				fs.Show();
-				tools = new f_SettingPanel();
-				tools.parent = fs;
-				fs.child = tools;
-				tools.Show();
+				if (Properties.Settings.Default.s_ToolbarPanel == 0)
+				{
+					tools = new f_SettingPanel();
+					tools.parent = fs;
+					fs.child = tools;
+					tools.Show();
+				}
 			}
 
 			if(fs != null)
@@ -510,23 +513,22 @@ namespace WolfPaw_ScreenSnip
 
 		private void btn_Settings_Click(object sender, EventArgs e)
 		{
-			bool open = false;
-			foreach (var v in Application.OpenForms)
-			{
-				if (v is f_SettingPanel)
-				{
-					open = true;
-					break;
-				}
-			}
+			int panel = Properties.Settings.Default.s_ToolbarPanel;
 
-			if (tools != null && open)
+			if (panel == 0)
 			{
-				tools.Dispose();
-			}
-			else
-			{
-				if(fs != null)
+				if (tools != null && !tools.IsDisposed)
+				{
+					try
+					{
+						tools.Close();
+					}
+					catch
+					{
+
+					}
+				}
+				else if (fs != null && !fs.IsDisposed)
 				{
 					tools = new f_SettingPanel();
 					tools.parent = fs;
@@ -534,6 +536,22 @@ namespace WolfPaw_ScreenSnip
 					tools.Show();
 				}
 			}
+			else if (panel == 1)
+			{
+				if(fs != null && !fs.IsDisposed)
+				{
+					fs.togglePanel();
+				}
+			}
+			else if (panel == 2)
+			{
+				if (fs != null && !fs.IsDisposed)
+				{
+					fs.toggleToolbar();
+				}
+			}
+
+
 		}
 
 		private void btn_Preview_Click(object sender, EventArgs e)
@@ -741,14 +759,20 @@ namespace WolfPaw_ScreenSnip
 				fs.WindowState = FormWindowState.Normal;
 				fs.BringToFront();
 				fs.Focus();
-				fs.Show();
-
 			}
 			else
 			{
 				fs = new f_Screen();
 				fs.parent = this;
-				fs.Show();
+			}
+
+			fs.Show();
+			if (Properties.Settings.Default.s_ToolbarPanel == 0)
+			{
+				if (tools == null || tools.IsDisposed) { tools = new f_SettingPanel(); }
+				fs.child = tools;
+				tools.parent = fs;
+				tools.Show();
 			}
 		}
 	}

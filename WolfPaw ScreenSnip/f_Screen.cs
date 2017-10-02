@@ -44,11 +44,35 @@ namespace WolfPaw_ScreenSnip
             b.MakeTransparent(Color.White);
             System.IntPtr icH = b.GetHicon();
             this.Icon = System.Drawing.Icon.FromHandle(icH);
-        }
+
+			if (Properties.Settings.Default.s_ToolbarPanel == 1)
+			{
+				//splitContainer1.Panel2Collapsed = false;
+				p_Tools.Width = 200;
+				ts_Tools.Hide();
+			}
+			else 
+			{
+				//splitContainer1.Panel2Collapsed = true;
+				p_Tools.Width = 0;
+				if (Properties.Settings.Default.s_ToolbarPanel == 2)
+				{
+					ts_Tools.Show();
+				}
+			}
+			
+		}
 
 		public void addImage(Bitmap img)
 		{
-			addImage(img, new Point(0, 0));
+			if (Properties.Settings.Default.s_ToolbarPanel == 2)
+			{
+				addImage(img, new Point(5, ts_Tools.Height + 5));
+			}
+			else
+			{
+				addImage(img, new Point(5, 5));
+			}
 		}
 
 		public void addImage(Bitmap img, Point pos)
@@ -194,6 +218,73 @@ namespace WolfPaw_ScreenSnip
 					g.FillRectangle(Brushes.CornflowerBlue, new RectangleF(p.X + 1, p.Y, w - 1, 10));
 				}
 			}
+		}
+
+		public void showToolBar()
+		{
+			if (child != null && !child.IsDisposed) { child.Close(); }
+			//splitContainer1.Panel2Collapsed = false;
+			p_Tools.Width = 200;
+			ts_Tools.Hide();
+			Properties.Settings.Default.s_ToolbarPanel = 1;
+			Properties.Settings.Default.Save();
+		}
+
+		public void hideToolBar()
+		{
+			child = new f_SettingPanel();
+			child.parent = this;
+			child.Show();
+			Properties.Settings.Default.s_ToolbarPanel = 0;
+			Properties.Settings.Default.Save();
+			//splitContainer1.Panel2Collapsed = true;
+			p_Tools.Width = 0;
+			ts_Tools.Hide();
+		}
+
+		public void showToolStrip()
+		{
+			//splitContainer1.Panel2Collapsed = true;
+			p_Tools.Width = 0;
+			if (child != null && !child.IsDisposed) { child.Close(); }
+			ts_Tools.Show();
+			Properties.Settings.Default.s_ToolbarPanel = 2;
+			Properties.Settings.Default.Save();
+		}
+
+		private void btn_Dock_Click(object sender, EventArgs e)
+		{
+			hideToolBar();
+		}
+
+		private void btn_ToolStrip_Click(object sender, EventArgs e)
+		{
+			showToolStrip();
+		}
+
+		private void btn_ToolWindow_Click(object sender, EventArgs e)
+		{
+			showToolBar();
+		}
+
+		private void btn_ToolPanel_Click(object sender, EventArgs e)
+		{
+			hideToolBar();
+		}
+
+		public bool panelOpen()
+		{
+			return p_Tools.Width == 200;
+		}
+
+		public void toggleToolbar()
+		{
+			ts_Tools.Visible = !ts_Tools.Visible;
+		}
+
+		public void togglePanel()
+		{
+			p_Tools.Width = (p_Tools.Width == 0 ? 200 : 0);
 		}
 	}
 }

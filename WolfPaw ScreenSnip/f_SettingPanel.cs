@@ -193,6 +193,12 @@ namespace WolfPaw_ScreenSnip
 
         private void btn_Dock_Click(object sender, EventArgs e)
         {
+			Properties.Settings.Default.s_ToolbarPanel = 1;
+			Properties.Settings.Default.Save();
+			parent.showToolBar();
+			this.Close();
+
+			/*
             if (docked)
             {
                 cb_Follow.Enabled = true;
@@ -219,7 +225,7 @@ namespace WolfPaw_ScreenSnip
                 Top = pos.Y + parent.Top;
                 posChange = true;
                 docked = true;
-            }
+            }*/
         }
 
         private void f_SettingPanel_SizeChanged(object sender, EventArgs e)
@@ -231,6 +237,11 @@ namespace WolfPaw_ScreenSnip
 		private void f_SettingPanel_KeyDown(object sender, KeyEventArgs e)
 		{
 			parent.f_Screen_KeyDown(sender, e);
+		}
+
+		private void btn_ToolStrip_Click(object sender, EventArgs e)
+		{
+			parent.showToolStrip();
 		}
 	}
 }

@@ -55,6 +55,7 @@
 			this.btn_Text = new FontAwesome.Sharp.IconButton();
 			this.btn_Eraser = new FontAwesome.Sharp.IconButton();
 			this.btn_Dock = new FontAwesome.Sharp.IconButton();
+			this.btn_ToolStrip = new FontAwesome.Sharp.IconButton();
 			((System.ComponentModel.ISupportInitialize)(this.num_Border)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
 			this.SuspendLayout();
@@ -346,11 +347,26 @@
 			this.btn_Dock.UseVisualStyleBackColor = true;
 			this.btn_Dock.Click += new System.EventHandler(this.btn_Dock_Click);
 			// 
+			// btn_ToolStrip
+			// 
+			this.btn_ToolStrip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btn_ToolStrip.Icon = FontAwesome.Sharp.IconChar.ArrowUp;
+			this.btn_ToolStrip.IconColor = System.Drawing.Color.Black;
+			this.btn_ToolStrip.IconSize = 32;
+			this.btn_ToolStrip.Image = ((System.Drawing.Image)(resources.GetObject("btn_ToolStrip.Image")));
+			this.btn_ToolStrip.Location = new System.Drawing.Point(103, 293);
+			this.btn_ToolStrip.Name = "btn_ToolStrip";
+			this.btn_ToolStrip.Size = new System.Drawing.Size(32, 32);
+			this.btn_ToolStrip.TabIndex = 53;
+			this.btn_ToolStrip.UseVisualStyleBackColor = true;
+			this.btn_ToolStrip.Click += new System.EventHandler(this.btn_ToolStrip_Click);
+			// 
 			// f_SettingPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(166, 324);
+			this.Controls.Add(this.btn_ToolStrip);
 			this.Controls.Add(this.btn_Dock);
 			this.Controls.Add(this.btn_Eraser);
 			this.Controls.Add(this.btn_Line);
@@ -424,5 +440,6 @@
 		private FontAwesome.Sharp.IconButton btn_Text;
 		private FontAwesome.Sharp.IconButton btn_Eraser;
 		private FontAwesome.Sharp.IconButton btn_Dock;
+		private FontAwesome.Sharp.IconButton btn_ToolStrip;
 	}
 }
