@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -24,10 +25,11 @@ namespace WolfPaw_ScreenSnip
 
 		bool handleDrag = false;
 		Font dragableFont = new Font("Consolas", 12, FontStyle.Regular);
-		TextRenderer dragableRenderer = null;
 		Bitmap dragableImage = null;
 		Size dragableSize = new Size(1,1);
 		Point dragablePoint = new Point(0, 0);
+		bool udUP = false;
+		bool lrUP = false;
 
 		public f_Screen()
         {
@@ -36,7 +38,30 @@ namespace WolfPaw_ScreenSnip
             Load += F_Screen_Load;
         }
 
-
+		public void setScrollBars()
+		{
+			if (ts_Tools.Visible)
+			{
+				sb_PrecMovUD.Left = Width - (sb_PrecMovUD.Width + 16);
+				sb_PrecMovUD.Height = Height - (39 + ts_Tools.Height + sb_PrecMovLR.Height);
+				sb_PrecMovUD.Top =ts_Tools.Height;
+				sb_PrecMovLR.Width = Width - (16 + sb_PrecMovUD.Width);
+			}
+			else if (p_Tools.Width > 0)
+			{
+				sb_PrecMovUD.Left = p_Tools.Left - sb_PrecMovUD.Width;
+				sb_PrecMovUD.Height = Height - (39 + sb_PrecMovLR.Height);
+				sb_PrecMovUD.Top = 0;
+				sb_PrecMovLR.Width = Width - (16 + sb_PrecMovUD.Width + p_Tools.Width);
+			}
+			else
+			{
+				sb_PrecMovUD.Left = Width - (sb_PrecMovUD.Width + 16);
+				sb_PrecMovUD.Height = Height - (39 + sb_PrecMovLR.Height);
+				sb_PrecMovUD.Top = 0;
+				sb_PrecMovLR.Width = Width - (16 + sb_PrecMovUD.Width);
+			}
+		}
 
 		private void F_Screen_Load(object sender, EventArgs e)
         {
@@ -60,7 +85,9 @@ namespace WolfPaw_ScreenSnip
 					ts_Tools.Show();
 				}
 			}
-			
+
+			setScrollBars();
+
 		}
 
 		public void addImage(Bitmap img)
@@ -228,6 +255,7 @@ namespace WolfPaw_ScreenSnip
 			ts_Tools.Hide();
 			Properties.Settings.Default.s_ToolbarPanel = 1;
 			Properties.Settings.Default.Save();
+			setScrollBars();
 		}
 
 		public void hideToolBar()
@@ -240,6 +268,7 @@ namespace WolfPaw_ScreenSnip
 			//splitContainer1.Panel2Collapsed = true;
 			p_Tools.Width = 0;
 			ts_Tools.Hide();
+			setScrollBars();
 		}
 
 		public void showToolStrip()
@@ -250,6 +279,7 @@ namespace WolfPaw_ScreenSnip
 			ts_Tools.Show();
 			Properties.Settings.Default.s_ToolbarPanel = 2;
 			Properties.Settings.Default.Save();
+			setScrollBars();
 		}
 
 		private void btn_Dock_Click(object sender, EventArgs e)
@@ -298,6 +328,59 @@ namespace WolfPaw_ScreenSnip
                 addImage(textToImg(Clipboard.GetText()));
             }
         }
-    }
+		
+
+		private void t_Tick_Tick(object sender, EventArgs e)
+		{
+
+			if(sb_PrecMovLR.Value != 0 || sb_PrecMovUD.Value != 0)
+			{
+				var c = c_ImgGen.returnCutouts(this);
+				if(c != null && c.Count > 0)
+				{
+					foreach (var v in c.Values)
+					{
+						if (v.moveMode)
+						{
+							v.Left += sb_PrecMovLR.Value;
+							v.Top += sb_PrecMovUD.Value;
+						}
+					}
+				}
+			}
+
+			if (udUP) { sb_PrecMovUD.Value = 0; udUP = false; }
+			if (lrUP) { sb_PrecMovLR.Value = 0; lrUP = false; }
+
+		}
+
+		private void sb_PrecMovUD_Scroll(object sender, ScrollEventArgs e)
+		{
+			if(e.Type == ScrollEventType.EndScroll)
+			{
+				udUP = true;
+			}
+		}
+
+		public void showSBS()
+		{
+			sb_PrecMovUD.Show();
+			sb_PrecMovLR.Show();
+		}
+
+		public void hideSBS()
+		{
+			sb_PrecMovUD.Hide();
+			sb_PrecMovLR.Hide();
+		}
+
+		private void sb_PrecMovLR_Scroll(object sender, ScrollEventArgs e)
+		{
+			if (e.Type == ScrollEventType.EndScroll)
+			{
+				lrUP = true;
+			}
+		}
+	}
     
 }

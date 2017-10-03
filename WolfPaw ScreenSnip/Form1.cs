@@ -551,7 +551,7 @@ namespace WolfPaw_ScreenSnip
 				}
 			}
 
-
+			fs.setScrollBars();
 		}
 
 		private void btn_Preview_Click(object sender, EventArgs e)

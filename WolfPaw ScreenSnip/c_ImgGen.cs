@@ -140,5 +140,24 @@ namespace WolfPaw_ScreenSnip
 			cutouts = cutouts.OrderByDescending(r => r.Key).ToDictionary(r => r.Key, r => r.Value);
 		}
 
+		public static Dictionary<int, uc_CutoutHolder> returnCutouts(f_Screen fs)
+		{
+			Dictionary<int, uc_CutoutHolder> c = new Dictionary<int, uc_CutoutHolder>();
+			foreach (var v in fs.Controls)
+			{
+				if (v != null && v is uc_CutoutHolder)
+				{
+					int i = fs.Controls.GetChildIndex(((uc_CutoutHolder)v));
+					if (!c.ContainsKey(i))
+					{
+						c.Add(i, ((uc_CutoutHolder)v));
+					}
+				}
+			}
+			return c;
+		}
+
 	}
+
+
 }

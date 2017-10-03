@@ -28,6 +28,10 @@ namespace WolfPaw_ScreenSnip
 		private bool overCorner = false;
 
         private bool keepAspectRatio = false;
+        private bool moveLR = false;
+        private bool moveUD = false;
+
+		public bool moveMode = false;
         
 		protected override CreateParams CreateParams
 		{
@@ -85,16 +89,12 @@ namespace WolfPaw_ScreenSnip
 
 		private void Panel1_MouseLeave(object sender, EventArgs e)
 		{
-            Width += 2;
-            Height += 2;
 			panel1.Height = 0;
 			BorderStyle = BorderStyle.None;
 		}
 
 		private void Panel1_MouseEnter(object sender, EventArgs e)
 		{
-            Width -= 2;
-            Height -= 2;
 			BorderStyle = BorderStyle.FixedSingle;
 		}
 
@@ -127,24 +127,66 @@ namespace WolfPaw_ScreenSnip
         {
             System.Windows.Input.Key lc = System.Windows.Input.Key.LeftCtrl;
             System.Windows.Input.Key rc = System.Windows.Input.Key.RightCtrl;
+			System.Windows.Input.Key _ls = System.Windows.Input.Key.LeftShift;
+			System.Windows.Input.Key _rs = System.Windows.Input.Key.RightShift;
+			System.Windows.Input.Key _la = System.Windows.Input.Key.LeftAlt;
+			System.Windows.Input.Key _ra = System.Windows.Input.Key.RightAlt;
 
-            if (System.Windows.Input.Keyboard.IsKeyDown(lc) || 
-                System.Windows.Input.Keyboard.IsKeyDown(rc))
-            {
-                keepAspectRatio = true;
-            }else
-            {
-                keepAspectRatio = false;
-            }
 
-            if (move)
+			//Keep Aspect Ratio
+			if (System.Windows.Input.Keyboard.IsKeyDown(lc) ||
+				System.Windows.Input.Keyboard.IsKeyDown(rc))
+			{
+				keepAspectRatio = true;
+			}
+			else
+			{
+				keepAspectRatio = false;
+			}
+
+			//Move ←→
+			if (System.Windows.Input.Keyboard.IsKeyDown(_ls) ||
+				System.Windows.Input.Keyboard.IsKeyDown(_rs))
+			{
+				moveLR = true;
+			}
+			else
+			{
+				moveLR = false;
+			}
+
+			//Move↑↓
+			if (System.Windows.Input.Keyboard.IsKeyDown(_la) ||
+				System.Windows.Input.Keyboard.IsKeyDown(_ra))
+			{
+				moveUD = true;
+			}
+			else
+			{
+				moveUD = false;
+			}
+
+			if (move)
             {
                 Point p = new Point(0, 0);
                 p.X = Left + e.X;
                 p.Y = Top + e.Y;
 
-                Left = p.X - movexy.X;
-                Top = p.Y - movexy.Y;
+				if (moveUD)
+				{
+					Top = p.Y - movexy.Y;
+				}
+				else if (moveLR)
+				{
+					Left = p.X - movexy.X;
+				}
+				else
+				{
+					Left = p.X - movexy.X;
+					Top = p.Y - movexy.Y;
+				}
+
+                
             }
 			else if (resize && Height >= 24)
             {
@@ -204,13 +246,14 @@ namespace WolfPaw_ScreenSnip
 
         private void Uc_CutoutHolder_MouseLeave(object sender, EventArgs e)
         {
-            BorderStyle = BorderStyle.None;
-        }
+			BorderStyle = BorderStyle.None;
+		}
 
         private void Uc_CutoutHolder_MouseEnter(object sender, EventArgs e)
         {
-            BorderStyle = BorderStyle.FixedSingle;
-        }
+			BorderStyle = BorderStyle.FixedSingle;
+			BorderStyle = BorderStyle.FixedSingle;
+		}
 
         public void setimg(Bitmap i)
         {
@@ -257,7 +300,15 @@ namespace WolfPaw_ScreenSnip
 						g.DrawLine(Pens.Black, new Point(Width - 2, Height), new Point(Width, Height - 2));
 						g.DrawLine(Pens.Black, new Point(Width - 1, Height), new Point(Width, Height - 1));
 					}
-                }
+
+					if (moveMode)
+					{
+						g.DrawRectangle(Pens.Black, new Rectangle(0, 0, Width, Height));
+						g.DrawRectangle(Pens.Red, new Rectangle(1, 1, Width-2, Height-2));
+
+					}
+
+				}
             }
         }
 
@@ -308,7 +359,7 @@ namespace WolfPaw_ScreenSnip
 			ParentForm.Controls.SetChildIndex(this, ci + 1);
 			ParentForm.Refresh();
 		}
-
+/*
 		private void pb_btn_Transparent_Click(object sender, EventArgs e)
 		{
 			f_TCP ft = new f_TCP();
@@ -339,7 +390,7 @@ namespace WolfPaw_ScreenSnip
 				BMP.MakeTransparent(Color.FromArgb(0, 0, 0, 0));
 			}
 		}
-
+		*/
 		public Bitmap getImage()
 		{
 			Bitmap __bmp = new Bitmap(Width, Height);
@@ -497,5 +548,48 @@ namespace WolfPaw_ScreenSnip
                 Width = getRatio(bmp.Width, bmp.Height, ParentForm.Height - hm);
             }
         }
-    }
+
+		private void btn_PrecisionMovement_Click(object sender, EventArgs e)
+		{
+			var c = c_ImgGen.returnCutouts(ParentForm as f_Screen);
+			foreach(var v in c.Values)
+			{
+				if (v != this)
+				{
+					v.moveMode = false;
+					v.Refresh();
+				}
+			}
+
+			moveMode = !moveMode;
+			if (moveMode)
+			{
+				((f_Screen)ParentForm).showSBS();
+			}
+			else
+			{
+				((f_Screen)ParentForm).hideSBS();
+			}
+		}
+
+		private void pb_btn_OriginalSize_MouseEnter_1(object sender, EventArgs e)
+		{
+			BorderStyle = BorderStyle.FixedSingle;
+		}
+
+		private void pb_btn_OriginalSize_MouseLeave_1(object sender, EventArgs e)
+		{
+			BorderStyle = BorderStyle.None;
+		}
+
+		private void uc_CutoutHolder_MouseEnter_1(object sender, EventArgs e)
+		{
+			BorderStyle = BorderStyle.FixedSingle;
+		}
+
+		private void uc_CutoutHolder_MouseLeave_1(object sender, EventArgs e)
+		{
+			BorderStyle = BorderStyle.None;
+		}
+	}
 }
