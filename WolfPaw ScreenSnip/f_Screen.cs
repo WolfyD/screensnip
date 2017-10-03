@@ -158,15 +158,9 @@ namespace WolfPaw_ScreenSnip
 							}
 							else if (stringFormats.Contains(ret))
 							{
-								Size textSize = TextRenderer.MeasureText(s, dragableFont);
-								dragableImage = new Bitmap(textSize.Width + 10, textSize.Height + 10);
-								using (Graphics g = Graphics.FromImage(dragableImage))
-								{
-									g.DrawString(s, dragableFont, Brushes.Black, new PointF(5, 5));
-								}
-								dragableSize = dragableImage.Size;
-								handleDrag = true;
-							}
+                                dragableImage = textToImg(s);
+                                handleDrag = true;
+                            }
 							else
 							{
 								e.Effect = DragDropEffects.None;
@@ -177,13 +171,7 @@ namespace WolfPaw_ScreenSnip
 							try
 							{
 								string ss = s.Replace("\t", "              ");
-								Size textSize = TextRenderer.MeasureText(ss, dragableFont);
-								dragableImage = new Bitmap(textSize.Width + 10, textSize.Height + 10);
-								using (Graphics g = Graphics.FromImage(dragableImage))
-								{
-									g.DrawString(s, dragableFont, Brushes.Black, new PointF(5, 5));
-								}
-								dragableSize = dragableImage.Size;
+                                dragableImage = textToImg(ss);
 								handleDrag = true;
 							}
 							catch
@@ -197,6 +185,18 @@ namespace WolfPaw_ScreenSnip
 			}
 
 		}
+
+        public Bitmap textToImg(string s)
+        {
+            Size textSize = TextRenderer.MeasureText(s, dragableFont);
+            Bitmap di  = new Bitmap(textSize.Width + 10, textSize.Height + 10);
+            using (Graphics g = Graphics.FromImage(di))
+            {
+                g.DrawString(s, dragableFont, Brushes.Black, new PointF(5, 5));
+            }
+            dragableSize = di.Size;
+            return di;
+        }
 
 		private void f_Screen_DragOver(object sender, DragEventArgs e)
 		{
@@ -286,5 +286,18 @@ namespace WolfPaw_ScreenSnip
 		{
 			p_Tools.Width = (p_Tools.Width == 0 ? 200 : 0);
 		}
-	}
+
+        public void paste()
+        {
+            if (Clipboard.ContainsImage())
+            {
+                addImage((Bitmap)Clipboard.GetImage());
+            }
+            else if (Clipboard.ContainsText())
+            {
+                addImage(textToImg(Clipboard.GetText()));
+            }
+        }
+    }
+    
 }

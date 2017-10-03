@@ -53,8 +53,8 @@ namespace WolfPaw_ScreenSnip
 		{
 			//Set handle size
 			highHandle = Properties.Settings.Default.s_HighHandle;
-			if (highHandle){Height = 65;}
-			else{Height = 50;}
+			if (highHandle){Height = 70;}
+			else{Height = 60;}
 			Form1_Activated(null, null);
 
 			//Set clear
@@ -636,24 +636,36 @@ namespace WolfPaw_ScreenSnip
 		{
 			if (e.Modifiers == Keys.Control)
 			{
-				if (e.KeyCode == Keys.N)
-				{
-					brn_New_Click(null, null);
-				}
-				else if (e.KeyCode == Keys.C)
-				{
-					btn_Copy_Click(null, null);
-				}
-				else if (e.KeyCode == Keys.S)
-				{
-					btn_Save_Click(null, null);
-				}
-				else if (e.KeyCode == Keys.X || e.KeyCode == Keys.Delete)
-				{
-					btn_Clear_Click(null, null);
-				}
+                if (e.KeyCode == Keys.N)
+                {
+                    brn_New_Click(null, null);
+                }
+                else if (e.KeyCode == Keys.C)
+                {
+                    btn_Copy_Click(null, null);
+                }
+                else if (e.KeyCode == Keys.S)
+                {
+                    btn_Save_Click(null, null);
+                }
+                else if (e.KeyCode == Keys.X || e.KeyCode == Keys.Delete)
+                {
+                    btn_Clear_Click(null, null);
+                }
+                else if (e.KeyCode == Keys.V || e.KeyCode == Keys.Insert)
+                {
+                    try
+                    {
+                        btn_Screen_Click(null, null);
+                        fs.paste();
+                    }
+                    catch
+                    {
 
-			}
+                    }
+                }
+
+            }
 			else if (e.Modifiers == (Keys.Control | Keys.Shift))
 			{
 				if (e.KeyCode == Keys.P)

@@ -471,5 +471,31 @@ namespace WolfPaw_ScreenSnip
         {
 
         }
+
+        private void pb_btn_OriginalSize_MouseEnter(object sender, EventArgs e)
+        {
+            ((FontAwesome.Sharp.IconButton)sender).IconColor = Color.White;
+        }
+
+        private void pb_btn_OriginalSize_MouseLeave(object sender, EventArgs e)
+        {
+            ((FontAwesome.Sharp.IconButton)sender).IconColor = Color.Black;
+        }
+
+        private void btn_FitSize_Click(object sender, EventArgs e)
+        {
+            if(Width > Height)
+            {
+                int hm = 15;
+                Width = ParentForm.Width - hm;
+                Height = getRatio(bmp.Height, bmp.Width, ParentForm.Width - hm);
+            }
+            else
+            {
+                int hm = 65;
+                Height = ParentForm.Height - hm;
+                Width = getRatio(bmp.Width, bmp.Height, ParentForm.Height - hm);
+            }
+        }
     }
 }
