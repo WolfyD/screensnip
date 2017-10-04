@@ -12,27 +12,30 @@ using System.Drawing.Imaging;
 
 namespace WolfPaw_ScreenSnip
 {
-    public partial class uc_CutoutHolder : UserControl
-    {
-        Bitmap bmp = null;
+	public partial class uc_CutoutHolder : UserControl
+	{
+		Bitmap bmp = null;
 		Bitmap bmpBackup = null;
-        public Bitmap BMP { get { return bmp; } set { bmp = value; bmpBackup = value; setimg(bmp); } }
+		public Bitmap BMP { get { return bmp; } set { bmp = value; bmpBackup = value; setimg(bmp); } }
 
-        private Bitmap img = null;
-        private bool redraw = false;
+		private Bitmap img = null;
+		private bool redraw = false;
 
-        private bool resize = false;
-        private bool overresize = false;
-        private bool move = false;
-        private Point movexy = new Point(0, 0);
+		private bool resize = false;
+		private bool overresize = false;
+		private bool move = false;
+		private Point movexy = new Point(0, 0);
 		private bool overCorner = false;
 
-        private bool keepAspectRatio = false;
-        private bool moveLR = false;
-        private bool moveUD = false;
+		private bool keepAspectRatio = false;
+		private bool moveLR = false;
+		private bool moveUD = false;
 
 		public bool moveMode = false;
-        
+
+		public int cmsSetup = 0;
+
+		
 		protected override CreateParams CreateParams
 		{
 			get
@@ -42,49 +45,51 @@ namespace WolfPaw_ScreenSnip
 				return cp;
 			}
 		}
-        
+		
 		public uc_CutoutHolder()
-        {
-            InitializeComponent();
+		{
+			InitializeComponent();
 
-            this.MouseEnter += Uc_CutoutHolder_MouseEnter;
-            this.MouseLeave += Uc_CutoutHolder_MouseLeave;
-            this.MouseMove += Uc_CutoutHolder_MouseMove;
-            this.MouseDown += Uc_CutoutHolder_MouseDown;
-            this.MouseUp += Uc_CutoutHolder_MouseUp;
+			this.MouseEnter += Uc_CutoutHolder_MouseEnter;
+			this.MouseLeave += Uc_CutoutHolder_MouseLeave;
+			this.MouseMove += Uc_CutoutHolder_MouseMove;
+			this.MouseDown += Uc_CutoutHolder_MouseDown;
+			this.MouseUp += Uc_CutoutHolder_MouseUp;
 
-            panel1.MouseDown += Panel1_MouseDown;
-            panel1.MouseUp += Panel1_MouseUp;
-            panel1.MouseMove += Panel1_MouseMove;
+			panel1.MouseDown += Panel1_MouseDown;
+			panel1.MouseUp += Panel1_MouseUp;
+			panel1.MouseMove += Panel1_MouseMove;
 			panel1.MouseEnter += Panel1_MouseEnter;
 			panel1.MouseLeave += Panel1_MouseLeave;
 
 			Load += Uc_CutoutHolder_Load;
-        }
+		}
 
-        private void Uc_CutoutHolder_MouseUp(object sender, MouseEventArgs e)
-        {
-            move = false;
-            resize = false;
-        }
+		private void Uc_CutoutHolder_MouseUp(object sender, MouseEventArgs e)
+		{
+			move = false;
+			resize = false;
+		}
 
-        private void Uc_CutoutHolder_MouseDown(object sender, MouseEventArgs e)
-        {
-            BringToFront();
-
-            if (!overresize)
-            {
-                move = true;
-                movexy = e.Location;
-            }else
-            {
-                resize = true;
-            }
-        }
-
-        private void Uc_CutoutHolder_Load(object sender, EventArgs e)
+		private void Uc_CutoutHolder_MouseDown(object sender, MouseEventArgs e)
 		{
 			BringToFront();
+
+			if (!overresize)
+			{
+				move = true;
+				movexy = e.Location;
+			} else
+			{
+				resize = true;
+			}
+		}
+
+		private void Uc_CutoutHolder_Load(object sender, EventArgs e)
+		{
+			//BackgroundImage = bmp;
+			BringToFront();
+			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 		}
 
 		private void Panel1_MouseLeave(object sender, EventArgs e)
@@ -99,34 +104,37 @@ namespace WolfPaw_ScreenSnip
 		}
 
 		private void Panel1_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (move)
-            {
-                Point p = new Point(0, 0);
-                p.X = Left + e.X;
-                p.Y = Top + e.Y;
+		{
+			if (move)
+			{
+				Point p = new Point(0, 0);
+				p.X = Left + e.X;
+				p.Y = Top + e.Y;
 
-                Left = p.X - movexy.X;
-                Top = p.Y - movexy.Y;
-            }
-        }
-        
+				Left = p.X - movexy.X;
+				Top = p.Y - movexy.Y;
 
-        private void Panel1_MouseUp(object sender, MouseEventArgs e)
-        {
-            move = false;
-        }
+				//TODO: Transparency
+				//BackColor = Color.FromArgb(100, Color.White);
+			}
+		}
 
-        private void Panel1_MouseDown(object sender, MouseEventArgs e)
-        {
-            move = true;
-            movexy = e.Location;
-        }
 
-        private void Uc_CutoutHolder_MouseMove(object sender, MouseEventArgs e)
-        {
-            System.Windows.Input.Key lc = System.Windows.Input.Key.LeftCtrl;
-            System.Windows.Input.Key rc = System.Windows.Input.Key.RightCtrl;
+		private void Panel1_MouseUp(object sender, MouseEventArgs e)
+		{
+			move = false;
+		}
+
+		private void Panel1_MouseDown(object sender, MouseEventArgs e)
+		{
+			move = true;
+			movexy = e.Location;
+		}
+
+		private void Uc_CutoutHolder_MouseMove(object sender, MouseEventArgs e)
+		{
+			System.Windows.Input.Key lc = System.Windows.Input.Key.LeftCtrl;
+			System.Windows.Input.Key rc = System.Windows.Input.Key.RightCtrl;
 			System.Windows.Input.Key _ls = System.Windows.Input.Key.LeftShift;
 			System.Windows.Input.Key _rs = System.Windows.Input.Key.RightShift;
 			System.Windows.Input.Key _la = System.Windows.Input.Key.LeftAlt;
@@ -167,10 +175,10 @@ namespace WolfPaw_ScreenSnip
 			}
 
 			if (move)
-            {
-                Point p = new Point(0, 0);
-                p.X = Left + e.X;
-                p.Y = Top + e.Y;
+			{
+				Point p = new Point(0, 0);
+				p.X = Left + e.X;
+				p.Y = Top + e.Y;
 
 				if (moveUD)
 				{
@@ -186,51 +194,87 @@ namespace WolfPaw_ScreenSnip
 					Top = p.Y - movexy.Y;
 				}
 
-                
-            }
+
+			}
 			else if (resize && Height >= 24)
-            {
-                if (keepAspectRatio)
-                {
-					//TODO:KEEP ASPECT RATIO
+			{
+				if (keepAspectRatio)
+				{
 					Height = e.Y;
 					Width = getRatio(bmp.Width, bmp.Height, e.Y);
 				}
-                else
-                {
-                    Width = e.X;
-                    Height = e.Y;
-                }
-                ParentForm.Refresh();
-                Invalidate();
-            }
+				else if (moveLR)
+				{
+					Width = e.X;
+				}
+				else if (moveUD)
+				{
+					Height = e.Y;
+				}
+				else
+				{
+					Width = e.X;
+					Height = e.Y;
+				}
 
-			if(Height < 24) { Height = 24; }
+				//handlePanelButtons();
 
-            if (e.Y < 20)
-            {
-                panel1.Height = 20;
+				ParentForm.Refresh();
+				Invalidate();
 			}
 
-            if(e.X >= Width - 20 && e.Y >= Height - 20)
-            {
+			if (Height < 24)
+			{
+				Height = 24;
+			}
+			if (Width < 24)
+			{
+				Width = 24;
+			}
+
+			if (e.Y < 20)
+			{
+				panel1.Height = 20;
+			}
+
+			if (e.X >= Width - 20 && e.Y >= Height - 20)
+			{
 				overCorner = true;
-                if (keepAspectRatio)
-                {
-                    Cursor = Cursors.SizeAll;
-                }
-                else
-                {
-                    Cursor = Cursors.SizeNWSE;
-                }
-                overresize = true;
-            }
-            else
-            {
-                Cursor = Cursors.Default;
-                overresize = false;
-            }
-        }
+				if (keepAspectRatio)
+				{
+					Cursor = Cursors.SizeAll;
+				}
+				else if (moveLR)
+				{
+					Cursor = Cursors.SizeWE;
+				}
+				else if (moveUD)
+				{
+					Cursor = Cursors.SizeNS;
+				}
+				else
+				{
+					Cursor = Cursors.SizeNWSE;
+				}
+				overresize = true;
+			}
+			else
+			{
+				if (moveLR)
+				{
+					Cursor = Cursors.SizeWE;
+				}
+				else if (moveUD)
+				{
+					Cursor = Cursors.SizeNS;
+				}
+				else
+				{
+					Cursor = Cursors.Default;
+				}
+				overresize = false;
+			}
+		}
 
 		public int getRatio(int ow, int oh, int height)
 		{
@@ -244,31 +288,31 @@ namespace WolfPaw_ScreenSnip
 			return ret;
 		}
 
-        private void Uc_CutoutHolder_MouseLeave(object sender, EventArgs e)
-        {
+		private void Uc_CutoutHolder_MouseLeave(object sender, EventArgs e)
+		{
 			BorderStyle = BorderStyle.None;
 		}
 
-        private void Uc_CutoutHolder_MouseEnter(object sender, EventArgs e)
-        {
+		private void Uc_CutoutHolder_MouseEnter(object sender, EventArgs e)
+		{
 			BorderStyle = BorderStyle.FixedSingle;
 			BorderStyle = BorderStyle.FixedSingle;
 		}
 
-        public void setimg(Bitmap i)
-        {
-            img = i;
-            redraw = true;
-        }
-		
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
+		public void setimg(Bitmap i)
+		{
+			img = i;
+			redraw = true;
+		}
 
-            if (redraw)
-            {
-                using (Graphics g = Graphics.FromHwnd(this.Handle))
-                {
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			base.OnPaint(e);
+
+			if (redraw)
+			{
+				using (Graphics g = Graphics.FromHwnd(this.Handle))
+				{
 					c_returnGraphicSettings cg = new c_returnGraphicSettings();
 
 					g.SmoothingMode = cg.getSM();
@@ -276,13 +320,13 @@ namespace WolfPaw_ScreenSnip
 					g.PixelOffsetMode = cg.getPOM();
 
 					Rectangle r = this.Bounds;
-                    r.Y = panel1.Height;
+					r.Y = panel1.Height;
 
-                    Rectangle rr = new Rectangle(0, 0, r.Width, r.Height);
+					Rectangle rr = new Rectangle(0, 0, r.Width, r.Height);
 
-                    g.DrawImage(img, rr);
+					g.DrawImage(img, rr);
 
-					if(BorderStyle == BorderStyle.FixedSingle)
+					if (BorderStyle == BorderStyle.FixedSingle)
 					{
 
 						g.DrawLine(Pens.Black, new Point(Width - 20, Height), new Point(Width, Height - 20));
@@ -303,24 +347,30 @@ namespace WolfPaw_ScreenSnip
 
 					if (moveMode)
 					{
-						g.DrawRectangle(Pens.Black, new Rectangle(1, 1, Width+2, Height-2));
-						g.DrawRectangle(Pens.Red, new Rectangle(2, 2, Width-4, Height-4));
+						//g.DrawRectangle(Pens.Black, new Rectangle(1, 1, Width + 2, Height - 2));
+						//g.DrawRectangle(Pens.Red, new Rectangle(2, 2, Width - 4, Height - 4));
 
 					}
 
 				}
-            }
-        }
+			}
+		}
 
-        private void uc_CutoutHolder_SizeChanged(object sender, EventArgs e)
-        {
-            panel1.Width = Width;
-        }
+		private void uc_CutoutHolder_SizeChanged(object sender, EventArgs e)
+		{
+			panel1.Width = Width;
+			handlePanelButtons();
+		}
 
-        private void pb_btn_Delete_Click(object sender, EventArgs e)
-        {
-            this.Dispose();
-        }
+		public void clickMovementMode()
+		{
+			btn_PrecisionMovement_Click(null, null);
+		}
+
+		private void pb_btn_Delete_Click(object sender, EventArgs e)
+		{
+			this.Dispose();
+		}
 
 		private void uc_CutoutHolder_LocationChanged(object sender, EventArgs e)
 		{
@@ -359,38 +409,7 @@ namespace WolfPaw_ScreenSnip
 			ParentForm.Controls.SetChildIndex(this, ci + 1);
 			ParentForm.Refresh();
 		}
-/*
-		private void pb_btn_Transparent_Click(object sender, EventArgs e)
-		{
-			f_TCP ft = new f_TCP();
-			ft.bmp = bmp;
-			ft.TopMost = true;
-			ft.ShowDialog();
-			if (ft.OK)
-			{
-				int r = ft.TC.R;
-				int g = ft.TC.G;
-				int b = ft.TC.B;
-				int t = ft.T;
-
-				for (int y = 0; y < bmp.Height; y++)
-				{
-					for (int x = 0; x < bmp.Width; x++)
-					{
-						Color c = bmp.GetPixel(x, y);
-						if ((c.R > r - t && c.R < r + t) && 
-							(c.G > g - t && c.G < g + t) && 
-							(c.B > b - t && c.B < b + t))
-						{
-							bmp.SetPixel(x, y, Color.FromArgb(0, 0, 0, 0));
-						}
-					}
-				}
-				
-				BMP.MakeTransparent(Color.FromArgb(0, 0, 0, 0));
-			}
-		}
-		*/
+		
 		public Bitmap getImage()
 		{
 			Bitmap __bmp = new Bitmap(Width, Height);
@@ -500,64 +519,70 @@ namespace WolfPaw_ScreenSnip
 			}
 		}
 
-        private void uc_CutoutHolder_KeyDown(object sender, KeyEventArgs e)
-        {
+		private void uc_CutoutHolder_KeyDown(object sender, KeyEventArgs e)
+		{
 			if (overCorner)
 			{
-				if (e.KeyCode == Keys.LControlKey || 
-					e.KeyCode == Keys.RControlKey || 
-					e.KeyCode == Keys.ControlKey)
+				if (keepAspectRatio)
 				{
 					Cursor = Cursors.SizeAll;
+				}
+				else if (moveUD)
+				{
+					Cursor = Cursors.SizeNS;
+				}
+				else if (moveLR)
+				{
+					Cursor = Cursors.SizeWE;
 				}
 				else
 				{
 					Cursor = Cursors.SizeNWSE;
 				}
 			}
-			
-        }
 
-        private void uc_CutoutHolder_KeyUp(object sender, KeyEventArgs e)
-        {
+		}
 
-        }
+		private void uc_CutoutHolder_KeyUp(object sender, KeyEventArgs e)
+		{
 
-        private void pb_btn_OriginalSize_MouseEnter(object sender, EventArgs e)
-        {
-            ((FontAwesome.Sharp.IconButton)sender).IconColor = Color.White;
-        }
+		}
 
-        private void pb_btn_OriginalSize_MouseLeave(object sender, EventArgs e)
-        {
-            ((FontAwesome.Sharp.IconButton)sender).IconColor = Color.Black;
-        }
+		private void pb_btn_OriginalSize_MouseEnter(object sender, EventArgs e)
+		{
+			((FontAwesome.Sharp.IconButton)sender).IconColor = Color.White;
+		}
 
-        private void btn_FitSize_Click(object sender, EventArgs e)
-        {
-            if(Width > Height)
-            {
-                int hm = 15;
-                Width = ParentForm.Width - hm;
-                Height = getRatio(bmp.Height, bmp.Width, ParentForm.Width - hm);
-            }
-            else
-            {
-                int hm = 65;
-                Height = ParentForm.Height - hm;
-                Width = getRatio(bmp.Width, bmp.Height, ParentForm.Height - hm);
-            }
-        }
+		private void pb_btn_OriginalSize_MouseLeave(object sender, EventArgs e)
+		{
+			((FontAwesome.Sharp.IconButton)sender).IconColor = Color.Black;
+		}
+
+		private void btn_FitSize_Click(object sender, EventArgs e)
+		{
+			if (Width > Height)
+			{
+				int hm = 15;
+				Width = ParentForm.Width - hm;
+				Height = getRatio(bmp.Height, bmp.Width, ParentForm.Width - hm);
+			}
+			else
+			{
+				int hm = 65;
+				Height = ParentForm.Height - hm;
+				Width = getRatio(bmp.Width, bmp.Height, ParentForm.Height - hm);
+			}
+		}
 
 		private void btn_PrecisionMovement_Click(object sender, EventArgs e)
 		{
 			var c = c_ImgGen.returnCutouts(ParentForm as f_Screen);
-			foreach(var v in c.Values)
+			foreach (var v in c.Values)
 			{
 				if (v != this)
 				{
 					v.moveMode = false;
-                    v.btn_PrecisionMovement.IconColor = Color.Black;
+					v.btn_PrecisionMovement.IconColor = Color.Black;
 					v.Refresh();
 				}
 
@@ -574,9 +599,9 @@ namespace WolfPaw_ScreenSnip
 			}
 
 
-            btn_PrecisionMovement.IconColor = moveMode ? Color.Red : Color.Black;
-            ParentForm.Refresh();
-        }
+			btn_PrecisionMovement.IconColor = moveMode ? Color.Red : Color.Black;
+			ParentForm.Refresh();
+		}
 
 		private void pb_btn_OriginalSize_MouseEnter_1(object sender, EventArgs e)
 		{
@@ -598,28 +623,171 @@ namespace WolfPaw_ScreenSnip
 			BorderStyle = BorderStyle.None;
 		}
 
-        private void btn_PrecisionMovement_MouseEnter(object sender, EventArgs e)
-        {
-            btn_PrecisionMovement.IconColor = Color.White;
-        }
+		private void btn_PrecisionMovement_MouseEnter(object sender, EventArgs e)
+		{
+			btn_PrecisionMovement.IconColor = Color.White;
+		}
 
-        private void btn_PrecisionMovement_MouseLeave(object sender, EventArgs e)
-        {
-            btn_PrecisionMovement.IconColor = moveMode ? Color.Red : Color.Black;
-        }
+		private void btn_PrecisionMovement_MouseLeave(object sender, EventArgs e)
+		{
+			btn_PrecisionMovement.IconColor = moveMode ? Color.Red : Color.Black;
+		}
 
-        private void pb_btn_OriginalSize_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            if (e.KeyCode == Keys.Left || e.KeyCode == Keys.Right ||
-                e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
-            {
-                e.IsInputKey = true;
-            }
-        }
+		private void pb_btn_OriginalSize_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+		{
+			if (e.KeyCode == Keys.Left || e.KeyCode == Keys.Right ||
+				e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
+			{
+				e.IsInputKey = true;
+			}
+		}
 
-        private void pb_btn_OriginalSize_KeyDown(object sender, KeyEventArgs e)
-        {
-            //((f_Screen)ParentForm).f_Screen_KeyDown(null, null);
-        }
-    }
+		private void pb_btn_OriginalSize_KeyDown(object sender, KeyEventArgs e)
+		{
+			//((f_Screen)ParentForm).f_Screen_KeyDown(null, null);
+		}
+
+		public void setupCMS()
+		{
+			
+
+			switch (cmsSetup)
+			{
+				case 1:
+					foreach (ToolStripMenuItem c in cms_Panel.Items) { c.Visible = false; }
+					cms_btn_LayerDown.Visible = true;
+					cms_btn_LayerUp.Visible = true;
+					cms_btn_Fit.Visible = true;
+					break;
+
+				case 2:
+					foreach (ToolStripMenuItem c in cms_Panel.Items) { c.Visible = false; }
+					cms_btn_LayerDown.Visible = true;
+					cms_btn_LayerUp.Visible = true;
+					cms_btn_Fit.Visible = true;
+					cms_btn_PresiceMovementMode.Visible = true;
+					cms_btn_Save.Visible = true;
+					cms_btn_Copy.Visible = true;
+					break;
+
+				case 3:
+					foreach (ToolStripMenuItem c in cms_Panel.Items) { c.Visible = true; }
+					break;
+
+
+				default:
+					break;
+			}
+		}
+
+		public void setupPanel()
+		{
+			switch (cmsSetup)
+			{
+				case 0:
+					btn_CMS.Hide();
+					btn_OriginalSize.Show();
+					btn_FitSize.Show();
+					btn_Up.Show();
+					btn_Down.Show();
+					btn_PrecisionMovement.Show();
+					btn_Save.Show();
+					btn_Copy.Show();
+					btn_Delete.Show();
+					break;
+
+				case 1:
+					btn_CMS.Show();
+					btn_CMS.Left = btn_PrecisionMovement.Left - btn_CMS.Width - 5;
+
+					btn_OriginalSize.Show();
+					btn_PrecisionMovement.Show();
+					btn_Save.Show();
+					btn_Copy.Show();
+					btn_Delete.Show();
+
+					btn_FitSize.Hide();
+					btn_Up.Hide();
+					btn_Down.Hide();
+					break;
+
+				case 2:
+					btn_CMS.Show();
+					btn_CMS.Left = btn_Delete.Left - btn_CMS.Width - 5;
+
+					btn_OriginalSize.Show();
+					btn_Delete.Show();
+
+					btn_FitSize.Hide();
+					btn_Up.Hide();
+					btn_Down.Hide();
+
+					btn_PrecisionMovement.Hide();
+					btn_Save.Hide();
+					btn_Copy.Hide();
+					break;
+
+				case 3:
+					btn_CMS.Show();
+					btn_CMS.Left = Width - btn_CMS.Width;
+
+					btn_OriginalSize.Hide();
+					btn_Delete.Hide();
+
+					btn_FitSize.Hide();
+					btn_Up.Hide();
+					btn_Down.Hide();
+
+					btn_PrecisionMovement.Hide();
+					btn_Save.Hide();
+					btn_Copy.Hide();
+					break;
+
+
+				default:
+					break;
+			}
+		}
+
+		public void handlePanelButtons()
+		{
+			if (panel1.Width < 65)
+			{
+				cmsSetup = 3;
+			}
+			else if (panel1.Width < 135)
+			{
+				cmsSetup = 2;
+			}
+			else if (panel1.Width < 175)
+			{
+				cmsSetup = 1;
+			}
+			else
+			{
+				cmsSetup = 0;
+			}
+
+			setupPanel();
+			setupCMS();
+		}
+
+		private void t_Hide_Tick(object sender, EventArgs e)
+		{
+			if(this.GetChildAtPoint(PointToClient(Cursor.Position)) != panel1 && !cms_Panel.Visible)
+			{
+				panel1.Height = 0;
+			}
+		}
+
+		private void btn_CMS_Click(object sender, EventArgs e)
+		{
+			cms_Panel.Show(this, PointToClient(PointToScreen(btn_CMS.Location)), ToolStripDropDownDirection.AboveRight);
+		}
+
+		private void uc_CutoutHolder_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+		{
+			
+		}
+	}
 }

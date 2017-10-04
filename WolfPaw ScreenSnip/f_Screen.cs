@@ -128,7 +128,7 @@ namespace WolfPaw_ScreenSnip
         public void f_Screen_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Left || e.KeyCode == Keys.Right ||
-                e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
+                e.KeyCode == Keys.Up || e.KeyCode == Keys.Down ||e.KeyCode == Keys.Escape)
             {
                 var c = c_ImgGen.returnCutouts(this);
                 uc_CutoutHolder u = null;
@@ -141,27 +141,38 @@ namespace WolfPaw_ScreenSnip
                     }
                 }
 
+				int add = 1;
+				if (e.Control) { add = 5; }
+
                 if(u != null)
                 {
                     switch (e.KeyCode)
                     {
                         case Keys.Left:
-                            u.Left--;
+                            u.Left -= add;
                             break;
 
                         case Keys.Right:
-                            u.Left++;
+                            u.Left += add;
                             break;
 
                         case Keys.Up:
-                            u.Top--;
+                            u.Top -= add;
                             break;
 
                         case Keys.Down:
-                            u.Top++;
+                            u.Top += add;
                             break;
+
+						case Keys.Escape:
+							u.clickMovementMode();
+							break;
                     }
                 }
+				else if (e.KeyCode == Keys.Escape)
+				{
+					
+				}
 
             }
             else
@@ -444,10 +455,11 @@ namespace WolfPaw_ScreenSnip
                 {
                     if (v.moveMode)
                     {
-                        e.Graphics.DrawLine(Pens.Black, new Point(v.Left - 20, v.Top), new Point(v.Right + 20, v.Top));
+						e.Graphics.DrawLine(Pens.Black, new Point(v.Left - 20, v.Top - 1), new Point(v.Right + 20, v.Top - 1));
                         e.Graphics.DrawLine(Pens.Black, new Point(v.Left - 20, v.Bottom), new Point(v.Right + 20, v.Bottom));
                         e.Graphics.DrawLine(Pens.Black, new Point(v.Left - 1, v.Top - 20), new Point(v.Left - 1, v.Bottom + 20));
                         e.Graphics.DrawLine(Pens.Black, new Point(v.Right + 1, v.Top - 20), new Point(v.Right + 1, v.Bottom + 20));
+						break;
                     }
                 }
             }
