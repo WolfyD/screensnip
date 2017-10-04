@@ -201,7 +201,7 @@ namespace WolfPaw_ScreenSnip
                     Width = e.X;
                     Height = e.Y;
                 }
-
+                ParentForm.Refresh();
                 Invalidate();
             }
 
@@ -303,8 +303,8 @@ namespace WolfPaw_ScreenSnip
 
 					if (moveMode)
 					{
-						g.DrawRectangle(Pens.Black, new Rectangle(0, 0, Width, Height));
-						g.DrawRectangle(Pens.Red, new Rectangle(1, 1, Width-2, Height-2));
+						g.DrawRectangle(Pens.Black, new Rectangle(1, 1, Width+2, Height-2));
+						g.DrawRectangle(Pens.Red, new Rectangle(2, 2, Width-4, Height-4));
 
 					}
 
@@ -557,8 +557,10 @@ namespace WolfPaw_ScreenSnip
 				if (v != this)
 				{
 					v.moveMode = false;
+                    v.btn_PrecisionMovement.IconColor = Color.Black;
 					v.Refresh();
 				}
+
 			}
 
 			moveMode = !moveMode;
@@ -570,7 +572,11 @@ namespace WolfPaw_ScreenSnip
 			{
 				((f_Screen)ParentForm).hideSBS();
 			}
-		}
+
+
+            btn_PrecisionMovement.IconColor = moveMode ? Color.Red : Color.Black;
+            ParentForm.Refresh();
+        }
 
 		private void pb_btn_OriginalSize_MouseEnter_1(object sender, EventArgs e)
 		{
@@ -591,5 +597,29 @@ namespace WolfPaw_ScreenSnip
 		{
 			BorderStyle = BorderStyle.None;
 		}
-	}
+
+        private void btn_PrecisionMovement_MouseEnter(object sender, EventArgs e)
+        {
+            btn_PrecisionMovement.IconColor = Color.White;
+        }
+
+        private void btn_PrecisionMovement_MouseLeave(object sender, EventArgs e)
+        {
+            btn_PrecisionMovement.IconColor = moveMode ? Color.Red : Color.Black;
+        }
+
+        private void pb_btn_OriginalSize_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Left || e.KeyCode == Keys.Right ||
+                e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
+            {
+                e.IsInputKey = true;
+            }
+        }
+
+        private void pb_btn_OriginalSize_KeyDown(object sender, KeyEventArgs e)
+        {
+            //((f_Screen)ParentForm).f_Screen_KeyDown(null, null);
+        }
+    }
 }

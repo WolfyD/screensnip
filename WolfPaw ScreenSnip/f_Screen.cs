@@ -125,10 +125,50 @@ namespace WolfPaw_ScreenSnip
 			parent.Activate();
 		}
 
-		public void f_Screen_KeyDown(object sender, KeyEventArgs e)
-		{
-			parent.Form1_KeyDown(sender, e);
-		}
+        public void f_Screen_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Left || e.KeyCode == Keys.Right ||
+                e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
+            {
+                var c = c_ImgGen.returnCutouts(this);
+                uc_CutoutHolder u = null;
+                foreach (var v in c.Values)
+                {
+                    if (v.moveMode)
+                    {
+                        u = v;
+                        break;
+                    }
+                }
+
+                if(u != null)
+                {
+                    switch (e.KeyCode)
+                    {
+                        case Keys.Left:
+                            u.Left--;
+                            break;
+
+                        case Keys.Right:
+                            u.Left++;
+                            break;
+
+                        case Keys.Up:
+                            u.Top--;
+                            break;
+
+                        case Keys.Down:
+                            u.Top++;
+                            break;
+                    }
+                }
+
+            }
+            else
+            {
+                parent.Form1_KeyDown(sender, e);
+            }
+        }
 		
 		private void f_Screen_DragDrop(object sender, DragEventArgs e)
 		{
@@ -381,6 +421,39 @@ namespace WolfPaw_ScreenSnip
 				lrUP = true;
 			}
 		}
-	}
+
+        private void btn_Dock_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+
+            if (e.KeyCode == Keys.Left || e.KeyCode == Keys.Right ||
+                e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
+            {
+                e.IsInputKey = true;
+            }
+
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+
+            var c = c_ImgGen.returnCutouts(this);
+            if (c != null && c.Count > 0)
+            {
+                foreach (var v in c.Values)
+                {
+                    if (v.moveMode)
+                    {
+                        e.Graphics.DrawLine(Pens.Black, new Point(v.Left - 20, v.Top), new Point(v.Right + 20, v.Top));
+                        e.Graphics.DrawLine(Pens.Black, new Point(v.Left - 20, v.Bottom), new Point(v.Right + 20, v.Bottom));
+                        e.Graphics.DrawLine(Pens.Black, new Point(v.Left - 1, v.Top - 20), new Point(v.Left - 1, v.Bottom + 20));
+                        e.Graphics.DrawLine(Pens.Black, new Point(v.Right + 1, v.Top - 20), new Point(v.Right + 1, v.Bottom + 20));
+                    }
+                }
+            }
+
+        }
+
+    }
     
 }
