@@ -16,6 +16,9 @@ namespace WolfPaw_ScreenSnip
 		public System.Data.SQLite.SQLiteConnection sqlc { get; set; }
 		public List<c_Object> loc { get; set; }
 
+        string date1 = "0000/00/00";
+        string date2 = "0000/00/00";
+
 		public f_SearchBy()
 		{
 			InitializeComponent();
@@ -59,25 +62,34 @@ namespace WolfPaw_ScreenSnip
 					this.Close();
 				}
 			}
-			else if (rb_Tags.Checked)
-			{
-				if (tb_Tags.Tag == null)
-				{
-					if (tb_Tags.Text != "") { tb_Tags.Tag = tb_Tags.Text.Split(';'); }
-					else
-					{
-						return;
-					}
-				}
+            else if (rb_Tags.Checked)
+            {
+                if (tb_Tags.Tag == null)
+                {
+                    if (tb_Tags.Text != "") { tb_Tags.Tag = tb_Tags.Text.Split(';'); }
+                    else
+                    {
+                        return;
+                    }
+                }
 
-				loc = c_DatabaseHandler.getImagesByTags(sqlc, tb_Tags.Tag as String[]);
-				if (loc != null && loc.Count > 0)
-				{
-					OK = true;
-					this.Close();
-				}
-			}
-			else if (rb_All.Checked)
+                loc = c_DatabaseHandler.getImagesByTags(sqlc, tb_Tags.Tag as String[]);
+                if (loc != null && loc.Count > 0)
+                {
+                    OK = true;
+                    this.Close();
+                }
+            }
+            else if (rb_Date.Checked)
+            {
+                loc = c_DatabaseHandler.getImagesByDate(sqlc, tb_Date.Text);
+                if (loc != null && loc.Count > 0)
+                {
+                    OK = true;
+                    this.Close();
+                }
+            }
+            else if (rb_All.Checked)
 			{
 				loc = c_DatabaseHandler.getImagesAll(sqlc);
 				if (loc != null && loc.Count > 0)
@@ -125,5 +137,48 @@ namespace WolfPaw_ScreenSnip
 			tb_Tags.Text = ftag.closeTags;
 			tb_Tags.Tag = ftag.tagarray;
 		}
-	}
+
+        private void btn_date_Close_Click(object sender, EventArgs e)
+        {
+            tb_Date.Text = lbl_Dates.Text;
+            p_date.Hide();
+            btn_Search.Enabled = true;
+        }
+
+        public string gettoday()
+        {
+            DateTime d = DateTime.Now;
+            return d.Year + "/" + d.Month.ToString().PadLeft(2, '0') + "/" + d.Day.ToString().PadLeft(2, '0');
+        }
+
+        public void updateDateText()
+        {
+            string d1 = date1 == "0000/00/00" ? gettoday() : date1;
+            string d2 = date2 == "0000/00/00" ? gettoday() : date2;
+
+            lbl_Dates.Text = d1 + "|" + d2; 
+        }
+
+        private void dtp_from_ValueChanged(object sender, EventArgs e)
+        {
+            DateTime d = dtp_from.Value;
+            date1 = d.Year + "/" + d.Month.ToString().PadLeft(2, '0') + "/" + d.Day.ToString().PadLeft(2, '0');
+            updateDateText();
+        }
+
+        private void dtp_to_ValueChanged(object sender, EventArgs e)
+        {
+            DateTime d = dtp_to.Value;
+            date2 = d.Year + "/" + d.Month.ToString().PadLeft(2,'0') + "/" + d.Day.ToString().PadLeft(2, '0');
+            updateDateText();
+        }
+
+        private void btn_EditDate_Click(object sender, EventArgs e)
+        {
+            rb_Date.Checked = true;
+            btn_Search.Enabled = false;
+            p_date.Show();
+            p_date.Dock = DockStyle.Fill;
+        }
+    }
 }

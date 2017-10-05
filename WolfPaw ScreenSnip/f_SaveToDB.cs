@@ -84,7 +84,7 @@ namespace WolfPaw_ScreenSnip
 			string d = "";
 			DateTime n = DateTime.Now;
 
-			d = n.Year + "/" + n.Month + "/" + n.Day + " " + n.Hour + ":" + n.Minute + ":" + n.Second + "." + n.Millisecond;
+			d = n.Year + "" + n.Month.ToString().PadLeft(2,'0') + "" + n.Day.ToString().PadLeft(2, '0');
 
 			return d;
 		}

@@ -45,7 +45,17 @@
             this.btn_EditTags = new FontAwesome.Sharp.IconButton();
             this.btn_EditDate = new FontAwesome.Sharp.IconButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.p_date = new System.Windows.Forms.Panel();
+            this.btn_date_Close = new FontAwesome.Sharp.IconButton();
+            this.lbl_Dates = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.dtp_to = new System.Windows.Forms.DateTimePicker();
+            this.dtp_from = new System.Windows.Forms.DateTimePicker();
+            this.btn_Help = new FontAwesome.Sharp.IconButton();
             this.panel1.SuspendLayout();
+            this.p_date.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_Search
@@ -222,6 +232,7 @@
             this.btn_EditDate.Size = new System.Drawing.Size(31, 23);
             this.btn_EditDate.TabIndex = 14;
             this.btn_EditDate.UseVisualStyleBackColor = true;
+            this.btn_EditDate.Click += new System.EventHandler(this.btn_EditDate_Click);
             // 
             // panel1
             // 
@@ -233,11 +244,112 @@
             this.panel1.Size = new System.Drawing.Size(298, 29);
             this.panel1.TabIndex = 15;
             // 
+            // p_date
+            // 
+            this.p_date.Controls.Add(this.btn_date_Close);
+            this.p_date.Controls.Add(this.lbl_Dates);
+            this.p_date.Controls.Add(this.label3);
+            this.p_date.Controls.Add(this.label2);
+            this.p_date.Controls.Add(this.label1);
+            this.p_date.Controls.Add(this.dtp_to);
+            this.p_date.Controls.Add(this.dtp_from);
+            this.p_date.Location = new System.Drawing.Point(0, 0);
+            this.p_date.Name = "p_date";
+            this.p_date.Size = new System.Drawing.Size(40, 10);
+            this.p_date.TabIndex = 16;
+            this.p_date.Visible = false;
+            // 
+            // btn_date_Close
+            // 
+            this.btn_date_Close.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btn_date_Close.Icon = FontAwesome.Sharp.IconChar.Check;
+            this.btn_date_Close.IconColor = System.Drawing.Color.Black;
+            this.btn_date_Close.IconSize = 28;
+            this.btn_date_Close.Image = ((System.Drawing.Image)(resources.GetObject("btn_date_Close.Image")));
+            this.btn_date_Close.Location = new System.Drawing.Point(84, 92);
+            this.btn_date_Close.Name = "btn_date_Close";
+            this.btn_date_Close.Padding = new System.Windows.Forms.Padding(20, 0, 20, 0);
+            this.btn_date_Close.Size = new System.Drawing.Size(131, 29);
+            this.btn_date_Close.TabIndex = 7;
+            this.btn_date_Close.Text = "Close";
+            this.btn_date_Close.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this.btn_date_Close.UseVisualStyleBackColor = true;
+            this.btn_date_Close.Click += new System.EventHandler(this.btn_date_Close_Click);
+            // 
+            // lbl_Dates
+            // 
+            this.lbl_Dates.AutoSize = true;
+            this.lbl_Dates.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lbl_Dates.Location = new System.Drawing.Point(101, 62);
+            this.lbl_Dates.Name = "lbl_Dates";
+            this.lbl_Dates.Size = new System.Drawing.Size(176, 18);
+            this.lbl_Dates.TabIndex = 6;
+            this.lbl_Dates.Text = "0000/00/00|0000/00/00";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(9, 65);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(86, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Selected Dates: ";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(9, 39);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(26, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "To: ";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(9, 12);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(36, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "From: ";
+            // 
+            // dtp_to
+            // 
+            this.dtp_to.Location = new System.Drawing.Point(51, 35);
+            this.dtp_to.Name = "dtp_to";
+            this.dtp_to.Size = new System.Drawing.Size(235, 20);
+            this.dtp_to.TabIndex = 1;
+            this.dtp_to.ValueChanged += new System.EventHandler(this.dtp_to_ValueChanged);
+            // 
+            // dtp_from
+            // 
+            this.dtp_from.Location = new System.Drawing.Point(51, 8);
+            this.dtp_from.Name = "dtp_from";
+            this.dtp_from.Size = new System.Drawing.Size(235, 20);
+            this.dtp_from.TabIndex = 0;
+            this.dtp_from.ValueChanged += new System.EventHandler(this.dtp_from_ValueChanged);
+            // 
+            // btn_Help
+            // 
+            this.btn_Help.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Help.Icon = FontAwesome.Sharp.IconChar.QuestionCircle;
+            this.btn_Help.IconColor = System.Drawing.Color.Black;
+            this.btn_Help.IconSize = 21;
+            this.btn_Help.Image = ((System.Drawing.Image)(resources.GetObject("btn_Help.Image")));
+            this.btn_Help.Location = new System.Drawing.Point(276, 109);
+            this.btn_Help.Name = "btn_Help";
+            this.btn_Help.Padding = new System.Windows.Forms.Padding(2, 4, 0, 0);
+            this.btn_Help.Size = new System.Drawing.Size(23, 23);
+            this.btn_Help.TabIndex = 17;
+            this.btn_Help.UseVisualStyleBackColor = true;
+            // 
             // f_SearchBy
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(298, 160);
             this.ControlBox = false;
+            this.Controls.Add(this.btn_Help);
+            this.Controls.Add(this.p_date);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btn_EditDate);
             this.Controls.Add(this.btn_EditTags);
@@ -260,6 +372,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Search By";
             this.panel1.ResumeLayout(false);
+            this.p_date.ResumeLayout(false);
+            this.p_date.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -283,5 +397,14 @@
 		private FontAwesome.Sharp.IconButton btn_EditTags;
 		private FontAwesome.Sharp.IconButton btn_EditDate;
 		private System.Windows.Forms.Panel panel1;
-	}
+        private System.Windows.Forms.Panel p_date;
+        private System.Windows.Forms.DateTimePicker dtp_to;
+        private System.Windows.Forms.DateTimePicker dtp_from;
+        private System.Windows.Forms.Label lbl_Dates;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private FontAwesome.Sharp.IconButton btn_date_Close;
+        private FontAwesome.Sharp.IconButton btn_Help;
+    }
 }

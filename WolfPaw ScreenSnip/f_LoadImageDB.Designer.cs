@@ -36,6 +36,8 @@
             this.btn_Data = new FontAwesome.Sharp.IconButton();
             this.pb_Img = new System.Windows.Forms.PictureBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.lbl_Date = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.h_Hist = new histogram_dll.UserControl1();
             this.lbl_Desc = new System.Windows.Forms.Label();
             this.lbl_Title = new System.Windows.Forms.Label();
@@ -181,6 +183,8 @@
             // 
             // splitContainer2.Panel1
             // 
+            this.splitContainer2.Panel1.Controls.Add(this.lbl_Date);
+            this.splitContainer2.Panel1.Controls.Add(this.label3);
             this.splitContainer2.Panel1.Controls.Add(this.h_Hist);
             this.splitContainer2.Panel1.Controls.Add(this.lbl_Desc);
             this.splitContainer2.Panel1.Controls.Add(this.lbl_Title);
@@ -195,6 +199,26 @@
             this.splitContainer2.Size = new System.Drawing.Size(260, 547);
             this.splitContainer2.SplitterDistance = 421;
             this.splitContainer2.TabIndex = 0;
+            // 
+            // lbl_Date
+            // 
+            this.lbl_Date.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbl_Date.AutoSize = true;
+            this.lbl_Date.Location = new System.Drawing.Point(77, 466);
+            this.lbl_Date.Name = "lbl_Date";
+            this.lbl_Date.Size = new System.Drawing.Size(65, 13);
+            this.lbl_Date.TabIndex = 16;
+            this.lbl_Date.Text = "0000/00/00";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(4, 466);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(36, 13);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "Date: ";
             // 
             // h_Hist
             // 
@@ -222,9 +246,9 @@
             // 
             this.lbl_Desc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_Desc.Location = new System.Drawing.Point(77, 471);
+            this.lbl_Desc.Location = new System.Drawing.Point(77, 484);
             this.lbl_Desc.Name = "lbl_Desc";
-            this.lbl_Desc.Size = new System.Drawing.Size(178, 76);
+            this.lbl_Desc.Size = new System.Drawing.Size(178, 63);
             this.lbl_Desc.TabIndex = 12;
             this.lbl_Desc.Text = "Description";
             // 
@@ -262,7 +286,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(4, 471);
+            this.label2.Location = new System.Drawing.Point(4, 484);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(66, 13);
             this.label2.TabIndex = 9;
@@ -396,5 +420,7 @@
         private FontAwesome.Sharp.IconButton btn_Save;
         private FontAwesome.Sharp.IconButton btn_Data;
 		private histogram_dll.UserControl1 h_Hist;
-	}
+        private System.Windows.Forms.Label lbl_Date;
+        private System.Windows.Forms.Label label3;
+    }
 }

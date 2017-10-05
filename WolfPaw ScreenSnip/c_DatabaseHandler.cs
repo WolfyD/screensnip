@@ -86,50 +86,91 @@ namespace WolfPaw_ScreenSnip
 			return ret;
 		}
 
-		/// <summary>
+        /// <summary>
+        /// //TODO:ADD SUMMARY
+        /// </summary>
+        /// <param name="sqlc"></param>
+        /// <param name="title"></param>
+        /// <param name="like"></param>
+        /// <returns></returns>
+        public static List<c_Object> getImagesByTitle(SQLiteConnection sqlc, string title, bool like)
+        {
+            List<c_Object> lco = new List<c_Object>();
+
+            if (sqlc.State != System.Data.ConnectionState.Open)
+            {
+                return null;
+            }
+
+            SQLiteCommand sqlComm = new SQLiteCommand();
+            sqlComm.Connection = sqlc;
+            if (like)
+            {
+                sqlComm.CommandText = string.Format("SELECT * FROM images WHERE title like '%{0}%'", title);
+            }
+            else
+            {
+                sqlComm.CommandText = string.Format("SELECT * FROM images WHERE title='{0}'", title);
+            }
+            SQLiteDataReader r = sqlComm.ExecuteReader();
+            while (r.Read())
+            {
+                string _title = r.GetString(1);
+                string _desc = r.GetString(2);
+                string _image = r.GetString(3);
+                string _tags = r.GetString(4);
+                string _savedate = r.GetString(5);
+
+                c_Object obj = new c_Object(_title, _desc, _image, _tags, _savedate);
+                lco.Add(obj);
+            }
+
+            //c_Object obj = new c_Object();
+            return lco;
+        }
+
+        /// <summary>
 		/// //TODO:ADD SUMMARY
 		/// </summary>
 		/// <param name="sqlc"></param>
-		/// <param name="title"></param>
+		/// <param name="date"></param>
 		/// <param name="like"></param>
 		/// <returns></returns>
-		public static List<c_Object> getImagesByTitle(SQLiteConnection sqlc, string title, bool like)
-		{
-			List<c_Object> lco = new List<c_Object>();
+		public static List<c_Object> getImagesByDate(SQLiteConnection sqlc, string date)
+        {
+            List<c_Object> lco = new List<c_Object>();
+            date = date.Replace("/", "");
+            string[] dates = date.Split('|');
 
-			if (sqlc.State != System.Data.ConnectionState.Open)
-			{
-				return null;
-			}
 
-			SQLiteCommand sqlComm = new SQLiteCommand();
-			sqlComm.Connection = sqlc;
-			if (like)
-			{
-				sqlComm.CommandText = string.Format("SELECT * FROM images WHERE title like '%{0}%'", title);
-			}
-			else
-			{
-				sqlComm.CommandText = string.Format("SELECT * FROM images WHERE title='{0}'", title);
-			}
-			SQLiteDataReader r = sqlComm.ExecuteReader();
-			while (r.Read())
-			{
-				string _title = r.GetString(1);
-				string _desc = r.GetString(2);
-				string _image = r.GetString(3);
-				string _tags = r.GetString(4);
-				string _savedate = r.GetString(5);
+            if (sqlc.State != System.Data.ConnectionState.Open)
+            {
+                return null;
+            }
 
-				c_Object obj = new c_Object(_title, _desc, _image, _tags, _savedate);
-				lco.Add(obj);
-			}
+            SQLiteCommand sqlComm = new SQLiteCommand();
+            sqlComm.Connection = sqlc;
 
-			//c_Object obj = new c_Object();
-			return lco;
-		}
+            sqlComm.CommandText = string.Format("SELECT * FROM images WHERE save_date between '{0}' and '{1}'", dates[0], dates[1]);
 
-		public static List<c_Object> getImagesByDescription(SQLiteConnection sqlc, string desc, bool like)
+            SQLiteDataReader r = sqlComm.ExecuteReader();
+            while (r.Read())
+            {
+                string _title = r.GetString(1);
+                string _desc = r.GetString(2);
+                string _image = r.GetString(3);
+                string _tags = r.GetString(4);
+                string _savedate = r.GetString(5);
+
+                c_Object obj = new c_Object(_title, _desc, _image, _tags, _savedate);
+                lco.Add(obj);
+            }
+
+            //c_Object obj = new c_Object();
+            return lco;
+        }
+
+        public static List<c_Object> getImagesByDescription(SQLiteConnection sqlc, string desc, bool like)
 		{
 			List<c_Object> lco = new List<c_Object>();
 

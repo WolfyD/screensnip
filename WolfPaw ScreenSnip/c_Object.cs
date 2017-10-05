@@ -61,7 +61,12 @@ namespace WolfPaw_ScreenSnip
 
 		public string getDate()
 		{
-			return saveDate;
+            string date = saveDate;
+
+            date = date.Insert(4, "/");
+            date = date.Insert(7, "/");
+            
+            return date;
 		}
 	}
 }

@@ -69,6 +69,7 @@ namespace WolfPaw_ScreenSnip
 				
 
 				lbl_Title.Text = loc[i].getTitle();
+                lbl_Date.Text = loc[i].getDate();
                 lbl_Desc.Text = loc[i].getDescription();
                 //btn_Tags.Tag = loc[i].getTags();
 
