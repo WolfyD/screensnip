@@ -35,7 +35,12 @@ namespace WolfPaw_ScreenSnip
 
 		public int cmsSetup = 0;
 
-		
+		Bitmap usedImage = null;
+		c_returnGraphicSettings cg = new c_returnGraphicSettings();
+		SmoothingMode sm = SmoothingMode.Default;
+		PixelOffsetMode pom = PixelOffsetMode.Default;
+		InterpolationMode im = InterpolationMode.Default;
+
 		protected override CreateParams CreateParams
 		{
 			get
@@ -65,6 +70,13 @@ namespace WolfPaw_ScreenSnip
 			Load += Uc_CutoutHolder_Load;
 		}
 
+		public void loadOptions()
+		{
+			sm = cg.getSM();
+			pom = cg.getPOM();
+			im = cg.getIM();
+		}
+
 		private void Uc_CutoutHolder_MouseUp(object sender, MouseEventArgs e)
 		{
 			move = false;
@@ -74,7 +86,7 @@ namespace WolfPaw_ScreenSnip
 		private void Uc_CutoutHolder_MouseDown(object sender, MouseEventArgs e)
 		{
 			BringToFront();
-
+			Refresh();
 			if (!overresize)
 			{
 				move = true;
@@ -83,13 +95,33 @@ namespace WolfPaw_ScreenSnip
 			{
 				resize = true;
 			}
+
+			if (((f_Screen)ParentForm).panelOpen())
+			{
+				((f_Screen)ParentForm).setPanelTopmost();
+			}
 		}
 
 		private void Uc_CutoutHolder_Load(object sender, EventArgs e)
 		{
 			//BackgroundImage = bmp;
 			BringToFront();
+			loadOptions();
+			Disposed += Uc_CutoutHolder_Disposed;
 			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+		}
+
+		private void Uc_CutoutHolder_Disposed(object sender, EventArgs e)
+		{
+			try
+			{
+				GC.AddMemoryPressure(GC.GetTotalMemory(true));
+				GC.Collect(Int32.MaxValue, GCCollectionMode.Forced, true);
+			}
+			catch
+			{
+
+			}
 		}
 
 		private void Panel1_MouseLeave(object sender, EventArgs e)
@@ -305,6 +337,8 @@ namespace WolfPaw_ScreenSnip
 			redraw = true;
 		}
 
+		bool resizeRequired = false;
+
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
@@ -313,6 +347,31 @@ namespace WolfPaw_ScreenSnip
 			{
 				using (Graphics g = Graphics.FromHwnd(this.Handle))
 				{
+					//NEW SHINY CODE
+					if (resizeRequired)
+					{
+						usedImage = new Bitmap(this.Width, this.Height);
+						using (Graphics _g = Graphics.FromImage(usedImage))
+						{
+							_g.SmoothingMode = sm;
+							_g.InterpolationMode = im;
+							_g.PixelOffsetMode = pom;
+
+							Rectangle r = this.Bounds;
+							r.Y = panel1.Height;
+
+							Rectangle rr = new Rectangle(0, 0, r.Width, r.Height);
+
+							_g.DrawImage(img, rr);
+
+							resizeRequired = false;
+						}
+					}
+
+					g.DrawImage(usedImage, new Point(0, 0));
+					
+
+					/*//OLD CRAPPY CODE!!
 					c_returnGraphicSettings cg = new c_returnGraphicSettings();
 
 					g.SmoothingMode = cg.getSM();
@@ -326,9 +385,13 @@ namespace WolfPaw_ScreenSnip
 
 					g.DrawImage(img, rr);
 
+					resizeRequired = false;
+					*/
+
 					if (BorderStyle == BorderStyle.FixedSingle)
 					{
-
+						g.DrawImage(Properties.Resources.resize_handle, new Point(Width - 20, Height - 20));
+						/*
 						g.DrawLine(Pens.Black, new Point(Width - 20, Height), new Point(Width, Height - 20));
 						g.DrawLine(Pens.Black, new Point(Width - 19, Height), new Point(Width, Height - 19));
 						g.DrawLine(Pens.Black, new Point(Width - 17, Height), new Point(Width, Height - 17));
@@ -343,13 +406,7 @@ namespace WolfPaw_ScreenSnip
 						g.DrawLine(Pens.Black, new Point(Width - 4, Height), new Point(Width, Height - 4));
 						g.DrawLine(Pens.Black, new Point(Width - 2, Height), new Point(Width, Height - 2));
 						g.DrawLine(Pens.Black, new Point(Width - 1, Height), new Point(Width, Height - 1));
-					}
-
-					if (moveMode)
-					{
-						//g.DrawRectangle(Pens.Black, new Rectangle(1, 1, Width + 2, Height - 2));
-						//g.DrawRectangle(Pens.Red, new Rectangle(2, 2, Width - 4, Height - 4));
-
+						*/
 					}
 
 				}
@@ -360,6 +417,7 @@ namespace WolfPaw_ScreenSnip
 		{
 			panel1.Width = Width;
 			handlePanelButtons();
+			resizeRequired = true;
 		}
 
 		public void clickMovementMode()
@@ -375,6 +433,7 @@ namespace WolfPaw_ScreenSnip
 		private void uc_CutoutHolder_LocationChanged(object sender, EventArgs e)
 		{
 			Parent.Invalidate();
+			((f_Screen)ParentForm).invalidateTools();
 		}
 
 		private void pb_btn_Delete_MouseLeave(object sender, EventArgs e)
@@ -543,11 +602,6 @@ namespace WolfPaw_ScreenSnip
 
 		}
 
-		private void uc_CutoutHolder_KeyUp(object sender, KeyEventArgs e)
-		{
-
-		}
-
 		private void pb_btn_OriginalSize_MouseEnter(object sender, EventArgs e)
 		{
 			((FontAwesome.Sharp.IconButton)sender).IconColor = Color.White;
@@ -560,18 +614,50 @@ namespace WolfPaw_ScreenSnip
 
 		private void btn_FitSize_Click(object sender, EventArgs e)
 		{
+			var pf = ((f_Screen)ParentForm);
+			int heightMod = 20 + (pf.toolbarOpen() ? 40 : 0);
+			int widthMod = 20 + (pf.panelOpen() ? 200 : 0);
+
+			if (Width > Height)
+			{
+				Width = ParentForm.Width - (20 + widthMod);
+				Height = getRatio(bmp.Height, bmp.Width, ParentForm.Width - (20 + widthMod));
+
+				if (Height > pf.Height - 20)
+				{
+					Height = ParentForm.Height - (10 + 39 + heightMod);
+					Width = getRatio(bmp.Width, bmp.Height, ParentForm.Height - (10 + heightMod));
+				}
+			}
+			else
+			{
+				Height = ParentForm.Height - (10 + 39 + heightMod);
+				Width = getRatio(bmp.Width, bmp.Height, ParentForm.Height - (10 + heightMod));
+
+				if (Width > pf.Width - 20)
+				{
+					Width = ParentForm.Width - (20 + widthMod);
+					Height = getRatio(bmp.Height, bmp.Width, ParentForm.Width - (20 + widthMod));
+				}
+			}
+
+			Left = 10;
+			Top = heightMod - 10;
+
+			/*
 			if (Width > Height)
 			{
 				int hm = 15;
-				Width = ParentForm.Width - hm;
-				Height = getRatio(bmp.Height, bmp.Width, ParentForm.Width - hm);
+				Width = ParentForm.Width - (80 + hm);
+				Height = getRatio(bmp.Height, bmp.Width, ParentForm.Width - (80 + hm));
 			}
 			else
 			{
 				int hm = 65;
-				Height = ParentForm.Height - hm;
-				Width = getRatio(bmp.Width, bmp.Height, ParentForm.Height - hm);
+				Height = ParentForm.Height - (80 + hm);
+				Width = getRatio(bmp.Width, bmp.Height, ParentForm.Height - (80 + hm));
 			}
+			*/
 		}
 
 		private void btn_PrecisionMovement_Click(object sender, EventArgs e)

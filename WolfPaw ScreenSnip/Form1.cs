@@ -26,9 +26,7 @@ namespace WolfPaw_ScreenSnip
 		public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 		[System.Runtime.InteropServices.DllImportAttribute("user32.dll")]
 		public static extern bool ReleaseCapture();
-
-        //TODO: Add save to DB
-
+		
 		f_Screen fs = null;
 		f_SettingPanel tools = null;
 		Dictionary<int, uc_CutoutHolder> cutouts = new Dictionary<int, uc_CutoutHolder>();
@@ -36,9 +34,9 @@ namespace WolfPaw_ScreenSnip
 		private bool highHandle = false;
 		public bool clearRequireAuth = false;
 
-       
+		c_KeyboardHook ck = new c_KeyboardHook();
 
-        public Form1()
+		public Form1()
         {
             InitializeComponent();
 
@@ -234,7 +232,52 @@ namespace WolfPaw_ScreenSnip
 
 			this.Activated += Form1_Activated;
 			this.Deactivate += Form1_Deactivate;
+
+			if (Properties.Settings.Default.s_handlePrintScreen)
+			{
+				
+				ck.KeyPressDetected += Ck_KeyPressDetected;
+			}
         }
+
+		private void Ck_KeyPressDetected(object sender, KeyEventArgs e)
+		{
+			if(e.KeyCode == Keys.PrintScreen)
+			{
+				Bitmap b = new Bitmap(getScreenSize().Width,getScreenSize().Height);
+				using(Graphics g = Graphics.FromImage(b))
+				{
+					c_returnGraphicSettings cr = new c_returnGraphicSettings();
+					g.InterpolationMode = cr.getIM();
+					g.SmoothingMode = cr.getSM();
+					g.PixelOffsetMode = cr.getPOM();
+
+					g.CopyFromScreen(new Point(0, 0), new Point(0, 0), b.Size);
+				}
+
+				btn_Screen_Click(null, null);
+				try
+				{
+					fs.addImage(b, new Point(0, 0));
+				}
+				catch { }
+
+				//OnKeyDown(new KeyEventArgs(Keys.V | Keys.Control));
+				if(fs != null && !fs.IsDisposed)
+				{
+					fs.BringToFront();
+				}
+
+				try
+				{
+					Clipboard.SetImage(b);
+				}
+				catch
+				{
+
+				}
+			}
+		}
 
 		private void Form1_Deactivate(object sender, EventArgs e)
 		{

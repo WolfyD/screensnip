@@ -346,5 +346,41 @@ namespace WolfPaw_ScreenSnip.Properties {
                 this["s_ToolbarPanel"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool s_InvalidateTools {
+            get {
+                return ((bool)(this["s_InvalidateTools"]));
+            }
+            set {
+                this["s_InvalidateTools"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool s_handlePrintScreen {
+            get {
+                return ((bool)(this["s_handlePrintScreen"]));
+            }
+            set {
+                this["s_handlePrintScreen"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool s_MoveToTools {
+            get {
+                return ((bool)(this["s_MoveToTools"]));
+            }
+            set {
+                this["s_MoveToTools"] = value;
+            }
+        }
     }
 }

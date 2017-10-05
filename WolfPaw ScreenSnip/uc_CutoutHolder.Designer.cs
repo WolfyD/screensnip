@@ -31,13 +31,14 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(uc_CutoutHolder));
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.btn_PrecisionMovement = new FontAwesome.Sharp.IconButton();
-			this.btn_Up = new FontAwesome.Sharp.IconButton();
-			this.btn_Down = new FontAwesome.Sharp.IconButton();
-			this.btn_Save = new FontAwesome.Sharp.IconButton();
-			this.btn_Copy = new FontAwesome.Sharp.IconButton();
+			this.btn_CMS = new FontAwesome.Sharp.IconButton();
 			this.btn_Delete = new FontAwesome.Sharp.IconButton();
 			this.btn_OriginalSize = new FontAwesome.Sharp.IconButton();
+			this.btn_PrecisionMovement = new FontAwesome.Sharp.IconButton();
+			this.btn_Save = new FontAwesome.Sharp.IconButton();
+			this.btn_Copy = new FontAwesome.Sharp.IconButton();
+			this.btn_Up = new FontAwesome.Sharp.IconButton();
+			this.btn_Down = new FontAwesome.Sharp.IconButton();
 			this.btn_FitSize = new FontAwesome.Sharp.IconButton();
 			this.tt_Tip = new System.Windows.Forms.ToolTip(this.components);
 			this.cms_Panel = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -49,7 +50,6 @@
 			this.cms_btn_Save = new System.Windows.Forms.ToolStripMenuItem();
 			this.cms_btn_Copy = new System.Windows.Forms.ToolStripMenuItem();
 			this.cms_btn_Delete = new System.Windows.Forms.ToolStripMenuItem();
-			this.btn_CMS = new FontAwesome.Sharp.IconButton();
 			this.t_Hide = new System.Windows.Forms.Timer(this.components);
 			this.panel1.SuspendLayout();
 			this.cms_Panel.SuspendLayout();
@@ -74,6 +74,66 @@
 			this.panel1.Size = new System.Drawing.Size(200, 20);
 			this.panel1.TabIndex = 0;
 			// 
+			// btn_CMS
+			// 
+			this.btn_CMS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btn_CMS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btn_CMS.Icon = FontAwesome.Sharp.IconChar.CaretUp;
+			this.btn_CMS.IconColor = System.Drawing.Color.Black;
+			this.btn_CMS.IconSize = 20;
+			this.btn_CMS.Image = ((System.Drawing.Image)(resources.GetObject("btn_CMS.Image")));
+			this.btn_CMS.Location = new System.Drawing.Point(90, 0);
+			this.btn_CMS.Name = "btn_CMS";
+			this.btn_CMS.Size = new System.Drawing.Size(20, 20);
+			this.btn_CMS.TabIndex = 15;
+			this.btn_CMS.TabStop = false;
+			this.tt_Tip.SetToolTip(this.btn_CMS, "Layer Down\r\n(Loweres the cutout down one layer)\r\n");
+			this.btn_CMS.UseVisualStyleBackColor = true;
+			this.btn_CMS.Visible = false;
+			this.btn_CMS.Click += new System.EventHandler(this.btn_CMS_Click);
+			// 
+			// btn_Delete
+			// 
+			this.btn_Delete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btn_Delete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btn_Delete.Icon = FontAwesome.Sharp.IconChar.Trash;
+			this.btn_Delete.IconColor = System.Drawing.Color.Black;
+			this.btn_Delete.IconSize = 22;
+			this.btn_Delete.Image = ((System.Drawing.Image)(resources.GetObject("btn_Delete.Image")));
+			this.btn_Delete.Location = new System.Drawing.Point(180, 0);
+			this.btn_Delete.Name = "btn_Delete";
+			this.btn_Delete.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
+			this.btn_Delete.Size = new System.Drawing.Size(20, 20);
+			this.btn_Delete.TabIndex = 9;
+			this.btn_Delete.TabStop = false;
+			this.tt_Tip.SetToolTip(this.btn_Delete, "Delete\r\n(Removes this cutout from the screen)");
+			this.btn_Delete.UseVisualStyleBackColor = true;
+			this.btn_Delete.Click += new System.EventHandler(this.pb_btn_Delete_Click);
+			this.btn_Delete.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pb_btn_OriginalSize_KeyDown);
+			this.btn_Delete.MouseEnter += new System.EventHandler(this.pb_btn_OriginalSize_MouseEnter_1);
+			this.btn_Delete.MouseLeave += new System.EventHandler(this.pb_btn_OriginalSize_MouseLeave_1);
+			this.btn_Delete.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.pb_btn_OriginalSize_PreviewKeyDown);
+			// 
+			// btn_OriginalSize
+			// 
+			this.btn_OriginalSize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btn_OriginalSize.Icon = FontAwesome.Sharp.IconChar.ArrowsAlt;
+			this.btn_OriginalSize.IconColor = System.Drawing.Color.Black;
+			this.btn_OriginalSize.IconSize = 20;
+			this.btn_OriginalSize.Image = ((System.Drawing.Image)(resources.GetObject("btn_OriginalSize.Image")));
+			this.btn_OriginalSize.Location = new System.Drawing.Point(0, 0);
+			this.btn_OriginalSize.Name = "btn_OriginalSize";
+			this.btn_OriginalSize.Size = new System.Drawing.Size(20, 20);
+			this.btn_OriginalSize.TabIndex = 8;
+			this.btn_OriginalSize.TabStop = false;
+			this.tt_Tip.SetToolTip(this.btn_OriginalSize, "Original Size\r\n(Return Cutout to it\'s original size)");
+			this.btn_OriginalSize.UseVisualStyleBackColor = true;
+			this.btn_OriginalSize.Click += new System.EventHandler(this.pb_btn_OriginalSize_Click);
+			this.btn_OriginalSize.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pb_btn_OriginalSize_KeyDown);
+			this.btn_OriginalSize.MouseEnter += new System.EventHandler(this.pb_btn_OriginalSize_MouseEnter_1);
+			this.btn_OriginalSize.MouseLeave += new System.EventHandler(this.pb_btn_OriginalSize_MouseLeave_1);
+			this.btn_OriginalSize.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.pb_btn_OriginalSize_PreviewKeyDown);
+			// 
 			// btn_PrecisionMovement
 			// 
 			this.btn_PrecisionMovement.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -94,46 +154,6 @@
 			this.btn_PrecisionMovement.MouseEnter += new System.EventHandler(this.btn_PrecisionMovement_MouseEnter);
 			this.btn_PrecisionMovement.MouseLeave += new System.EventHandler(this.btn_PrecisionMovement_MouseLeave);
 			this.btn_PrecisionMovement.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.pb_btn_OriginalSize_PreviewKeyDown);
-			// 
-			// btn_Up
-			// 
-			this.btn_Up.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btn_Up.Icon = FontAwesome.Sharp.IconChar.ArrowCircleOUp;
-			this.btn_Up.IconColor = System.Drawing.Color.Black;
-			this.btn_Up.IconSize = 20;
-			this.btn_Up.Image = ((System.Drawing.Image)(resources.GetObject("btn_Up.Image")));
-			this.btn_Up.Location = new System.Drawing.Point(43, 0);
-			this.btn_Up.Name = "btn_Up";
-			this.btn_Up.Size = new System.Drawing.Size(20, 20);
-			this.btn_Up.TabIndex = 13;
-			this.btn_Up.TabStop = false;
-			this.tt_Tip.SetToolTip(this.btn_Up, "Layer Up\r\n(Raises the cutout up one layer)");
-			this.btn_Up.UseVisualStyleBackColor = true;
-			this.btn_Up.Click += new System.EventHandler(this.pb_btn_UP_Click);
-			this.btn_Up.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pb_btn_OriginalSize_KeyDown);
-			this.btn_Up.MouseEnter += new System.EventHandler(this.pb_btn_OriginalSize_MouseEnter_1);
-			this.btn_Up.MouseLeave += new System.EventHandler(this.pb_btn_OriginalSize_MouseLeave_1);
-			this.btn_Up.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.pb_btn_OriginalSize_PreviewKeyDown);
-			// 
-			// btn_Down
-			// 
-			this.btn_Down.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btn_Down.Icon = FontAwesome.Sharp.IconChar.ArrowCircleODown;
-			this.btn_Down.IconColor = System.Drawing.Color.Black;
-			this.btn_Down.IconSize = 20;
-			this.btn_Down.Image = ((System.Drawing.Image)(resources.GetObject("btn_Down.Image")));
-			this.btn_Down.Location = new System.Drawing.Point(63, 0);
-			this.btn_Down.Name = "btn_Down";
-			this.btn_Down.Size = new System.Drawing.Size(20, 20);
-			this.btn_Down.TabIndex = 12;
-			this.btn_Down.TabStop = false;
-			this.tt_Tip.SetToolTip(this.btn_Down, "Layer Down\r\n(Loweres the cutout down one layer)\r\n");
-			this.btn_Down.UseVisualStyleBackColor = true;
-			this.btn_Down.Click += new System.EventHandler(this.pb_btn_DOWN_Click);
-			this.btn_Down.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pb_btn_OriginalSize_KeyDown);
-			this.btn_Down.MouseEnter += new System.EventHandler(this.pb_btn_OriginalSize_MouseEnter_1);
-			this.btn_Down.MouseLeave += new System.EventHandler(this.pb_btn_OriginalSize_MouseLeave_1);
-			this.btn_Down.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.pb_btn_OriginalSize_PreviewKeyDown);
 			// 
 			// btn_Save
 			// 
@@ -179,47 +199,45 @@
 			this.btn_Copy.MouseLeave += new System.EventHandler(this.pb_btn_OriginalSize_MouseLeave_1);
 			this.btn_Copy.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.pb_btn_OriginalSize_PreviewKeyDown);
 			// 
-			// btn_Delete
+			// btn_Up
 			// 
-			this.btn_Delete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btn_Delete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btn_Delete.Icon = FontAwesome.Sharp.IconChar.Trash;
-			this.btn_Delete.IconColor = System.Drawing.Color.Black;
-			this.btn_Delete.IconSize = 22;
-			this.btn_Delete.Image = ((System.Drawing.Image)(resources.GetObject("btn_Delete.Image")));
-			this.btn_Delete.Location = new System.Drawing.Point(180, 0);
-			this.btn_Delete.Name = "btn_Delete";
-			this.btn_Delete.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
-			this.btn_Delete.Size = new System.Drawing.Size(20, 20);
-			this.btn_Delete.TabIndex = 9;
-			this.btn_Delete.TabStop = false;
-			this.tt_Tip.SetToolTip(this.btn_Delete, "Delete\r\n(Removes this cutout from the screen)");
-			this.btn_Delete.UseVisualStyleBackColor = true;
-			this.btn_Delete.Click += new System.EventHandler(this.pb_btn_Delete_Click);
-			this.btn_Delete.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pb_btn_OriginalSize_KeyDown);
-			this.btn_Delete.MouseEnter += new System.EventHandler(this.pb_btn_OriginalSize_MouseEnter_1);
-			this.btn_Delete.MouseLeave += new System.EventHandler(this.pb_btn_OriginalSize_MouseLeave_1);
-			this.btn_Delete.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.pb_btn_OriginalSize_PreviewKeyDown);
+			this.btn_Up.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btn_Up.Icon = FontAwesome.Sharp.IconChar.ArrowCircleOUp;
+			this.btn_Up.IconColor = System.Drawing.Color.Black;
+			this.btn_Up.IconSize = 20;
+			this.btn_Up.Image = ((System.Drawing.Image)(resources.GetObject("btn_Up.Image")));
+			this.btn_Up.Location = new System.Drawing.Point(43, 0);
+			this.btn_Up.Name = "btn_Up";
+			this.btn_Up.Size = new System.Drawing.Size(20, 20);
+			this.btn_Up.TabIndex = 13;
+			this.btn_Up.TabStop = false;
+			this.tt_Tip.SetToolTip(this.btn_Up, "Layer Up\r\n(Raises the cutout up one layer)");
+			this.btn_Up.UseVisualStyleBackColor = true;
+			this.btn_Up.Click += new System.EventHandler(this.pb_btn_UP_Click);
+			this.btn_Up.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pb_btn_OriginalSize_KeyDown);
+			this.btn_Up.MouseEnter += new System.EventHandler(this.pb_btn_OriginalSize_MouseEnter_1);
+			this.btn_Up.MouseLeave += new System.EventHandler(this.pb_btn_OriginalSize_MouseLeave_1);
+			this.btn_Up.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.pb_btn_OriginalSize_PreviewKeyDown);
 			// 
-			// btn_OriginalSize
+			// btn_Down
 			// 
-			this.btn_OriginalSize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btn_OriginalSize.Icon = FontAwesome.Sharp.IconChar.ArrowsAlt;
-			this.btn_OriginalSize.IconColor = System.Drawing.Color.Black;
-			this.btn_OriginalSize.IconSize = 20;
-			this.btn_OriginalSize.Image = ((System.Drawing.Image)(resources.GetObject("btn_OriginalSize.Image")));
-			this.btn_OriginalSize.Location = new System.Drawing.Point(0, 0);
-			this.btn_OriginalSize.Name = "btn_OriginalSize";
-			this.btn_OriginalSize.Size = new System.Drawing.Size(20, 20);
-			this.btn_OriginalSize.TabIndex = 8;
-			this.btn_OriginalSize.TabStop = false;
-			this.tt_Tip.SetToolTip(this.btn_OriginalSize, "Original Size\r\n(Return Cutout to it\'s original size)");
-			this.btn_OriginalSize.UseVisualStyleBackColor = true;
-			this.btn_OriginalSize.Click += new System.EventHandler(this.pb_btn_OriginalSize_Click);
-			this.btn_OriginalSize.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pb_btn_OriginalSize_KeyDown);
-			this.btn_OriginalSize.MouseEnter += new System.EventHandler(this.pb_btn_OriginalSize_MouseEnter_1);
-			this.btn_OriginalSize.MouseLeave += new System.EventHandler(this.pb_btn_OriginalSize_MouseLeave_1);
-			this.btn_OriginalSize.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.pb_btn_OriginalSize_PreviewKeyDown);
+			this.btn_Down.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btn_Down.Icon = FontAwesome.Sharp.IconChar.ArrowCircleODown;
+			this.btn_Down.IconColor = System.Drawing.Color.Black;
+			this.btn_Down.IconSize = 20;
+			this.btn_Down.Image = ((System.Drawing.Image)(resources.GetObject("btn_Down.Image")));
+			this.btn_Down.Location = new System.Drawing.Point(63, 0);
+			this.btn_Down.Name = "btn_Down";
+			this.btn_Down.Size = new System.Drawing.Size(20, 20);
+			this.btn_Down.TabIndex = 12;
+			this.btn_Down.TabStop = false;
+			this.tt_Tip.SetToolTip(this.btn_Down, "Layer Down\r\n(Loweres the cutout down one layer)\r\n");
+			this.btn_Down.UseVisualStyleBackColor = true;
+			this.btn_Down.Click += new System.EventHandler(this.pb_btn_DOWN_Click);
+			this.btn_Down.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pb_btn_OriginalSize_KeyDown);
+			this.btn_Down.MouseEnter += new System.EventHandler(this.pb_btn_OriginalSize_MouseEnter_1);
+			this.btn_Down.MouseLeave += new System.EventHandler(this.pb_btn_OriginalSize_MouseLeave_1);
+			this.btn_Down.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.pb_btn_OriginalSize_PreviewKeyDown);
 			// 
 			// btn_FitSize
 			// 
@@ -317,24 +335,6 @@
 			this.cms_btn_Delete.Text = "Delete";
 			this.cms_btn_Delete.Click += new System.EventHandler(this.pb_btn_Delete_Click);
 			// 
-			// btn_CMS
-			// 
-			this.btn_CMS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btn_CMS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btn_CMS.Icon = FontAwesome.Sharp.IconChar.CaretUp;
-			this.btn_CMS.IconColor = System.Drawing.Color.Black;
-			this.btn_CMS.IconSize = 20;
-			this.btn_CMS.Image = ((System.Drawing.Image)(resources.GetObject("btn_CMS.Image")));
-			this.btn_CMS.Location = new System.Drawing.Point(90, 0);
-			this.btn_CMS.Name = "btn_CMS";
-			this.btn_CMS.Size = new System.Drawing.Size(20, 20);
-			this.btn_CMS.TabIndex = 15;
-			this.btn_CMS.TabStop = false;
-			this.tt_Tip.SetToolTip(this.btn_CMS, "Layer Down\r\n(Loweres the cutout down one layer)\r\n");
-			this.btn_CMS.UseVisualStyleBackColor = true;
-			this.btn_CMS.Visible = false;
-			this.btn_CMS.Click += new System.EventHandler(this.btn_CMS_Click);
-			// 
 			// t_Hide
 			// 
 			this.t_Hide.Enabled = true;
@@ -353,8 +353,7 @@
 			this.Size = new System.Drawing.Size(200, 211);
 			this.LocationChanged += new System.EventHandler(this.uc_CutoutHolder_LocationChanged);
 			this.SizeChanged += new System.EventHandler(this.uc_CutoutHolder_SizeChanged);
-			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pb_btn_OriginalSize_KeyDown);
-			this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.uc_CutoutHolder_KeyUp);
+			this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.uc_CutoutHolder_KeyDown);
 			this.MouseEnter += new System.EventHandler(this.uc_CutoutHolder_MouseEnter_1);
 			this.MouseLeave += new System.EventHandler(this.uc_CutoutHolder_MouseLeave_1);
 			this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.uc_CutoutHolder_PreviewKeyDown);

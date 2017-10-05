@@ -122,6 +122,21 @@ namespace WolfPaw_ScreenSnip
 		private void f_Screen_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			if(child != null) { child.Close(); }
+
+			foreach(var v in Controls)
+			{
+				if(v != null && v is uc_CutoutHolder)
+				{
+					((uc_CutoutHolder)v).Dispose();
+				}
+			}
+
+			try
+			{
+				GC.AddMemoryPressure(GC.GetTotalMemory(true));
+				GC.Collect(Int32.MaxValue, GCCollectionMode.Forced, true);
+			}catch{}
+
 			parent.Activate();
 		}
 
@@ -358,6 +373,17 @@ namespace WolfPaw_ScreenSnip
 			return p_Tools.Width == 200;
 		}
 
+		public bool toolbarOpen()
+		{
+			return ts_Tools.Visible;
+		}
+
+		public void setPanelTopmost()
+		{
+			//p_Tools.BringToFront();
+			
+		}
+
 		public void toggleToolbar()
 		{
 			ts_Tools.Visible = !ts_Tools.Visible;
@@ -403,6 +429,22 @@ namespace WolfPaw_ScreenSnip
 			if (udUP) { sb_PrecMovUD.Value = 0; udUP = false; }
 			if (lrUP) { sb_PrecMovLR.Value = 0; lrUP = false; }
 
+			//invalidateTools();
+		}
+
+		public void invalidateTools()
+		{
+			if (Properties.Settings.Default.s_InvalidateTools)
+			{
+				if (panelOpen())
+				{
+					p_Tools.Invalidate();
+				}
+				else if (ts_Tools.Visible)
+				{
+					ts_Tools.Invalidate();
+				}
+			}
 		}
 
 		private void sb_PrecMovUD_Scroll(object sender, ScrollEventArgs e)
@@ -467,5 +509,42 @@ namespace WolfPaw_ScreenSnip
         }
 
     }
+
+	public class myToolstrip : ToolStrip
+	{
+		public myToolstrip()
+		{
+			SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+		}
+
+		protected override CreateParams CreateParams
+		{
+			get
+			{
+				CreateParams cp = base.CreateParams;
+				cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
+				return cp;
+			}
+		}
+	}
+
+	public class myPanel : Panel
+	{
+
+		public myPanel()
+		{
+			SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+		}
+		
+		protected override CreateParams CreateParams
+		{
+			get
+			{
+				CreateParams cp = base.CreateParams;
+				cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
+				return cp;
+			}
+		}
+	}
     
 }
