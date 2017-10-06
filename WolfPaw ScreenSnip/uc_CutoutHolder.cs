@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using FontAwesome.Sharp;
 
 namespace WolfPaw_ScreenSnip
 {
@@ -352,7 +353,7 @@ namespace WolfPaw_ScreenSnip
 					{
 						usedImage = new Bitmap(this.Width, this.Height);
 						using (Graphics _g = Graphics.FromImage(usedImage))
-						{
+                        { 
 							_g.SmoothingMode = sm;
 							_g.InterpolationMode = im;
 							_g.PixelOffsetMode = pom;
@@ -369,7 +370,7 @@ namespace WolfPaw_ScreenSnip
 					}
 
 					g.DrawImage(usedImage, new Point(0, 0));
-					
+					/*--*/
 
 					/*//OLD CRAPPY CODE!!
 					c_returnGraphicSettings cg = new c_returnGraphicSettings();
@@ -386,7 +387,7 @@ namespace WolfPaw_ScreenSnip
 					g.DrawImage(img, rr);
 
 					resizeRequired = false;
-					*/
+					/*--*/
 
 					if (BorderStyle == BorderStyle.FixedSingle)
 					{
@@ -692,12 +693,14 @@ namespace WolfPaw_ScreenSnip
 		private void pb_btn_OriginalSize_MouseEnter_1(object sender, EventArgs e)
 		{
 			BorderStyle = BorderStyle.FixedSingle;
-		}
+            ((IconButton)sender).IconColor = Color.White;
+        }
 
 		private void pb_btn_OriginalSize_MouseLeave_1(object sender, EventArgs e)
 		{
 			BorderStyle = BorderStyle.None;
-		}
+            ((IconButton)sender).IconColor = Color.Black;
+        }
 
 		private void uc_CutoutHolder_MouseEnter_1(object sender, EventArgs e)
 		{

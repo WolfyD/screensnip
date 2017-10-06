@@ -328,10 +328,10 @@ namespace WolfPaw_ScreenSnip
 		{
 			Size s = new Size(-1,-1);
 
-			foreach(Screen ss in Screen.AllScreens)
-			{
-				s.Width += ss.Bounds.Width;
-				s.Height += ss.Bounds.Height;
+            foreach (Screen ss in Screen.AllScreens)
+            {
+                s.Width += ss.Bounds.Width;
+                if (ss.Bounds.Height > s.Height) { s.Height = ss.Bounds.Height; }
 			}
 
 			return s;
@@ -751,7 +751,27 @@ namespace WolfPaw_ScreenSnip
 
 		private void btn_Minimize_Click(object sender, EventArgs e)
 		{
-			WindowState = FormWindowState.Minimized;
+            if (!Properties.Settings.Default.s_MoveToTools)
+            {
+                WindowState = FormWindowState.Minimized;
+            }
+            else
+            {
+                Bitmap b = Properties.Resources.scissors1;
+                for(int x = 0; x < b.Width; x++)
+                {
+                    for (int y = 0; y < b.Height; y++)
+                    {
+                        Color c = b.GetPixel(x, y);
+                        if (c.R + c.G + c.B < 300)
+                        {
+                            b.SetPixel(x, y, Color.FromArgb(c.A, Color.Pink));
+                        }
+                    }
+                }
+                ni_Notify.Icon = System.Drawing.Icon.FromHandle(b.GetHicon());
+                Hide();
+            }
 		}
 
 		private void btn_Rollup_Click(object sender, EventArgs e)

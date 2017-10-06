@@ -17,7 +17,6 @@ namespace WolfPaw_ScreenSnip
 		public Bitmap retImg { get; set; }
 
 		private Rectangle cut = new Rectangle(0,0,-1,-1);
-		private bool cutting = false;
 		
 		public f_Canvas()
 		{
