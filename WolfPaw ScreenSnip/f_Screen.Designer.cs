@@ -30,8 +30,13 @@
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(f_Screen));
-			//this.ts_Tools = new System.Windows.Forms.ToolStrip();
-			this.ts_Tools = new myToolstrip();
+			this.sb_PrecMovUD = new System.Windows.Forms.VScrollBar();
+			this.sb_PrecMovLR = new System.Windows.Forms.HScrollBar();
+			this.t_Tick = new System.Windows.Forms.Timer(this.components);
+			this.tt_Main = new System.Windows.Forms.ToolTip(this.components);
+			this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
+			this.el_EditLayer1 = new WolfPaw_ScreenSnip.uc_WpfEditLayer();
+			this.ts_Tools = new WolfPaw_ScreenSnip.myToolstrip();
 			this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
 			this.btn_ToolSelector = new FontAwesome.Sharp.IconDropDownButton();
 			this.pointerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,6 +54,7 @@
 			this.btn_FontSelect = new FontAwesome.Sharp.IconToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+			this.cb_Background = new FontAwesome.Sharp.IconToolStripButton();
 			this.btn_BGColorPick = new FontAwesome.Sharp.IconToolStripButton();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
@@ -58,9 +64,6 @@
 			this.btn_BorderColorPick = new FontAwesome.Sharp.IconToolStripButton();
 			this.btn_ToolWindow = new FontAwesome.Sharp.IconToolStripButton();
 			this.btn_ToolPanel = new FontAwesome.Sharp.IconToolStripButton();
-			this.sb_PrecMovUD = new System.Windows.Forms.VScrollBar();
-			this.sb_PrecMovLR = new System.Windows.Forms.HScrollBar();
-			this.t_Tick = new System.Windows.Forms.Timer(this.components);
 			this.p_Tools = new WolfPaw_ScreenSnip.myPanel();
 			this.label7 = new System.Windows.Forms.Label();
 			this.btn_Manipulate = new FontAwesome.Sharp.IconButton();
@@ -76,7 +79,7 @@
 			this.btn_Pen = new FontAwesome.Sharp.IconButton();
 			this.btn_Font = new System.Windows.Forms.Button();
 			this.label6 = new System.Windows.Forms.Label();
-			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+			this.num_ToolSize = new System.Windows.Forms.NumericUpDown();
 			this.label5 = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.label4 = new System.Windows.Forms.Label();
@@ -90,13 +93,61 @@
 			this.r_BgTransparent = new System.Windows.Forms.RadioButton();
 			this.label8 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
-			this.tt_Main = new System.Windows.Forms.ToolTip(this.components);
-			this.cb_Background = new FontAwesome.Sharp.IconToolStripButton();
 			this.ts_Tools.SuspendLayout();
 			this.p_Tools.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.num_ToolSize)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.num_Border)).BeginInit();
 			this.SuspendLayout();
+			// 
+			// sb_PrecMovUD
+			// 
+			this.sb_PrecMovUD.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.sb_PrecMovUD.LargeChange = 1;
+			this.sb_PrecMovUD.Location = new System.Drawing.Point(896, 0);
+			this.sb_PrecMovUD.Maximum = 5;
+			this.sb_PrecMovUD.Minimum = -5;
+			this.sb_PrecMovUD.Name = "sb_PrecMovUD";
+			this.sb_PrecMovUD.Size = new System.Drawing.Size(30, 576);
+			this.sb_PrecMovUD.TabIndex = 1;
+			this.tt_Main.SetToolTip(this.sb_PrecMovUD, "Precision Movement Up and Down");
+			this.sb_PrecMovUD.Visible = false;
+			this.sb_PrecMovUD.Scroll += new System.Windows.Forms.ScrollEventHandler(this.sb_PrecMovUD_Scroll);
+			this.sb_PrecMovUD.KeyDown += new System.Windows.Forms.KeyEventHandler(this.f_Screen_KeyDown);
+			this.sb_PrecMovUD.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.btn_Dock_PreviewKeyDown);
+			// 
+			// sb_PrecMovLR
+			// 
+			this.sb_PrecMovLR.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.sb_PrecMovLR.LargeChange = 1;
+			this.sb_PrecMovLR.Location = new System.Drawing.Point(0, 576);
+			this.sb_PrecMovLR.Maximum = 5;
+			this.sb_PrecMovLR.Minimum = -5;
+			this.sb_PrecMovLR.Name = "sb_PrecMovLR";
+			this.sb_PrecMovLR.Size = new System.Drawing.Size(896, 30);
+			this.sb_PrecMovLR.TabIndex = 2;
+			this.tt_Main.SetToolTip(this.sb_PrecMovLR, "Precision Movement Left and Right");
+			this.sb_PrecMovLR.Visible = false;
+			this.sb_PrecMovLR.Scroll += new System.Windows.Forms.ScrollEventHandler(this.sb_PrecMovLR_Scroll);
+			this.sb_PrecMovLR.KeyDown += new System.Windows.Forms.KeyEventHandler(this.f_Screen_KeyDown);
+			this.sb_PrecMovLR.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.btn_Dock_PreviewKeyDown);
+			// 
+			// t_Tick
+			// 
+			this.t_Tick.Enabled = true;
+			this.t_Tick.Interval = 200;
+			this.t_Tick.Tick += new System.EventHandler(this.t_Tick_Tick);
+			// 
+			// elementHost1
+			// 
+			this.elementHost1.BackColorTransparent = true;
+			this.elementHost1.Location = new System.Drawing.Point(0, 0);
+			this.elementHost1.Name = "elementHost1";
+			this.elementHost1.Size = new System.Drawing.Size(893, 573);
+			this.elementHost1.TabIndex = 3;
+			this.elementHost1.Text = "elementHost1";
+			this.elementHost1.Child = this.el_EditLayer1;
 			// 
 			// ts_Tools
 			// 
@@ -270,6 +321,18 @@
 			this.toolStripLabel1.Size = new System.Drawing.Size(74, 22);
 			this.toolStripLabel1.Text = "Background:";
 			// 
+			// cb_Background
+			// 
+			this.cb_Background.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.cb_Background.Icon = FontAwesome.Sharp.IconChar.CheckSquareO;
+			this.cb_Background.IconColor = System.Drawing.Color.Black;
+			this.cb_Background.IconSize = 30;
+			this.cb_Background.Image = ((System.Drawing.Image)(resources.GetObject("cb_Background.Image")));
+			this.cb_Background.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.cb_Background.Name = "cb_Background";
+			this.cb_Background.Size = new System.Drawing.Size(23, 22);
+			this.cb_Background.ToolTipText = "Enable/Disable Background Color";
+			// 
 			// btn_BGColorPick
 			// 
 			this.btn_BGColorPick.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -361,46 +424,6 @@
 			this.btn_ToolPanel.ToolTipText = "Switch to Floating Window";
 			this.btn_ToolPanel.Click += new System.EventHandler(this.btn_ToolPanel_Click);
 			// 
-			// sb_PrecMovUD
-			// 
-			this.sb_PrecMovUD.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.sb_PrecMovUD.LargeChange = 1;
-			this.sb_PrecMovUD.Location = new System.Drawing.Point(896, 0);
-			this.sb_PrecMovUD.Maximum = 5;
-			this.sb_PrecMovUD.Minimum = -5;
-			this.sb_PrecMovUD.Name = "sb_PrecMovUD";
-			this.sb_PrecMovUD.Size = new System.Drawing.Size(30, 576);
-			this.sb_PrecMovUD.TabIndex = 1;
-			this.tt_Main.SetToolTip(this.sb_PrecMovUD, "Precision Movement Up and Down");
-			this.sb_PrecMovUD.Visible = false;
-			this.sb_PrecMovUD.Scroll += new System.Windows.Forms.ScrollEventHandler(this.sb_PrecMovUD_Scroll);
-			this.sb_PrecMovUD.KeyDown += new System.Windows.Forms.KeyEventHandler(this.f_Screen_KeyDown);
-			this.sb_PrecMovUD.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.btn_Dock_PreviewKeyDown);
-			// 
-			// sb_PrecMovLR
-			// 
-			this.sb_PrecMovLR.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.sb_PrecMovLR.LargeChange = 1;
-			this.sb_PrecMovLR.Location = new System.Drawing.Point(0, 576);
-			this.sb_PrecMovLR.Maximum = 5;
-			this.sb_PrecMovLR.Minimum = -5;
-			this.sb_PrecMovLR.Name = "sb_PrecMovLR";
-			this.sb_PrecMovLR.Size = new System.Drawing.Size(896, 30);
-			this.sb_PrecMovLR.TabIndex = 2;
-			this.tt_Main.SetToolTip(this.sb_PrecMovLR, "Precision Movement Left and Right");
-			this.sb_PrecMovLR.Visible = false;
-			this.sb_PrecMovLR.Scroll += new System.Windows.Forms.ScrollEventHandler(this.sb_PrecMovLR_Scroll);
-			this.sb_PrecMovLR.KeyDown += new System.Windows.Forms.KeyEventHandler(this.f_Screen_KeyDown);
-			this.sb_PrecMovLR.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.btn_Dock_PreviewKeyDown);
-			// 
-			// t_Tick
-			// 
-			this.t_Tick.Enabled = true;
-			this.t_Tick.Interval = 200;
-			this.t_Tick.Tick += new System.EventHandler(this.t_Tick_Tick);
-			// 
 			// p_Tools
 			// 
 			this.p_Tools.BackColor = System.Drawing.SystemColors.Control;
@@ -418,7 +441,7 @@
 			this.p_Tools.Controls.Add(this.btn_Pen);
 			this.p_Tools.Controls.Add(this.btn_Font);
 			this.p_Tools.Controls.Add(this.label6);
-			this.p_Tools.Controls.Add(this.numericUpDown1);
+			this.p_Tools.Controls.Add(this.num_ToolSize);
 			this.p_Tools.Controls.Add(this.label5);
 			this.p_Tools.Controls.Add(this.panel1);
 			this.p_Tools.Controls.Add(this.label4);
@@ -463,6 +486,7 @@
 			this.btn_Manipulate.TabStop = false;
 			this.tt_Main.SetToolTip(this.btn_Manipulate, "Handle Cutouts");
 			this.btn_Manipulate.UseVisualStyleBackColor = true;
+			this.btn_Manipulate.Click += new System.EventHandler(this.btn_Manipulate_Click);
 			this.btn_Manipulate.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.btn_Dock_PreviewKeyDown);
 			// 
 			// btn_ToolStrip
@@ -531,6 +555,7 @@
 			this.btn_Line.TabStop = false;
 			this.tt_Main.SetToolTip(this.btn_Line, "Straight Line Tool");
 			this.btn_Line.UseVisualStyleBackColor = true;
+			this.btn_Line.Click += new System.EventHandler(this.btn_Line_Click);
 			this.btn_Line.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.btn_Dock_PreviewKeyDown);
 			// 
 			// btn_Marker
@@ -548,6 +573,7 @@
 			this.btn_Marker.TabStop = false;
 			this.tt_Main.SetToolTip(this.btn_Marker, "Highlighter");
 			this.btn_Marker.UseVisualStyleBackColor = true;
+			this.btn_Marker.Click += new System.EventHandler(this.btn_Marker_Click);
 			this.btn_Marker.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.btn_Dock_PreviewKeyDown);
 			// 
 			// btn_Arrow
@@ -633,6 +659,7 @@
 			this.btn_Pen.TabStop = false;
 			this.tt_Main.SetToolTip(this.btn_Pen, "Freehand Drawing");
 			this.btn_Pen.UseVisualStyleBackColor = true;
+			this.btn_Pen.Click += new System.EventHandler(this.btn_Pen_Click);
 			this.btn_Pen.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.btn_Dock_PreviewKeyDown);
 			// 
 			// btn_Font
@@ -657,16 +684,16 @@
 			this.label6.TabIndex = 40;
 			this.label6.Text = "Font: ";
 			// 
-			// numericUpDown1
+			// num_ToolSize
 			// 
-			this.numericUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.numericUpDown1.Location = new System.Drawing.Point(67, 207);
-			this.numericUpDown1.Name = "numericUpDown1";
-			this.numericUpDown1.Size = new System.Drawing.Size(67, 20);
-			this.numericUpDown1.TabIndex = 39;
-			this.numericUpDown1.TabStop = false;
-			this.tt_Main.SetToolTip(this.numericUpDown1, "Tool Size");
-			this.numericUpDown1.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.btn_Dock_PreviewKeyDown);
+			this.num_ToolSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.num_ToolSize.Location = new System.Drawing.Point(67, 207);
+			this.num_ToolSize.Name = "num_ToolSize";
+			this.num_ToolSize.Size = new System.Drawing.Size(67, 20);
+			this.num_ToolSize.TabIndex = 39;
+			this.num_ToolSize.TabStop = false;
+			this.tt_Main.SetToolTip(this.num_ToolSize, "Tool Size");
+			this.num_ToolSize.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.btn_Dock_PreviewKeyDown);
 			// 
 			// label5
 			// 
@@ -817,18 +844,6 @@
 			this.label1.Text = "Tools";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// cb_Background
-			// 
-			this.cb_Background.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.cb_Background.Icon = FontAwesome.Sharp.IconChar.CheckSquareO;
-			this.cb_Background.IconColor = System.Drawing.Color.Black;
-			this.cb_Background.IconSize = 30;
-			this.cb_Background.Image = ((System.Drawing.Image)(resources.GetObject("cb_Background.Image")));
-			this.cb_Background.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.cb_Background.Name = "cb_Background";
-			this.cb_Background.Size = new System.Drawing.Size(23, 22);
-			this.cb_Background.ToolTipText = "Enable/Disable Background Color";
-			// 
 			// f_Screen
 			// 
 			this.AllowDrop = true;
@@ -836,6 +851,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ActiveBorder;
 			this.ClientSize = new System.Drawing.Size(1126, 606);
+			this.Controls.Add(this.elementHost1);
 			this.Controls.Add(this.sb_PrecMovLR);
 			this.Controls.Add(this.sb_PrecMovUD);
 			this.Controls.Add(this.ts_Tools);
@@ -853,7 +869,7 @@
 			this.ts_Tools.PerformLayout();
 			this.p_Tools.ResumeLayout(false);
 			this.p_Tools.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.num_ToolSize)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.num_Border)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -875,7 +891,7 @@
         private FontAwesome.Sharp.IconButton btn_Pen;
         private System.Windows.Forms.Button btn_Font;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown num_ToolSize;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label4;
@@ -889,7 +905,6 @@
         private System.Windows.Forms.RadioButton r_BgTransparent;
         private System.Windows.Forms.Label label8;
 		private FontAwesome.Sharp.IconButton btn_ToolStrip;
-		private System.Windows.Forms.ToolStrip ts_Tools;
 		private System.Windows.Forms.ToolStripLabel toolStripLabel4;
 		private FontAwesome.Sharp.IconDropDownButton btn_ToolSelector;
 		private System.Windows.Forms.ToolStripMenuItem pointerToolStripMenuItem;
@@ -922,5 +937,8 @@
 		private myPanel p_Tools;
 		private System.Windows.Forms.ToolTip tt_Main;
 		private FontAwesome.Sharp.IconToolStripButton cb_Background;
+		private System.Windows.Forms.Integration.ElementHost elementHost1;
+		private uc_WpfEditLayer el_EditLayer1;
+		private myToolstrip ts_Tools;
 	}
 }

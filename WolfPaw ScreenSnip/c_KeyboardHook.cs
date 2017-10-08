@@ -11,6 +11,13 @@ using System.Windows.Forms;
 //Code copied from Adam O'Neil's Development Blog / Low Level Keyboard (& Mouse) Hook		//
 //http://www.seesharpdot.net/?p=96															//
 //It's not copyrighted, but it's some fine code, Thanks Adam!								//
+//																							//
+//One major problem with it, is that it doesn't handle modifier keys...	(As far as I found)	//
+//So I added a `OnKeyRelease` event handler so I can track when keys are no longer down		//
+//So CTRL + F1 =																			//
+//				OnKeyDown(Ctrl) -> CTRLDOWN = true											//
+//				If(CTRLDOWN): OnKeyDown(F1) -> OK											//
+//				OnKeyUp(Ctrl) -> CTRLDOWN = false											//
 //==========================================================================================//
 
 namespace WolfPaw_ScreenSnip
@@ -34,7 +41,9 @@ namespace WolfPaw_ScreenSnip
 		
 		private const int WH_KEYBOARD_LL = 13;
 		private const int WM_KEYDOWN = 0x0100;
+		private const int WM_KEYUP = 0x0101;
 		private const int WM_SYSKEYDOWN = 0x0104;
+		private const int WM_SYSKEYUP = 0x0105;
 
 		#region Member Variables
 		private KeyboardProcedure keyboardProcedure;
@@ -71,12 +80,21 @@ namespace WolfPaw_ScreenSnip
 			int nCode, IntPtr wParam, IntPtr lParam);
 
 		public event KeyEventHandler KeyPressDetected;
+		public event KeyEventHandler KeyReleaseDetected;
 
 		private void OnKeyPressDetected(object sender, KeyEventArgs args)
 		{
 			if (KeyPressDetected != null)
 			{
 				KeyPressDetected(sender, args);
+			}
+		}
+
+		private void OnKeyReleaseDetected(object sender, KeyEventArgs args)
+		{
+			if (KeyReleaseDetected != null)
+			{
+				KeyReleaseDetected(sender, args);
 			}
 		}
 
@@ -93,6 +111,7 @@ namespace WolfPaw_ScreenSnip
 					key == Keys.RControlKey)
 				{
 					key = key | Keys.Control;
+
 				}
 
 				if (key == Keys.LShiftKey ||
@@ -107,8 +126,38 @@ namespace WolfPaw_ScreenSnip
 					key = key | Keys.Alt;
 				}
 
-				OnKeyPressDetected(null, new KeyEventArgs(key));
+				OnKeyPressDetected(null, new KeyEventArgs(key) { });
 			}
+
+			if (nCode >= 0 && (wParam ==
+				(IntPtr)WM_KEYUP || wParam == (IntPtr)WM_SYSKEYUP))
+			{
+				int vkCode = Marshal.ReadInt32(lParam);
+
+				Keys key = ((Keys)vkCode);
+
+				if (key == Keys.LControlKey ||
+					key == Keys.RControlKey)
+				{
+					key = key | Keys.Control;
+
+				}
+
+				if (key == Keys.LShiftKey ||
+					key == Keys.RShiftKey)
+				{
+					key = key | Keys.Shift;
+				}
+
+				if (key == Keys.LMenu ||
+					key == Keys.RMenu)
+				{
+					key = key | Keys.Alt;
+				}
+
+				OnKeyReleaseDetected(null, new KeyEventArgs(key) { });
+			}
+
 			return CallNextHookEx(keyboardHookId, nCode, wParam, lParam);
 		}
 

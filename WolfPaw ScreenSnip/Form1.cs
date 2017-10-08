@@ -36,6 +36,8 @@ namespace WolfPaw_ScreenSnip
 
 		c_KeyboardHook ck = new c_KeyboardHook();
 
+		bool CTRLDOWN = false;
+
 		public Form1()
         {
             InitializeComponent();
@@ -235,17 +237,27 @@ namespace WolfPaw_ScreenSnip
 
 			if (Properties.Settings.Default.s_handlePrintScreen)
 			{
-				
 				ck.KeyPressDetected += Ck_KeyPressDetected;
+				ck.KeyReleaseDetected += Ck_KeyReleaseDetected;
 			}
         }
 
+		private void Ck_KeyReleaseDetected(object sender, KeyEventArgs e)
+		{
+			if(e.KeyCode == Keys.LControlKey ||
+				e.KeyCode == Keys.RControlKey ||
+				e.KeyCode == Keys.Control)
+			{
+				CTRLDOWN = false;
+			}
+		}
+
 		private void Ck_KeyPressDetected(object sender, KeyEventArgs e)
 		{
-			if(e.KeyCode == Keys.PrintScreen)
+			if (e.KeyCode == Keys.PrintScreen)
 			{
-				Bitmap b = new Bitmap(getScreenSize().Width,getScreenSize().Height);
-				using(Graphics g = Graphics.FromImage(b))
+				Bitmap b = new Bitmap(getScreenSize().Width, getScreenSize().Height);
+				using (Graphics g = Graphics.FromImage(b))
 				{
 					c_returnGraphicSettings cr = new c_returnGraphicSettings();
 					g.InterpolationMode = cr.getIM();
@@ -255,7 +267,11 @@ namespace WolfPaw_ScreenSnip
 					g.CopyFromScreen(new Point(0, 0), new Point(0, 0), b.Size);
 				}
 
-				btn_Screen_Click(null, null);
+				if (fs == null || fs.IsDisposed)
+				{
+					btn_Screen_Click(null, null);
+				}
+
 				try
 				{
 					fs.addImage(b, new Point(0, 0));
@@ -263,7 +279,7 @@ namespace WolfPaw_ScreenSnip
 				catch { }
 
 				//OnKeyDown(new KeyEventArgs(Keys.V | Keys.Control));
-				if(fs != null && !fs.IsDisposed)
+				if (fs != null && !fs.IsDisposed)
 				{
 					fs.BringToFront();
 				}
@@ -277,6 +293,34 @@ namespace WolfPaw_ScreenSnip
 
 				}
 			}
+			else if (	e.KeyCode == Keys.Control ||
+						e.KeyCode == Keys.LControlKey ||
+						e.KeyCode == Keys.RControlKey)
+			{
+				CTRLDOWN = true;
+			}
+			else if (e.KeyCode == Keys.F1 && CTRLDOWN)
+			{
+				brn_New_Click("Rect", null);
+			}
+			else if (e.KeyCode == Keys.F2 && CTRLDOWN)
+			{
+				brn_New_Click("Window", null);
+			}
+			else if (e.KeyCode == Keys.F3 && CTRLDOWN)
+			{
+				brn_New_Click("Freehand", null);
+			}
+			else if (e.KeyCode == Keys.F4 && CTRLDOWN)
+			{
+				brn_New_Click("Lines", null);
+			}
+			else if (e.KeyCode == Keys.F5 && CTRLDOWN)
+			{
+				brn_New_Click("Magic", null);
+			}
+
+			
 		}
 
 		private void Form1_Deactivate(object sender, EventArgs e)
@@ -362,20 +406,21 @@ namespace WolfPaw_ScreenSnip
 			return c;
 		}
 
-		public Bitmap showCaptureArea(Size s, Bitmap b)
+		public Bitmap showCaptureArea(Size s, Bitmap b, int mode)
 		{
 			f_Canvas fc = new f_Canvas();
 			fc.bounds = s;
 			fc.bmp = b;
+			fc.mode = mode;
 			fc.ShowDialog();
 			return fc.retImg;
 		}
 
-		public Bitmap doCutting()
+		public Bitmap doCutting(int mode)
 		{
 			Bitmap bmp = null;
 
-			bmp = showCaptureArea(getScreenSize(), captureScreen());
+			bmp = showCaptureArea(getScreenSize(), captureScreen(), mode);
 			
 			Show();
 			if(fs != null && !fs.IsDisposed) { fs.Show(); }
@@ -386,13 +431,43 @@ namespace WolfPaw_ScreenSnip
 
         private void brn_New_Click(object sender, EventArgs e)
         {
-			Bitmap bmp = doCutting();
+			if (e == null && sender != null && sender is string)
+			{
+				switch(sender as string)
+				{
+					case "Rect":
+						handleCutouts(0);
+						break;
+					case "Window":
+						handleCutouts(1);
+						break;
+					case "Freehand":
+						handleCutouts(2);
+						break;
+					case "Lines":
+						handleCutouts(3);
+						break;
+					case "Magic":
+						handleCutouts(4);
+						break;
+						//TODO: Switch for cutout method
+				}
+			}
+			else
+			{
+				handleCutouts(0);
+			}
+        }
+
+		public void handleCutouts(int mode)
+		{
+			Bitmap bmp = doCutting(mode);
 			int i = 0;
 
 			var x = Application.OpenForms;
-			foreach(Form f in x)
+			foreach (Form f in x)
 			{
-				if(f is f_Screen)
+				if (f is f_Screen)
 				{
 					i++;
 					break;
@@ -413,11 +488,11 @@ namespace WolfPaw_ScreenSnip
 				}
 			}
 
-			if(fs != null)
+			if (fs != null)
 			{
 				fs.addImage(bmp);
 			}
-        }
+		}
 
 		private void btn_Copy_Click(object sender, EventArgs e)
 		{

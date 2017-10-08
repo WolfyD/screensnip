@@ -31,6 +31,13 @@ namespace WolfPaw_ScreenSnip
 		bool udUP = false;
 		bool lrUP = false;
 
+		private int CurrentTool;
+		public int currentTool
+		{
+			get { return CurrentTool; }
+			set { CurrentTool = value; changeTool(CurrentTool); }
+		}
+
 		public f_Screen()
         {
             InitializeComponent();
@@ -508,7 +515,64 @@ namespace WolfPaw_ScreenSnip
 
         }
 
-    }
+		private void f_Screen_SizeChanged(object sender, EventArgs e)
+		{
+			invalidateTools();
+		}
+		
+		public void changeTool(int tool)
+		{
+			if (tool == 0)
+			{
+				showHideEditLayer(false);
+			}
+			else
+			{
+				showHideEditLayer(true);
+			}
+		}
+
+		public void showHideEditLayer(bool show)
+		{
+			if (show)
+			{
+				elementHost1.Show();
+				elementHost1.BringToFront();
+
+				el_EditLayer1.tool = currentTool;
+				el_EditLayer1.callGraphics();
+			}
+			else
+			{
+				elementHost1.Hide();
+			}
+		}
+
+		private void num_ToolSize_ValueChanged(object sender, EventArgs e)
+		{
+			el_EditLayer1.toolSize = (int)num_ToolSize.Value;
+		}
+
+		private void btn_Manipulate_Click(object sender, EventArgs e)
+		{
+			currentTool = 0;
+		}
+
+		private void btn_Pen_Click(object sender, EventArgs e)
+		{
+			currentTool = 1;
+		}
+
+		private void btn_Marker_Click(object sender, EventArgs e)
+		{
+			currentTool = 2;
+		}
+
+		private void btn_Line_Click(object sender, EventArgs e)
+		{
+			currentTool = 3;
+		}
+	}
 
 	public class myToolstrip : ToolStrip
 	{
