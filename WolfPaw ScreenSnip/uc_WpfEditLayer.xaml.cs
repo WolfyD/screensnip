@@ -35,6 +35,9 @@ namespace WolfPaw_ScreenSnip
 			set { Tool = value; setTool(Tool); }
 		}
 
+        Line lineGuide = null;
+        List<Line> drawPoints = new List<Line>();
+
 		//System.Drawing.Point currloc = new System.Drawing.Point(0,0);
 
 		public uc_WpfEditLayer()
@@ -63,21 +66,72 @@ namespace WolfPaw_ScreenSnip
 		{
 			mdown = true;
 			curpos = e.GetPosition(this);
+            
+
 		}
 
 		private void c_Canvas_MouseMove(object sender, MouseEventArgs e)
 		{
-			Line l = new Line();
-			l.X1 = curpos.X;
-			l.Y1 = curpos.Y;
-			l.X2 = e.GetPosition(this).X;
-			l.Y2 = e.GetPosition(this).Y;
-			c_Canvas.Children.Add(l);
+            if (mdown)
+            {
+                if (Tool == 1)
+                {
+                    Line l = new Line();
+                    l.StrokeEndLineCap = PenLineCap.Round;
+                    l.StrokeThickness = toolSize;
+                    l.Stroke = System.Windows.Media.Brushes.Black;
+                    l.X1 = curpos.X;
+                    l.Y1 = curpos.Y;
+                    l.X2 = e.GetPosition(this).X;
+                    l.Y2 = e.GetPosition(this).Y;
+                    c_Canvas.Children.Add(l);
+                    c_Canvas.InvalidateVisual();
+                    curpos = e.GetPosition(this);
+                }
+                else if (tool == 2)
+                {
+                    if(lineGuide != null && c_Canvas.Children.Contains(lineGuide)) { c_Canvas.Children.Remove(lineGuide);  }
+
+                    lineGuide = new Line();
+                    lineGuide.StrokeEndLineCap = PenLineCap.Round;
+                    lineGuide.StrokeThickness = toolSize;
+                    lineGuide.Stroke = System.Windows.Media.Brushes.Black;
+                    lineGuide.X1 = curpos.X;
+                    lineGuide.Y1 = curpos.Y;
+                    lineGuide.X2 = e.GetPosition(this).X;
+                    lineGuide.Y2 = e.GetPosition(this).Y;
+                    lineGuide.Name = "LineGuide";
+                    c_Canvas.Children.Add(lineGuide);
+                    c_Canvas.InvalidateVisual();
+                }
+            }
 		}
 
 		private void c_Canvas_PreviewMouseDown(object sender, MouseButtonEventArgs e)
 		{
-			MessageBox.Show("x");
+
 		}
-	}
+
+        private void c_Canvas_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            mdown = false;
+
+            if(tool == 2)
+            {
+                if (lineGuide != null && c_Canvas.Children.Contains(lineGuide)) { c_Canvas.Children.Remove(lineGuide); }
+
+                Line l = new Line();
+                l.StrokeEndLineCap = PenLineCap.Round;
+                l.StrokeThickness = toolSize;
+                l.Stroke = System.Windows.Media.Brushes.Black;
+                l.X1 = lineGuide.X1;
+                l.Y1 = lineGuide.Y1;
+                l.X2 = lineGuide.X2;
+                l.Y2 = lineGuide.Y2;
+                c_Canvas.Children.Add(l);
+                c_Canvas.InvalidateVisual();
+
+            }
+        }
+    }
 }

@@ -572,9 +572,14 @@ namespace WolfPaw_ScreenSnip
 		{
 			currentTool = 3;
 		}
-	}
 
-	public class myToolstrip : ToolStrip
+        private void num_ToolSize_ValueChanged_1(object sender, EventArgs e)
+        {
+            el_EditLayer1.toolSize = (int)num_ToolSize.Value;
+        }
+    }
+
+    public class myToolstrip : ToolStrip
 	{
 		public myToolstrip()
 		{
