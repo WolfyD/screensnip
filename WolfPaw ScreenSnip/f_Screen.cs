@@ -71,11 +71,11 @@ namespace WolfPaw_ScreenSnip
 		}
 
 		private void F_Screen_Load(object sender, EventArgs e)
-        {
-            Bitmap b = IconChar.Desktop.ToBitmap(128, Color.Black);
-            b.MakeTransparent(Color.White);
-            System.IntPtr icH = b.GetHicon();
-            this.Icon = System.Drawing.Icon.FromHandle(icH);
+		{
+			Bitmap b = IconChar.Desktop.ToBitmap(128, Color.Black);
+			b.MakeTransparent(Color.White);
+			System.IntPtr icH = b.GetHicon();
+			this.Icon = System.Drawing.Icon.FromHandle(icH);
 
 			if (Properties.Settings.Default.s_ToolbarPanel == 1)
 			{
@@ -83,7 +83,7 @@ namespace WolfPaw_ScreenSnip
 				p_Tools.Width = 200;
 				ts_Tools.Hide();
 			}
-			else 
+			else
 			{
 				//splitContainer1.Panel2Collapsed = true;
 				p_Tools.Width = 0;
@@ -94,7 +94,50 @@ namespace WolfPaw_ScreenSnip
 			}
 
 			setScrollBars();
+			/*DAFUQÉRT NEM MŰKÖDIK JÓL????!*//*
+			///TESTING WINDING NUMBER
+			Point[] V = new Point[] {
+				new Point(0,0),
+				new Point(0,10),
+				new Point(8,10),
+				new Point(8,3),
+				new Point(2,3),
+				new Point(2,7),
+				new Point(10,7),
+				new Point(10,0)
+			};
 
+			Point[] testPoints = new Point[] {
+				//	+/- 1
+				new Point(1,1),
+				new Point(9,5),
+				//	+/- 2
+				new Point(4,7),//????????		4x7 - 2 nek kéne lennie de csak 1
+				new Point(4,8),//??				4x8 - Lehet, hogy 2-nek kéne lennie, bár vonalon van már
+				new Point(4,9),
+				new Point(4,10),//				4x10 - Vonalon van és 0
+				new Point(3,7),
+				new Point(5,7),
+				new Point(6,7),
+				new Point(7,7),
+				new Point(5,5),
+				new Point(6,3),
+				//	0
+				new Point(8,10),
+				new Point(10,9)
+			};
+
+			int n = V.Length - 1;
+
+			foreach (Point P in testPoints)
+			{
+				int i = c_WindingFunctions.wn_PnPoly(P, V, n);
+				//MessageBox.Show(i + "");
+				MessageBox.Show(P.X + "x" + P.Y + ": " + Math.Abs(i).ToString() + " - " + (i == 0 ? "Outside!" : "Inside"));
+			}
+			/*--*/
+
+			
 		}
 
 		public void addImage(Bitmap img)

@@ -64,7 +64,7 @@ namespace WolfPaw_ScreenSnip
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
 			// Start the snip on mouse down
-			if (e.Button != MouseButtons.Left) return;
+			if (e.Button != MouseButtons.Left) { doit();  return; }
 			if (mode == 0)
 			{
 				pntStart = e.Location;
@@ -107,9 +107,8 @@ namespace WolfPaw_ScreenSnip
 						if (p.X > cut.X + cut.Width) { cut.Width = p.X - cut.X; }
 						if (p.Y > cut.Y + cut.Height) { cut.Height = p.Y - cut.Y; }
 					}
-
-					
 				}
+
 			}
 
 			this.Invalidate();
@@ -186,7 +185,9 @@ namespace WolfPaw_ScreenSnip
 
 				Pen _pen = new Pen(Brushes.Blue);
 
-				if (pinp(ccut, Cursor.Position))
+				int ii = (c_WindingFunctions.wn_PnPoly(Cursor.Position, cut_points.ToArray(), cut_points.ToArray().Length - 1));
+
+				if (/*pinp(ccut, Cursor.Position)*/ii != 0)
 				{
 					_pen = new Pen(Brushes.Red);
 				}
@@ -228,27 +229,8 @@ namespace WolfPaw_ScreenSnip
 				/*--*/
 
 
-				/*
-				if (cut_points.Count > 5)
-				{
-
-					//e.Graphics.DrawClosedCurve(Pens.Blue,cut_points.ToArray());
-					//e.Graphics.FillClosedCurve(Brushes.Transparent, cut_points.ToArray());
-
-					for (int x = 0; x < cut.Width; x++)
-					{
-						for (int y = 0; y < cut.Height; y++)
-						{
-							Point pp = new Point(cut.Left + x, cut.Top + y);
-							if (raycast(pp))
-							{
-								e.Graphics.FillEllipse(Brushes.Pink, pp.X, pp.Y, 3, 3);
-							}
-						}
-					}
-
-				}
-				/*--*/
+				
+				
 
 				e.Graphics.DrawRectangle(Pens.Black, cut);
 
@@ -322,6 +304,33 @@ namespace WolfPaw_ScreenSnip
 
 			return c;
 		}
+
+		public void doit()
+		{
+			if (cut_points.Count > 5)
+			{
+
+				//e.Graphics.DrawClosedCurve(Pens.Blue,cut_points.ToArray());
+				//e.Graphics.FillClosedCurve(Brushes.Transparent, cut_points.ToArray());
+
+				using (Graphics g = Graphics.FromHwnd(this.Handle))
+					for (int x = 0; x < cut.Width; x++)
+					{
+						for (int y = 0; y < cut.Height; y++)
+						{
+							Point pp = new Point(cut.Left + x, cut.Top + y);
+							if (c_WindingFunctions.wn_PnPoly(pp, cut_points.ToArray(), cut_points.ToArray().Length - 1) != 0)
+							{
+								g.FillEllipse(Brushes.Pink, pp.X, pp.Y, 3, 3);
+							}
+						}
+					}
+
+
+			}
+			/*--*/
+		}
+
 
 	}
 
