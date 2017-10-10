@@ -31,6 +31,8 @@ namespace WolfPaw_ScreenSnip
 		bool udUP = false;
 		bool lrUP = false;
 
+		public Color toolColor = Color.Black;
+
 		private int CurrentTool;
 		public int currentTool
 		{
@@ -92,6 +94,8 @@ namespace WolfPaw_ScreenSnip
 					ts_Tools.Show();
 				}
 			}
+
+			el_EditLayer1.screen_parent = this;
 
 			setScrollBars();
 			/*DAFUQÉRT NEM MŰKÖDIK JÓL????!*/
@@ -366,6 +370,7 @@ namespace WolfPaw_ScreenSnip
 			Properties.Settings.Default.s_ToolbarPanel = 1;
 			Properties.Settings.Default.Save();
 			setScrollBars();
+			invalidateTools();
 		}
 
 		public void hideToolBar()
@@ -379,6 +384,7 @@ namespace WolfPaw_ScreenSnip
 			p_Tools.Width = 0;
 			ts_Tools.Hide();
 			setScrollBars();
+			invalidateTools();
 		}
 
 		public void showToolStrip()
@@ -390,6 +396,7 @@ namespace WolfPaw_ScreenSnip
 			Properties.Settings.Default.s_ToolbarPanel = 2;
 			Properties.Settings.Default.Save();
 			setScrollBars();
+			invalidateTools();
 		}
 
 		private void btn_Dock_Click(object sender, EventArgs e)
@@ -488,6 +495,25 @@ namespace WolfPaw_ScreenSnip
 				{
 					ts_Tools.Invalidate();
 				}
+			}
+
+			if (panelOpen())
+			{
+				elementHost1.Width = p_Tools.Left;
+				elementHost1.Height = Height - 39;
+				elementHost1.Top = 0;
+			}
+			else if (ts_Tools.Visible)
+			{
+				elementHost1.Width = Width - 18;
+				elementHost1.Height = Height - ts_Tools.Height;
+				elementHost1.Top = ts_Tools.Bottom;
+			}
+			else
+			{
+				elementHost1.Width = Width - 18;
+				elementHost1.Height = Height - 39;
+				elementHost1.Top = 0;
 			}
 		}
 
@@ -614,9 +640,9 @@ namespace WolfPaw_ScreenSnip
         {
             el_EditLayer1.toolSize = (int)num_ToolSize.Value;
         }
-    }
+	}
 
-    public class myToolstrip : ToolStrip
+	public class myToolstrip : ToolStrip
 	{
 		public myToolstrip()
 		{

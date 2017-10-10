@@ -423,6 +423,23 @@ namespace WolfPaw_ScreenSnip
 			resizeRequired = true;
 		}
 
+		/// <summary> 
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (moveMode) { btn_PrecisionMovement_Click(null,null); }
+
+
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+			base.Dispose(disposing);
+
+		}
+
 		public void clickMovementMode()
 		{
 			btn_PrecisionMovement_Click(null, null);

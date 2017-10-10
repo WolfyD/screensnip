@@ -84,6 +84,7 @@
   <ItemGroup>
     <Compile Include="c_Converter.cs" />
     <Compile Include="c_DatabaseHandler.cs" />
+    <Compile Include="c_DrawnPoints.cs" />
     <Compile Include="c_ImgGen.cs" />
     <Compile Include="c_KeyboardHook.cs" />
     <Compile Include="c_Object.cs" />

@@ -215,35 +215,7 @@ namespace WolfPaw_ScreenSnip
                 catch { }
 
                 Point[] ppp = lst.ToArray();
-
-
-
-                /*
-                 * int ii = (c_WindingFunctions.wn_PnPoly(Cursor.Position, ppp, ppp.Length - 1));
-
-				if (ii != 0)
-				{
-					_pen = new Pen(Brushes.Red);
-				}
-				for (int i = 0; i < cut_points.Count; i++)
-				{
-					if (i < cut_points.Count - 1)
-					{
-
-						e.Graphics.DrawLine(_pen, cut_points[i], cut_points[i + 1]);
-						e.Graphics.DrawLine(_pen, new Point(cut_points[i].X + 1, cut_points[i].Y), new Point(cut_points[i + 1].X + 1, cut_points[i + 1].Y));
-						e.Graphics.DrawLine(_pen, new Point(cut_points[i].X, cut_points[i].Y + 1), new Point(cut_points[i + 1].X, cut_points[i + 1].Y + 1));
-					}
-					else
-					{
-						e.Graphics.DrawLine(_pen, cut_points[i], cut_points[0]);
-						e.Graphics.DrawLine(_pen, new Point(cut_points[i].X + 1, cut_points[i].Y), new Point(cut_points[0].X + 1, cut_points[0].Y));
-						e.Graphics.DrawLine(_pen, new Point(cut_points[i].X, cut_points[i].Y + 1), new Point(cut_points[0].X, cut_points[0].Y + 1));
-					}
-				}
-				/*--*/
-
-
+				
                 int _i = 0;
                 foreach(Point p in ppp)
                 {
@@ -315,7 +287,7 @@ namespace WolfPaw_ScreenSnip
 			return base.ProcessCmdKey(ref msg, keyData);
 		}
 
-
+		/*
 		public bool raycast(Point p)
 		{
 			int k, j = cut_points.Count - 1;
@@ -345,7 +317,9 @@ namespace WolfPaw_ScreenSnip
 				return false;
 			}
 		}
+		*/
 
+		/*
 		bool pinp(List<Loc> ll, Point p)
 		{
 			Loc l = new Loc(p.X, p.Y);
@@ -369,52 +343,52 @@ namespace WolfPaw_ScreenSnip
 
 			return c;
 		}
+		*/
+
+
+		public Point[] generatePointArray(List<Point> pnts)
+		{
+			List<Point> lst = new List<Point>();
+			foreach (Point p in pnts)
+			{
+				Point pp = new Point(p.X, p.Y);
+				lst.Add(pp);
+			}
+
+			try { lst.Add(lst[0]); } catch { }
+
+			try
+			{
+				List<int> ppprem = new List<int>();
+				for (int i = 0; i < lst.Count - 1; i++)
+				{
+					if (lst[i].X == lst[i + 1].X && lst[i].Y == lst[i + 1].Y)
+					{
+						ppprem.Add(i);
+					}
+				}
+
+				foreach (int i in ppprem)
+				{
+					lst.Remove(lst[i]);
+				}
+			}
+			catch { }
+			
+			return lst.ToArray();
+		}
 
 		public void doit()
 		{
             try
             {
-                //e.Graphics.DrawClosedCurve(Pens.Blue,cut_points.ToArray());
-                //e.Graphics.FillClosedCurve(Brushes.Transparent, cut_points.ToArray());
+				Point[] ppp = generatePointArray(cut_points);
 
-                using (Graphics g = Graphics.FromHwnd(this.Handle))
+				using (Graphics g = Graphics.FromHwnd(this.Handle))
                     for (int x = 0; x < cut.Width; x++)
                     {
                         for (int y = 0; y < cut.Height; y++)
                         {
-                            //-----
-
-                            List<Point> lst = new List<Point>();
-                            foreach (Point p in cut_points)
-                            {
-                                Point pp = new Point(p.X, p.Y);
-                                lst.Add(pp);
-                            }
-
-                            try { lst.Add(lst[0]); } catch { }
-
-                            try
-                            {
-                                List<int> ppprem = new List<int>();
-                                for (int i = 0; i < lst.Count - 1; i++)
-                                {
-                                    if (lst[i].X == lst[i + 1].X && lst[i].Y == lst[i + 1].Y)
-                                    {
-                                        ppprem.Add(i);
-                                    }
-                                }
-
-                                foreach (int i in ppprem)
-                                {
-                                    lst.Remove(lst[i]);
-                                }
-                            }
-                            catch { }
-
-                            Point[] ppp = lst.ToArray();
-
-                            //-----
-
                             Point _pp = new Point(cut.Left + x, cut.Top + y);
                             if (c_WindingFunctions.wn_PnPoly(_pp, ppp, ppp.Length - 1) != 0)
                             {
