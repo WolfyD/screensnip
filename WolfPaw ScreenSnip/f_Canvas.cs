@@ -73,8 +73,16 @@ namespace WolfPaw_ScreenSnip
 			}
 			else if (mode == 1 || mode == 2)
 			{
-				cut_points.Add(e.Location);
-				mdown = true;
+                cut_points.Add(e.Location);
+
+                foreach (Point p in cut_points)
+                {
+                    if (p.X < cut.X || cut.X == -1) { cut.X = p.X; }
+                    if (p.Y < cut.Y || cut.Y == -1) { cut.Y = p.Y; }
+                    if (p.X > cut.X + cut.Width) { cut.Width = p.X - cut.X; }
+                    if (p.Y > cut.Y + cut.Height) { cut.Height = p.Y - cut.Y; }
+                }
+                mdown = true;
 			}
 		}
 		protected override void OnMouseMove(MouseEventArgs e)
@@ -144,54 +152,79 @@ namespace WolfPaw_ScreenSnip
 		}
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			// Draw the current selection
-			if (mode == 0)
-			{
-				using (Brush br = new SolidBrush(Color.FromArgb(120, Color.White)))
-				{
-					int x1 = rcSelect.X; int x2 = rcSelect.X + rcSelect.Width;
-					int y1 = rcSelect.Y; int y2 = rcSelect.Y + rcSelect.Height;
-					e.Graphics.FillRectangle(br, new Rectangle(0, 0, x1, this.Height));
-					e.Graphics.FillRectangle(br, new Rectangle(x2, 0, this.Width - x2, this.Height));
-					e.Graphics.FillRectangle(br, new Rectangle(x1, 0, x2 - x1, y1));
-					e.Graphics.FillRectangle(br, new Rectangle(x1, y2, x2 - x1, this.Height - y2));
-				}
-				using (Pen pen = new Pen(Color.Blue, 2))
-				{
-					e.Graphics.DrawRectangle(pen, rcSelect);
-				}
-			}
-			else if (mode == 1)
-			{
+            // Draw the current selection
+            if (mode == 0)
+            {
+                using (Brush br = new SolidBrush(Color.FromArgb(120, Color.White)))
+                {
+                    int x1 = rcSelect.X; int x2 = rcSelect.X + rcSelect.Width;
+                    int y1 = rcSelect.Y; int y2 = rcSelect.Y + rcSelect.Height;
+                    e.Graphics.FillRectangle(br, new Rectangle(0, 0, x1, this.Height));
+                    e.Graphics.FillRectangle(br, new Rectangle(x2, 0, this.Width - x2, this.Height));
+                    e.Graphics.FillRectangle(br, new Rectangle(x1, 0, x2 - x1, y1));
+                    e.Graphics.FillRectangle(br, new Rectangle(x1, y2, x2 - x1, this.Height - y2));
+                }
+                using (Pen pen = new Pen(Color.Blue, 2))
+                {
+                    e.Graphics.DrawRectangle(pen, rcSelect);
+                }
+            }
+            else if (mode == 1)
+            {
 
-			}
-			else if (mode == 2)
-			{
-				using (Brush br = new SolidBrush(Color.FromArgb(120, Color.White)))
-				{
-					e.Graphics.FillRectangle(br, new Rectangle(0, 0, Width, Height));
-				}
+            }
+            else if (mode == 2)
+            {
+                using (Brush br = new SolidBrush(Color.FromArgb(120, Color.White)))
+                {
+                    e.Graphics.FillRectangle(br, new Rectangle(0, 0, Width, Height));
+                }
 
 
 
-				//Freehand
+                //Freehand
 
-				List<Loc> ccut = new List<Loc>();
 
-				foreach(Point p in cut_points)
-				{
-					ccut.Add(new Loc(p.X, p.Y));
-				}
+                Pen _pen = new Pen(Brushes.Blue);
 
-				Pen _pen = new Pen(Brushes.Blue);
+                List<Point> lst = new List<Point>();
+                foreach (Point p in cut_points)
+                {
+                    Point pp = new Point(p.X, p.Y);
+                    lst.Add(pp);
+                }
 
-				int ii = (c_WindingFunctions.wn_PnPoly(Cursor.Position, cut_points.ToArray(), cut_points.ToArray().Length - 1));
+                try { lst.Add(lst[0]); } catch { }
 
-				if (/*pinp(ccut, Cursor.Position)*/ii != 0)
+                try
+                {
+                    List<int> ppprem = new List<int>();
+                    for (int i = 0; i < lst.Count - 1; i++)
+                    {
+                        if (lst[i].X == lst[i + 1].X && lst[i].Y == lst[i + 1].Y)
+                        {
+                            ppprem.Add(i);
+                        }
+                    }
+
+                    foreach (int i in ppprem)
+                    {
+                        lst.Remove(lst[i]);
+                    }
+                }
+                catch { }
+
+                Point[] ppp = lst.ToArray();
+
+
+
+                /*
+                 * int ii = (c_WindingFunctions.wn_PnPoly(Cursor.Position, ppp, ppp.Length - 1));
+
+				if (ii != 0)
 				{
 					_pen = new Pen(Brushes.Red);
 				}
-
 				for (int i = 0; i < cut_points.Count; i++)
 				{
 					if (i < cut_points.Count - 1)
@@ -211,28 +244,60 @@ namespace WolfPaw_ScreenSnip
 				/*--*/
 
 
-				/*
-				for (int x = 0; x < cut.Width; x++)
-				{
-					for (int y = 0; y < cut.Height; y++)
-					{
-						Point pp = new Point(cut.Left + x, cut.Top + y);
-						if (!raycast(pp))
-						{
-							e.Graphics.DrawLine(Pens.White, pp, new Point(pp.X + 1, pp.Y + 1));
-						}
-					}
-				}
+                int _i = 0;
+                foreach(Point p in ppp)
+                {
+                    Console.WriteLine((_i++).ToString().PadLeft(2, '0') + ": " + p.X + ":" + p.Y);
+                }
 
-				e.Graphics.FillRectangle(Brushes.White, cut);
+                for (int i = 0; i < ppp.Length; i++)
+                {
+                    if (ppp.Length > i + 1)
+                    {
+                        if (ppp[i].Y > ppp[i + 1].Y) { _pen = new Pen(Brushes.Red); }else
+                        {
+                            _pen = new Pen(Brushes.Green);
+                        }
+                    }
+                    else
+                    {
+                        if (ppp[i].Y > ppp[0].Y) { _pen = new Pen(Brushes.Red); }
+                        else
+                        {
+                            _pen = new Pen(Brushes.Green);
+                        }
+                    }
+                    if (i < ppp.Length - 1)
+                    {
+                        if(i == 0) { e.Graphics.FillEllipse(Brushes.Yellow, ppp[i].X, ppp[i].Y, 8, 8); }
+                        else { e.Graphics.FillEllipse(Brushes.Pink, ppp[i].X, ppp[i].Y, 5, 5); }
 
-				/*--*/
+                        if (i == 0)
+                        {
+                            e.Graphics.DrawLine(Pens.Orange, ppp[i], ppp[i + 1]);
+                            e.Graphics.DrawLine(Pens.Orange, new Point(ppp[i].X + 1, ppp[i].Y), new Point(ppp[i + 1].X + 1, ppp[i + 1].Y));
+                            e.Graphics.DrawLine(Pens.Orange, new Point(ppp[i].X, ppp[i].Y + 1), new Point(ppp[i + 1].X, ppp[i + 1].Y + 1));
 
+                            e.Graphics.DrawLine(Pens.Orange, ppp[i].X, ppp[i].Y, ppp[i].X - 500, ppp[i].Y);
+                        }
+                        else if (i == ppp.Length - 2)
+                        {
+                            e.Graphics.DrawLine(Pens.Blue, ppp[i], ppp[i + 1]);
+                            e.Graphics.DrawLine(Pens.Blue, new Point(ppp[i].X + 1, ppp[i].Y), new Point(ppp[i + 1].X + 1, ppp[i + 1].Y));
+                            e.Graphics.DrawLine(Pens.Blue, new Point(ppp[i].X, ppp[i].Y + 1), new Point(ppp[i + 1].X, ppp[i + 1].Y + 1));
 
-				
-				
-
-				e.Graphics.DrawRectangle(Pens.Black, cut);
+                            e.Graphics.DrawLine(Pens.Blue, ppp[i].X, ppp[i].Y, ppp[i].X - 500, ppp[i].Y);
+                        }
+                        else
+                        {
+                            e.Graphics.DrawLine(_pen, ppp[i], ppp[i + 1]);
+                            e.Graphics.DrawLine(_pen, new Point(ppp[i].X + 1, ppp[i].Y), new Point(ppp[i + 1].X + 1, ppp[i + 1].Y));
+                            e.Graphics.DrawLine(_pen, new Point(ppp[i].X, ppp[i].Y + 1), new Point(ppp[i + 1].X, ppp[i + 1].Y + 1));
+                        }
+                    }
+                }
+                
+                e.Graphics.DrawRectangle(Pens.Black, cut);
 
 				
 
@@ -307,28 +372,58 @@ namespace WolfPaw_ScreenSnip
 
 		public void doit()
 		{
-			if (cut_points.Count > 5)
-			{
+            try
+            {
+                //e.Graphics.DrawClosedCurve(Pens.Blue,cut_points.ToArray());
+                //e.Graphics.FillClosedCurve(Brushes.Transparent, cut_points.ToArray());
 
-				//e.Graphics.DrawClosedCurve(Pens.Blue,cut_points.ToArray());
-				//e.Graphics.FillClosedCurve(Brushes.Transparent, cut_points.ToArray());
+                using (Graphics g = Graphics.FromHwnd(this.Handle))
+                    for (int x = 0; x < cut.Width; x++)
+                    {
+                        for (int y = 0; y < cut.Height; y++)
+                        {
+                            //-----
 
-				using (Graphics g = Graphics.FromHwnd(this.Handle))
-					for (int x = 0; x < cut.Width; x++)
-					{
-						for (int y = 0; y < cut.Height; y++)
-						{
-							Point pp = new Point(cut.Left + x, cut.Top + y);
-							if (c_WindingFunctions.wn_PnPoly(pp, cut_points.ToArray(), cut_points.ToArray().Length - 1) != 0)
-							{
-								g.FillEllipse(Brushes.Pink, pp.X, pp.Y, 3, 3);
-							}
-						}
-					}
+                            List<Point> lst = new List<Point>();
+                            foreach (Point p in cut_points)
+                            {
+                                Point pp = new Point(p.X, p.Y);
+                                lst.Add(pp);
+                            }
 
+                            try { lst.Add(lst[0]); } catch { }
 
-			}
-			/*--*/
+                            try
+                            {
+                                List<int> ppprem = new List<int>();
+                                for (int i = 0; i < lst.Count - 1; i++)
+                                {
+                                    if (lst[i].X == lst[i + 1].X && lst[i].Y == lst[i + 1].Y)
+                                    {
+                                        ppprem.Add(i);
+                                    }
+                                }
+
+                                foreach (int i in ppprem)
+                                {
+                                    lst.Remove(lst[i]);
+                                }
+                            }
+                            catch { }
+
+                            Point[] ppp = lst.ToArray();
+
+                            //-----
+
+                            Point _pp = new Point(cut.Left + x, cut.Top + y);
+                            if (c_WindingFunctions.wn_PnPoly(_pp, ppp, ppp.Length - 1) != 0)
+                            {
+                                g.FillEllipse(Brushes.Pink, _pp.X, _pp.Y, 3, 3);
+                            }
+                        }
+                    }
+            }
+            catch { }
 		}
 
 

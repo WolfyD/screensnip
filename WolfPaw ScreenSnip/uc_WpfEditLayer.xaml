@@ -9,11 +9,9 @@
 			 Background="AliceBlue"
              d:DesignHeight="300" d:DesignWidth="300">
 	<Grid x:Name="mainGrid" Opacity="1">
-		<Canvas x:Name="c_Canvas" MouseDown="c_Canvas_MouseDown" MouseMove="c_Canvas_MouseMove" PreviewMouseDown="c_Canvas_PreviewMouseDown" Background="AliceBlue" MouseUp="c_Canvas_MouseUp">
-			
-		</Canvas>
+        <Canvas x:Name="c_Canvas" MouseDown="c_Canvas_MouseDown" MouseMove="c_Canvas_MouseMove" PreviewMouseDown="c_Canvas_PreviewMouseDown" Background="AliceBlue" MouseUp="c_Canvas_MouseUp">
 
-		<Line X1="100" X2="200" Y1="20" Y2="130" StrokeThickness="4" Stroke="Black"></Line>
+        </Canvas>
 
-	</Grid>
+    </Grid>
 </UserControl>

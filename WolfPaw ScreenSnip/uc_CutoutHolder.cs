@@ -51,6 +51,8 @@ namespace WolfPaw_ScreenSnip
 				return cp;
 			}
 		}
+
+        
 		
 		public uc_CutoutHolder()
 		{

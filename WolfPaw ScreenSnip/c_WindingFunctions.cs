@@ -40,7 +40,7 @@ namespace WolfPaw_ScreenSnip
 		/// <returns></returns>
 		public static int orientation2D_Triangle(Point V0, Point V1, Point V2)
 		{
-			return isLeft(V0, V1, V2);
+			return isLeft(V1, V2, V0);
 		}
 
 		/// <summary>
@@ -57,21 +57,21 @@ namespace WolfPaw_ScreenSnip
 			return ((isLeft(V0, V1, V2) * 1.0f) / 2.0f);
 		}
 
-		/// <summary>
-		///		<para>orientation2D_Polygon(): test the orientation of a simple 2D polygon</para>
-		///		<para>Input:</para>  
-		///		<para>	int n = the number of vertices in the polygon</para>
-		///		<para>	Point[] V = an array of n+1 vertex points with V[n]=V[0]</para>
-		///		<para>	Return:</para>
-		///		<para>	Greater than 0 for counterclockwise</para>
-		///		<para>	0 for none (degenerate)</para>
-		///		<para>	Less than 0 for clockwise</para>
-		///		<para>Note: this algorithm is faster than computing the signed area.</para>
-		/// </summary>
-		/// <param name="n">number of vertices in the polygon</param>
-		/// <param name="V">array of n+1 vertex points with V[n]=V[0]</param>
-		/// <returns>&gt;0&lt;</returns>
-		public static int orientation2D_Polygon(int n, Point[] V)
+        /// <summary>
+        ///		<para>orientation2D_Polygon(): test the orientation of a simple 2D polygon</para>
+        ///		<para>Input:</para>  
+        ///		<para>	int n = the number of vertices in the polygon</para>
+        ///		<para>	Point[] V = an array of n+1 vertex points with V[n]=V[0]</para>
+        ///		<para>	Return:</para>
+        ///		<para>	Greater than 0 for counterclockwise</para>
+        ///		<para>	0 for none (degenerate)</para>
+        ///		<para>	Less than 0 for clockwise</para>
+        ///		<para>Note: this algorithm is faster than computing the signed area.</para>
+        /// </summary>
+        /// <param name="n">number of vertices in the polygon</param>
+        /// <param name="V">array of n+1 vertex points with V[n]=V[0]</param>
+        /// <returns>&gt;0&lt;</returns>
+        public static int orientation2D_Polygon(int n, Point[] V)
 		{
 			// first find rightmost lowest vertex of the polygon
 			int rmin = 0;
@@ -151,7 +151,7 @@ namespace WolfPaw_ScreenSnip
 						if (isLeft(V[i], V[i + 1], P) > 0)		// P left of  edge
 						{  
 							++wn;								// have  a valid up intersect
-						}
+						} 
 					}
 				}
 				else											// start y > P.y (no test needed)

@@ -94,7 +94,8 @@ namespace WolfPaw_ScreenSnip
 			}
 
 			setScrollBars();
-			/*DAFUQÉRT NEM MŰKÖDIK JÓL????!*//*
+			/*DAFUQÉRT NEM MŰKÖDIK JÓL????!*/
+            /*
 			///TESTING WINDING NUMBER
 			Point[] V = new Point[] {
 				new Point(0,0),
@@ -104,8 +105,9 @@ namespace WolfPaw_ScreenSnip
 				new Point(2,3),
 				new Point(2,7),
 				new Point(10,7),
-				new Point(10,0)
-			};
+                new Point(10,0),
+                new Point(0,0)
+            };
 
 			Point[] testPoints = new Point[] {
 				//	+/- 1
@@ -113,14 +115,6 @@ namespace WolfPaw_ScreenSnip
 				new Point(9,5),
 				//	+/- 2
 				new Point(4,7),//????????		4x7 - 2 nek kéne lennie de csak 1
-				new Point(4,8),//??				4x8 - Lehet, hogy 2-nek kéne lennie, bár vonalon van már
-				new Point(4,9),
-				new Point(4,10),//				4x10 - Vonalon van és 0
-				new Point(3,7),
-				new Point(5,7),
-				new Point(6,7),
-				new Point(7,7),
-				new Point(5,5),
 				new Point(6,3),
 				//	0
 				new Point(8,10),
