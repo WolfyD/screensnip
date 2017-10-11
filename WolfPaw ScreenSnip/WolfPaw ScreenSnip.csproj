@@ -82,6 +82,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractFloodFiller.cs" />
     <Compile Include="c_Converter.cs" />
     <Compile Include="c_DatabaseHandler.cs" />
     <Compile Include="c_DrawnPoints.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="c_Object.cs" />
     <Compile Include="c_returnGraphicSettings.cs" />
     <Compile Include="c_WindingFunctions.cs" />
+    <Compile Include="FloodFiller.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -169,6 +171,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>tagLog.settings</DependentUpon>
     </Compile>
+    <Compile Include="uc_ButtonSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="uc_ButtonSelector.Designer.cs">
+      <DependentUpon>uc_ButtonSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="uc_CutoutHolder.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -230,6 +238,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="uc_ButtonSelector.resx">
+      <DependentUpon>uc_ButtonSelector.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="uc_CutoutHolder.resx">
       <DependentUpon>uc_CutoutHolder.cs</DependentUpon>
     </EmbeddedResource>

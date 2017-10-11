@@ -55,7 +55,7 @@ namespace WolfPaw_ScreenSnip
 		{
 			try
 			{
-				e.Graphics.DrawImage(c_ImgGen.createPng(fs, cutouts), new Point(100, 10));
+				e.Graphics.DrawImage(c_ImgGen.createPng(fs, cutouts, new object[] { fs.getDrawnPoints(), null }), new Point(100, 10));
 				c_returnGraphicSettings cg = new c_returnGraphicSettings();
 
 				e.Graphics.SmoothingMode = cg.getSM();

@@ -16,6 +16,7 @@ namespace WolfPaw_ScreenSnip
 
 		public c_DrawnPoints(int _wid, int x, int y, Color col)
 		{
+
 			width = _wid;
 			X = x;
 			Y = y;

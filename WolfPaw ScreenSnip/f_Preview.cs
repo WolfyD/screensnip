@@ -50,7 +50,7 @@ namespace WolfPaw_ScreenSnip
 
 		public void generateImage()
 		{
-			Bitmap _b = c_ImgGen.createPng(fs, cutouts, trender);
+			Bitmap _b = c_ImgGen.createPng(fs, cutouts, new object[] { fs.getDrawnPoints(), null }, trender);
 			pb_Pic.Image = _b;
 			List<uc_CutoutHolder> cut = new List<uc_CutoutHolder>();
 			foreach(Control c in fs.Controls)

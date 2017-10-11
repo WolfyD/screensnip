@@ -22,7 +22,7 @@ namespace WolfPaw_ScreenSnip
 
 		public void refreshImage(f_Screen fs, Dictionary<int, uc_CutoutHolder> cutouts)
 		{
-			pb_PreviewPicture.Image = c_ImgGen.createPng(fs, cutouts);
+			pb_PreviewPicture.Image = c_ImgGen.createPng(fs, cutouts, new object[] { fs.getDrawnPoints(), null });
 			GC.Collect(1);
 		}
 	}

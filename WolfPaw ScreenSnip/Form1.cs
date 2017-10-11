@@ -138,7 +138,7 @@ namespace WolfPaw_ScreenSnip
 
         public void cleanButtons()
         {
-            setIcons("new", brn_New,this);
+            //setIcons("new", brn_New,this);
             setIcons("clear", btn_Clear, this);
             setIcons("preview", btn_Preview, this);
             setIcons("copy", btn_Copy, this);
@@ -227,7 +227,8 @@ namespace WolfPaw_ScreenSnip
             {
                 cleanButtons();
             }
-            
+
+			uc_ButtonSelector1.parent = this;
 
             TopMost = true;
             Icon = Properties.Resources.scissors;
@@ -429,11 +430,11 @@ namespace WolfPaw_ScreenSnip
             return bmp;
 		}
 
-        private void brn_New_Click(object sender, EventArgs e)
+        public void brn_New_Click(object sender, EventArgs e)
         {
 			if (e == null && sender != null && sender is string)
 			{
-				switch(sender as string)
+				switch (sender as string)
 				{
 					case "Rect":
 						handleCutouts(0);
@@ -457,7 +458,7 @@ namespace WolfPaw_ScreenSnip
 			{
 				handleCutouts(0);
 			}
-        }
+		}
 
 		public void handleCutouts(int mode)
 		{
@@ -508,7 +509,7 @@ namespace WolfPaw_ScreenSnip
 		{
 			try
 			{
-				Bitmap _b = c_ImgGen.createPng(fs,cutouts);
+				Bitmap _b = c_ImgGen.createPng(fs,cutouts, new object[] { fs.getDrawnPoints(), null });
 				Clipboard.SetImage(_b);
 			}
 			catch
@@ -519,7 +520,7 @@ namespace WolfPaw_ScreenSnip
 
 		public void saveImage()
 		{
-			Bitmap _b = c_ImgGen.createPng(fs,cutouts);
+			Bitmap _b = c_ImgGen.createPng(fs,cutouts, new object[] { fs.getDrawnPoints(), null });
 			string savename = "ScreenSnip_";
 			
 			if (true || Properties.Settings.Default.s_SaveHasDateTime)
@@ -707,7 +708,7 @@ namespace WolfPaw_ScreenSnip
 		{
 			try
 			{
-				e.Graphics.DrawImage(c_ImgGen.createPng(fs, cutouts), new Point(10, 10));
+				e.Graphics.DrawImage(c_ImgGen.createPng(fs, cutouts, new object[] { fs.getDrawnPoints(), null }), new Point(10, 10));
 				c_returnGraphicSettings cg = new c_returnGraphicSettings();
 
 				e.Graphics.SmoothingMode = cg.getSM();
@@ -803,7 +804,7 @@ namespace WolfPaw_ScreenSnip
 			if (fs != null && !fs.IsDisposed)
 			{
 				f_SaveToDB fsd = new f_SaveToDB();
-				fsd.img = c_ImgGen.createPng(fs, cutouts);
+				fsd.img = c_ImgGen.createPng(fs, cutouts, new object[] { fs.getDrawnPoints(), null });
 				fsd.ShowDialog();
 			}
         }

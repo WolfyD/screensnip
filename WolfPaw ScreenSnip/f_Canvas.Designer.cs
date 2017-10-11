@@ -39,6 +39,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Name = "f_Canvas";
 			this.Text = "f_Canvas";
+			this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.f_Canvas_MouseClick);
 			this.ResumeLayout(false);
 
 		}

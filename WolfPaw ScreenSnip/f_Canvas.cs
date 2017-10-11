@@ -23,6 +23,13 @@ namespace WolfPaw_ScreenSnip
 		private List<Point> cut_points = new List<Point>();
 		bool mdown = false;
 
+		Color bgc = new Color();
+		int transparency = 100;
+
+		Color magicSelectColor = new Color();
+		Point magicSelectPoint = new Point(-1, -1);
+		List<Point> magicSelectPixels = new List<Point>();
+		List<Point> magicUnSelectPixels = new List<Point>();
 
 		public f_Canvas()
 		{
@@ -37,6 +44,8 @@ namespace WolfPaw_ScreenSnip
 			Size = bounds;
 
 			BackgroundImage = bmp;
+			bgc = Properties.Settings.Default.s_CanvasColor;
+			transparency = 255 / (100 / (int)(Properties.Settings.Default.s_CanvasTransparency * 100));
 		}
 
 		public static Image Snip()
@@ -65,7 +74,7 @@ namespace WolfPaw_ScreenSnip
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
 			// Start the snip on mouse down
-			if (e.Button != MouseButtons.Left) { doit();  return; }
+			if (e.Button != MouseButtons.Left) {  return; }
 			if (mode == 0)
 			{
 				pntStart = e.Location;
@@ -108,14 +117,16 @@ namespace WolfPaw_ScreenSnip
 				if (mdown)
 				{
 					cut_points.Add(e.Location);
-
-					foreach (Point p in cut_points)
-					{
-						if (p.X < cut.X || cut.X == -1) { cut.X = p.X; }
-						if (p.Y < cut.Y || cut.Y == -1) { cut.Y = p.Y; }
-						if (p.X > cut.X + cut.Width) { cut.Width = p.X - cut.X; }
-						if (p.Y > cut.Y + cut.Height) { cut.Height = p.Y - cut.Y; }
-					}
+					
+					int minx = cut_points.Min(x => x.X);
+					int maxx = cut_points.Max(x => x.X);
+					int miny = cut_points.Min(y => y.Y);
+					int maxy = cut_points.Max(y => y.Y);
+					
+					cut.X = minx;
+					cut.Y = miny;
+					cut.Width = maxx - minx;
+					cut.Height = maxy - miny;
 				}
 
 			}
@@ -168,10 +179,10 @@ namespace WolfPaw_ScreenSnip
 		}
 		protected override void OnPaint(PaintEventArgs e)
 		{
-            // Draw the current selection
+            //RECTANGLE SELECTION
             if (mode == 0)
             {
-                using (Brush br = new SolidBrush(Color.FromArgb(120, Color.White)))
+                using (Brush br = new SolidBrush(Color.FromArgb(transparency, bgc)))
                 {
                     int x1 = rcSelect.X; int x2 = rcSelect.X + rcSelect.Width;
                     int y1 = rcSelect.Y; int y2 = rcSelect.Y + rcSelect.Height;
@@ -185,39 +196,25 @@ namespace WolfPaw_ScreenSnip
                     e.Graphics.DrawRectangle(pen, rcSelect);
                 }
             }
+			//WINDOW SELECTION
             else if (mode == 1)
             {
-
+				//TODO: [CANVAS] make window selection
             }
+			//FREEHAND
             else if (mode == 2)
             {
-                using (Brush br = new SolidBrush(Color.FromArgb(120, Color.White)))
+                using (Brush br = new SolidBrush(Color.FromArgb(transparency, bgc)))
                 {
                     e.Graphics.FillRectangle(br, new Rectangle(0, 0, Width, Height));
                 }
-
-
-
-                //Freehand
-
-
-                Pen _pen = new Pen(Brushes.Blue);
-
-                List<Point> lst = new List<Point>();
-                foreach (Point p in cut_points)
-                {
-                    Point pp = new Point(p.X, p.Y);
-                    lst.Add(pp);
-                }
-
-                try { lst.Add(lst[0]); } catch { }
-
+				
                 try
                 {
                     List<int> ppprem = new List<int>();
-                    for (int i = 0; i < lst.Count - 1; i++)
+                    for (int i = 0; i < cut_points.Count - 1; i++)
                     {
-                        if (lst[i].X == lst[i + 1].X && lst[i].Y == lst[i + 1].Y)
+                        if (cut_points[i].X == cut_points[i + 1].X && cut_points[i].Y == cut_points[i + 1].Y)
                         {
                             ppprem.Add(i);
                         }
@@ -225,68 +222,88 @@ namespace WolfPaw_ScreenSnip
 
                     foreach (int i in ppprem)
                     {
-                        lst.Remove(lst[i]);
+						cut_points.Remove(cut_points[i]);
                     }
                 }
                 catch { }
 
-                Point[] ppp = lst.ToArray();
-				
-                for (int i = 0; i < ppp.Length; i++)
-                {
-                    if (ppp.Length > i + 1)
-                    {
-                        if (ppp[i].Y > ppp[i + 1].Y) { _pen = new Pen(Brushes.Red); }else
-                        {
-                            _pen = new Pen(Brushes.Green);
-                        }
-                    }
-                    else
-                    {
-                        if (ppp[i].Y > ppp[0].Y) { _pen = new Pen(Brushes.Red); }
-                        else
-                        {
-                            _pen = new Pen(Brushes.Green);
-                        }
-                    }
-                    if (i < ppp.Length - 1)
-                    {
-                        if(i == 0) { e.Graphics.FillEllipse(Brushes.Yellow, ppp[i].X, ppp[i].Y, 8, 8); }
-                        else { e.Graphics.FillEllipse(Brushes.Pink, ppp[i].X, ppp[i].Y, 5, 5); }
+                Point[] ppp = cut_points.ToArray();
 
-                        if (i == 0)
-                        {
-                            e.Graphics.DrawLine(Pens.Orange, ppp[i], ppp[i + 1]);
-                            e.Graphics.DrawLine(Pens.Orange, new Point(ppp[i].X + 1, ppp[i].Y), new Point(ppp[i + 1].X + 1, ppp[i + 1].Y));
-                            e.Graphics.DrawLine(Pens.Orange, new Point(ppp[i].X, ppp[i].Y + 1), new Point(ppp[i + 1].X, ppp[i + 1].Y + 1));
+				using (Pen _pen = new Pen(Brushes.Blue))
+				{
 
-                            e.Graphics.DrawLine(Pens.Orange, ppp[i].X, ppp[i].Y, ppp[i].X - 500, ppp[i].Y);
-                        }
-                        else if (i == ppp.Length - 2)
-                        {
-                            e.Graphics.DrawLine(Pens.Blue, ppp[i], ppp[i + 1]);
-                            e.Graphics.DrawLine(Pens.Blue, new Point(ppp[i].X + 1, ppp[i].Y), new Point(ppp[i + 1].X + 1, ppp[i + 1].Y));
-                            e.Graphics.DrawLine(Pens.Blue, new Point(ppp[i].X, ppp[i].Y + 1), new Point(ppp[i + 1].X, ppp[i + 1].Y + 1));
+					for (int i = 0; i < ppp.Length; i++)
+					{
+						int ii = i + 1;
+						if(ii == ppp.Length)
+						{ ii = 0; }
 
-                            e.Graphics.DrawLine(Pens.Blue, ppp[i].X, ppp[i].Y, ppp[i].X - 500, ppp[i].Y);
-                        }
-                        else
-                        {
-                            e.Graphics.DrawLine(_pen, ppp[i], ppp[i + 1]);
-                            e.Graphics.DrawLine(_pen, new Point(ppp[i].X + 1, ppp[i].Y), new Point(ppp[i + 1].X + 1, ppp[i + 1].Y));
-                            e.Graphics.DrawLine(_pen, new Point(ppp[i].X, ppp[i].Y + 1), new Point(ppp[i + 1].X, ppp[i + 1].Y + 1));
-                        }
-                    }
-                }
+						Point[] lines = new Point[6] {
+							new Point(ppp[i].X + 1, ppp[i].Y),
+							new Point(ppp[ii].X + 1, ppp[ii].Y),
+							ppp[ii],
+							ppp[i],
+							new Point(ppp[i].X, ppp[i].Y + 1),
+							new Point(ppp[ii].X, ppp[ii].Y + 1)
+						};
+
+						e.Graphics.DrawLines(_pen, lines);
+					}
+				}
                 
                 e.Graphics.DrawRectangle(Pens.Black, cut);
-
 				
-
 			}
+			//FREEHAND WITH LINES
 			else if (mode == 3)
 			{
+				//TODO: [CANVAS] make line selection
+			}
+			//MAGIC WAND
+			else if (mode == 4)
+			{
+				//TODO: [CANVAS] make Magic selection
+				try
+				{
+					List<int> ppprem = new List<int>();
+					for (int i = 0; i < magicSelectPixels.Count - 1; i++)
+					{
+						if (magicSelectPixels[i].X == magicSelectPixels[i + 1].X && magicSelectPixels[i].Y == magicSelectPixels[i + 1].Y)
+						{
+							ppprem.Add(i);
+						}
+					}
 
+					foreach (int i in ppprem)
+					{
+						magicSelectPixels.Remove(cut_points[i]);
+					}
+				}
+				catch { }
+
+				Point[] ppp = magicSelectPixels.ToArray();
+
+				using (Pen _pen = new Pen(Brushes.Blue))
+				{
+
+					for (int i = 0; i < ppp.Length; i++)
+					{
+						int ii = i + 1;
+						if (ii == ppp.Length)
+						{ ii = 0; }
+
+						Point[] lines = new Point[6] {
+							new Point(ppp[i].X + 1, ppp[i].Y),
+							new Point(ppp[ii].X + 1, ppp[ii].Y),
+							ppp[ii],
+							ppp[i],
+							new Point(ppp[i].X, ppp[i].Y + 1),
+							new Point(ppp[ii].X, ppp[ii].Y + 1)
+						};
+
+						e.Graphics.DrawLines(_pen, lines);
+					}
+				}
 			}
 		}
 
@@ -359,6 +376,7 @@ namespace WolfPaw_ScreenSnip
 
         #endregion
 
+		//Creates array from list of points, adds first point to end of list
         public Point[] generatePointArray(List<Point> pnts)
 		{
 			List<Point> lst = new List<Point>();
@@ -391,53 +409,8 @@ namespace WolfPaw_ScreenSnip
 			
 			return lst.ToArray();
 		}
-
-		public void doit()
-		{
-            try
-            {
-				Point[] ppp = generatePointArray(cut_points);
-
-				using (Graphics g = Graphics.FromHwnd(this.Handle))
-                    for (int x = 0; x < cut.Width; x++)
-                    {
-                        for (int y = 0; y < cut.Height; y++)
-                        {
-                            Point _pp = new Point(cut.Left + x, cut.Top + y);
-                            if (c_WindingFunctions.wn_PnPoly(_pp, ppp, ppp.Length - 1) != 0)
-                            {
-                                g.FillEllipse(Brushes.Pink, _pp.X, _pp.Y, 3, 3);
-                            }
-                        }
-                    }
-            }
-            catch { }
-		}
-
-        public byte GetBitsPerPixel(PixelFormat p)
-        {
-            byte BitsPerPixel = 0;
-            switch (p)
-            {
-                case PixelFormat.Format8bppIndexed:
-                    BitsPerPixel = 8;
-                    break;
-                case PixelFormat.Format24bppRgb:
-                    BitsPerPixel = 24;
-                    break;
-                case PixelFormat.Format32bppArgb:
-                case PixelFormat.Format32bppPArgb:
-                    BitsPerPixel = 32;
-                    break;
-                default:
-                    BitsPerPixel = 0;
-                    break;
-            }
-
-            return BitsPerPixel;
-        }
-
-        //unsafe
+		
+        //UNSAFE CODE! Returns proper non-rectangular images
         public unsafe Image getPixels(Bitmap _image)
         {
             Bitmap b = new Bitmap(_image);//note this has several overloads, including a path to an image
@@ -469,33 +442,104 @@ namespace WolfPaw_ScreenSnip
             return b;
         }
 
-    }
-
-
-
-	public class Loc
-	{
-		private double lt;
-		private double lg;
-
-		public double Lg
+		private void f_Canvas_MouseClick(object sender, MouseEventArgs e)
 		{
-			get { return lg; }
-			set { lg = value; }
+			if (mode == 4)
+			{
+				
+				FloodFiller floodfiller = new FloodFiller();
+				AbstractFloodFiller chosenfloodfiller = (AbstractFloodFiller)floodfiller;
+
+				chosenfloodfiller.FillColor = Color.Black;
+				chosenfloodfiller.FillStyle = FloodFillStyle.Linear;
+
+				magicSelectPoint = e.Location;
+				magicSelectColor = ((Bitmap)this.BackgroundImage).GetPixel(magicSelectPoint.X, magicSelectPoint.Y);
+				//tmpPoints.Add(magicSelectPoint);
+				//startRecursiveSelection();
+
+				chosenfloodfiller.Pt = magicSelectPoint;
+				Bitmap b = (Bitmap)BackgroundImage;
+				chosenfloodfiller.Bmp = b;
+				chosenfloodfiller.FloodFill();
+				BackgroundImage = b;
+			}
 		}
 
-		public double Lt
+		List<Point> tmpPoints = new List<Point>();
+
+		public void pixelCheckColor(Point p, Color c)
 		{
-			get { return lt; }
-			set { lt = value; }
+			if(c == magicSelectColor) { magicSelectPixels.Add(p); }
+			else { magicUnSelectPixels.Add(p); }
 		}
 
-		public Loc(double lt, double lg)
+		public Point[] pixelHadValidNeighburs(Point p)
 		{
-			this.lt = lt;
-			this.lg = lg;
+			List<Point> ret = new List<Point>();
+
+			Point[] pp = new Point[]
+			{
+				new Point(p.X, p.Y - 1),
+				new Point(p.X, p.Y + 1),
+				new Point(p.X - 1, p.Y),
+				new Point(p.X + 1, p.Y)
+			};
+
+			foreach(Point ppp in pp)
+			{
+				if(!magicSelectPixels.Contains(ppp) &&
+					!magicUnSelectPixels.Contains(ppp))
+				{
+					ret.Add(ppp);
+				}
+			}
+
+			if(ret.Count > 0)
+			{
+				return ret.ToArray();
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+		//UNSAFE CODE
+		
+		
+
+		public void startRecursiveSelection()
+		{
+			Bitmap bmp = (Bitmap)BackgroundImage;
+			List<Point> tmp2Points = new List<Point>();
+			int i = 0;
+			
+			foreach(Point p in tmpPoints)
+			{
+				Point[] pp = pixelHadValidNeighburs(p);
+				if(pp != null) { tmp2Points.AddRange(pp); i++; }
+				
+			}
+
+			if(i > 0)
+			{
+				foreach(Point p in tmp2Points)
+				{
+					pixelCheckColor(p, bmp.GetPixel(p.X, p.Y));
+				}
+
+				tmpPoints = tmp2Points;
+				startRecursiveSelection();
+			}
+
+			Refresh();
 		}
 	}
+
+
+
+	
 
 }
 

@@ -4,18 +4,19 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Shapes;
 
 namespace WolfPaw_ScreenSnip
 {
 	static class c_ImgGen
 	{
 
-		public static Bitmap createImage(Rectangle rec, Dictionary<int, uc_CutoutHolder> cutouts)
+		public static Bitmap createImage(System.Drawing.Rectangle rec, Dictionary<int, uc_CutoutHolder> cutouts)
 		{
 			return createImage(rec, cutouts, false);
 		}
 
-		public static Bitmap createImage(Rectangle rec, Dictionary<int, uc_CutoutHolder> cutouts, bool drawTBG)
+		public static Bitmap createImage(System.Drawing.Rectangle rec, Dictionary<int, uc_CutoutHolder> cutouts, bool drawTBG)
 		{
 			int border = 0;
 
@@ -64,7 +65,7 @@ namespace WolfPaw_ScreenSnip
 					foreach (KeyValuePair<int, uc_CutoutHolder> kvp in cutouts)
 					{
 						uc_CutoutHolder k = kvp.Value;
-						g.DrawImage(k.BMP, new Rectangle(k.Left - rec.Left + border, k.Top - rec.Top + border, k.Width, k.Height), new Rectangle(0, 0, k.BMP.Width, k.BMP.Height), GraphicsUnit.Pixel);
+						g.DrawImage(k.BMP, new System.Drawing.Rectangle(k.Left - rec.Left + border, k.Top - rec.Top + border, k.Width, k.Height), new System.Drawing.Rectangle(0, 0, k.BMP.Width, k.BMP.Height), GraphicsUnit.Pixel);
 					}
 
 					if (Properties.Settings.Default.s_hasBorder)
@@ -86,16 +87,16 @@ namespace WolfPaw_ScreenSnip
 			return bm;
 		}
 
-		public static Bitmap createPng(f_Screen fs, Dictionary<int, uc_CutoutHolder> cutouts) { return createPng(fs, cutouts, false); }
+		public static Bitmap createPng(f_Screen fs, Dictionary<int, uc_CutoutHolder> cutouts, Object[] drawings) { return createPng(fs, cutouts, drawings, false); }
 
-		public static Bitmap createPng(f_Screen fs, Dictionary<int, uc_CutoutHolder> cutouts, bool drawTBG)
+		public static Bitmap createPng(f_Screen fs, Dictionary<int, uc_CutoutHolder> cutouts, Object[] drawings, bool drawTBG)
 		{
 			if (fs != null)
 			{
 				fillDict(fs,out cutouts);
 
-				int left = 999999;
-				int top = 999999;
+				int left = int.MaxValue;
+				int top = int.MaxValue;
 
 				int right = 0;
 				int bottom = 0;
@@ -112,9 +113,48 @@ namespace WolfPaw_ScreenSnip
 				int height = bottom - top;
 				int width = right - left;
 
-				Rectangle picrec = new Rectangle(left, top, width, height);
+				var picrec = new System.Drawing.Rectangle(left, top, width, height);
 
 				Bitmap _b = createImage(picrec, cutouts, drawTBG);
+
+				//TODO: Redo this. drawnpoints instead of lines
+				//TODO: New object type instead of Bitmaps
+				if (drawings != null && drawings.Length == 2)
+				{
+					List<c_DrawnPoints> lines = drawings[0] as List<c_DrawnPoints>;
+					//List<Bitmap> shapes = drawings[1] as List<Bitmap>;
+
+					if(lines.Count > 0)
+
+					try
+					{
+						using (Graphics g = Graphics.FromImage(_b))
+						{
+
+							for (int i = 0; i < lines.Count - 2; i++)
+							{
+								c_DrawnPoints l = lines[i];
+								c_DrawnPoints l2 = lines[i + 1];
+
+								Point p1 = new Point(l.X, l.Y);
+								Point p2 = new Point(l2.X, l2.Y);
+
+								g.DrawLine(Pens.Black, p1, p2);
+							}
+							/*
+							foreach (Bitmap b in shapes)
+							{
+								g.DrawImage(b, new PointF(0, 0));
+							}
+							*/
+						}
+					}
+					catch
+					{
+
+					}
+
+				}
 
 				return _b;
 			}

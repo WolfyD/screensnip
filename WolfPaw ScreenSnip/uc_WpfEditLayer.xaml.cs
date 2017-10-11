@@ -38,7 +38,7 @@ namespace WolfPaw_ScreenSnip
 		public f_Screen screen_parent { get; set; }
 
 		public List<c_DrawnPoints> points = new List<c_DrawnPoints>();
-
+		
         Line lineGuide = null;
         List<Line> drawPoints = new List<Line>();
 
@@ -140,36 +140,7 @@ namespace WolfPaw_ScreenSnip
 				points.Add(new c_DrawnPoints(toolSize,(int)l.X2, (int)l.Y2, this.screen_parent.toolColor));
 			}
 
-			for (int i = 0; i < points.Count - 1; i++)
-			{
-				if (points[i].X >= points[i + 1].X - 1 && points[i].X <= points[i + 1].X + 1)
-				{
-					points[i].X = points[i + 1].X;
-					points[i].Y = points[i + 1].Y;
-
-					points.Remove(points[i + 1]);
-				}
-                /*
-				List<Line> ll = new List<Line>();
-				foreach (Line l in c_Canvas.Children)
-				{
-					ll.Add(l);
-				}
-
-				for (int ii = 0; ii < ll.Count; ii++) { c_Canvas.Children.Remove(ll[ii]); }
-
-				for(int _i = 0; _i < points.Count - 1; _i++)
-				{
-					Line l = new Line();
-					l.X1 = points[_i].X;
-					l.Y1 = points[_i].Y;
-					l.X2 = points[_i + 1].X;
-					l.Y2 = points[_i + 1].Y;
-					l.Stroke = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Black);
-					l.StrokeThickness = points[_i].width;
-					c_Canvas.Children.Add(l);
-				}*/
-			}
+			
 
         }
     }

@@ -142,6 +142,11 @@ namespace WolfPaw_ScreenSnip
 			
 		}
 
+		public List<c_DrawnPoints> getDrawnPoints()
+		{
+			return el_EditLayer1.points;
+		}
+
 		public void addImage(Bitmap img)
 		{
 			if (Properties.Settings.Default.s_ToolbarPanel == 2)
