@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -144,11 +145,26 @@ namespace WolfPaw_ScreenSnip
 			else if (mode == 2)
 			{
 				mdown = false;
-			}
+                Bitmap b = new Bitmap(cut.Width, cut.Height);
+                using(Graphics g = Graphics.FromImage(b))
+                {
+					g.DrawImage(this.BackgroundImage, new Rectangle(0, 0, cut.Width, cut.Height), cut, GraphicsUnit.Pixel);
+                    //g.CopyFromScreen(cut.Location, new Point(0, 0), cut.Size);
+                }
+
+                //b.Save(@"c:\REPO\test1.bmp");
+                Bitmap bb = (Bitmap)getPixels(b);
+                //bb.Save(@"c:\REPO\test2.bmp");
+
+                retImg = bb;
+                DialogResult = DialogResult.OK;
+            }
 			else if (mode == 3)
 			{
 				mdown = false;
 			}
+
+
 		}
 		protected override void OnPaint(PaintEventArgs e)
 		{
@@ -216,12 +232,6 @@ namespace WolfPaw_ScreenSnip
 
                 Point[] ppp = lst.ToArray();
 				
-                int _i = 0;
-                foreach(Point p in ppp)
-                {
-                    Console.WriteLine((_i++).ToString().PadLeft(2, '0') + ": " + p.X + ":" + p.Y);
-                }
-
                 for (int i = 0; i < ppp.Length; i++)
                 {
                     if (ppp.Length > i + 1)
@@ -287,7 +297,9 @@ namespace WolfPaw_ScreenSnip
 			return base.ProcessCmdKey(ref msg, keyData);
 		}
 
-		/*
+        #region Raycasting, not used
+
+        /*RayCasting
 		public bool raycast(Point p)
 		{
 			int k, j = cut_points.Count - 1;
@@ -319,7 +331,7 @@ namespace WolfPaw_ScreenSnip
 		}
 		*/
 
-		/*
+        /*PointInPoly
 		bool pinp(List<Loc> ll, Point p)
 		{
 			Loc l = new Loc(p.X, p.Y);
@@ -345,8 +357,9 @@ namespace WolfPaw_ScreenSnip
 		}
 		*/
 
+        #endregion
 
-		public Point[] generatePointArray(List<Point> pnts)
+        public Point[] generatePointArray(List<Point> pnts)
 		{
 			List<Point> lst = new List<Point>();
 			foreach (Point p in pnts)
@@ -355,6 +368,7 @@ namespace WolfPaw_ScreenSnip
 				lst.Add(pp);
 			}
 
+			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			try { lst.Add(lst[0]); } catch { }
 
 			try
@@ -400,8 +414,64 @@ namespace WolfPaw_ScreenSnip
             catch { }
 		}
 
+        public byte GetBitsPerPixel(PixelFormat p)
+        {
+            byte BitsPerPixel = 0;
+            switch (p)
+            {
+                case PixelFormat.Format8bppIndexed:
+                    BitsPerPixel = 8;
+                    break;
+                case PixelFormat.Format24bppRgb:
+                    BitsPerPixel = 24;
+                    break;
+                case PixelFormat.Format32bppArgb:
+                case PixelFormat.Format32bppPArgb:
+                    BitsPerPixel = 32;
+                    break;
+                default:
+                    BitsPerPixel = 0;
+                    break;
+            }
 
-	}
+            return BitsPerPixel;
+        }
+
+        //unsafe
+        public unsafe Image getPixels(Bitmap _image)
+        {
+            Bitmap b = new Bitmap(_image);//note this has several overloads, including a path to an image
+            Bitmap bb = new Bitmap(b.Width, b.Height, PixelFormat.Format32bppArgb);
+            Point[] ppp = generatePointArray(cut_points);
+            BitmapData bData = b.LockBits(new Rectangle(0, 0, _image.Width, _image.Height), ImageLockMode.ReadWrite, b.PixelFormat);
+            
+            byte bitsPerPixel = (byte)Image.GetPixelFormatSize(bData.PixelFormat);
+            int PixelSize = 4;
+
+            for (int y = 0; y < bb.Height; y++)
+            {
+                byte* row = (byte*)bData.Scan0 + (y * bData.Stride);
+
+                for (int x = 0; x < bb.Width; x++)
+                {
+                    if(c_WindingFunctions.wn_PnPoly(new Point(cut.Left + x,cut.Top + y), ppp, ppp.Length - 1) == 0)
+                    {
+                        row[x * PixelSize] = 0;         //Blue  0-255
+                        row[x * PixelSize + 1] = 0;   //Green 0-255
+                        row[x * PixelSize + 2] = 0;     //Red   0-255
+                        row[x * PixelSize + 3] = 0;    //Alpha 0-255
+                    }
+                }
+            }
+
+            b.UnlockBits(bData);
+
+            return b;
+        }
+
+    }
+
+
 
 	public class Loc
 	{

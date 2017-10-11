@@ -149,7 +149,7 @@ namespace WolfPaw_ScreenSnip
 
 					points.Remove(points[i + 1]);
 				}
-
+                /*
 				List<Line> ll = new List<Line>();
 				foreach (Line l in c_Canvas.Children)
 				{
@@ -168,7 +168,7 @@ namespace WolfPaw_ScreenSnip
 					l.Stroke = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Black);
 					l.StrokeThickness = points[_i].width;
 					c_Canvas.Children.Add(l);
-				}
+				}*/
 			}
 
         }

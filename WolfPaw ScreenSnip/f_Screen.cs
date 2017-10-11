@@ -22,6 +22,7 @@ namespace WolfPaw_ScreenSnip
 		string[] imageFormats = new string[] { "image/gif", "image/jpeg", "image/pjpeg", "image/png", "image/x-png", "image/tiff", "image/bmp", "image/x-xbitmap", "image/x-jg", "image/x-emf", "image/x-wmf" };
 		string[] stringFormats = new string[] { "text/plain", "text/html", "text/xml", "text/richtext", "text/scriptlet" };
 
+		f_previewWindow pw = null;
 
 		bool handleDrag = false;
 		Font dragableFont = new Font("Consolas", 12, FontStyle.Regular);
@@ -78,6 +79,9 @@ namespace WolfPaw_ScreenSnip
 			b.MakeTransparent(Color.White);
 			System.IntPtr icH = b.GetHicon();
 			this.Icon = System.Drawing.Icon.FromHandle(icH);
+
+			pw = new f_previewWindow();
+			pw.Show();
 
 			if (Properties.Settings.Default.s_ToolbarPanel == 1)
 			{
@@ -169,9 +173,10 @@ namespace WolfPaw_ScreenSnip
 
 		private void f_Screen_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if(child != null) { child.Close(); }
+			if (child != null) { child.Close(); }
+			if (pw != null) { pw.Close(); }
 
-			foreach(var v in Controls)
+			foreach (var v in Controls)
 			{
 				if(v != null && v is uc_CutoutHolder)
 				{
@@ -480,6 +485,11 @@ namespace WolfPaw_ScreenSnip
 			if (udUP) { sb_PrecMovUD.Value = 0; udUP = false; }
 			if (lrUP) { sb_PrecMovLR.Value = 0; lrUP = false; }
 
+			if (pw != null && !pw.IsDisposed)
+			{
+				pw.refreshImage(this, new Dictionary<int, uc_CutoutHolder>());
+			}
+
 			//invalidateTools();
 		}
 
@@ -575,7 +585,7 @@ namespace WolfPaw_ScreenSnip
                     }
                 }
             }
-
+			
         }
 
 		private void f_Screen_SizeChanged(object sender, EventArgs e)
