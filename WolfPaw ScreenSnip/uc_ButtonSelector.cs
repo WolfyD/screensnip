@@ -17,6 +17,8 @@ namespace WolfPaw_ScreenSnip
 
 		public Form1 parent { get; set; }
 
+		public bool cmsIsClosed = true;
+
 		public int ButtonSize
 		{
 			get { return buttonSize; }
@@ -59,6 +61,8 @@ namespace WolfPaw_ScreenSnip
 			cms_Buttons.Width = Width;
 			cms_Buttons.Height = cms_Buttons.Items.Count * (buttonSize + 1);
 
+			cms_Buttons.Closed += Cms_Buttons_Closed;
+
 			Bitmap bmp = null;
 
 			switch (Properties.Settings.Default.s_lastTool)
@@ -91,7 +95,12 @@ namespace WolfPaw_ScreenSnip
 
 			btn_Button.BackgroundImage = bmp;
 		}
-		
+
+		private void Cms_Buttons_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+		{
+			cmsIsClosed = true;
+		}
+
 		private void itemClick(object sender, EventArgs e)
 		{
 			//TODO:
@@ -107,10 +116,10 @@ namespace WolfPaw_ScreenSnip
 		public void setButtonSize(int btns)
 		{
 			btn_Button.Size = new Size(buttonSize, buttonSize);
-			btn_DropDown.Left = btn_Button.Width;
+			btn_DropDown.Left = btn_Button.Width - 2;
 			btn_DropDown.Height = buttonSize;
 			this.Height = buttonSize;
-			this.Width = buttonSize + btn_DropDown.Width;
+			this.Width = btn_DropDown.Right;
 		}
 
 		public void dropDownOpen()
@@ -125,7 +134,7 @@ namespace WolfPaw_ScreenSnip
 
 		public bool checkDropDown()
 		{
-			return cms_Buttons.Visible;
+			return !cmsIsClosed;
 		}
 
 		private void btn_DropDown_Click(object sender, EventArgs e)
@@ -136,6 +145,7 @@ namespace WolfPaw_ScreenSnip
 			}
 			else
 			{
+				cmsIsClosed = false;
 				dropDownOpen();
 			}
 		}

@@ -47,7 +47,7 @@ namespace WolfPaw_ScreenSnip
 			get
 			{
 				CreateParams cp = base.CreateParams;
-				cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
+				cp.ExStyle |= 0x02000000 | 0x00000020;  // Turn on WS_EX_COMPOSITED
 				return cp;
 			}
 		}
@@ -345,6 +345,8 @@ namespace WolfPaw_ScreenSnip
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
+			
+			
 
 			if (redraw)
 			{
