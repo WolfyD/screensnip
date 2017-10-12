@@ -14,23 +14,30 @@ using System.Windows.Forms;
 
 namespace WolfPaw_ScreenSnip
 {
-    public partial class f_Screen : Form
-    {
+	public partial class f_Screen : Form
+	{
 		public f_SettingPanel child = null;
 		public Form1 parent = null;
 
 		string[] imageFormats = new string[] { "image/gif", "image/jpeg", "image/pjpeg", "image/png", "image/x-png", "image/tiff", "image/bmp", "image/x-xbitmap", "image/x-jg", "image/x-emf", "image/x-wmf" };
 		string[] stringFormats = new string[] { "text/plain", "text/html", "text/xml", "text/richtext", "text/scriptlet" };
 
-		f_previewWindow pw = null;
+		public f_previewWindow pw = null;
 
 		bool handleDrag = false;
 		Font dragableFont = new Font("Consolas", 12, FontStyle.Regular);
 		Bitmap dragableImage = null;
-		Size dragableSize = new Size(1,1);
+		Size dragableSize = new Size(1, 1);
 		Point dragablePoint = new Point(0, 0);
 		bool udUP = false;
 		bool lrUP = false;
+
+		public bool mdown = false;
+		public c_ImageHolder selectedImage = null;
+		public c_ImageHolder mouseOverImage = null;
+		public Point imageDragPoint = new Point();
+
+		public List<c_ImageHolder> Limages = new List<c_ImageHolder>();
 
 		public Color toolColor = Color.Black;
 
@@ -41,12 +48,22 @@ namespace WolfPaw_ScreenSnip
 			set { CurrentTool = value; changeTool(CurrentTool); }
 		}
 
-		public f_Screen()
-        {
-            InitializeComponent();
+		protected override CreateParams CreateParams
+		{
+			get
+			{
+				CreateParams cp = base.CreateParams;
+				cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
+				return cp;
+			}
+		}
 
-            Load += F_Screen_Load;
-        }
+		public f_Screen()
+		{
+			InitializeComponent();
+
+			Load += F_Screen_Load;
+		}
 
 		public void setScrollBars()
 		{
@@ -54,7 +71,7 @@ namespace WolfPaw_ScreenSnip
 			{
 				sb_PrecMovUD.Left = Width - (sb_PrecMovUD.Width + 16);
 				sb_PrecMovUD.Height = Height - (39 + ts_Tools.Height + sb_PrecMovLR.Height);
-				sb_PrecMovUD.Top =ts_Tools.Height;
+				sb_PrecMovUD.Top = ts_Tools.Height;
 				sb_PrecMovLR.Width = Width - (16 + sb_PrecMovUD.Width);
 			}
 			else if (p_Tools.Width > 0)
@@ -103,7 +120,7 @@ namespace WolfPaw_ScreenSnip
 
 			setScrollBars();
 			/*DAFUQÉRT NEM MŰKÖDIK JÓL????!*/
-            /*
+			/*
 			///TESTING WINDING NUMBER
 			Point[] V = new Point[] {
 				new Point(0,0),
@@ -139,7 +156,7 @@ namespace WolfPaw_ScreenSnip
 			}
 			/*--*/
 
-			
+
 		}
 
 		public List<c_DrawnPoints> getDrawnPoints()
@@ -163,6 +180,8 @@ namespace WolfPaw_ScreenSnip
 		{
 			if (img != null)
 			{
+				//TODO: ADDIMAGE
+				/*
 				var box = new uc_CutoutHolder();
 				box.Parent = this;
 
@@ -173,8 +192,23 @@ namespace WolfPaw_ScreenSnip
 				box.Top = pos.Y;
 
 				box.BMP = img;
+				*/
+
+				var box = new c_ImageHolder();
+				box.parent = this;
+
+				box.Size = new Size(img.Width, img.Height);
+
+				box.Position = new Point(pos.X, pos.Y);
+
+				box.Image = img;
+
+				box.LayerIndex = Limages.Count;
+				box.selfContainingList = Limages;
+
+				Limages.Add(box);
 			}
-        }
+		}
 
 		private void f_Screen_FormClosing(object sender, FormClosingEventArgs e)
 		{
@@ -183,7 +217,7 @@ namespace WolfPaw_ScreenSnip
 
 			foreach (var v in Controls)
 			{
-				if(v != null && v is uc_CutoutHolder)
+				if (v != null && v is uc_CutoutHolder)
 				{
 					((uc_CutoutHolder)v).Dispose();
 				}
@@ -193,67 +227,75 @@ namespace WolfPaw_ScreenSnip
 			{
 				GC.AddMemoryPressure(GC.GetTotalMemory(true));
 				GC.Collect(Int32.MaxValue, GCCollectionMode.Forced, true);
-			}catch{}
+			} catch { }
 
 			parent.Activate();
 		}
 
-        public void f_Screen_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Left || e.KeyCode == Keys.Right ||
-                e.KeyCode == Keys.Up || e.KeyCode == Keys.Down ||e.KeyCode == Keys.Escape)
-            {
-                var c = c_ImgGen.returnCutouts(this);
-                uc_CutoutHolder u = null;
-                foreach (var v in c.Values)
-                {
-                    if (v.moveMode)
-                    {
-                        u = v;
-                        break;
-                    }
-                }
+		public void f_Screen_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Left || e.KeyCode == Keys.Right ||
+				e.KeyCode == Keys.Up || e.KeyCode == Keys.Down || e.KeyCode == Keys.Escape)
+			{
+				var c = c_ImgGen.returnCutouts(this);
+				c_ImageHolder u = null;
+				foreach (var cc in Limages)
+				{
+					if (cc.selected)
+					{
+						u = cc;
+						break;
+					}
+				}
 
 				int add = 1;
 				if (e.Control) { add = 5; }
 
-                if(u != null)
-                {
-                    switch (e.KeyCode)
-                    {
-                        case Keys.Left:
-                            u.Left -= add;
-                            break;
+				if (u != null)
+				{
+					c_ImageHolder.directions dir = c_ImageHolder.directions.none;
+					switch (e.KeyCode)
+					{
+						case Keys.Left:
+							dir = c_ImageHolder.directions.left;
+							break;
 
-                        case Keys.Right:
-                            u.Left += add;
-                            break;
+						case Keys.Right:
+							dir = c_ImageHolder.directions.right;
+							break;
 
-                        case Keys.Up:
-                            u.Top -= add;
-                            break;
+						case Keys.Up:
+							dir = c_ImageHolder.directions.up;
+							break;
 
-                        case Keys.Down:
-                            u.Top += add;
-                            break;
+						case Keys.Down:
+							dir = c_ImageHolder.directions.down;
+							break;
 
 						case Keys.Escape:
-							u.clickMovementMode();
+							u.selected = false;
+							Invalidate();
 							break;
-                    }
-                }
+					}
+
+					if(dir != c_ImageHolder.directions.none)
+					{
+						u.move(dir, add);
+						Invalidate();
+					}
+				}
 				else if (e.KeyCode == Keys.Escape)
 				{
-					
+
 				}
 
-            }
-            else
-            {
-                parent.Form1_KeyDown(sender, e);
-            }
-        }
-		
+			}
+			else
+			{
+				parent.Form1_KeyDown(sender, e);
+			}
+		}
+
 		private void f_Screen_DragDrop(object sender, DragEventArgs e)
 		{
 			handleDrag = false;
@@ -291,7 +333,7 @@ namespace WolfPaw_ScreenSnip
 					}
 				}
 
-				
+
 
 				//TODO: Make Image mime detection recursive!!
 				if (item != null && e.Effect == DragDropEffects.Copy)
@@ -309,9 +351,9 @@ namespace WolfPaw_ScreenSnip
 							}
 							else if (stringFormats.Contains(ret))
 							{
-                                dragableImage = textToImg(s);
-                                handleDrag = true;
-                            }
+								dragableImage = textToImg(s);
+								handleDrag = true;
+							}
 							else
 							{
 								e.Effect = DragDropEffects.None;
@@ -322,7 +364,7 @@ namespace WolfPaw_ScreenSnip
 							try
 							{
 								string ss = s.Replace("\t", "              ");
-                                dragableImage = textToImg(ss);
+								dragableImage = textToImg(ss);
 								handleDrag = true;
 							}
 							catch
@@ -330,31 +372,31 @@ namespace WolfPaw_ScreenSnip
 								e.Effect = DragDropEffects.None;
 							}
 						}
-						
+
 					}
 				}
 			}
 
 		}
 
-        public Bitmap textToImg(string s)
-        {
-            Size textSize = TextRenderer.MeasureText(s, dragableFont);
-            Bitmap di  = new Bitmap(textSize.Width + 10, textSize.Height + 10);
-            using (Graphics g = Graphics.FromImage(di))
-            {
-                g.DrawString(s, dragableFont, Brushes.Black, new PointF(5, 5));
-            }
-            dragableSize = di.Size;
-            return di;
-        }
+		public Bitmap textToImg(string s)
+		{
+			Size textSize = TextRenderer.MeasureText(s, dragableFont);
+			Bitmap di = new Bitmap(textSize.Width + 10, textSize.Height + 10);
+			using (Graphics g = Graphics.FromImage(di))
+			{
+				g.DrawString(s, dragableFont, Brushes.Black, new PointF(5, 5));
+			}
+			dragableSize = di.Size;
+			return di;
+		}
 
 		private void f_Screen_DragOver(object sender, DragEventArgs e)
 		{
 			if (handleDrag)
 			{
 				Refresh();
-				using(Graphics g = Graphics.FromHwnd(this.Handle))
+				using (Graphics g = Graphics.FromHwnd(this.Handle))
 				{
 					Point p = PointToClient(new Point(e.X - dragableSize.Width / 2, e.Y - 10));
 					dragablePoint = p;
@@ -442,7 +484,7 @@ namespace WolfPaw_ScreenSnip
 		public void setPanelTopmost()
 		{
 			//p_Tools.BringToFront();
-			
+
 		}
 
 		public void toggleToolbar()
@@ -455,44 +497,35 @@ namespace WolfPaw_ScreenSnip
 			p_Tools.Width = (p_Tools.Width == 0 ? 200 : 0);
 		}
 
-        public void paste()
-        {
-            if (Clipboard.ContainsImage())
-            {
-                addImage((Bitmap)Clipboard.GetImage());
-            }
-            else if (Clipboard.ContainsText())
-            {
-                addImage(textToImg(Clipboard.GetText()));
-            }
-        }
-		
+		public void paste()
+		{
+			if (Clipboard.ContainsImage())
+			{
+				addImage((Bitmap)Clipboard.GetImage());
+			}
+			else if (Clipboard.ContainsText())
+			{
+				addImage(textToImg(Clipboard.GetText()));
+			}
+		}
+
 
 		private void t_Tick_Tick(object sender, EventArgs e)
 		{
-
-			if(sb_PrecMovLR.Value != 0 || sb_PrecMovUD.Value != 0)
+			foreach(c_ImageHolder c in Limages)
 			{
-				var c = c_ImgGen.returnCutouts(this);
-				if(c != null && c.Count > 0)
+				if (c.panelShowing)
 				{
-					foreach (var v in c.Values)
-					{
-						if (v.moveMode)
-						{
-							v.Left += sb_PrecMovLR.Value;
-							v.Top += sb_PrecMovUD.Value;
-						}
-					}
+					if (c.panelTimeLeft > 0)
+						c.panelTimeLeft--;
+					else
+						c.hidePanel();
 				}
 			}
 
-			if (udUP) { sb_PrecMovUD.Value = 0; udUP = false; }
-			if (lrUP) { sb_PrecMovLR.Value = 0; lrUP = false; }
-
 			if (pw != null && !pw.IsDisposed)
 			{
-				pw.refreshImage(this, new Dictionary<int, uc_CutoutHolder>());
+				pw.refreshImage(this);
 			}
 
 			//invalidateTools();
@@ -534,7 +567,7 @@ namespace WolfPaw_ScreenSnip
 
 		private void sb_PrecMovUD_Scroll(object sender, ScrollEventArgs e)
 		{
-			if(e.Type == ScrollEventType.EndScroll)
+			if (e.Type == ScrollEventType.EndScroll)
 			{
 				udUP = true;
 			}
@@ -560,21 +593,21 @@ namespace WolfPaw_ScreenSnip
 			}
 		}
 
-        private void btn_Dock_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
+		private void btn_Dock_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+		{
 
-            if (e.KeyCode == Keys.Left || e.KeyCode == Keys.Right ||
-                e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
-            {
-                e.IsInputKey = true;
-            }
+			if (e.KeyCode == Keys.Left || e.KeyCode == Keys.Right ||
+				e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
+			{
+				e.IsInputKey = true;
+			}
 
-        }
+		}
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			base.OnPaint(e);
+			/*
             var c = c_ImgGen.returnCutouts(this);
             if (c != null && c.Count > 0)
             {
@@ -590,14 +623,41 @@ namespace WolfPaw_ScreenSnip
                     }
                 }
             }
-			
-        }
+			*/
+			//TODO: PAINT!!
+			organizeImageList();
+			foreach (c_ImageHolder c in Limages)
+			{
+				if (c != null && c is c_ImageHolder)
+				{
+					e.Graphics.DrawImage(c.getScaledImage(), c.Position);
+					if (c.selected)
+					{
+						e.Graphics.DrawRectangle(Pens.Black, new Rectangle(c.Position, c.Size));
+					}
+					else if (c.mouseOver)
+					{
+						e.Graphics.DrawRectangle(Pens.Black, new Rectangle(c.Position, c.Size));
+					}
+					if (c.panelShowing)
+					{
+						e.Graphics.FillRectangle(Brushes.AliceBlue, new RectangleF(c.Position, new Size(c.Width, 20)));
+					}
+				}
+			}
+
+		}
 
 		private void f_Screen_SizeChanged(object sender, EventArgs e)
 		{
 			invalidateTools();
 		}
-		
+
+		public void organizeImageList()
+		{
+			Limages.Sort(new intComparer());
+		}
+
 		public void changeTool(int tool)
 		{
 			if (tool == 0)
@@ -651,10 +711,111 @@ namespace WolfPaw_ScreenSnip
 			currentTool = 3;
 		}
 
-        private void num_ToolSize_ValueChanged_1(object sender, EventArgs e)
-        {
-            el_EditLayer1.toolSize = (int)num_ToolSize.Value;
-        }
+		private void num_ToolSize_ValueChanged_1(object sender, EventArgs e)
+		{
+			el_EditLayer1.toolSize = (int)num_ToolSize.Value;
+		}
+
+		private void f_Screen_MouseClick(object sender, MouseEventArgs e)
+		{
+			foreach (c_ImageHolder c in Limages)
+			{
+				if (pointInPosition(e.Location, new Rectangle(c.Position, c.Size)))
+				{
+					c.select();
+				}
+			}
+
+			Invalidate();
+		}
+
+		public bool pointInPosition(Point p, Rectangle r)
+		{
+			if (p.X >= r.X && p.X <= r.X + r.Width && p.Y >= r.Y && p.Y <= r.Y + r.Height)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		public bool pointOverAny(Point p, out c_ImageHolder overImg)
+		{
+			overImg = null;
+
+			foreach (c_ImageHolder c in Limages)
+			{
+				if (pointInPosition(p, c.bounds()))
+				{
+					overImg = c;
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		private void f_Screen_MouseDown(object sender, MouseEventArgs e)
+		{
+			Limages.Sort(new intComparerDesc());
+			foreach (c_ImageHolder c in Limages)
+			{
+				if (pointInPosition(e.Location, new Rectangle(c.Position, c.Size)))
+				{
+					c.select();
+					selectedImage = c;
+					imageDragPoint = new Point(e.X - c.Left, e.Y - c.Top);
+					mdown = true;
+					break;
+				}
+			}
+
+			Invalidate();
+		}
+
+		private void f_Screen_MouseUp(object sender, MouseEventArgs e)
+		{
+			selectedImage = null;
+			mdown = false;
+		}
+
+		//TODO: MOUSE MOVE!!
+		private void f_Screen_MouseMove(object sender, MouseEventArgs e)
+		{
+			if (mdown && selectedImage != null)
+			{
+				selectedImage.Position = new Point(e.X - imageDragPoint.X, e.Y - imageDragPoint.Y);
+				Invalidate();
+			}
+			else
+			{
+				c_ImageHolder img = null;
+				if (pointOverAny(e.Location,out img))
+				{
+					mouseOverImage = img;
+					mouseOverImage.mouseOver = true;
+					if(pointInPosition(e.Location,new Rectangle(mouseOverImage.Position, new Size(mouseOverImage.Width, 20))))
+					{
+						mouseOverImage.showPanel();
+					}
+				}
+				else
+				{
+					mouseOverImage = null;
+				}
+
+				foreach (c_ImageHolder cc in Limages)
+				{
+					if(cc != mouseOverImage)
+					{
+						cc.mouseOver = false;
+					}
+				}
+				Invalidate();
+			}
+		}
 	}
 
 	public class myToolstrip : ToolStrip
@@ -693,5 +854,21 @@ namespace WolfPaw_ScreenSnip
 			}
 		}
 	}
-    
+
+	public class intComparer : IComparer<c_ImageHolder>
+	{
+		public int Compare(c_ImageHolder a, c_ImageHolder b)
+		{
+			return (a.LayerIndex > b.LayerIndex ? 1 : -1);
+		}
+	}
+
+	public class intComparerDesc : IComparer<c_ImageHolder>
+	{
+		public int Compare(c_ImageHolder a, c_ImageHolder b)
+		{
+			return (a.LayerIndex < b.LayerIndex ? 1 : -1);
+		}
+	}
+
 }

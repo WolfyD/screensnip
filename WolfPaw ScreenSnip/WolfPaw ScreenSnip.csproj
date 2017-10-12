@@ -33,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -82,16 +83,15 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractFloodFiller.cs" />
     <Compile Include="c_Converter.cs" />
     <Compile Include="c_DatabaseHandler.cs" />
     <Compile Include="c_DrawnPoints.cs" />
+    <Compile Include="c_ImageHolder.cs" />
     <Compile Include="c_ImgGen.cs" />
     <Compile Include="c_KeyboardHook.cs" />
     <Compile Include="c_Object.cs" />
     <Compile Include="c_returnGraphicSettings.cs" />
     <Compile Include="c_WindingFunctions.cs" />
-    <Compile Include="FloodFiller.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

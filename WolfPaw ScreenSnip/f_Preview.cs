@@ -13,7 +13,8 @@ namespace WolfPaw_ScreenSnip
 	public partial class f_Preview : Form
 	{
 		public f_Screen fs = null;
-		public Dictionary<int, uc_CutoutHolder> cutouts = null;
+		//public Dictionary<int, uc_CutoutHolder> cutouts = null;
+		public List<c_ImageHolder> cutouts = null;
 		bool trender = true;
 		bool hbg = false;
 		bool hbd = false;

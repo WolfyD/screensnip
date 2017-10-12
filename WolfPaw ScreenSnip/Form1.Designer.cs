@@ -272,8 +272,10 @@
 			this.uc_ButtonSelector1.ButtonSize = 40;
 			this.uc_ButtonSelector1.Location = new System.Drawing.Point(0, 20);
 			this.uc_ButtonSelector1.Name = "uc_ButtonSelector1";
+			this.uc_ButtonSelector1.parent = null;
 			this.uc_ButtonSelector1.Size = new System.Drawing.Size(55, 40);
 			this.uc_ButtonSelector1.TabIndex = 16;
+			this.uc_ButtonSelector1.Load += new System.EventHandler(this.uc_ButtonSelector1_Load);
 			// 
 			// Form1
 			// 

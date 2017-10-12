@@ -452,7 +452,7 @@
 			this.elementHost1.BackColorTransparent = true;
 			this.elementHost1.Location = new System.Drawing.Point(0, 0);
 			this.elementHost1.Name = "elementHost1";
-			this.elementHost1.Size = new System.Drawing.Size(936, 606);
+			this.elementHost1.Size = new System.Drawing.Size(62, 90);
 			this.elementHost1.TabIndex = 3;
 			this.elementHost1.Text = "elementHost1";
 			this.elementHost1.Visible = false;
@@ -851,13 +851,14 @@
 			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.SystemColors.ActiveBorder;
+			this.BackColor = System.Drawing.Color.Gainsboro;
 			this.ClientSize = new System.Drawing.Size(1126, 606);
 			this.Controls.Add(this.elementHost1);
 			this.Controls.Add(this.sb_PrecMovLR);
 			this.Controls.Add(this.sb_PrecMovUD);
 			this.Controls.Add(this.ts_Tools);
 			this.Controls.Add(this.p_Tools);
+			this.DoubleBuffered = true;
 			this.KeyPreview = true;
 			this.Name = "f_Screen";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -868,6 +869,10 @@
 			this.DragEnter += new System.Windows.Forms.DragEventHandler(this.f_Screen_DragEnter);
 			this.DragOver += new System.Windows.Forms.DragEventHandler(this.f_Screen_DragOver);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.f_Screen_KeyDown);
+			this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.f_Screen_MouseClick);
+			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.f_Screen_MouseDown);
+			this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.f_Screen_MouseMove);
+			this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.f_Screen_MouseUp);
 			((System.ComponentModel.ISupportInitialize)(this.num_ToolSize)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.num_Border)).EndInit();
 			this.ts_Tools.ResumeLayout(false);

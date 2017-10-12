@@ -387,8 +387,9 @@ namespace WolfPaw_ScreenSnip
 			Hide();
 			if(fs != null) { fs.Hide(); }
             if(tools != null) { tools.Hide(); }
+			if (fs != null && fs.pw != null) { fs.pw.Hide(); }
 
-            Thread.Sleep(Properties.Settings.Default.s_BaseDelay);
+			Thread.Sleep(Properties.Settings.Default.s_BaseDelay);
 
 			if (Properties.Settings.Default.s_hasDelay)
 			{
@@ -425,9 +426,10 @@ namespace WolfPaw_ScreenSnip
 			
 			Show();
 			if(fs != null && !fs.IsDisposed) { fs.Show(); }
-            if (tools != null && !tools.IsDisposed) { tools.Show(); }
+			if (tools != null && !tools.IsDisposed) { tools.Show(); }
+			if (fs != null && fs.pw != null && !fs.pw.IsDisposed) { fs.pw.Show(); }
 
-            return bmp;
+			return bmp;
 		}
 
         public void brn_New_Click(object sender, EventArgs e)
@@ -509,7 +511,7 @@ namespace WolfPaw_ScreenSnip
 		{
 			try
 			{
-				Bitmap _b = c_ImgGen.createPng(fs,cutouts, new object[] { fs.getDrawnPoints(), null });
+				Bitmap _b = c_ImgGen.createPng(fs,fs.Limages, new object[] { fs.getDrawnPoints(), null });
 				Clipboard.SetImage(_b);
 			}
 			catch
@@ -520,7 +522,7 @@ namespace WolfPaw_ScreenSnip
 
 		public void saveImage()
 		{
-			Bitmap _b = c_ImgGen.createPng(fs,cutouts, new object[] { fs.getDrawnPoints(), null });
+			Bitmap _b = c_ImgGen.createPng(fs,fs.Limages, new object[] { fs.getDrawnPoints(), null });
 			string savename = "ScreenSnip_";
 			
 			if (true || Properties.Settings.Default.s_SaveHasDateTime)
@@ -677,7 +679,7 @@ namespace WolfPaw_ScreenSnip
 		{
 			f_Preview fp = new f_Preview();
 			fp.fs = fs;
-			fp.cutouts = cutouts;
+			fp.cutouts = fs.Limages;
 			fp.ShowDialog();
 			fp.TopMost = true;
 		}
@@ -708,7 +710,7 @@ namespace WolfPaw_ScreenSnip
 		{
 			try
 			{
-				e.Graphics.DrawImage(c_ImgGen.createPng(fs, cutouts, new object[] { fs.getDrawnPoints(), null }), new Point(10, 10));
+				e.Graphics.DrawImage(c_ImgGen.createPng(fs, fs.Limages, new object[] { fs.getDrawnPoints(), null }), new Point(10, 10));
 				c_returnGraphicSettings cg = new c_returnGraphicSettings();
 
 				e.Graphics.SmoothingMode = cg.getSM();
@@ -804,7 +806,7 @@ namespace WolfPaw_ScreenSnip
 			if (fs != null && !fs.IsDisposed)
 			{
 				f_SaveToDB fsd = new f_SaveToDB();
-				fsd.img = c_ImgGen.createPng(fs, cutouts, new object[] { fs.getDrawnPoints(), null });
+				fsd.img = c_ImgGen.createPng(fs, fs.Limages, new object[] { fs.getDrawnPoints(), null });
 				fsd.ShowDialog();
 			}
         }
@@ -925,6 +927,11 @@ namespace WolfPaw_ScreenSnip
 				tools.parent = fs;
 				tools.Show();
 			}
+		}
+
+		private void uc_ButtonSelector1_Load(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

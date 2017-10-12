@@ -447,22 +447,7 @@ namespace WolfPaw_ScreenSnip
 			if (mode == 4)
 			{
 				
-				FloodFiller floodfiller = new FloodFiller();
-				AbstractFloodFiller chosenfloodfiller = (AbstractFloodFiller)floodfiller;
-
-				chosenfloodfiller.FillColor = Color.Black;
-				chosenfloodfiller.FillStyle = FloodFillStyle.Linear;
-
-				magicSelectPoint = e.Location;
-				magicSelectColor = ((Bitmap)this.BackgroundImage).GetPixel(magicSelectPoint.X, magicSelectPoint.Y);
-				//tmpPoints.Add(magicSelectPoint);
-				//startRecursiveSelection();
-
-				chosenfloodfiller.Pt = magicSelectPoint;
-				Bitmap b = (Bitmap)BackgroundImage;
-				chosenfloodfiller.Bmp = b;
-				chosenfloodfiller.FloodFill();
-				BackgroundImage = b;
+				
 			}
 		}
 
