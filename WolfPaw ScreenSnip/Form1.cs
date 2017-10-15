@@ -382,12 +382,17 @@ namespace WolfPaw_ScreenSnip
 			return s;
 		}
 
+		public bool QshowPreview()
+		{
+			return Properties.Settings.Default.s_ShowPreview && Properties.Settings.Default.s_LastPreviewMode == 0;
+		}
+
 		public Bitmap captureScreen()
 		{
 			Hide();
 			if(fs != null) { fs.Hide(); }
             if(tools != null) { tools.Hide(); }
-			if (fs != null && fs.pw != null) { fs.pw.Hide(); }
+			if (fs != null && fs.pw != null && QshowPreview()) { fs.pw.Hide(); }
 
 			Thread.Sleep(Properties.Settings.Default.s_BaseDelay);
 
@@ -427,7 +432,7 @@ namespace WolfPaw_ScreenSnip
 			Show();
 			if(fs != null && !fs.IsDisposed) { fs.Show(); }
 			if (tools != null && !tools.IsDisposed) { tools.Show(); }
-			if (fs != null && fs.pw != null && !fs.pw.IsDisposed) { fs.pw.Show(); }
+			if (fs != null && fs.pw != null && !fs.pw.IsDisposed && QshowPreview()) { fs.pw.Show(); }
 
 			return bmp;
 		}
@@ -671,8 +676,7 @@ namespace WolfPaw_ScreenSnip
 					fs.toggleToolbar();
 				}
 			}
-
-			fs.setScrollBars();
+			
 		}
 
 		private void btn_Preview_Click(object sender, EventArgs e)

@@ -18,8 +18,6 @@ namespace WolfPaw_ScreenSnip
 
 		}
 
-		Image i = null;
-
 		public void refreshImage(f_Screen fs)
 		{
 			pb_PreviewPicture.Image = c_ImgGen.createPng(fs, fs.Limages, new object[] { fs.getDrawnPoints(), null });

@@ -90,6 +90,7 @@
     <Compile Include="c_ImgGen.cs" />
     <Compile Include="c_KeyboardHook.cs" />
     <Compile Include="c_Object.cs" />
+    <Compile Include="c_RenderHandler.cs" />
     <Compile Include="c_returnGraphicSettings.cs" />
     <Compile Include="c_WindingFunctions.cs" />
     <Compile Include="Form1.cs">
@@ -183,15 +184,6 @@
     <Compile Include="uc_CutoutHolder.Designer.cs">
       <DependentUpon>uc_CutoutHolder.cs</DependentUpon>
     </Compile>
-    <Compile Include="uc_EditLayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="uc_EditLayer.Designer.cs">
-      <DependentUpon>uc_EditLayer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="uc_WpfEditLayer.xaml.cs">
-      <DependentUpon>uc_WpfEditLayer.xaml</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -243,9 +235,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="uc_CutoutHolder.resx">
       <DependentUpon>uc_CutoutHolder.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="uc_EditLayer.resx">
-      <DependentUpon>uc_EditLayer.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -384,12 +373,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\resize_handle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="uc_WpfEditLayer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\measurebox.png" />

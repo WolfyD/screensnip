@@ -373,7 +373,7 @@ namespace WolfPaw_ScreenSnip.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool s_MoveToTools {
             get {
                 return ((bool)(this["s_MoveToTools"]));
@@ -440,6 +440,90 @@ namespace WolfPaw_ScreenSnip.Properties {
             }
             set {
                 this["s_LastUsedMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool s_HandleShortcuts {
+            get {
+                return ((bool)(this["s_HandleShortcuts"]));
+            }
+            set {
+                this["s_HandleShortcuts"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Gainsboro")]
+        public global::System.Drawing.Color s_ScreenBGColor {
+            get {
+                return ((global::System.Drawing.Color)(this["s_ScreenBGColor"]));
+            }
+            set {
+                this["s_ScreenBGColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ActiveCaption")]
+        public global::System.Drawing.Color s_CutoutPanelColor {
+            get {
+                return ((global::System.Drawing.Color)(this["s_CutoutPanelColor"]));
+            }
+            set {
+                this["s_CutoutPanelColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
+        public global::System.Drawing.Color s_CutoutSelectionColor {
+            get {
+                return ((global::System.Drawing.Color)(this["s_CutoutSelectionColor"]));
+            }
+            set {
+                this["s_CutoutSelectionColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("180, 180, 180")]
+        public global::System.Drawing.Color s_CutoutMouseOverColor {
+            get {
+                return ((global::System.Drawing.Color)(this["s_CutoutMouseOverColor"]));
+            }
+            set {
+                this["s_CutoutMouseOverColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool s_ShowPreview {
+            get {
+                return ((bool)(this["s_ShowPreview"]));
+            }
+            set {
+                this["s_ShowPreview"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int s_LastPreviewMode {
+            get {
+                return ((int)(this["s_LastPreviewMode"]));
+            }
+            set {
+                this["s_LastPreviewMode"] = value;
             }
         }
     }

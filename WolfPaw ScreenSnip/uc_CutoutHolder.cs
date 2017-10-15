@@ -693,19 +693,7 @@ namespace WolfPaw_ScreenSnip
 					v.btn_PrecisionMovement.IconColor = Color.Black;
 					v.Refresh();
 				}
-
 			}
-
-			moveMode = !moveMode;
-			if (moveMode)
-			{
-				((f_Screen)ParentForm).showSBS();
-			}
-			else
-			{
-				((f_Screen)ParentForm).hideSBS();
-			}
-
 
 			btn_PrecisionMovement.IconColor = moveMode ? Color.Red : Color.Black;
 			ParentForm.Refresh();

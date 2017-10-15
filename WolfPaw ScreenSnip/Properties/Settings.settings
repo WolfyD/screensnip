@@ -90,7 +90,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="s_MoveToTools" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="s_CanvasTransparency" Type="System.Single" Scope="User">
       <Value Profile="(Default)">0.5</Value>
@@ -105,6 +105,27 @@
       <Value Profile="(Default)">0, 0</Value>
     </Setting>
     <Setting Name="s_LastUsedMode" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="s_HandleShortcuts" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="s_ScreenBGColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Gainsboro</Value>
+    </Setting>
+    <Setting Name="s_CutoutPanelColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">ActiveCaption</Value>
+    </Setting>
+    <Setting Name="s_CutoutSelectionColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="s_CutoutMouseOverColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">180, 180, 180</Value>
+    </Setting>
+    <Setting Name="s_ShowPreview" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="s_LastPreviewMode" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>

@@ -10,42 +10,66 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-//TODO: ADD DRAG DROP
-
 namespace WolfPaw_ScreenSnip
 {
 	public partial class f_Screen : Form
 	{
+		//-------VARIABLES
+		//WINDOWS
 		public f_SettingPanel child = null;
 		public Form1 parent = null;
-
-		string[] imageFormats = new string[] { "image/gif", "image/jpeg", "image/pjpeg", "image/png", "image/x-png", "image/tiff", "image/bmp", "image/x-xbitmap", "image/x-jg", "image/x-emf", "image/x-wmf" };
-		string[] stringFormats = new string[] { "text/plain", "text/html", "text/xml", "text/richtext", "text/scriptlet" };
-
 		public f_previewWindow pw = null;
 
+		//FORMAT ARRAYS
+		string[] imageFormats = new string[] { "image/gif", "image/jpeg", "image/pjpeg", "image/png", "image/x-png", "image/tiff", "image/bmp", "image/x-xbitmap", "image/x-jg", "image/x-emf", "image/x-wmf" };
+		string[] stringFormats = new string[] { "text/plain", "text/html", "text/xml", "text/richtext", "text/scriptlet" };
+		
+		//DRAG N DROP {
 		bool handleDrag = false;
 		Font dragableFont = new Font("Consolas", 12, FontStyle.Regular);
 		Bitmap dragableImage = null;
 		Size dragableSize = new Size(1, 1);
 		Point dragablePoint = new Point(0, 0);
-		bool udUP = false;
-		bool lrUP = false;
+		// }
 
-		public bool mdown = false;
-		public c_ImageHolder selectedImage = null;
-		public c_ImageHolder mouseOverImage = null;
-		public Point imageDragPoint = new Point();
-
-		public List<c_ImageHolder> Limages = new List<c_ImageHolder>();
-
+		//TOOLS {
 		public Color toolColor = Color.Black;
-
 		private int CurrentTool;
 		public int currentTool
 		{
 			get { return CurrentTool; }
 			set { CurrentTool = value; changeTool(CurrentTool); }
+		}
+		// }
+
+		//RENDERING {
+		public List<c_ImageHolder> Limages = new List<c_ImageHolder>();
+		public bool mdown = false;
+		public c_ImageHolder selectedImage = null;
+		public c_ImageHolder mouseOverImage = null;
+		public Point imageDragPoint = new Point();
+		c_RenderHandler renhan = null;
+		// }
+
+		//COLORS {
+		/// <summary> Color of handle above image containing buttons </summary>
+		Color c_HandleColor = Color.FromArgb(255, 153, 180, 209);
+		/// <summary> Color of border surrounding image when clicked on </summary>
+		Color c_DefaultBorderColor = Color.FromArgb(255, 0, 0, 0);
+		/// <summary> Color of border surrounging image when mouse is over image</summary>
+		Color c_MouseOverBorderColor = Color.FromArgb(255, 180, 180, 180);
+		/// <summary> Color of background of the Screen </summary>
+		Color c_ScreenBackgroundColor = Color.FromArgb(255, 220, 220, 220);
+
+		// }
+
+
+		//-------FUNCTIONS
+		public f_Screen()
+		{
+			InitializeComponent();
+
+			Load += F_Screen_Load;
 		}
 
 		protected override CreateParams CreateParams
@@ -58,112 +82,43 @@ namespace WolfPaw_ScreenSnip
 			}
 		}
 
-		public f_Screen()
-		{
-			InitializeComponent();
-
-			Load += F_Screen_Load;
-		}
-
-		public void setScrollBars()
-		{
-			if (ts_Tools.Visible)
-			{
-				sb_PrecMovUD.Left = Width - (sb_PrecMovUD.Width + 16);
-				sb_PrecMovUD.Height = Height - (39 + ts_Tools.Height + sb_PrecMovLR.Height);
-				sb_PrecMovUD.Top = ts_Tools.Height;
-				sb_PrecMovLR.Width = Width - (16 + sb_PrecMovUD.Width);
-			}
-			else if (p_Tools.Width > 0)
-			{
-				sb_PrecMovUD.Left = p_Tools.Left - sb_PrecMovUD.Width;
-				sb_PrecMovUD.Height = Height - (39 + sb_PrecMovLR.Height);
-				sb_PrecMovUD.Top = 0;
-				sb_PrecMovLR.Width = Width - (16 + sb_PrecMovUD.Width + p_Tools.Width);
-			}
-			else
-			{
-				sb_PrecMovUD.Left = Width - (sb_PrecMovUD.Width + 16);
-				sb_PrecMovUD.Height = Height - (39 + sb_PrecMovLR.Height);
-				sb_PrecMovUD.Top = 0;
-				sb_PrecMovLR.Width = Width - (16 + sb_PrecMovUD.Width);
-			}
-		}
-
 		private void F_Screen_Load(object sender, EventArgs e)
 		{
+			c_ScreenBackgroundColor = Properties.Settings.Default.s_ScreenBGColor;
+			c_MouseOverBorderColor = Properties.Settings.Default.s_CutoutMouseOverColor;
+			c_DefaultBorderColor = Properties.Settings.Default.s_CutoutSelectionColor;
+			c_HandleColor = Properties.Settings.Default.s_CutoutPanelColor;
+			BackColor = c_ScreenBackgroundColor;
+			
 			Bitmap b = IconChar.Desktop.ToBitmap(128, Color.Black);
 			b.MakeTransparent(Color.White);
 			System.IntPtr icH = b.GetHicon();
 			this.Icon = System.Drawing.Icon.FromHandle(icH);
 
-			pw = new f_previewWindow();
-			pw.Show();
+			if (Properties.Settings.Default.s_ShowPreview && 
+				Properties.Settings.Default.s_LastPreviewMode == 0)
+			{
+				pw = new f_previewWindow();
+				pw.Show();
+			}
 
 			if (Properties.Settings.Default.s_ToolbarPanel == 1)
 			{
-				//splitContainer1.Panel2Collapsed = false;
 				p_Tools.Width = 200;
 				ts_Tools.Hide();
 			}
 			else
 			{
-				//splitContainer1.Panel2Collapsed = true;
 				p_Tools.Width = 0;
 				if (Properties.Settings.Default.s_ToolbarPanel == 2)
 				{
 					ts_Tools.Show();
 				}
 			}
-
-			el_EditLayer1.screen_parent = this;
-
-			setScrollBars();
-			/*DAFUQÉRT NEM MŰKÖDIK JÓL????!*/
-			/*
-			///TESTING WINDING NUMBER
-			Point[] V = new Point[] {
-				new Point(0,0),
-				new Point(0,10),
-				new Point(8,10),
-				new Point(8,3),
-				new Point(2,3),
-				new Point(2,7),
-				new Point(10,7),
-                new Point(10,0),
-                new Point(0,0)
-            };
-
-			Point[] testPoints = new Point[] {
-				//	+/- 1
-				new Point(1,1),
-				new Point(9,5),
-				//	+/- 2
-				new Point(4,7),//????????		4x7 - 2 nek kéne lennie de csak 1
-				new Point(6,3),
-				//	0
-				new Point(8,10),
-				new Point(10,9)
-			};
-
-			int n = V.Length - 1;
-
-			foreach (Point P in testPoints)
-			{
-				int i = c_WindingFunctions.wn_PnPoly(P, V, n);
-				//MessageBox.Show(i + "");
-				MessageBox.Show(P.X + "x" + P.Y + ": " + Math.Abs(i).ToString() + " - " + (i == 0 ? "Outside!" : "Inside"));
-			}
-			/*--*/
-
-
+			
+			renhan = new c_RenderHandler(Limages);
 		}
-
-		public List<c_DrawnPoints> getDrawnPoints()
-		{
-			return el_EditLayer1.points;
-		}
-
+		
 		public void addImage(Bitmap img)
 		{
 			if (Properties.Settings.Default.s_ToolbarPanel == 2)
@@ -214,19 +169,21 @@ namespace WolfPaw_ScreenSnip
 		{
 			if (child != null) { child.Close(); }
 			if (pw != null) { pw.Close(); }
-
-			foreach (var v in Controls)
+			
+			foreach (c_ImageHolder c in Limages)
 			{
-				if (v != null && v is uc_CutoutHolder)
+				try
 				{
-					((uc_CutoutHolder)v).Dispose();
-				}
-			}
+					c.Dispose();
+				} catch { }
+			}/*--*/
+
+			Limages = null;
 
 			try
 			{
 				GC.AddMemoryPressure(GC.GetTotalMemory(true));
-				GC.Collect(Int32.MaxValue, GCCollectionMode.Forced, true);
+				GC.Collect(1, GCCollectionMode.Forced, true);
 			} catch { }
 
 			parent.Activate();
@@ -421,7 +378,6 @@ namespace WolfPaw_ScreenSnip
 			ts_Tools.Hide();
 			Properties.Settings.Default.s_ToolbarPanel = 1;
 			Properties.Settings.Default.Save();
-			setScrollBars();
 			invalidateTools();
 		}
 
@@ -435,7 +391,6 @@ namespace WolfPaw_ScreenSnip
 			//splitContainer1.Panel2Collapsed = true;
 			p_Tools.Width = 0;
 			ts_Tools.Hide();
-			setScrollBars();
 			invalidateTools();
 		}
 
@@ -447,7 +402,6 @@ namespace WolfPaw_ScreenSnip
 			ts_Tools.Show();
 			Properties.Settings.Default.s_ToolbarPanel = 2;
 			Properties.Settings.Default.Save();
-			setScrollBars();
 			invalidateTools();
 		}
 
@@ -545,52 +499,7 @@ namespace WolfPaw_ScreenSnip
 				}
 			}
 
-			if (panelOpen())
-			{
-				elementHost1.Width = p_Tools.Left;
-				elementHost1.Height = Height - 39;
-				elementHost1.Top = 0;
-			}
-			else if (ts_Tools.Visible)
-			{
-				elementHost1.Width = Width - 18;
-				elementHost1.Height = Height - ts_Tools.Height;
-				elementHost1.Top = ts_Tools.Bottom;
-			}
-			else
-			{
-				elementHost1.Width = Width - 18;
-				elementHost1.Height = Height - 39;
-				elementHost1.Top = 0;
-			}
-		}
-
-		private void sb_PrecMovUD_Scroll(object sender, ScrollEventArgs e)
-		{
-			if (e.Type == ScrollEventType.EndScroll)
-			{
-				udUP = true;
-			}
-		}
-
-		public void showSBS()
-		{
-			sb_PrecMovUD.Show();
-			sb_PrecMovLR.Show();
-		}
-
-		public void hideSBS()
-		{
-			sb_PrecMovUD.Hide();
-			sb_PrecMovLR.Hide();
-		}
-
-		private void sb_PrecMovLR_Scroll(object sender, ScrollEventArgs e)
-		{
-			if (e.Type == ScrollEventType.EndScroll)
-			{
-				lrUP = true;
-			}
+			
 		}
 
 		private void btn_Dock_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -607,23 +516,7 @@ namespace WolfPaw_ScreenSnip
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
-			/*
-            var c = c_ImgGen.returnCutouts(this);
-            if (c != null && c.Count > 0)
-            {
-                foreach (var v in c.Values)
-                {
-                    if (v.moveMode)
-                    {
-						e.Graphics.DrawLine(Pens.Black, new Point(v.Left - 20, v.Top - 1), new Point(v.Right + 20, v.Top - 1));
-                        e.Graphics.DrawLine(Pens.Black, new Point(v.Left - 20, v.Bottom), new Point(v.Right + 20, v.Bottom));
-                        e.Graphics.DrawLine(Pens.Black, new Point(v.Left - 1, v.Top - 20), new Point(v.Left - 1, v.Bottom + 20));
-                        e.Graphics.DrawLine(Pens.Black, new Point(v.Right + 1, v.Top - 20), new Point(v.Right + 1, v.Bottom + 20));
-						break;
-                    }
-                }
-            }
-			*/
+			
 			//TODO: PAINT!!
 			organizeImageList();
 			foreach (c_ImageHolder c in Limages)
@@ -633,15 +526,16 @@ namespace WolfPaw_ScreenSnip
 					e.Graphics.DrawImage(c.getScaledImage(), c.Position);
 					if (c.selected)
 					{
-						e.Graphics.DrawRectangle(Pens.Black, new Rectangle(c.Position, c.Size));
+						e.Graphics.DrawRectangle(new Pen(c_DefaultBorderColor), new Rectangle(c.Position, c.Size));
 					}
 					else if (c.mouseOver)
 					{
-						e.Graphics.DrawRectangle(Pens.Black, new Rectangle(c.Position, c.Size));
+						e.Graphics.DrawRectangle(new Pen(c_MouseOverBorderColor), new Rectangle(c.Position, c.Size));
 					}
 					if (c.panelShowing)
 					{
-						e.Graphics.FillRectangle(Brushes.AliceBlue, new RectangleF(c.Position, new Size(c.Width, 20)));
+						e.Graphics.FillRectangle(new SolidBrush(c_HandleColor), new RectangleF(c.Position, new Size(c.Width, 20)));
+						e.Graphics.DrawImage(renhan.renderButtons(PointToClient(Cursor.Position),c), new PointF(c.Left, c.Top));
 					}
 				}
 			}
@@ -657,112 +551,25 @@ namespace WolfPaw_ScreenSnip
 		{
 			Limages.Sort(new intComparer());
 		}
-
-		public void changeTool(int tool)
-		{
-			if (tool == 0)
-			{
-				showHideEditLayer(false);
-			}
-			else
-			{
-				showHideEditLayer(true);
-			}
-		}
-
-		public void showHideEditLayer(bool show)
-		{
-			if (show)
-			{
-				elementHost1.Show();
-				elementHost1.BringToFront();
-
-				el_EditLayer1.tool = currentTool;
-				el_EditLayer1.callGraphics();
-			}
-			else
-			{
-				elementHost1.Hide();
-			}
-		}
-
-		private void num_ToolSize_ValueChanged(object sender, EventArgs e)
-		{
-			el_EditLayer1.toolSize = (int)num_ToolSize.Value;
-		}
-
-		private void btn_Manipulate_Click(object sender, EventArgs e)
-		{
-			currentTool = 0;
-		}
-
-		private void btn_Pen_Click(object sender, EventArgs e)
-		{
-			currentTool = 1;
-		}
-
-		private void btn_Marker_Click(object sender, EventArgs e)
-		{
-			currentTool = 2;
-		}
-
-		private void btn_Line_Click(object sender, EventArgs e)
-		{
-			currentTool = 3;
-		}
-
-		private void num_ToolSize_ValueChanged_1(object sender, EventArgs e)
-		{
-			el_EditLayer1.toolSize = (int)num_ToolSize.Value;
-		}
-
+		
 		private void f_Screen_MouseClick(object sender, MouseEventArgs e)
 		{
 			foreach (c_ImageHolder c in Limages)
 			{
-				if (pointInPosition(e.Location, new Rectangle(c.Position, c.Size)))
+				if (renhan.pointInPosition(e.Location, new Rectangle(c.Position, c.Size)))
 				{
 					c.select();
 				}
 			}
-
 			Invalidate();
 		}
-
-		public bool pointInPosition(Point p, Rectangle r)
-		{
-			if (p.X >= r.X && p.X <= r.X + r.Width && p.Y >= r.Y && p.Y <= r.Y + r.Height)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		public bool pointOverAny(Point p, out c_ImageHolder overImg)
-		{
-			overImg = null;
-
-			foreach (c_ImageHolder c in Limages)
-			{
-				if (pointInPosition(p, c.bounds()))
-				{
-					overImg = c;
-					return true;
-				}
-			}
-
-			return false;
-		}
-
+		
 		private void f_Screen_MouseDown(object sender, MouseEventArgs e)
 		{
 			Limages.Sort(new intComparerDesc());
 			foreach (c_ImageHolder c in Limages)
 			{
-				if (pointInPosition(e.Location, new Rectangle(c.Position, c.Size)))
+				if (renhan.pointInPosition(e.Location, new Rectangle(c.Position, c.Size)))
 				{
 					c.select();
 					selectedImage = c;
@@ -792,11 +599,15 @@ namespace WolfPaw_ScreenSnip
 			else
 			{
 				c_ImageHolder img = null;
-				if (pointOverAny(e.Location,out img))
+				foreach (c_ImageHolder cc in Limages)
+				{
+					cc.mouseOver = false;
+				}
+				if (renhan.pointOverAny(e.Location,out img))
 				{
 					mouseOverImage = img;
 					mouseOverImage.mouseOver = true;
-					if(pointInPosition(e.Location,new Rectangle(mouseOverImage.Position, new Size(mouseOverImage.Width, 20))))
+					if(renhan.pointInPosition(e.Location,new Rectangle(mouseOverImage.Position, new Size(mouseOverImage.Width, 20))))
 					{
 						mouseOverImage.showPanel();
 					}
@@ -805,7 +616,7 @@ namespace WolfPaw_ScreenSnip
 				{
 					mouseOverImage = null;
 				}
-
+				/*
 				foreach (c_ImageHolder cc in Limages)
 				{
 					if(cc != mouseOverImage)
@@ -813,10 +624,75 @@ namespace WolfPaw_ScreenSnip
 						cc.mouseOver = false;
 					}
 				}
+				*/
 				Invalidate();
 			}
 		}
+		
+		//----TOOL STUFF
+		private void num_ToolSize_ValueChanged(object sender, EventArgs e)
+		{
+			
+		}
+
+		private void num_ToolSize_ValueChanged_1(object sender, EventArgs e)
+		{
+			
+		}
+
+		public void changeTool(int tool)
+		{
+			if (tool == 0)
+			{
+				showHideEditLayer(false);
+			}
+			else
+			{
+				showHideEditLayer(true);
+			}
+		}
+
+		public Point[] getDrawnPoints()
+		{
+			//TODO: Add functionality
+			return null;
+		}
+
+		public void showHideEditLayer(bool show)
+		{
+			if (show)
+			{
+
+			}
+			else
+			{
+
+			}
+		}
+
+		private void btn_Manipulate_Click(object sender, EventArgs e)
+		{
+			currentTool = 0;
+		}
+
+		private void btn_Pen_Click(object sender, EventArgs e)
+		{
+			currentTool = 1;
+		}
+
+		private void btn_Marker_Click(object sender, EventArgs e)
+		{
+			currentTool = 2;
+		}
+
+		private void btn_Line_Click(object sender, EventArgs e)
+		{
+			currentTool = 3;
+		}
+
 	}
+
+	#region OTHER CLASSES / COMPARERS
 
 	public class myToolstrip : ToolStrip
 	{
@@ -870,5 +746,7 @@ namespace WolfPaw_ScreenSnip
 			return (a.LayerIndex < b.LayerIndex ? 1 : -1);
 		}
 	}
+
+#endregion
 
 }
