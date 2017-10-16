@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static WolfPaw_ScreenSnip.c_ImageHolder;
 
 namespace WolfPaw_ScreenSnip
 {
@@ -40,6 +41,7 @@ namespace WolfPaw_ScreenSnip
 			get { return CurrentTool; }
 			set { CurrentTool = value; changeTool(CurrentTool); }
 		}
+		c_ImageHolder cResizer = null;
 		// }
 
 		//RENDERING {
@@ -49,6 +51,7 @@ namespace WolfPaw_ScreenSnip
 		public c_ImageHolder mouseOverImage = null;
 		public Point imageDragPoint = new Point();
 		c_RenderHandler renhan = null;
+		edges ed = edges.none;
 		// }
 
 		//COLORS {
@@ -535,7 +538,8 @@ namespace WolfPaw_ScreenSnip
 					if (c.panelShowing)
 					{
 						e.Graphics.FillRectangle(new SolidBrush(c_HandleColor), new RectangleF(c.Position, new Size(c.Width, 20)));
-						e.Graphics.DrawImage(renhan.renderButtons(PointToClient(Cursor.Position),c), new PointF(c.Left, c.Top));
+
+						e.Graphics.DrawImage(renhan.renderButtons(PointToClient(Cursor.Position), c), new PointF(c.Position.X, c.Position.Y));
 					}
 				}
 			}
@@ -574,11 +578,13 @@ namespace WolfPaw_ScreenSnip
 					c.select();
 					selectedImage = c;
 					imageDragPoint = new Point(e.X - c.Left, e.Y - c.Top);
+					if (!c.isOverAnEdge(imageDragPoint)) { resize = false; cResizer = null; }
+					else { resize = true; cResizer = c; ed = c.overWhichEdge(imageDragPoint); }
 					mdown = true;
 					break;
 				}
 			}
-
+			//resize = false;
 			Invalidate();
 		}
 
@@ -586,12 +592,95 @@ namespace WolfPaw_ScreenSnip
 		{
 			selectedImage = null;
 			mdown = false;
+
+			Limages.Sort(new intComparerDesc());
+			foreach (c_ImageHolder c in Limages)
+			{
+				if (renhan.pointInPosition(e.Location, new Rectangle(c.Position, c.Size)))
+				{
+					Point pp = new Point(e.X - c.Left, e.Y - c.Top);
+					if (c.isOverAButton(pp))
+					{
+						btn b = c.overWhichButton(pp);
+					}
+				}
+			}
+
+			Invalidate();
 		}
+
+		bool resize = false;
 
 		//TODO: MOUSE MOVE!!
 		private void f_Screen_MouseMove(object sender, MouseEventArgs e)
 		{
-			if (mdown && selectedImage != null)
+			foreach (c_ImageHolder cc in Limages)
+			{
+				Point pedge = new Point(e.X - cc.Left, e.Y - cc.Top);
+				if (cc.isOverAnEdge(pedge))
+				{
+					edges ed = cc.overWhichEdge(pedge);
+					if (ed == edges.bottom || ed == edges.top)
+					{
+						Cursor = Cursors.SizeNS;
+					}
+					else if (ed == edges.left || ed == edges.right)
+					{
+						Cursor = Cursors.SizeWE;
+					}
+
+					break;
+					
+				}
+				else if (false)
+				{
+					//TODO: Add corner handling
+				}
+				else
+				{
+					Cursor = Cursors.Default;
+				}
+			}
+
+			if (mdown && resize)
+			{
+				var cc = cResizer;
+				if (ed == edges.bottom)
+				{
+					if (e.Location.Y - cc.Top > 20)
+					{
+						cc.Size = new Size(cc.Width, e.Location.Y - cc.Top);
+					}
+					else
+					{
+						cc.Size = new Size(cc.Width, 21);
+					}
+				}
+				else if (ed == edges.top)
+				{
+					int top = cc.Top;
+					if (cc.Height - (cc.Top - top) > 20)
+					{
+						cc.Position = new Point(cc.Left, e.Location.Y);
+						cc.Size = new Size(cc.Width, cc.Height - (cc.Top - top));
+					}
+					else
+					{
+						
+						cc.Size = new Size(cc.Width, 21);
+					}
+				}
+				else if (ed == edges.left)
+				{
+					//TODO:________________!!!!!!!!!!!!CONTINUE
+				}
+				else if (ed == edges.right)
+				{
+
+				}
+			}
+
+			if (mdown && selectedImage != null && !resize)
 			{
 				selectedImage.Position = new Point(e.X - imageDragPoint.X, e.Y - imageDragPoint.Y);
 				Invalidate();
@@ -603,11 +692,11 @@ namespace WolfPaw_ScreenSnip
 				{
 					cc.mouseOver = false;
 				}
-				if (renhan.pointOverAny(e.Location,out img))
+				if (renhan.pointOverAny(e.Location, out img))
 				{
 					mouseOverImage = img;
 					mouseOverImage.mouseOver = true;
-					if(renhan.pointInPosition(e.Location,new Rectangle(mouseOverImage.Position, new Size(mouseOverImage.Width, 20))))
+					if (renhan.pointInPosition(e.Location, new Rectangle(mouseOverImage.Position, new Size(mouseOverImage.Width, 20))))
 					{
 						mouseOverImage.showPanel();
 					}
@@ -616,17 +705,11 @@ namespace WolfPaw_ScreenSnip
 				{
 					mouseOverImage = null;
 				}
-				/*
-				foreach (c_ImageHolder cc in Limages)
-				{
-					if(cc != mouseOverImage)
-					{
-						cc.mouseOver = false;
-					}
-				}
-				*/
 				Invalidate();
 			}
+
+			
+
 		}
 		
 		//----TOOL STUFF

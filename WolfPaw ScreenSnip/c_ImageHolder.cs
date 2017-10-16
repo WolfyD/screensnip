@@ -30,6 +30,24 @@ namespace WolfPaw_ScreenSnip
 			right
 		}
 
+		public enum edges
+		{
+			none,
+			left,
+			right,
+			top,
+			bottom
+		}
+
+		public enum corners
+		{
+			none,
+			leftTop,
+			rightTop,
+			leftBottom,
+			rightBottom
+		}
+
 		#region ========== Variables ==========
 		
 		//Size
@@ -195,6 +213,7 @@ namespace WolfPaw_ScreenSnip
 			size = s;
 			width = s.Width;
 			height = s.Height;
+			resizeImage();
 		}
 
 		public Size getSize()
@@ -301,15 +320,24 @@ namespace WolfPaw_ScreenSnip
 
 		public void createScaledImage()
 		{
-			scaledImage = new Bitmap(getWidth(), getHeight());
-			using (Graphics g = Graphics.FromImage(scaledImage))
+			var cr = new c_returnGraphicSettings();
+			if (getWidth() > 20 && getHeight() > 20)
 			{
-				g.DrawImage(image, new Rectangle(new Point(0, 0), scaledImage.Size), new Rectangle(new Point(0, 0), image.Size), GraphicsUnit.Pixel);
+				scaledImage = new Bitmap(getWidth(), getHeight());
+				using (Graphics g = Graphics.FromImage(scaledImage))
+				{
+					g.InterpolationMode = cr.getIM();
+					g.PixelOffsetMode = cr.getPOM();
+					g.SmoothingMode = cr.getSM();
+
+					g.DrawImage(image, new Rectangle(new Point(0, 0), scaledImage.Size), new Rectangle(new Point(0, 0), image.Size), GraphicsUnit.Pixel);
+				}
 			}
 		}
 
 		public Bitmap getScaledImage()
 		{
+			//createScaledImage();
 			return scaledImage;
 		}
 
@@ -325,7 +353,10 @@ namespace WolfPaw_ScreenSnip
 
 		public void resizeImage()
 		{
-			createScaledImage();
+			if(image != null)
+			{
+				createScaledImage();
+			}
 
 			//TODO: ADD FUNCTIONALITY
 		}
@@ -335,35 +366,65 @@ namespace WolfPaw_ScreenSnip
 
 		#region mouse position
 
+		public Rectangle getButtonRect(btn b)
+		{
+			int lft = 0;
+
+			Rectangle ret = new Rectangle(0, 0, 20, 20);
+			if (b.anchor == btn.anchors.left)
+			{
+				lft = b.pos * 22;
+			}
+			else
+			{
+				lft = width - (((b.pos + 1) * 20) + (b.pos * 2));
+			}
+
+			ret.X = lft;
+
+			return ret;
+		}
+
 		public bool isOverButton(Point P, btn b)
 		{
-			int left = 0;
+			int lft = 0;
 
 			if (P.Y >= 0 && P.Y <= 20)
 			{
 				if (b.anchor == btn.anchors.left)
 				{
-					left = b.pos * 22;
+					lft = b.pos * 22;
 				}
 				else
 				{
-					left = width - (((b.pos + 1) * 20) + (b.pos * 2));
+					lft = width - (((b.pos + 1) * 20) + (b.pos * 2));
 				}
 			}
 
-			Rectangle r = new Rectangle(left, 0, 20, 20);
+			Rectangle r = new Rectangle(lft, 0, 20, 20);
 
 			return r.Contains(P);
 		}
 
 		public bool isOverAButton(Point P)
 		{
+			foreach(btn b in _buttons.btns)
+			{
+				Rectangle r = getButtonRect(b);
+				if (r.Contains(P)) { return true; }
+			}
 			return false;
 		}
 
-		public int overWhichButton(Point P)
+		public btn overWhichButton(Point P)
 		{
-			return 0;
+			foreach (btn b in _buttons.btns)
+			{
+				Rectangle r = getButtonRect(b);
+				if (r.Contains(P)) { return b; }
+			}
+
+			return null;
 		}
 
 		public bool isOverEdge(Point P)
@@ -371,9 +432,38 @@ namespace WolfPaw_ScreenSnip
 			return false;
 		}
 
-		public int overWhichEdge(Point P)
+		public bool isOverAnEdge(Point P)
 		{
-			return 0;
+			if( ((P.X >= -5 && P.X <= 5) && (P.Y >= 20 && P.Y <= height - 20)) ||
+				((P.X >= width - 5 && P.X <= width + 5) && (P.Y >= 20 && P.Y <= height - 20)) ||
+				((P.Y >= -5 && P.Y <= 5) && (P.X >= 20 && P.X <= width - 20)) ||
+				((P.Y >= height -5 && P.Y <= height + 5) && (P.X >= 20 && P.X <= width - 20)))
+			{
+				return true;
+			}
+			return false;
+		}
+
+		public edges overWhichEdge(Point P)
+		{
+			if (((P.X >= -5 && P.X <= 5) && (P.Y >= 20 && P.Y <= height - 20)))
+			{
+				return edges.left;
+			}
+			else if (((P.X >= width - 5 && P.X <= width + 5) && (P.Y >= 20 && P.Y <= height - 20)))
+			{
+				return edges.right;
+			}
+			else if (((P.Y >= -5 && P.Y <= 5) && (P.X >= 20 && P.X <= width - 20)))
+			{
+				return edges.top;
+			}
+			else if (((P.Y >= height - 5 && P.Y <= height + 5) && (P.X >= 20 && P.X <= width - 20)))
+			{
+				return edges.bottom;
+			}
+
+			return edges.none;
 		}
 
 		public bool isOverCorner(Point P)

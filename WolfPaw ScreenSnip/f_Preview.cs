@@ -42,9 +42,9 @@ namespace WolfPaw_ScreenSnip
 				{
 					generateImage();
 				}
-				catch
+				catch(Exception ex)
 				{
-
+					MessageBox.Show(ex.ToString());
 				}
 			}
 		}
