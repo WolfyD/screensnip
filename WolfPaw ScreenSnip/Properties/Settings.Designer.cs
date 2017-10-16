@@ -350,18 +350,6 @@ namespace WolfPaw_ScreenSnip.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool s_InvalidateTools {
-            get {
-                return ((bool)(this["s_InvalidateTools"]));
-            }
-            set {
-                this["s_InvalidateTools"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool s_handlePrintScreen {
             get {
                 return ((bool)(this["s_handlePrintScreen"]));

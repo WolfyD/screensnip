@@ -455,7 +455,6 @@ namespace WolfPaw_ScreenSnip
 		private void uc_CutoutHolder_LocationChanged(object sender, EventArgs e)
 		{
 			Parent.Invalidate();
-			((f_Screen)ParentForm).invalidateTools();
 		}
 
 		private void pb_btn_Delete_MouseLeave(object sender, EventArgs e)

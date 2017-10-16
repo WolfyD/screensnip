@@ -12,6 +12,8 @@ namespace WolfPaw_ScreenSnip
 {
 	public class c_ImageHolder : IDisposable
 	{
+		#region ENUMS
+
 		public enum imageBorder
 		{
 			none,
@@ -48,8 +50,10 @@ namespace WolfPaw_ScreenSnip
 			rightBottom
 		}
 
+		#endregion
+
 		#region ========== Variables ==========
-		
+
 		//Size
 		private Size size;
 		private int width;
@@ -326,12 +330,17 @@ namespace WolfPaw_ScreenSnip
 				scaledImage = new Bitmap(getWidth(), getHeight());
 				using (Graphics g = Graphics.FromImage(scaledImage))
 				{
+					/*
 					g.InterpolationMode = cr.getIM();
 					g.PixelOffsetMode = cr.getPOM();
 					g.SmoothingMode = cr.getSM();
+					/*--*/
 
 					g.DrawImage(image, new Rectangle(new Point(0, 0), scaledImage.Size), new Rectangle(new Point(0, 0), image.Size), GraphicsUnit.Pixel);
 				}
+				
+				//GC.Collect(2, GCCollectionMode.Forced, true);
+
 			}
 		}
 
@@ -356,6 +365,7 @@ namespace WolfPaw_ScreenSnip
 			if(image != null)
 			{
 				createScaledImage();
+				_buttons.setupButtons(width);
 			}
 
 			//TODO: ADD FUNCTIONALITY
@@ -427,17 +437,46 @@ namespace WolfPaw_ScreenSnip
 			return null;
 		}
 
-		public bool isOverEdge(Point P)
+		public bool isOverEdge(Point P, edges e)
 		{
+			if (e == edges.bottom)
+			{
+				if(((P.Y <= height && P.Y >= height - 10) && (P.X >= 20 && P.X <= width - 20)))		//BOTTOM
+				{
+					return true;
+				}
+			}
+			else if (e == edges.top)
+			{
+				if (((P.Y >= 0 && P.Y <= 5) && (P.X >= 20 && P.X <= width - 20)))					//TOP
+				{
+					return true;
+				}
+			}
+			else if (e == edges.left)
+			{
+				if (((P.X >= 0 && P.X <= 10) && (P.Y >= 20 && P.Y <= height - 20)))					//LEFT
+				{
+					return true;
+				}
+			}
+			else if (e == edges.right)
+			{
+				if (((P.X <= width && P.X >= width - 10) && (P.Y >= 20 && P.Y <= height - 20)))		//RIGHT
+				{
+					return true;
+				}
+			}
+
 			return false;
 		}
 
 		public bool isOverAnEdge(Point P)
 		{
-			if( ((P.X >= -5 && P.X <= 5) && (P.Y >= 20 && P.Y <= height - 20)) ||
-				((P.X >= width - 5 && P.X <= width + 5) && (P.Y >= 20 && P.Y <= height - 20)) ||
-				((P.Y >= -5 && P.Y <= 5) && (P.X >= 20 && P.X <= width - 20)) ||
-				((P.Y >= height -5 && P.Y <= height + 5) && (P.X >= 20 && P.X <= width - 20)))
+			if( ((P.X >= 0 && P.X <= 10) && (P.Y >= 20 && P.Y <= height - 20)) ||					//Left
+				((P.X <= width && P.X >= width - 10) && (P.Y >= 20 && P.Y <= height - 20)) ||		//Right
+				((P.Y >= 0 && P.Y <= 5) && (P.X >= 20 && P.X <= width - 20)) ||						//Top
+				((P.Y <= height && P.Y >= height - 10) && (P.X >= 20 && P.X <= width - 20)))		//Bottom
 			{
 				return true;
 			}
@@ -446,19 +485,19 @@ namespace WolfPaw_ScreenSnip
 
 		public edges overWhichEdge(Point P)
 		{
-			if (((P.X >= -5 && P.X <= 5) && (P.Y >= 20 && P.Y <= height - 20)))
+			if (((P.X >= 0 && P.X <= 10) && (P.Y >= 20 && P.Y <= height - 20)))						//Left
 			{
 				return edges.left;
 			}
-			else if (((P.X >= width - 5 && P.X <= width + 5) && (P.Y >= 20 && P.Y <= height - 20)))
+			else if (((P.X <= width && P.X >= width - 10) && (P.Y >= 20 && P.Y <= height - 20)))	//Right
 			{
 				return edges.right;
 			}
-			else if (((P.Y >= -5 && P.Y <= 5) && (P.X >= 20 && P.X <= width - 20)))
+			else if (((P.Y >= 0 && P.Y <= 5) && (P.X >= 20 && P.X <= width - 20)))					//Top
 			{
 				return edges.top;
 			}
-			else if (((P.Y >= height - 5 && P.Y <= height + 5) && (P.X >= 20 && P.X <= width - 20)))
+			else if (((P.Y <= height && P.Y >= height - 10) && (P.X >= 20 && P.X <= width - 20)))	//Bottom
 			{
 				return edges.bottom;
 			}
@@ -466,14 +505,62 @@ namespace WolfPaw_ScreenSnip
 			return edges.none;
 		}
 
-		public bool isOverCorner(Point P)
+		public bool isOverCorner(Point P, corners c)
 		{
+			if (c == corners.leftBottom)
+			{
+				if ((P.X >= 0 && P.X <= 20) && P.Y <= height && P.Y >= Height - 20)
+				{
+					return true;
+				}
+			}
+			else if (c == corners.leftTop)
+			{
+				if ((P.X >= 0 && P.X <= 5) && P.Y >= 0 && P.Y <= 5)
+				{
+					return true;
+				}
+			}
+			else if (c == corners.rightBottom)
+			{
+				if ((P.X <= width && P.X >= width - 20) && P.Y <= height && P.Y >= Height - 20)
+				{
+					return true;
+				}
+			}
+			else if (c == corners.rightTop)
+			{
+				if ((P.X <= width && P.X >= width - 5) && P.Y >= 0 && P.Y <= 5)
+				{
+					return true;
+				}
+			}
+
 			return false;
 		}
 
-		public int overWhichCorner(Point P)
+		public bool isOverACorner(Point P)
 		{
-			return 0;
+			bool ret = false;
+
+			if(isOverCorner(P, corners.leftBottom) ||
+				isOverCorner(P, corners.leftTop) ||
+				isOverCorner(P, corners.rightBottom) ||
+				isOverCorner(P, corners.rightTop))
+			{
+				ret = true;
+			}
+
+			return ret;
+		}
+
+		public corners overWhichCorner(Point P)
+		{
+			if (isOverCorner(P, corners.leftBottom))	{ return corners.leftBottom; }
+			if (isOverCorner(P, corners.leftTop))		{ return corners.leftTop; }
+			if (isOverCorner(P, corners.rightBottom))	{ return corners.rightBottom; }
+			if (isOverCorner(P, corners.rightTop))		{ return corners.rightTop; }
+			return corners.none;
 		}
 
 		#endregion
@@ -665,9 +752,21 @@ namespace WolfPaw_ScreenSnip
 				}
 				else
 				{
-					if (currentValue > btn.hiddenVal.FullWidth)
+					if (currentValue != btn.hiddenVal.FullWidth)
 					{
 						b.visible = true;
+						if(currentValue < btn.hiddenVal.W135)
+						{
+							b.pos = 4;
+						}
+						else if(currentValue == btn.hiddenVal.W135)
+						{
+							b.pos = 1;
+						}
+						else
+						{
+							b.pos = 0;
+						}
 					}
 					else
 					{

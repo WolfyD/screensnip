@@ -52,6 +52,7 @@ namespace WolfPaw_ScreenSnip
 		public Point imageDragPoint = new Point();
 		c_RenderHandler renhan = null;
 		edges ed = edges.none;
+		corners cor = corners.none;
 		// }
 
 		//COLORS {
@@ -381,7 +382,6 @@ namespace WolfPaw_ScreenSnip
 			ts_Tools.Hide();
 			Properties.Settings.Default.s_ToolbarPanel = 1;
 			Properties.Settings.Default.Save();
-			invalidateTools();
 		}
 
 		public void hideToolBar()
@@ -394,7 +394,6 @@ namespace WolfPaw_ScreenSnip
 			//splitContainer1.Panel2Collapsed = true;
 			p_Tools.Width = 0;
 			ts_Tools.Hide();
-			invalidateTools();
 		}
 
 		public void showToolStrip()
@@ -405,7 +404,6 @@ namespace WolfPaw_ScreenSnip
 			ts_Tools.Show();
 			Properties.Settings.Default.s_ToolbarPanel = 2;
 			Properties.Settings.Default.Save();
-			invalidateTools();
 		}
 
 		private void btn_Dock_Click(object sender, EventArgs e)
@@ -488,6 +486,7 @@ namespace WolfPaw_ScreenSnip
 			//invalidateTools();
 		}
 
+		/*
 		public void invalidateTools()
 		{
 			if (Properties.Settings.Default.s_InvalidateTools)
@@ -504,6 +503,7 @@ namespace WolfPaw_ScreenSnip
 
 			
 		}
+		/*--*/
 
 		private void btn_Dock_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
 		{
@@ -524,9 +524,10 @@ namespace WolfPaw_ScreenSnip
 			organizeImageList();
 			foreach (c_ImageHolder c in Limages)
 			{
-				if (c != null && c is c_ImageHolder)
+				if (c != null)
 				{
 					e.Graphics.DrawImage(c.getScaledImage(), c.Position);
+					
 					if (c.selected)
 					{
 						e.Graphics.DrawRectangle(new Pen(c_DefaultBorderColor), new Rectangle(c.Position, c.Size));
@@ -548,7 +549,7 @@ namespace WolfPaw_ScreenSnip
 
 		private void f_Screen_SizeChanged(object sender, EventArgs e)
 		{
-			invalidateTools();
+
 		}
 
 		public void organizeImageList()
@@ -578,8 +579,8 @@ namespace WolfPaw_ScreenSnip
 					c.select();
 					selectedImage = c;
 					imageDragPoint = new Point(e.X - c.Left, e.Y - c.Top);
-					if (!c.isOverAnEdge(imageDragPoint)) { resize = false; cResizer = null; }
-					else { resize = true; cResizer = c; ed = c.overWhichEdge(imageDragPoint); }
+					if (!c.isOverAnEdge(imageDragPoint) && !c.isOverACorner(imageDragPoint)) { resize = false; cResizer = null; ed = edges.none; cor = corners.none; }
+					else { resize = true; cResizer = c; if (c.isOverAnEdge(imageDragPoint)){ ed = c.overWhichEdge(imageDragPoint); cor = corners.none; } else { cor = c.overWhichCorner(imageDragPoint); ed = edges.none; } }
 					mdown = true;
 					break;
 				}
@@ -602,6 +603,7 @@ namespace WolfPaw_ScreenSnip
 					if (c.isOverAButton(pp))
 					{
 						btn b = c.overWhichButton(pp);
+						//TODO: Button click
 					}
 				}
 			}
@@ -632,9 +634,26 @@ namespace WolfPaw_ScreenSnip
 					break;
 					
 				}
-				else if (false)
+				else if (cc.isOverACorner(pedge))
 				{
-					//TODO: Add corner handling
+					corners cir = cc.overWhichCorner(pedge);
+					if (cir == corners.leftBottom)
+					{
+						Cursor = Cursors.SizeNESW;
+					}
+					else if (cir == corners.leftTop)
+					{
+						Cursor = Cursors.SizeNWSE;
+					}
+					else if (cir == corners.rightBottom)
+					{
+						Cursor = Cursors.SizeNWSE;
+					}
+					else if (cir == corners.rightTop)
+					{
+						Cursor = Cursors.SizeNESW;
+					}
+
 				}
 				else
 				{
@@ -645,41 +664,163 @@ namespace WolfPaw_ScreenSnip
 			if (mdown && resize)
 			{
 				var cc = cResizer;
-				if (ed == edges.bottom)
+				if (ed != edges.none)
 				{
-					if (e.Location.Y - cc.Top > 20)
+					if (ed == edges.bottom)
 					{
-						cc.Size = new Size(cc.Width, e.Location.Y - cc.Top);
+						if (e.Location.Y - cc.Top > 20)
+						{
+							cc.Size = new Size(cc.Width, e.Location.Y - cc.Top);
+						}
+						else
+						{
+							cc.Size = new Size(cc.Width, 21);
+						}
 					}
-					else
+					else if (ed == edges.top)
 					{
-						cc.Size = new Size(cc.Width, 21);
-					}
-				}
-				else if (ed == edges.top)
-				{
-					int top = cc.Top;
-					if (cc.Height - (cc.Top - top) > 20)
-					{
-						cc.Position = new Point(cc.Left, e.Location.Y);
-						cc.Size = new Size(cc.Width, cc.Height - (cc.Top - top));
-					}
-					else
-					{
-						
-						cc.Size = new Size(cc.Width, 21);
-					}
-				}
-				else if (ed == edges.left)
-				{
-					//TODO:________________!!!!!!!!!!!!CONTINUE
-				}
-				else if (ed == edges.right)
-				{
+						int top = cc.Top;
+						if (cc.Height - (cc.Top - top) > 20)
+						{
+							cc.Position = new Point(cc.Left, e.Location.Y);
+							cc.Size = new Size(cc.Width, cc.Height - (cc.Top - top));
+						}
+						else
+						{
 
+							cc.Size = new Size(cc.Width, 21);
+						}
+					}
+					else if (ed == edges.left)
+					{
+						int left = cc.Left;
+						if (cc.Width - (cc.Left - left) > 20)
+						{
+							cc.Position = new Point(e.Location.X, cc.Top);
+							cc.Size = new Size(cc.Width - (cc.Left - left), cc.Height);
+						}
+						else
+						{
+							cc.Size = new Size(21, cc.Height);
+							cc.Position = new Point(cc.Position.X - 2, cc.Position.Y);
+						}
+					}
+					else if (ed == edges.right)
+					{
+						if (e.Location.X - cc.Left > 20)
+						{
+							cc.Size = new Size(e.Location.X - cc.Left, cc.Height);
+						}
+						else
+						{
+							cc.Size = new Size(21, cc.Height);
+						}
+					}
+				}
+				else if (cor != corners.none)
+				{
+					if(cor == corners.leftBottom)
+					{
+						//BOTTOM
+						int left = cc.Left;
+						if (e.Location.Y - cc.Top > 20)
+						{
+							cc.Size = new Size(cc.Width, e.Location.Y - cc.Top);
+						}
+						else
+						{
+							cc.Size = new Size(cc.Width, 21);
+						}
+						//LEFT
+						
+						if (cc.Width - (cc.Left - left) > 20)
+						{
+							cc.Position = new Point(e.Location.X, cc.Top);
+							cc.Size = new Size(cc.Width - (cc.Left - left), cc.Height);
+						}
+						else
+						{
+							cc.Size = new Size(21, cc.Height);
+							cc.Position = new Point(cc.Position.X - 2, cc.Position.Y);
+						}
+
+					}
+					else if (cor == corners.leftTop)
+					{
+						//TOP
+						int top = cc.Top;
+						if (cc.Height - (cc.Top - top) > 20)
+						{
+							cc.Position = new Point(cc.Left, e.Location.Y);
+							cc.Size = new Size(cc.Width, cc.Height - (cc.Top - top));
+						}
+						else
+						{
+							cc.Size = new Size(cc.Width, 21);
+						}
+						//LEFT
+						int left = cc.Left;
+						if (cc.Width - (cc.Left - left) > 20)
+						{
+							cc.Position = new Point(e.Location.X, cc.Top);
+							cc.Size = new Size(cc.Width - (cc.Left - left), cc.Height);
+						}
+						else
+						{
+							cc.Size = new Size(21, cc.Height);
+							cc.Position = new Point(cc.Position.X - 2, cc.Position.Y);
+						}
+
+					}
+					else if (cor == corners.rightBottom)
+					{
+						//BOTTOM
+						if (e.Location.Y - cc.Top > 20)
+						{
+							cc.Size = new Size(cc.Width, e.Location.Y - cc.Top);
+						}
+						else
+						{
+							cc.Size = new Size(cc.Width, 21);
+						}
+						//RIGHT
+						if (e.Location.X - cc.Left > 20)
+						{
+							cc.Size = new Size(e.Location.X - cc.Left, cc.Height);
+						}
+						else
+						{
+							cc.Size = new Size(21, cc.Height);
+						}
+					}
+					else if (cor == corners.rightTop)
+					{
+						//TOP
+						int top = cc.Top;
+						if (cc.Height - (cc.Top - top) > 20)
+						{
+							cc.Position = new Point(cc.Left, e.Location.Y);
+							cc.Size = new Size(cc.Width, cc.Height - (cc.Top - top));
+						}
+						else
+						{
+							cc.Size = new Size(cc.Width, 21);
+						}
+						//RIGHT
+						if (e.Location.X - cc.Left > 20)
+						{
+							cc.Size = new Size(e.Location.X - cc.Left, cc.Height);
+						}
+						else
+						{
+							cc.Size = new Size(21, cc.Height);
+						}
+					}
+
+					//TODO: ______CORNERS
 				}
 			}
-
+			
 			if (mdown && selectedImage != null && !resize)
 			{
 				selectedImage.Position = new Point(e.X - imageDragPoint.X, e.Y - imageDragPoint.Y);
@@ -687,7 +828,9 @@ namespace WolfPaw_ScreenSnip
 			}
 			else
 			{
+				
 				c_ImageHolder img = null;
+				
 				foreach (c_ImageHolder cc in Limages)
 				{
 					cc.mouseOver = false;
@@ -707,9 +850,6 @@ namespace WolfPaw_ScreenSnip
 				}
 				Invalidate();
 			}
-
-			
-
 		}
 		
 		//----TOOL STUFF
