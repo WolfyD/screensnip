@@ -217,7 +217,7 @@ namespace WolfPaw_ScreenSnip
 			size = s;
 			width = s.Width;
 			height = s.Height;
-			resizeImage();
+			//resizeImage();
 		}
 
 		public Size getSize()
@@ -330,7 +330,7 @@ namespace WolfPaw_ScreenSnip
 				scaledImage = new Bitmap(getWidth(), getHeight());
 				using (Graphics g = Graphics.FromImage(scaledImage))
 				{
-					/*
+					
 					g.InterpolationMode = cr.getIM();
 					g.PixelOffsetMode = cr.getPOM();
 					g.SmoothingMode = cr.getSM();

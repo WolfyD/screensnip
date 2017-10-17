@@ -519,15 +519,20 @@ namespace WolfPaw_ScreenSnip
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
-			
+
+			var cr = new c_returnGraphicSettings();
+			e.Graphics.InterpolationMode = cr.getIM();
+			e.Graphics.PixelOffsetMode = cr.getPOM();
+			e.Graphics.SmoothingMode = cr.getSM();
+
 			//TODO: PAINT!!
 			organizeImageList();
 			foreach (c_ImageHolder c in Limages)
 			{
 				if (c != null)
 				{
-					e.Graphics.DrawImage(c.getScaledImage(), c.Position);
-					
+					e.Graphics.DrawImage(c.getImage(), new Rectangle(c.Position, c.Size), new Rectangle(new Point(0, 0), c.Image.Size), GraphicsUnit.Pixel);
+
 					if (c.selected)
 					{
 						e.Graphics.DrawRectangle(new Pen(c_DefaultBorderColor), new Rectangle(c.Position, c.Size));
@@ -600,9 +605,17 @@ namespace WolfPaw_ScreenSnip
 				if (renhan.pointInPosition(e.Location, new Rectangle(c.Position, c.Size)))
 				{
 					Point pp = new Point(e.X - c.Left, e.Y - c.Top);
-					if (c.isOverAButton(pp))
+					if (c.isOverAButton(pp) && !resize)
 					{
 						btn b = c.overWhichButton(pp);
+
+						switch (b.value)
+						{
+							case 0:
+								c.Size = c.Image.Size;
+								break;
+						}
+
 						//TODO: Button click
 					}
 				}
@@ -721,54 +734,40 @@ namespace WolfPaw_ScreenSnip
 				{
 					if(cor == corners.leftBottom)
 					{
-						//BOTTOM
 						int left = cc.Left;
-						if (e.Location.Y - cc.Top > 20)
-						{
-							cc.Size = new Size(cc.Width, e.Location.Y - cc.Top);
-						}
-						else
+
+						cc.Position = new Point(e.Location.X, cc.Top);
+						cc.Size = new Size(cc.Width - (cc.Left - left), e.Location.Y - cc.Top);
+
+						if (e.Location.Y - cc.Top <= 20)
 						{
 							cc.Size = new Size(cc.Width, 21);
 						}
-						//LEFT
-						
-						if (cc.Width - (cc.Left - left) > 20)
-						{
-							cc.Position = new Point(e.Location.X, cc.Top);
-							cc.Size = new Size(cc.Width - (cc.Left - left), cc.Height);
-						}
-						else
+						if (cc.Width - (cc.Left - left) <= 20)
 						{
 							cc.Size = new Size(21, cc.Height);
-							cc.Position = new Point(cc.Position.X - 2, cc.Position.Y);
 						}
 
 					}
 					else if (cor == corners.leftTop)
 					{
+						
 						//TOP
 						int top = cc.Top;
-						if (cc.Height - (cc.Top - top) > 20)
-						{
-							cc.Position = new Point(cc.Left, e.Location.Y);
-							cc.Size = new Size(cc.Width, cc.Height - (cc.Top - top));
-						}
-						else
+						int left = cc.Left;
+
+						cc.Position = new Point(e.Location.X, e.Location.Y);
+						cc.Size = new Size(cc.Width - (cc.Left - left), cc.Height - (cc.Top - top));
+
+						if (cc.Height - (cc.Top - top) <= 20)
 						{
 							cc.Size = new Size(cc.Width, 21);
+							cc.Position = new Point(cc.Position.X, top);
 						}
-						//LEFT
-						int left = cc.Left;
-						if (cc.Width - (cc.Left - left) > 20)
-						{
-							cc.Position = new Point(e.Location.X, cc.Top);
-							cc.Size = new Size(cc.Width - (cc.Left - left), cc.Height);
-						}
-						else
+						if (cc.Width - (cc.Left - left) <= 20)
 						{
 							cc.Size = new Size(21, cc.Height);
-							cc.Position = new Point(cc.Position.X - 2, cc.Position.Y);
+							cc.Position = new Point(left, cc.Position.Y);
 						}
 
 					}
@@ -816,8 +815,6 @@ namespace WolfPaw_ScreenSnip
 							cc.Size = new Size(21, cc.Height);
 						}
 					}
-
-					//TODO: ______CORNERS
 				}
 			}
 			
