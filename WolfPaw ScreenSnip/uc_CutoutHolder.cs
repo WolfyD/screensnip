@@ -101,7 +101,7 @@ namespace WolfPaw_ScreenSnip
 
 			if (((f_Screen)ParentForm).panelOpen())
 			{
-				((f_Screen)ParentForm).setPanelTopmost();
+				//((f_Screen)ParentForm).setPanelTopmost();
 			}
 		}
 

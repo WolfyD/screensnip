@@ -217,6 +217,9 @@ namespace WolfPaw_ScreenSnip
 			size = s;
 			width = s.Width;
 			height = s.Height;
+
+			_buttons.setupButtons(width);
+
 			//resizeImage();
 		}
 
@@ -238,6 +241,66 @@ namespace WolfPaw_ScreenSnip
 		public Rectangle bounds()
 		{
 			return new Rectangle(position, size);
+		}
+
+		public int getRatio(int ow, int oh, int height)
+		{
+			int ret = 0;
+
+			double ratio = (ow * 1.0) / (oh * 1.0);
+			double wid = ratio * height;
+
+			ret = (int)Math.Floor(wid);
+
+			return ret;
+		}
+
+		public void fullscreen()
+		{
+			var pf = parent;
+			int heightMod = 20 + (pf.toolbarOpen() ? 40 : 0);
+			int widthMod = 20 + (pf.panelOpen() ? 200 : 0);
+
+			int W=0, H=0;
+
+			if (Width > Height)
+			{
+				W = pf.Width - (20 + widthMod);
+				H = getRatio(image.Height, image.Width, pf.Width - (20 + widthMod));
+
+				if (H > pf.Height - 20)
+				{
+					H = pf.Height - (10 + 39 + heightMod);
+					W = getRatio(image.Width, image.Height, pf.Height - (10 + heightMod));
+				}
+			}
+			else
+			{
+				H = pf.Height - (10 + 39 + heightMod);
+				W = getRatio(image.Width, image.Height, pf.Height - (10 + heightMod));
+
+				if (Width > pf.Width - 20)
+				{
+					W = pf.Width - (20 + widthMod);
+					H = getRatio(image.Height, image.Width, pf.Width - (20 + widthMod));
+				}
+			}
+
+			int L = 10;
+			int T = heightMod - 10;
+
+			setPosition(new Point(L, T));
+			setSize(new Size(W, H));
+		}
+
+		public void LayerUp()
+		{
+
+		}
+
+		public void LayerDown()
+		{
+
 		}
 		#endregion
 
@@ -273,7 +336,7 @@ namespace WolfPaw_ScreenSnip
 		{
 			return layerIndex;
 		}
-		
+
 		#endregion
 
 		#region Image
@@ -330,23 +393,19 @@ namespace WolfPaw_ScreenSnip
 				scaledImage = new Bitmap(getWidth(), getHeight());
 				using (Graphics g = Graphics.FromImage(scaledImage))
 				{
-					
 					g.InterpolationMode = cr.getIM();
 					g.PixelOffsetMode = cr.getPOM();
 					g.SmoothingMode = cr.getSM();
-					/*--*/
 
 					g.DrawImage(image, new Rectangle(new Point(0, 0), scaledImage.Size), new Rectangle(new Point(0, 0), image.Size), GraphicsUnit.Pixel);
 				}
 				
-				//GC.Collect(2, GCCollectionMode.Forced, true);
-
 			}
 		}
 
 		public Bitmap getScaledImage()
 		{
-			//createScaledImage();
+			createScaledImage();
 			return scaledImage;
 		}
 
@@ -358,17 +417,6 @@ namespace WolfPaw_ScreenSnip
 		public imageBorder getBorder()
 		{
 			return border;
-		}
-
-		public void resizeImage()
-		{
-			if(image != null)
-			{
-				createScaledImage();
-				_buttons.setupButtons(width);
-			}
-
-			//TODO: ADD FUNCTIONALITY
 		}
 
 		#endregion
@@ -570,8 +618,88 @@ namespace WolfPaw_ScreenSnip
 
 		public void saveImage()
 		{
-			Bitmap bmp = getScaledImage();
-			//TODO: SAVE
+			Bitmap _b = getScaledImage();
+			string savename = "ScreenSnip";
+
+			if (true || Properties.Settings.Default.s_SaveHasDateTime)
+			{
+				string date = "";
+				DateTime n = DateTime.Now;
+				date = n.Year + "." + n.Month.ToString().PadLeft(2, '0') + "." + n.Day.ToString().PadLeft(2, '0') + "_" + n.Hour.ToString().PadLeft(2, '0') + "." + n.Minute.ToString().PadLeft(2, '0') + "." + n.Second.ToString().PadLeft(2, '0');
+				if (Properties.Settings.Default.s_AddDateToSaveFileName)
+				{
+					savename += "_" + date;
+				}
+			}
+			SaveFileDialog sfd = new SaveFileDialog();
+			sfd.Filter = 
+						"Portable Network Graphics Image (PNG)|*.png|" +
+						"Bitmap Image (BMP)|*.bmp|" +
+						"Joint Photographic Experts Group Image (JPEG)|*.jpg;*.jpeg|" +
+						"Graphics Interchange Format Image (GIF)|*.gif|" +
+						"Tagged Image File Format Image (TIFF)|*.tif;*.tiff|" +
+						"Windows Metafile Image (WMF)|*.wmf";
+
+			sfd.FilterIndex = Properties.Settings.Default.s_lastSaveFormat;
+
+			sfd.FileName = savename;
+
+			if (sfd.ShowDialog() == DialogResult.OK)
+			{
+
+				ImageFormat _if = ImageFormat.Png;
+
+				switch (sfd.FileName.Substring(sfd.FileName.LastIndexOf(".") + 1).ToLower())
+				{
+					case "png":
+						_if = ImageFormat.Png;
+						Properties.Settings.Default.s_lastSaveFormat = 0;
+						break;
+
+					case "bmp":
+						_if = ImageFormat.Bmp;
+						Properties.Settings.Default.s_lastSaveFormat = 1;
+						break;
+
+					case "jpg":
+						_if = ImageFormat.Jpeg;
+						Properties.Settings.Default.s_lastSaveFormat = 2;
+						break;
+
+					case "jpeg":
+						_if = ImageFormat.Jpeg;
+						Properties.Settings.Default.s_lastSaveFormat = 2;
+						break;
+
+					case "gif":
+						_if = ImageFormat.Gif;
+						Properties.Settings.Default.s_lastSaveFormat = 3;
+						break;
+
+					case "tif":
+						_if = ImageFormat.Tiff;
+						Properties.Settings.Default.s_lastSaveFormat = 4;
+						break;
+
+					case "tiff":
+						_if = ImageFormat.Tiff;
+						Properties.Settings.Default.s_lastSaveFormat = 4;
+						break;
+
+					case "wmf":
+						_if = ImageFormat.Wmf;
+						Properties.Settings.Default.s_lastSaveFormat = 5;
+						break;
+
+					default:
+						_if = ImageFormat.Png;
+						Properties.Settings.Default.s_lastSaveFormat = 0;
+						break;
+				}
+
+				_b.Save(sfd.FileName, _if);
+
+			}
 		}
 
 		public void copyImage()
@@ -639,9 +767,7 @@ namespace WolfPaw_ScreenSnip
 
 		#endregion
 
-		/// <summary>
-		/// Dispose Calls
-		/// </summary>
+		/// <summary> Dispose Calls  </summary>
 		#region IDisposable Support
 		public void Dispose()
 		{

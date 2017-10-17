@@ -139,20 +139,6 @@ namespace WolfPaw_ScreenSnip
 		{
 			if (img != null)
 			{
-				//TODO: ADDIMAGE
-				/*
-				var box = new uc_CutoutHolder();
-				box.Parent = this;
-
-				box.Width = img.Width;
-				box.Height = img.Height;
-
-				box.Left = pos.X;
-				box.Top = pos.Y;
-
-				box.BMP = img;
-				*/
-
 				var box = new c_ImageHolder();
 				box.parent = this;
 
@@ -180,7 +166,7 @@ namespace WolfPaw_ScreenSnip
 				{
 					c.Dispose();
 				} catch { }
-			}/*--*/
+			}
 
 			Limages = null;
 
@@ -256,6 +242,8 @@ namespace WolfPaw_ScreenSnip
 				parent.Form1_KeyDown(sender, e);
 			}
 		}
+
+		#region drag
 
 		private void f_Screen_DragDrop(object sender, DragEventArgs e)
 		{
@@ -340,18 +328,6 @@ namespace WolfPaw_ScreenSnip
 
 		}
 
-		public Bitmap textToImg(string s)
-		{
-			Size textSize = TextRenderer.MeasureText(s, dragableFont);
-			Bitmap di = new Bitmap(textSize.Width + 10, textSize.Height + 10);
-			using (Graphics g = Graphics.FromImage(di))
-			{
-				g.DrawString(s, dragableFont, Brushes.Black, new PointF(5, 5));
-			}
-			dragableSize = di.Size;
-			return di;
-		}
-
 		private void f_Screen_DragOver(object sender, DragEventArgs e)
 		{
 			if (handleDrag)
@@ -374,10 +350,24 @@ namespace WolfPaw_ScreenSnip
 			}
 		}
 
+		#endregion
+
+		public Bitmap textToImg(string s)
+		{
+			Size textSize = TextRenderer.MeasureText(s, dragableFont);
+			Bitmap di = new Bitmap(textSize.Width + 10, textSize.Height + 10);
+			using (Graphics g = Graphics.FromImage(di))
+			{
+				g.DrawString(s, dragableFont, Brushes.Black, new PointF(5, 5));
+			}
+			dragableSize = di.Size;
+			return di;
+		}
+
+
 		public void showToolBar()
 		{
 			if (child != null && !child.IsDisposed) { child.Close(); }
-			//splitContainer1.Panel2Collapsed = false;
 			p_Tools.Width = 200;
 			ts_Tools.Hide();
 			Properties.Settings.Default.s_ToolbarPanel = 1;
@@ -391,14 +381,12 @@ namespace WolfPaw_ScreenSnip
 			child.Show();
 			Properties.Settings.Default.s_ToolbarPanel = 0;
 			Properties.Settings.Default.Save();
-			//splitContainer1.Panel2Collapsed = true;
 			p_Tools.Width = 0;
 			ts_Tools.Hide();
 		}
 
 		public void showToolStrip()
 		{
-			//splitContainer1.Panel2Collapsed = true;
 			p_Tools.Width = 0;
 			if (child != null && !child.IsDisposed) { child.Close(); }
 			ts_Tools.Show();
@@ -434,12 +422,6 @@ namespace WolfPaw_ScreenSnip
 		public bool toolbarOpen()
 		{
 			return ts_Tools.Visible;
-		}
-
-		public void setPanelTopmost()
-		{
-			//p_Tools.BringToFront();
-
 		}
 
 		public void toggleToolbar()
@@ -482,29 +464,10 @@ namespace WolfPaw_ScreenSnip
 			{
 				pw.refreshImage(this);
 			}
-
-			//invalidateTools();
-		}
-
-		/*
-		public void invalidateTools()
-		{
-			if (Properties.Settings.Default.s_InvalidateTools)
-			{
-				if (panelOpen())
-				{
-					p_Tools.Invalidate();
-				}
-				else if (ts_Tools.Visible)
-				{
-					ts_Tools.Invalidate();
-				}
-			}
-
 			
 		}
-		/*--*/
 
+		
 		private void btn_Dock_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
 		{
 
@@ -608,17 +571,95 @@ namespace WolfPaw_ScreenSnip
 					if (c.isOverAButton(pp) && !resize)
 					{
 						btn b = c.overWhichButton(pp);
-
-						switch (b.value)
+						//TODO: HANDLE BUTTON CLICKS
+						if (c._buttons.currentValue == btn.hiddenVal.W065)
 						{
-							case 0:
-								c.Size = c.Image.Size;
-								break;
+							
+						}
+						else if (c._buttons.currentValue == btn.hiddenVal.W135)
+						{
+
+						}
+						else if (c._buttons.currentValue == btn.hiddenVal.W175)
+						{
+							switch (b.value)
+							{
+								case 0:
+									c.Size = c.Image.Size;
+									break;
+
+								case 10:
+									cms_Panel.Visible = true;
+									cms_Panel.Show(this, e.Location);
+									break;
+
+								case 4:
+									//TODO: EDIT!!
+									break;
+
+								case 5:
+									c.saveImage();
+									break;
+
+								case 6:
+									c.copyImage();
+									break;
+
+								case -1:
+									Limages.Remove(c);
+									GC.Collect();
+									Invalidate();
+									break;
+							}
+						}
+						else if (c._buttons.currentValue == btn.hiddenVal.FullWidth)
+						{
+							switch (b.value)
+							{
+								case 0:
+									c.Size = c.Image.Size;
+									break;
+
+								case 1:
+									c.fullscreen();
+									break;
+
+								case 2:
+									c.LayerUp();
+									break;
+
+								case 3:
+									c.LayerDown();
+									break;
+
+								case 4:
+									//TODO: EDIT!!
+									break;
+
+								case 5:
+									c.saveImage();
+									break;
+
+								case 6:
+									c.copyImage();
+									break;
+
+								case -1:
+									Limages.Remove(c);
+									GC.Collect();
+									Invalidate();
+									break;
+
+
+							}
 						}
 
 						//TODO: Button click
 					}
+
+					break;
 				}
+
 			}
 
 			Invalidate();
@@ -632,45 +673,45 @@ namespace WolfPaw_ScreenSnip
 			foreach (c_ImageHolder cc in Limages)
 			{
 				Point pedge = new Point(e.X - cc.Left, e.Y - cc.Top);
-				if (cc.isOverAnEdge(pedge))
+				if (cc.bounds().Contains(e.Location))
 				{
-					edges ed = cc.overWhichEdge(pedge);
-					if (ed == edges.bottom || ed == edges.top)
+					if (cc.isOverAnEdge(pedge))
 					{
-						Cursor = Cursors.SizeNS;
+						edges ed = cc.overWhichEdge(pedge);
+						if (ed == edges.bottom || ed == edges.top)
+						{
+							Cursor = Cursors.SizeNS;
+						}
+						else if (ed == edges.left || ed == edges.right)
+						{
+							Cursor = Cursors.SizeWE;
+						}
 					}
-					else if (ed == edges.left || ed == edges.right)
+					else if (cc.isOverACorner(pedge))
 					{
-						Cursor = Cursors.SizeWE;
-					}
+						corners cir = cc.overWhichCorner(pedge);
+						if (cir == corners.leftBottom)
+						{
+							Cursor = Cursors.SizeNESW;
+						}
+						else if (cir == corners.leftTop)
+						{
+							Cursor = Cursors.SizeNWSE;
+						}
+						else if (cir == corners.rightBottom)
+						{
+							Cursor = Cursors.SizeNWSE;
+						}
+						else if (cir == corners.rightTop)
+						{
+							Cursor = Cursors.SizeNESW;
+						}
 
-					break;
-					
-				}
-				else if (cc.isOverACorner(pedge))
-				{
-					corners cir = cc.overWhichCorner(pedge);
-					if (cir == corners.leftBottom)
-					{
-						Cursor = Cursors.SizeNESW;
 					}
-					else if (cir == corners.leftTop)
+					else
 					{
-						Cursor = Cursors.SizeNWSE;
+						Cursor = Cursors.Default;
 					}
-					else if (cir == corners.rightBottom)
-					{
-						Cursor = Cursors.SizeNWSE;
-					}
-					else if (cir == corners.rightTop)
-					{
-						Cursor = Cursors.SizeNESW;
-					}
-
-				}
-				else
-				{
-					Cursor = Cursors.Default;
 				}
 			}
 

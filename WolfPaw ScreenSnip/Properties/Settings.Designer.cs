@@ -514,5 +514,17 @@ namespace WolfPaw_ScreenSnip.Properties {
                 this["s_LastPreviewMode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool s_AddDateToSaveFileName {
+            get {
+                return ((bool)(this["s_AddDateToSaveFileName"]));
+            }
+            set {
+                this["s_AddDateToSaveFileName"] = value;
+            }
+        }
     }
 }
