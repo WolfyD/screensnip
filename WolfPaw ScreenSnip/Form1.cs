@@ -734,19 +734,19 @@ namespace WolfPaw_ScreenSnip
 			{
 				if (fs != null && !fs.IsDisposed)
 				{
-					List<uc_CutoutHolder> v = new List<uc_CutoutHolder>();
-					foreach (Control c in fs.Controls)
+					while(fs.Limages.Count > 0)
 					{
-						if (c != null && c is uc_CutoutHolder)
+						try
 						{
-							v.Add(c as uc_CutoutHolder);
+							fs.Limages[0].Dispose();
+							fs.Limages.RemoveAt(0);
+						}
+						catch
+						{
+							break;
 						}
 					}
-
-					foreach (var vv in v)
-					{
-						vv.Dispose();
-					}
+					GC.Collect();
 				}
 			}
 		}

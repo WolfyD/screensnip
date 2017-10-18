@@ -160,15 +160,19 @@ namespace WolfPaw_ScreenSnip
 			if (child != null) { child.Close(); }
 			if (pw != null) { pw.Close(); }
 			
-			foreach (c_ImageHolder c in Limages)
+			if(Limages != null)
 			{
-				try
+				foreach (c_ImageHolder c in Limages)
 				{
-					c.Dispose();
-				} catch { }
-			}
+					try
+					{
+						c.Dispose();
+					}
+					catch { }
+				}
 
-			Limages = null;
+				Limages = null;
+			}
 
 			try
 			{
@@ -181,19 +185,21 @@ namespace WolfPaw_ScreenSnip
 
 		public void f_Screen_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.KeyCode == Keys.Left || e.KeyCode == Keys.Right ||
-				e.KeyCode == Keys.Up || e.KeyCode == Keys.Down || e.KeyCode == Keys.Escape)
+			var c = c_ImgGen.returnCutouts(this);
+			c_ImageHolder u = null;
+			foreach (var cc in Limages)
 			{
-				var c = c_ImgGen.returnCutouts(this);
-				c_ImageHolder u = null;
-				foreach (var cc in Limages)
+				if (cc.selected)
 				{
-					if (cc.selected)
-					{
-						u = cc;
-						break;
-					}
+					u = cc;
+					break;
 				}
+			}
+
+			if (e.KeyCode == Keys.Left || e.KeyCode == Keys.Right ||
+				e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
+			{
+				
 
 				int add = 1;
 				if (e.Control) { add = 5; }
@@ -231,15 +237,25 @@ namespace WolfPaw_ScreenSnip
 						Invalidate();
 					}
 				}
-				else if (e.KeyCode == Keys.Escape)
+			}
+			else if (e.KeyCode == Keys.Escape)
+			{
+				if (!Properties.Settings.Default.s_ClearRequireAuth || MessageBox.Show("You are about to close this screen.If you do your unsaved data will be lost.\r\nAre you sure you wish to continue?", "Are you sure?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
 				{
-
+					this.Close();
 				}
-				else if (e.KeyCode == Keys.F11)
+			}
+			else if (e.KeyCode == Keys.F11)
+			{
+				toggleFullScreen();
+			}
+			else if (e.KeyCode == Keys.Delete)
+			{
+				if (u != null && Limages.Contains(u))
 				{
-					toggleFullScreen();
+					Limages.Remove(u);
+					Invalidate();
 				}
-
 			}
 			else
 			{
@@ -509,28 +525,35 @@ namespace WolfPaw_ScreenSnip
 			e.Graphics.SmoothingMode = cr.getSM();
 
 			//TODO: PAINT!!
-			organizeImageList();
-			foreach (c_ImageHolder c in Limages)
+			try
 			{
-				if (c != null)
+				organizeImageList();
+				foreach (c_ImageHolder c in Limages)
 				{
-					e.Graphics.DrawImage(c.getImage(), new Rectangle(c.Position, c.Size), new Rectangle(new Point(0, 0), c.Image.Size), GraphicsUnit.Pixel);
+					if (c != null)
+					{
+						e.Graphics.DrawImage(c.getImage(), new Rectangle(c.Position, c.Size), new Rectangle(new Point(0, 0), c.Image.Size), GraphicsUnit.Pixel);
 
-					if (c.selected)
-					{
-						e.Graphics.DrawRectangle(new Pen(c_DefaultBorderColor), new Rectangle(c.Position, c.Size));
-					}
-					else if (c.mouseOver)
-					{
-						e.Graphics.DrawRectangle(new Pen(c_MouseOverBorderColor), new Rectangle(c.Position, c.Size));
-					}
-					if (c.panelShowing)
-					{
-						e.Graphics.FillRectangle(new SolidBrush(c_HandleColor), new RectangleF(c.Position, new Size(c.Width, 20)));
+						if (c.selected)
+						{
+							e.Graphics.DrawRectangle(new Pen(c_DefaultBorderColor), new Rectangle(c.Position, c.Size));
+						}
+						else if (c.mouseOver)
+						{
+							e.Graphics.DrawRectangle(new Pen(c_MouseOverBorderColor), new Rectangle(c.Position, c.Size));
+						}
+						if (c.panelShowing)
+						{
+							e.Graphics.FillRectangle(new SolidBrush(c_HandleColor), new RectangleF(c.Position, new Size(c.Width, 20)));
 
-						e.Graphics.DrawImage(renhan.renderButtons(PointToClient(Cursor.Position), c), new PointF(c.Position.X, c.Position.Y));
+							e.Graphics.DrawImage(renhan.renderButtons(PointToClient(Cursor.Position), c), new PointF(c.Position.X, c.Position.Y));
+						}
 					}
 				}
+			}
+			catch
+			{
+				this.Close();
 			}
 
 		}
@@ -542,7 +565,14 @@ namespace WolfPaw_ScreenSnip
 
 		public void organizeImageList()
 		{
-			Limages.Sort(new intComparer());
+			try
+			{
+				Limages.Sort(new intComparer());
+			}
+			catch
+			{
+
+			}
 		}
 		
 		private void f_Screen_MouseClick(object sender, MouseEventArgs e)
@@ -765,6 +795,10 @@ namespace WolfPaw_ScreenSnip
 						Cursor = Cursors.Default;
 					}
 				}
+				else
+				{
+					Cursor = Cursors.Default;
+				}
 			}
 
 			if (mdown && resize)
@@ -915,6 +949,62 @@ namespace WolfPaw_ScreenSnip
 			{
 				buttonPress = false;
 				selectedImage.Position = new Point(e.X - imageDragPoint.X, e.Y - imageDragPoint.Y);
+
+				if (Properties.Settings.Default.s_AllowDragaround)
+				{
+					//DRAGAROUND X
+					if (e.X <= 0 && Properties.Settings.Default.s_DragaroundX)
+					{
+						if (selectedImage.Left + selectedImage.Width > PointToScreen(new Point(getBounds().Width, e.Y)).X)
+						{
+							imageDragPoint.X += getBounds().Width;
+						}
+						else
+						{
+							imageDragPoint.X = selectedImage.bounds().Width - 10;
+						}
+						Cursor.Position = PointToScreen(new Point(getBounds().Width - 19, e.Y));
+					}
+					else if (e.X >= getBounds().Width - 18 && Properties.Settings.Default.s_DragaroundX)
+					{
+						if (selectedImage.Left < 0)
+						{
+							imageDragPoint.X -= (getBounds().Width);
+						}
+						else
+						{
+							imageDragPoint.X = 10;
+						}
+						Cursor.Position = new Point(new Point(getBounds().Left + 10, 0).X, PointToScreen(new Point(0, e.Y)).Y);
+					}
+
+					//DRAGAROUND Y
+					if (e.Y < 0 && Properties.Settings.Default.s_DragaroundY)
+					{
+						if (selectedImage.Top + selectedImage.Height > PointToScreen(new Point(e.X, getBounds().Height)).Y)
+						{
+							imageDragPoint.Y = getBounds().Height;
+						}
+						else
+						{
+							imageDragPoint.Y = selectedImage.bounds().Height - 10;
+						}
+						Cursor.Position = PointToScreen(new Point(e.X, getBounds().Height - 39));
+					}
+					else if (e.Y > getBounds().Height - 39 && Properties.Settings.Default.s_DragaroundY)
+					{
+						if (selectedImage.Top < 0)
+						{
+							imageDragPoint.Y = getBounds().Y;
+						}
+						else
+						{
+							imageDragPoint.Y = 10;
+						}
+						Cursor.Position = new Point(PointToScreen(new Point(e.X,0)).X, getBounds().Top + 39);
+					}
+				}
+
 				Invalidate();
 			}
 			else
@@ -943,6 +1033,11 @@ namespace WolfPaw_ScreenSnip
 			}
 		}
 		
+		public Rectangle getBounds()
+		{
+			return this.Bounds;
+		}
+
 		//----TOOL STUFF
 		private void num_ToolSize_ValueChanged(object sender, EventArgs e)
 		{

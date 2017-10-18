@@ -89,6 +89,7 @@ namespace WolfPaw_ScreenSnip
 		
 		public c_ImageHolder()
 		{
+			#region BUTTONS
 			btn b_Resize = new btn() {
 				image1 = IconChar.ArrowsAlt.ToBitmap(20, Color.Black),
 				image2 = IconChar.ArrowsAlt.ToBitmap(20, Color.White),
@@ -209,6 +210,8 @@ namespace WolfPaw_ScreenSnip
 			{
 				bb.originalPos = bb.pos;
 			}
+
+			#endregion
 		}
 
 
@@ -380,6 +383,7 @@ namespace WolfPaw_ScreenSnip
 		public void setImage(Bitmap img)
 		{
 			image = img;
+			parent.Invalidate();
 			createScaledImage();
 		}
 
@@ -787,7 +791,7 @@ namespace WolfPaw_ScreenSnip
 					image.Dispose();
 					Image.Dispose();
 					scaledImage.Dispose();
-					parent.Dispose();
+					parent.Invalidate();
 				}
 				
 				disposedValue = true;

@@ -526,5 +526,41 @@ namespace WolfPaw_ScreenSnip.Properties {
                 this["s_AddDateToSaveFileName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool s_AllowDragaround {
+            get {
+                return ((bool)(this["s_AllowDragaround"]));
+            }
+            set {
+                this["s_AllowDragaround"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool s_DragaroundX {
+            get {
+                return ((bool)(this["s_DragaroundX"]));
+            }
+            set {
+                this["s_DragaroundX"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool s_DragaroundY {
+            get {
+                return ((bool)(this["s_DragaroundY"]));
+            }
+            set {
+                this["s_DragaroundY"] = value;
+            }
+        }
     }
 }

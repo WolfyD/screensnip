@@ -50,8 +50,8 @@ namespace WolfPaw_ScreenSnip
 			BackgroundImage = bmp;
 			if(mode == 4)
 			{
-				//edge = bmp.KirschFilter(true);
-				//BackgroundImage = edge;
+				//edge = bmp.filter(true);
+			    //BackgroundImage = edge;
 			}
 
 			bgc = Properties.Settings.Default.s_CanvasColor;
@@ -178,12 +178,12 @@ namespace WolfPaw_ScreenSnip
 
 					List<Point> pnts = new List<Point>();
 
-					brect = new Bitmap(100,100);
+					brect = new Bitmap(200,200);
 					using(Graphics g = Graphics.FromImage(brect))
 					{
 						g.DrawImage(bmp, new Rectangle(0, 0, brect.Width, brect.Height), new Rectangle(new Point(pnt.X - brect.Width / 2, pnt.Y - brect.Height / 2), brect.Size), GraphicsUnit.Pixel);
 					}
-					brect = brect.Laplacian5x5Filter(true);
+					brect = brect.filter(true);
 
 					//BitmapData bd = brect.LockBits(new Rectangle(0, 0, 100, 100), ImageLockMode.ReadOnly, PixelFormat.Canonical);
 
@@ -217,7 +217,7 @@ namespace WolfPaw_ScreenSnip
 						int dist = distance(originalPoint, kp.Key);
 						int cdist = colorDistance(kp.Value, originalColor);
 
-						dist *= 4;
+						dist = (int)Math.Pow(dist,1.5);
 
 						
 
@@ -401,12 +401,12 @@ namespace WolfPaw_ScreenSnip
 			else if (mode == 4)
 			{
 				//TODO: [CANVAS] make Magic selection
-
+				/*
 				using (Brush br = new SolidBrush(Color.FromArgb(transparency, bgc)))
 				{
 					e.Graphics.FillRectangle(br, new Rectangle(0, 0, Width, Height));
 				}
-
+				*/
 				try
 				{
 					List<int> ppprem = new List<int>();
