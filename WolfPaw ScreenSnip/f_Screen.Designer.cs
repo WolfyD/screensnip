@@ -94,7 +94,7 @@
 			this.cms_btn_Fit = new System.Windows.Forms.ToolStripMenuItem();
 			this.cms_btn_LayerUp = new System.Windows.Forms.ToolStripMenuItem();
 			this.cms_btn_LayerDown = new System.Windows.Forms.ToolStripMenuItem();
-			this.cms_btn_PresiceMovementMode = new System.Windows.Forms.ToolStripMenuItem();
+			this.cms_btn_EditImage = new System.Windows.Forms.ToolStripMenuItem();
 			this.cms_btn_Save = new System.Windows.Forms.ToolStripMenuItem();
 			this.cms_btn_Copy = new System.Windows.Forms.ToolStripMenuItem();
 			this.cms_btn_Delete = new System.Windows.Forms.ToolStripMenuItem();
@@ -814,66 +814,74 @@
             this.cms_btn_Fit,
             this.cms_btn_LayerUp,
             this.cms_btn_LayerDown,
-            this.cms_btn_PresiceMovementMode,
+            this.cms_btn_EditImage,
             this.cms_btn_Save,
             this.cms_btn_Copy,
             this.cms_btn_Delete});
 			this.cms_Panel.Name = "cms_Panel";
-			this.cms_Panel.Size = new System.Drawing.Size(207, 180);
+			this.cms_Panel.Size = new System.Drawing.Size(153, 202);
 			// 
 			// cms_btn_Resize
 			// 
 			this.cms_btn_Resize.Image = global::WolfPaw_ScreenSnip.Properties.Resources.full_screen;
 			this.cms_btn_Resize.Name = "cms_btn_Resize";
-			this.cms_btn_Resize.Size = new System.Drawing.Size(206, 22);
+			this.cms_btn_Resize.Size = new System.Drawing.Size(152, 22);
 			this.cms_btn_Resize.Text = "Resize";
+			this.cms_btn_Resize.Click += new System.EventHandler(this.cms_btn_Resize_Click);
 			// 
 			// cms_btn_Fit
 			// 
 			this.cms_btn_Fit.Name = "cms_btn_Fit";
-			this.cms_btn_Fit.Size = new System.Drawing.Size(206, 22);
+			this.cms_btn_Fit.Size = new System.Drawing.Size(152, 22);
 			this.cms_btn_Fit.Text = "Fit";
+			this.cms_btn_Fit.Click += new System.EventHandler(this.cms_btn_Fit_Click);
 			// 
 			// cms_btn_LayerUp
 			// 
 			this.cms_btn_LayerUp.Image = global::WolfPaw_ScreenSnip.Properties.Resources.up;
 			this.cms_btn_LayerUp.Name = "cms_btn_LayerUp";
-			this.cms_btn_LayerUp.Size = new System.Drawing.Size(206, 22);
+			this.cms_btn_LayerUp.Size = new System.Drawing.Size(152, 22);
 			this.cms_btn_LayerUp.Text = "Layer Up";
+			this.cms_btn_LayerUp.Click += new System.EventHandler(this.cms_btn_LayerUp_Click);
 			// 
 			// cms_btn_LayerDown
 			// 
 			this.cms_btn_LayerDown.Image = global::WolfPaw_ScreenSnip.Properties.Resources.down;
 			this.cms_btn_LayerDown.Name = "cms_btn_LayerDown";
-			this.cms_btn_LayerDown.Size = new System.Drawing.Size(206, 22);
+			this.cms_btn_LayerDown.Size = new System.Drawing.Size(152, 22);
 			this.cms_btn_LayerDown.Text = "Layer Down";
+			this.cms_btn_LayerDown.Click += new System.EventHandler(this.cms_btn_LayerDown_Click);
 			// 
-			// cms_btn_PresiceMovementMode
+			// cms_btn_EditImage
 			// 
-			this.cms_btn_PresiceMovementMode.Name = "cms_btn_PresiceMovementMode";
-			this.cms_btn_PresiceMovementMode.Size = new System.Drawing.Size(206, 22);
-			this.cms_btn_PresiceMovementMode.Text = "Precise Movement Mode";
+			this.cms_btn_EditImage.Name = "cms_btn_EditImage";
+			this.cms_btn_EditImage.Size = new System.Drawing.Size(152, 22);
+			this.cms_btn_EditImage.Text = "Edit Image";
+			this.cms_btn_EditImage.Click += new System.EventHandler(this.cms_btn_EditImage_Click);
 			// 
 			// cms_btn_Save
 			// 
 			this.cms_btn_Save.Image = global::WolfPaw_ScreenSnip.Properties.Resources.save_20;
 			this.cms_btn_Save.Name = "cms_btn_Save";
-			this.cms_btn_Save.Size = new System.Drawing.Size(206, 22);
+			this.cms_btn_Save.Size = new System.Drawing.Size(152, 22);
 			this.cms_btn_Save.Text = "Save";
+			this.cms_btn_Save.Click += new System.EventHandler(this.cms_btn_Save_Click);
 			// 
 			// cms_btn_Copy
 			// 
 			this.cms_btn_Copy.Image = global::WolfPaw_ScreenSnip.Properties.Resources.clipboard_20;
 			this.cms_btn_Copy.Name = "cms_btn_Copy";
-			this.cms_btn_Copy.Size = new System.Drawing.Size(206, 22);
+			this.cms_btn_Copy.Size = new System.Drawing.Size(152, 22);
 			this.cms_btn_Copy.Text = "Copy";
+			this.cms_btn_Copy.Click += new System.EventHandler(this.cms_btn_Copy_Click);
 			// 
 			// cms_btn_Delete
 			// 
 			this.cms_btn_Delete.Image = global::WolfPaw_ScreenSnip.Properties.Resources.trashcan;
 			this.cms_btn_Delete.Name = "cms_btn_Delete";
-			this.cms_btn_Delete.Size = new System.Drawing.Size(206, 22);
+			this.cms_btn_Delete.Size = new System.Drawing.Size(152, 22);
 			this.cms_btn_Delete.Text = "Delete";
+			this.cms_btn_Delete.Click += new System.EventHandler(this.cms_btn_Delete_Click);
 			// 
 			// f_Screen
 			// 
@@ -976,7 +984,7 @@
 		private System.Windows.Forms.ToolStripMenuItem cms_btn_Fit;
 		private System.Windows.Forms.ToolStripMenuItem cms_btn_LayerUp;
 		private System.Windows.Forms.ToolStripMenuItem cms_btn_LayerDown;
-		private System.Windows.Forms.ToolStripMenuItem cms_btn_PresiceMovementMode;
+		private System.Windows.Forms.ToolStripMenuItem cms_btn_EditImage;
 		private System.Windows.Forms.ToolStripMenuItem cms_btn_Save;
 		private System.Windows.Forms.ToolStripMenuItem cms_btn_Copy;
 		private System.Windows.Forms.ToolStripMenuItem cms_btn_Delete;

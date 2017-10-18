@@ -15,14 +15,17 @@ namespace WolfPaw_ScreenSnip
 	{
 		public Size bounds { get; set; }
 		public Bitmap bmp { get; set; }
+		public Bitmap edge;
 		public Bitmap retImg { get; set; }
 		public int mode { get; set; }
+		public Image Image { get; set; }
 
+		private Rectangle rcSelect = new Rectangle();
+		private Point pntStart;
 		private Rectangle cut = new Rectangle(-1, -1, -1, -1);
-
 		private List<Point> cut_points = new List<Point>();
-		bool mdown = false;
 
+		bool mdown = false;
 		Color bgc = new Color();
 		int transparency = 100;
 
@@ -30,6 +33,7 @@ namespace WolfPaw_ScreenSnip
 		Point magicSelectPoint = new Point(-1, -1);
 		List<Point> magicSelectPixels = new List<Point>();
 		List<Point> magicUnSelectPixels = new List<Point>();
+		Bitmap brect = new Bitmap(100, 100);
 
 		public f_Canvas()
 		{
@@ -44,8 +48,35 @@ namespace WolfPaw_ScreenSnip
 			Size = bounds;
 
 			BackgroundImage = bmp;
+			if(mode == 4)
+			{
+				//edge = bmp.KirschFilter(true);
+				//BackgroundImage = edge;
+			}
+
 			bgc = Properties.Settings.Default.s_CanvasColor;
 			transparency = 255 / (100 / (int)(Properties.Settings.Default.s_CanvasTransparency * 100));
+		}
+
+		public int distance(Point p1, Point p2)
+		{
+			int ret = 0;
+
+			int x = (int)Math.Pow((p2.X - p1.X), 2.0d);
+			int y = (int)Math.Pow((p2.Y - p1.Y), 2.0d);
+
+			ret = (int)Math.Sqrt((x + y));
+
+			return ret;
+		}
+
+		public int colorDistance(Color c1, Color c2)
+		{
+			int ret = 0;
+
+			ret = (c1.R + c1.G + c1.B) - (c2.R + c2.G + c2.B);
+
+			return ret;
 		}
 
 		public static Image Snip()
@@ -66,11 +97,6 @@ namespace WolfPaw_ScreenSnip
 			}
 		}
 
-		public Image Image { get; set; }
-
-		private Rectangle rcSelect = new Rectangle();
-		private Point pntStart;
-
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
 			// Start the snip on mouse down
@@ -83,16 +109,30 @@ namespace WolfPaw_ScreenSnip
 			}
 			else if (mode == 1 || mode == 2)
 			{
-                cut_points.Add(e.Location);
+				cut_points.Add(e.Location);
 
-                foreach (Point p in cut_points)
-                {
-                    if (p.X < cut.X || cut.X == -1) { cut.X = p.X; }
-                    if (p.Y < cut.Y || cut.Y == -1) { cut.Y = p.Y; }
-                    if (p.X > cut.X + cut.Width) { cut.Width = p.X - cut.X; }
-                    if (p.Y > cut.Y + cut.Height) { cut.Height = p.Y - cut.Y; }
-                }
-                mdown = true;
+				foreach (Point p in cut_points)
+				{
+					if (p.X < cut.X || cut.X == -1) { cut.X = p.X; }
+					if (p.Y < cut.Y || cut.Y == -1) { cut.Y = p.Y; }
+					if (p.X > cut.X + cut.Width) { cut.Width = p.X - cut.X; }
+					if (p.Y > cut.Y + cut.Height) { cut.Height = p.Y - cut.Y; }
+				}
+				mdown = true;
+			}
+			else if (mode == 4)
+			{
+				//TODO: MAGIC
+				cut_points.Add(e.Location);
+
+				foreach (Point p in cut_points)
+				{
+					if (p.X < cut.X || cut.X == -1) { cut.X = p.X; }
+					if (p.Y < cut.Y || cut.Y == -1) { cut.Y = p.Y; }
+					if (p.X > cut.X + cut.Width) { cut.Width = p.X - cut.X; }
+					if (p.Y > cut.Y + cut.Height) { cut.Height = p.Y - cut.Y; }
+				}
+				mdown = true;
 			}
 		}
 		protected override void OnMouseMove(MouseEventArgs e)
@@ -117,12 +157,93 @@ namespace WolfPaw_ScreenSnip
 				if (mdown)
 				{
 					cut_points.Add(e.Location);
-					
+
 					int minx = cut_points.Min(x => x.X);
 					int maxx = cut_points.Max(x => x.X);
 					int miny = cut_points.Min(y => y.Y);
 					int maxy = cut_points.Max(y => y.Y);
-					
+
+					cut.X = minx;
+					cut.Y = miny;
+					cut.Width = maxx - minx;
+					cut.Height = maxy - miny;
+				}
+
+			}
+			else if (mode == 4)
+			{
+				if (mdown)
+				{
+					Point pnt = e.Location;
+
+					List<Point> pnts = new List<Point>();
+
+					brect = new Bitmap(50,50);
+					using(Graphics g = Graphics.FromImage(brect))
+					{
+						g.DrawImage(bmp, new Rectangle(0, 0, brect.Width, brect.Height), new Rectangle(new Point(pnt.X - brect.Width / 2, pnt.Y - brect.Height / 2), brect.Size), GraphicsUnit.Pixel);
+					}
+					brect = brect.Laplacian5x5Filter(true);
+
+					//BitmapData bd = brect.LockBits(new Rectangle(0, 0, 100, 100), ImageLockMode.ReadOnly, PixelFormat.Canonical);
+
+					Dictionary<Point, Color> dict = new Dictionary<Point, Color>();
+
+					int left = pnt.X - (brect.Width / 2);
+					int top = pnt.Y - (brect.Height / 2);
+
+					Point originalPoint = new Point(brect.Width / 2, brect.Height / 2);
+					Color originalColor = brect.GetPixel(brect.Width / 2, brect.Height / 2);
+
+					Point newPoint = new Point(-1, -1);
+
+					for (int x = (0 - (brect.Width / 2)); x < (brect.Width / 2); x++)
+					{
+						for (int y = (0 - (brect.Height / 2)); y < (brect.Height / 2); y++)
+						{
+							Point n = new Point(originalPoint.X + x, originalPoint.Y + y);
+							Color col = brect.GetPixel(n.X, n.Y);
+							if (colorDistance(originalColor,col) < 0)
+							{
+								dict.Add(n, col);
+							}
+						}
+					}
+
+					int currentDist = 0;
+					int mindist = 999999;
+					foreach(KeyValuePair<Point,Color> kp in dict)
+					{
+						int dist = distance(originalPoint, kp.Key);
+						int cdist = colorDistance(kp.Value, originalColor);
+
+						dist *= 2;
+
+						
+
+						int maxdist = cdist - dist;
+
+						if(currentDist < maxdist || (currentDist == maxdist && dist < mindist))
+						{
+							newPoint = new Point(left + kp.Key.X, (top + kp.Key.Y));
+							currentDist = maxdist;
+							//Console.WriteLine(kp.Key.X.ToString().PadLeft(2,'0') + "," + kp.Key.Y.ToString().PadLeft(2, '0') + ": " + dist + " | " + cdist);
+						}
+
+						//sConsole.WriteLine(maxdist);
+
+						if (dist < mindist) { mindist = dist; }
+					}
+
+					if(newPoint.X >= 0 && newPoint.Y >= 0) { pnt = newPoint;  }
+
+					cut_points.Add(pnt);
+
+					int minx = cut_points.Min(x => x.X);
+					int maxx = cut_points.Max(x => x.X);
+					int miny = cut_points.Min(y => y.Y);
+					int maxy = cut_points.Max(y => y.Y);
+
 					cut.X = minx;
 					cut.Y = miny;
 					cut.Width = maxx - minx;
@@ -173,6 +294,23 @@ namespace WolfPaw_ScreenSnip
 			else if (mode == 3)
 			{
 				mdown = false;
+			}
+			else if (mode == 4)
+			{
+				mdown = false;
+				Bitmap b = new Bitmap(cut.Width > 0 ? cut.Width : 1, cut.Height > 0 ? cut.Height : 1);
+				using (Graphics g = Graphics.FromImage(b))
+				{
+					g.DrawImage(this.BackgroundImage, new Rectangle(0, 0, cut.Width, cut.Height), cut, GraphicsUnit.Pixel);
+					//g.CopyFromScreen(cut.Location, new Point(0, 0), cut.Size);
+				}
+
+				//b.Save(@"c:\REPO\test1.bmp");
+				Bitmap bb = (Bitmap)getPixels(b);
+				//bb.Save(@"c:\REPO\test2.bmp");
+
+				retImg = bb;
+				DialogResult = DialogResult.OK;
 			}
 
 
@@ -263,12 +401,18 @@ namespace WolfPaw_ScreenSnip
 			else if (mode == 4)
 			{
 				//TODO: [CANVAS] make Magic selection
+
+				using (Brush br = new SolidBrush(Color.FromArgb(transparency, bgc)))
+				{
+					e.Graphics.FillRectangle(br, new Rectangle(0, 0, Width, Height));
+				}
+
 				try
 				{
 					List<int> ppprem = new List<int>();
-					for (int i = 0; i < magicSelectPixels.Count - 1; i++)
+					for (int i = 0; i < cut_points.Count - 1; i++)
 					{
-						if (magicSelectPixels[i].X == magicSelectPixels[i + 1].X && magicSelectPixels[i].Y == magicSelectPixels[i + 1].Y)
+						if (cut_points[i].X == cut_points[i + 1].X && cut_points[i].Y == cut_points[i + 1].Y)
 						{
 							ppprem.Add(i);
 						}
@@ -276,12 +420,12 @@ namespace WolfPaw_ScreenSnip
 
 					foreach (int i in ppprem)
 					{
-						magicSelectPixels.Remove(cut_points[i]);
+						cut_points.Remove(cut_points[i]);
 					}
 				}
 				catch { }
 
-				Point[] ppp = magicSelectPixels.ToArray();
+				Point[] ppp = cut_points.ToArray();
 
 				using (Pen _pen = new Pen(Brushes.Blue))
 				{
@@ -304,6 +448,9 @@ namespace WolfPaw_ScreenSnip
 						e.Graphics.DrawLines(_pen, lines);
 					}
 				}
+
+				e.Graphics.DrawRectangle(Pens.Black, cut);
+
 			}
 		}
 

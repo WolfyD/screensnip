@@ -205,7 +205,10 @@ namespace WolfPaw_ScreenSnip
 			};
 			_buttons.add(b_DeleteImage);
 
-
+			foreach(btn bb in _buttons.btns)
+			{
+				bb.originalPos = bb.pos;
+			}
 		}
 
 
@@ -870,10 +873,12 @@ namespace WolfPaw_ScreenSnip
 					if (currentValue < b.hiddenAtVal)
 					{
 						b.visible = true;
+						b.pos = b.originalPos;
 					}
 					else
 					{
 						b.visible = false;
+						b.pos = -9999;
 					}
 				}
 				else
@@ -921,6 +926,7 @@ namespace WolfPaw_ScreenSnip
 		public Bitmap image1 { get; set; }
 		public Bitmap image2 { get; set; }
 		public int pos { get; set; }
+		public int originalPos = 0;
 		public anchors anchor { get; set; }
 		public int borderWidth { get; set; }
 		public int value { get; set; }
@@ -940,7 +946,7 @@ namespace WolfPaw_ScreenSnip
 		/// </summary>
 		public btn()
 		{
-
+			originalPos = pos;
 		}
 	}
 

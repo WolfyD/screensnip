@@ -225,7 +225,7 @@ namespace WolfPaw_ScreenSnip
 							break;
 					}
 
-					if(dir != c_ImageHolder.directions.none)
+					if (dir != c_ImageHolder.directions.none)
 					{
 						u.move(dir, add);
 						Invalidate();
@@ -235,11 +235,31 @@ namespace WolfPaw_ScreenSnip
 				{
 
 				}
+				else if (e.KeyCode == Keys.F11)
+				{
+					toggleFullScreen();
+				}
 
 			}
 			else
 			{
 				parent.Form1_KeyDown(sender, e);
+			}
+		}
+
+		public void toggleFullScreen()
+		{
+			if (WindowState == FormWindowState.Maximized)
+			{
+				WindowState = FormWindowState.Normal;
+				FormBorderStyle = FormBorderStyle.Sizable;
+			}
+			else
+			{
+				FormBorderStyle = FormBorderStyle.None;
+				WindowState = FormWindowState.Maximized;
+				BringToFront();
+
 			}
 		}
 
@@ -536,7 +556,9 @@ namespace WolfPaw_ScreenSnip
 			}
 			Invalidate();
 		}
-		
+
+		public bool buttonPress = false;
+
 		private void f_Screen_MouseDown(object sender, MouseEventArgs e)
 		{
 			Limages.Sort(new intComparerDesc());
@@ -547,6 +569,13 @@ namespace WolfPaw_ScreenSnip
 					c.select();
 					selectedImage = c;
 					imageDragPoint = new Point(e.X - c.Left, e.Y - c.Top);
+
+					buttonPress = false;
+					if (c.isOverAButton(imageDragPoint))
+					{
+						buttonPress = true;
+					}
+
 					if (!c.isOverAnEdge(imageDragPoint) && !c.isOverACorner(imageDragPoint)) { resize = false; cResizer = null; ed = edges.none; cor = corners.none; }
 					else { resize = true; cResizer = c; if (c.isOverAnEdge(imageDragPoint)){ ed = c.overWhichEdge(imageDragPoint); cor = corners.none; } else { cor = c.overWhichCorner(imageDragPoint); ed = edges.none; } }
 					mdown = true;
@@ -568,17 +597,39 @@ namespace WolfPaw_ScreenSnip
 				if (renhan.pointInPosition(e.Location, new Rectangle(c.Position, c.Size)))
 				{
 					Point pp = new Point(e.X - c.Left, e.Y - c.Top);
-					if (c.isOverAButton(pp) && !resize)
+					if (c.isOverAButton(pp) && !resize && buttonPress)
 					{
 						btn b = c.overWhichButton(pp);
 						//TODO: HANDLE BUTTON CLICKS
 						if (c._buttons.currentValue == btn.hiddenVal.W065)
 						{
-							
+							if(b.value == 10)
+							{
+								cms_Panel.Visible = true;
+								cms_Panel.Show(this, e.Location);
+								selectedImage = c;
+							}
 						}
 						else if (c._buttons.currentValue == btn.hiddenVal.W135)
 						{
+							switch (b.value)
+							{
+								case 0:
+									c.Size = c.Image.Size;
+									break;
 
+								case 10:
+									cms_Panel.Visible = true;
+									cms_Panel.Show(this, e.Location);
+									selectedImage = c;
+									break;
+
+								case -1:
+									Limages.Remove(c);
+									GC.Collect();
+									Invalidate();
+									break;
+							}
 						}
 						else if (c._buttons.currentValue == btn.hiddenVal.W175)
 						{
@@ -591,6 +642,7 @@ namespace WolfPaw_ScreenSnip
 								case 10:
 									cms_Panel.Visible = true;
 									cms_Panel.Show(this, e.Location);
+									selectedImage = c;
 									break;
 
 								case 4:
@@ -861,6 +913,7 @@ namespace WolfPaw_ScreenSnip
 			
 			if (mdown && selectedImage != null && !resize)
 			{
+				buttonPress = false;
 				selectedImage.Position = new Point(e.X - imageDragPoint.X, e.Y - imageDragPoint.Y);
 				Invalidate();
 			}
@@ -951,6 +1004,73 @@ namespace WolfPaw_ScreenSnip
 			currentTool = 3;
 		}
 
+		public bool hasSelectedImage()
+		{
+			return (selectedImage != null && Limages.Contains(selectedImage));
+		}
+
+		private void cms_btn_Resize_Click(object sender, EventArgs e)
+		{
+			if(hasSelectedImage())
+			{
+				selectedImage.Size = selectedImage.Image.Size;
+			}
+		}
+
+		private void cms_btn_Fit_Click(object sender, EventArgs e)
+		{
+			if (hasSelectedImage())
+			{
+				selectedImage.fullscreen();
+			}
+		}
+
+		private void cms_btn_LayerUp_Click(object sender, EventArgs e)
+		{
+			if (hasSelectedImage())
+			{
+				selectedImage.LayerUp();
+			}
+		}
+
+		private void cms_btn_LayerDown_Click(object sender, EventArgs e)
+		{
+			if (hasSelectedImage())
+			{
+				selectedImage.LayerDown();
+			}
+		}
+
+		private void cms_btn_EditImage_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void cms_btn_Save_Click(object sender, EventArgs e)
+		{
+			if (hasSelectedImage())
+			{
+				selectedImage.saveImage();
+			}
+		}
+
+		private void cms_btn_Copy_Click(object sender, EventArgs e)
+		{
+			if (hasSelectedImage())
+			{
+				selectedImage.copyImage();
+			}
+		}
+
+		private void cms_btn_Delete_Click(object sender, EventArgs e)
+		{
+			if (hasSelectedImage())
+			{
+				Limages.Remove(selectedImage);
+				GC.Collect();
+				Invalidate();
+			}
+		}
 	}
 
 	#region OTHER CLASSES / COMPARERS
