@@ -178,7 +178,7 @@ namespace WolfPaw_ScreenSnip
 
 					List<Point> pnts = new List<Point>();
 
-					brect = new Bitmap(50,50);
+					brect = new Bitmap(100,100);
 					using(Graphics g = Graphics.FromImage(brect))
 					{
 						g.DrawImage(bmp, new Rectangle(0, 0, brect.Width, brect.Height), new Rectangle(new Point(pnt.X - brect.Width / 2, pnt.Y - brect.Height / 2), brect.Size), GraphicsUnit.Pixel);
@@ -217,7 +217,7 @@ namespace WolfPaw_ScreenSnip
 						int dist = distance(originalPoint, kp.Key);
 						int cdist = colorDistance(kp.Value, originalColor);
 
-						dist *= 2;
+						dist *= 4;
 
 						
 
