@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -53,6 +54,12 @@ namespace WolfPaw_ScreenSnip
 		c_RenderHandler renhan = null;
 		edges ed = edges.none;
 		corners cor = corners.none;
+		ColorMatrix cm = new ColorMatrix();
+		ImageAttributes attributes = new ImageAttributes();
+		public bool drawTransparent = false;
+		public bool drawAllTransparent = false;
+		public bool drawAllTransparentToggle = false;
+		public float opacityLevel = 0.4f;
 		// }
 
 		//COLORS {
@@ -86,6 +93,12 @@ namespace WolfPaw_ScreenSnip
 			}
 		}
 
+		public void setOpacity()
+		{
+			cm.Matrix33 = opacityLevel;
+			attributes.SetColorMatrix(cm, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+		}
+
 		private void F_Screen_Load(object sender, EventArgs e)
 		{
 			c_ScreenBackgroundColor = Properties.Settings.Default.s_ScreenBGColor;
@@ -93,7 +106,9 @@ namespace WolfPaw_ScreenSnip
 			c_DefaultBorderColor = Properties.Settings.Default.s_CutoutSelectionColor;
 			c_HandleColor = Properties.Settings.Default.s_CutoutPanelColor;
 			BackColor = c_ScreenBackgroundColor;
-			
+
+			setOpacity();
+
 			Bitmap b = IconChar.Desktop.ToBitmap(128, Color.Black);
 			b.MakeTransparent(Color.White);
 			System.IntPtr icH = b.GetHicon();
@@ -238,12 +253,15 @@ namespace WolfPaw_ScreenSnip
 					}
 				}
 			}
-			else if (e.KeyCode == Keys.Escape)
+			else if ((e.KeyCode == Keys.Control || e.KeyCode == Keys.LControlKey || e.KeyCode == Keys.RControlKey || e.KeyCode == Keys.ControlKey) && mdown && !resize)
 			{
-				if (!Properties.Settings.Default.s_ClearRequireAuth || MessageBox.Show("You are about to close this screen.If you do your unsaved data will be lost.\r\nAre you sure you wish to continue?", "Are you sure?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
-				{
-					this.Close();
-				}
+				drawTransparent = true;
+				Invalidate();
+			}
+			else if ((e.KeyCode == Keys.Alt || e.KeyCode == Keys.LMenu || e.KeyCode == Keys.RMenu || e.KeyCode == Keys.Menu) && !resize)
+			{
+				drawAllTransparent = true;
+				Invalidate();
 			}
 			else if (e.KeyCode == Keys.F11)
 			{
@@ -515,6 +533,8 @@ namespace WolfPaw_ScreenSnip
 
 		}
 
+		
+
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
@@ -532,7 +552,28 @@ namespace WolfPaw_ScreenSnip
 				{
 					if (c != null)
 					{
-						e.Graphics.DrawImage(c.getImage(), new Rectangle(c.Position, c.Size), new Rectangle(new Point(0, 0), c.Image.Size), GraphicsUnit.Pixel);
+						if (drawAllTransparentToggle)
+						{
+							e.Graphics.DrawImage(c.getImage(), new Rectangle(c.Position, c.Size), 0, 0, c.Image.Size.Width, c.Image.Size.Height, GraphicsUnit.Pixel, attributes);
+						}
+						else
+						{
+							if (drawAllTransparent)
+							{
+								e.Graphics.DrawImage(c.getImage(), new Rectangle(c.Position, c.Size), 0, 0, c.Image.Size.Width, c.Image.Size.Height, GraphicsUnit.Pixel, attributes);
+							}
+							else
+							{
+								if (selectedImage == c && drawTransparent)
+								{
+									e.Graphics.DrawImage(c.getImage(), new Rectangle(c.Position, c.Size), 0, 0, c.Image.Size.Width, c.Image.Size.Height, GraphicsUnit.Pixel, attributes);
+								}
+								else
+								{
+									e.Graphics.DrawImage(c.getImage(), new Rectangle(c.Position, c.Size), new Rectangle(new Point(0, 0), c.Image.Size), GraphicsUnit.Pixel);
+								}
+							}
+						}
 
 						if (c.selected)
 						{
@@ -1165,6 +1206,34 @@ namespace WolfPaw_ScreenSnip
 				GC.Collect();
 				Invalidate();
 			}
+		}
+
+		private void f_Screen_KeyUp(object sender, KeyEventArgs e)
+		{
+			if ((e.KeyCode == Keys.Control || e.KeyCode == Keys.LControlKey || e.KeyCode == Keys.RControlKey || e.KeyCode == Keys.ControlKey))
+			{
+				drawTransparent = false;
+				Invalidate();
+			}
+			else if ((e.KeyCode == Keys.Alt || e.KeyCode == Keys.LMenu || e.KeyCode == Keys.RMenu || e.KeyCode == Keys.Menu))
+			{
+				drawAllTransparent = false;
+				Invalidate();
+			}
+		}
+
+		private void tb_Transparency_ValueChanged(object sender, EventArgs e)
+		{
+			opacityLevel = ((tb_Transparency.Value * 1.0f) / 10.0f);
+			lbl_Opacity.Text = opacityLevel + "";
+			setOpacity();
+			Invalidate();
+		}
+
+		private void cb_Transparent_CheckedChanged(object sender, EventArgs e)
+		{
+			drawAllTransparentToggle = cb_Transparent.Checked;
+			Invalidate();
 		}
 	}
 

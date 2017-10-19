@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
@@ -178,7 +179,7 @@ namespace WolfPaw_ScreenSnip
 
 					List<Point> pnts = new List<Point>();
 
-					brect = new Bitmap(200,200);
+					brect = new Bitmap(75,75);
 					using(Graphics g = Graphics.FromImage(brect))
 					{
 						g.DrawImage(bmp, new Rectangle(0, 0, brect.Width, brect.Height), new Rectangle(new Point(pnt.X - brect.Width / 2, pnt.Y - brect.Height / 2), brect.Size), GraphicsUnit.Pixel);
@@ -196,20 +197,8 @@ namespace WolfPaw_ScreenSnip
 					Color originalColor = brect.GetPixel(brect.Width / 2, brect.Height / 2);
 
 					Point newPoint = new Point(-1, -1);
-
-					for (int x = (0 - (brect.Width / 2)); x < (brect.Width / 2); x++)
-					{
-						for (int y = (0 - (brect.Height / 2)); y < (brect.Height / 2); y++)
-						{
-							Point n = new Point(originalPoint.X + x, originalPoint.Y + y);
-							Color col = brect.GetPixel(n.X, n.Y);
-							if (colorDistance(originalColor,col) < 0)
-							{
-								dict.Add(n, col);
-							}
-						}
-					}
-
+					dict = getPixelValues(brect, originalColor);
+					
 					int currentDist = 0;
 					int mindist = 999999;
 					foreach(KeyValuePair<Point,Color> kp in dict)
@@ -284,7 +273,7 @@ namespace WolfPaw_ScreenSnip
                     //g.CopyFromScreen(cut.Location, new Point(0, 0), cut.Size);
                 }
 
-                //b.Save(@"c:\REPO\test1.bmp");
+				//b.Save(@"c:\REPO\test1.bmp");
                 Bitmap bb = (Bitmap)getPixels(b);
                 //bb.Save(@"c:\REPO\test2.bmp");
 
@@ -306,6 +295,7 @@ namespace WolfPaw_ScreenSnip
 				}
 
 				//b.Save(@"c:\REPO\test1.bmp");
+				Console.WriteLine("COUNT: " + cut_points.Count);
 				Bitmap bb = (Bitmap)getPixels(b);
 				//bb.Save(@"c:\REPO\test2.bmp");
 
@@ -556,38 +546,69 @@ namespace WolfPaw_ScreenSnip
 			
 			return lst.ToArray();
 		}
-		
-        //UNSAFE CODE! Returns proper non-rectangular images
-        public unsafe Image getPixels(Bitmap _image)
-        {
-            Bitmap b = new Bitmap(_image);//note this has several overloads, including a path to an image
-            Bitmap bb = new Bitmap(b.Width, b.Height, PixelFormat.Format32bppArgb);
-            Point[] ppp = generatePointArray(cut_points);
-            BitmapData bData = b.LockBits(new Rectangle(0, 0, _image.Width, _image.Height), ImageLockMode.ReadWrite, b.PixelFormat);
-            
-            byte bitsPerPixel = (byte)Image.GetPixelFormatSize(bData.PixelFormat);
-            int PixelSize = 4;
 
-            for (int y = 0; y < bb.Height; y++)
-            {
-                byte* row = (byte*)bData.Scan0 + (y * bData.Stride);
+		//UNSAFE CODE! Returns proper non-rectangular images
+		public unsafe Image getPixels(Bitmap _image)
+		{
+			Bitmap b = new Bitmap(_image);
+			Bitmap bb = new Bitmap(b.Width, b.Height, PixelFormat.Format32bppArgb);
+			Point[] ppp = generatePointArray(cut_points);
+			BitmapData bData = b.LockBits(new Rectangle(0, 0, _image.Width, _image.Height), ImageLockMode.ReadWrite, b.PixelFormat);
 
-                for (int x = 0; x < bb.Width; x++)
-                {
-                    if(c_WindingFunctions.wn_PnPoly(new Point(cut.Left + x,cut.Top + y), ppp, ppp.Length - 1) == 0)
-                    {
-                        row[x * PixelSize] = 0;         //Blue  0-255
-                        row[x * PixelSize + 1] = 0;   //Green 0-255
-                        row[x * PixelSize + 2] = 0;     //Red   0-255
-                        row[x * PixelSize + 3] = 0;    //Alpha 0-255
-                    }
-                }
-            }
+			byte bitsPerPixel = (byte)Image.GetPixelFormatSize(bData.PixelFormat);
+			int PixelSize = 4;
 
-            b.UnlockBits(bData);
+			for (int y = 0; y < bb.Height; y++)
+			{
+				byte* row = (byte*)bData.Scan0 + (y * bData.Stride);
 
-            return b;
-        }
+				for (int x = 0; x < bb.Width; x++)
+				{
+					if (c_WindingFunctions.wn_PnPoly(new Point(cut.Left + x, cut.Top + y), ppp, ppp.Length - 1) == 0)
+					{
+						row[x * PixelSize] = 0;         //Blue  0-255
+						row[x * PixelSize + 1] = 0;   //Green 0-255
+						row[x * PixelSize + 2] = 0;     //Red   0-255
+						row[x * PixelSize + 3] = 0;    //Alpha 0-255
+					}
+				}
+			}
+
+			b.UnlockBits(bData);
+
+			return b;
+		}
+
+		public unsafe Dictionary<Point,Color> getPixelValues(Bitmap _image, Color c)
+		{
+			Dictionary<Point, Color> dict = new Dictionary<Point, Color>();
+			Bitmap b = new Bitmap(_image);
+			Bitmap bb = new Bitmap(b.Width, b.Height, PixelFormat.Format32bppArgb);
+			Point[] ppp = generatePointArray(cut_points);
+			BitmapData bData = b.LockBits(new Rectangle(0, 0, _image.Width, _image.Height), ImageLockMode.ReadWrite, b.PixelFormat);
+
+			byte bitsPerPixel = (byte)Image.GetPixelFormatSize(bData.PixelFormat);
+			int PixelSize = 4;
+
+			int cc = c.R + c.G + c.B;
+
+			for (int y = 0; y < bb.Height; y++)
+			{
+				byte* row = (byte*)bData.Scan0 + (y * bData.Stride);
+
+				for (int x = 0; x < bb.Width; x++)
+				{
+					int px = row[x * PixelSize] + row[x * PixelSize + 1] + row[x * PixelSize + 2];
+					if (px > cc) { dict.Add(new Point(x, y), Color.FromArgb(row[x * PixelSize], row[x * PixelSize + 1], row[x * PixelSize + 2])); }
+				}
+			}
+
+			b.UnlockBits(bData);
+
+			return dict;
+		}
+
+		//END UNSAFE CODE
 
 		private void f_Canvas_MouseClick(object sender, MouseEventArgs e)
 		{
@@ -639,34 +660,6 @@ namespace WolfPaw_ScreenSnip
 
 		//UNSAFE CODE
 		
-		
-
-		public void startRecursiveSelection()
-		{
-			Bitmap bmp = (Bitmap)BackgroundImage;
-			List<Point> tmp2Points = new List<Point>();
-			int i = 0;
-			
-			foreach(Point p in tmpPoints)
-			{
-				Point[] pp = pixelHadValidNeighburs(p);
-				if(pp != null) { tmp2Points.AddRange(pp); i++; }
-				
-			}
-
-			if(i > 0)
-			{
-				foreach(Point p in tmp2Points)
-				{
-					pixelCheckColor(p, bmp.GetPixel(p.X, p.Y));
-				}
-
-				tmpPoints = tmp2Points;
-				startRecursiveSelection();
-			}
-
-			Refresh();
-		}
 	}
 
 
