@@ -107,6 +107,12 @@
     <Compile Include="f_Canvas.Designer.cs">
       <DependentUpon>f_Canvas.cs</DependentUpon>
     </Compile>
+    <Compile Include="f_EditSelection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="f_EditSelection.Designer.cs">
+      <DependentUpon>f_EditSelection.cs</DependentUpon>
+    </Compile>
     <Compile Include="f_LoadImageDB.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -191,6 +197,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="f_Canvas.resx">
       <DependentUpon>f_Canvas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="f_EditSelection.resx">
+      <DependentUpon>f_EditSelection.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="f_LoadImageDB.resx">
       <DependentUpon>f_LoadImageDB.cs</DependentUpon>

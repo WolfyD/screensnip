@@ -295,9 +295,17 @@ namespace WolfPaw_ScreenSnip
 				}
 
 				//b.Save(@"c:\REPO\test1.bmp");
-				Console.WriteLine("COUNT: " + cut_points.Count);
+				//Console.WriteLine("COUNT: " + cut_points.Count);
 				Bitmap bb = (Bitmap)getPixels(b);
 				//bb.Save(@"c:\REPO\test2.bmp");
+
+				f_EditSelection fed = new f_EditSelection();
+				fed.CutImage = bb;
+				fed.FullImage = (Bitmap)BackgroundImage;
+				fed.points = cut_points;
+				fed.left = cut.Left;
+				fed.top = cut.Top;
+				fed.ShowDialog();
 
 				retImg = bb;
 				DialogResult = DialogResult.OK;

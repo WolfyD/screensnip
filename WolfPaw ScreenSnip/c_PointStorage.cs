@@ -7,10 +7,26 @@ using System.Threading.Tasks;
 
 namespace WolfPaw_ScreenSnip
 {
-	class c_PointStorage
+	public class c_PointStorage
 	{
 		List<c_Point> pnts = new List<c_Point>();
 		
+		public List<c_Point> cPoints()
+		{
+			return pnts;
+		}
+
+		public List<Point> Points()
+		{
+			List<Point> pp = new List<Point>();
+			foreach(c_Point cp in cPoints())
+			{
+				pp.Add(cp.p);
+			}
+
+			return pp;
+		}
+
 		public void add(c_Point p)
 		{
 			pnts.Add(p);
@@ -100,13 +116,23 @@ namespace WolfPaw_ScreenSnip
 			return ret;
 		}
 
+		public void movePointsInRelation(Point start, Point end, c_Point[] pointsToMove)
+		{
+			foreach (c_Point p in pointsToMove)
+			{
+				int top = start.Y - p.Y;
+				int left = start.X - p.X;
+				p.setPoint(new Point(end.X - left, end.Y - top));
+			}
+		}
+
 	}
 
 	
-
-	class c_Point
+	public class c_Point
 	{
-		public Point p { get { return p; } set { p = value; setPoint(value); } }
+		private Point P;
+		public Point p { get { return P; } set { P = value; setPoint(value); } }
 		private int x;
 		private int y;
 		public int X { get { return x; } }
