@@ -54,6 +54,7 @@ namespace WolfPaw_ScreenSnip
 		c_RenderHandler renhan = null;
 		edges ed = edges.none;
 		corners cor = corners.none;
+		corners cRot = corners.none;
 		ColorMatrix cm = new ColorMatrix();
 		ImageAttributes attributes = new ImageAttributes();
 		public bool drawTransparent = false;
@@ -136,8 +137,17 @@ namespace WolfPaw_ScreenSnip
 			}
 			
 			renhan = new c_RenderHandler(Limages);
+			trackBar.OnValueChange += TrackBar_OnValueChange;
 		}
-		
+
+		private void TrackBar_OnValueChange(object sender, ValueEventArgs e)
+		{
+			opacityLevel = (((float)e.Val) / 10.0f);
+			lbl_Opacity.Text = opacityLevel + "";
+			setOpacity();
+			Invalidate();
+		}
+
 		public void addImage(Bitmap img)
 		{
 			if (Properties.Settings.Default.s_ToolbarPanel == 2)
@@ -154,19 +164,23 @@ namespace WolfPaw_ScreenSnip
 		{
 			if (img != null)
 			{
-				var box = new c_ImageHolder();
-				box.parent = this;
+				var box = new c_ImageHolder
+				{
+					parent = this,
 
-				box.Size = new Size(img.Width, img.Height);
+					Size = new Size(img.Width, img.Height),
 
-				box.Position = new Point(pos.X, pos.Y);
+					Position = new Point(pos.X, pos.Y),
 
-				box.Image = img;
+					Image = img,
 
-				box.LayerIndex = Limages.Count;
-				box.selfContainingList = Limages;
+					LayerIndex = Limages.Count,
+					selfContainingList = Limages
+				};
 
 				Limages.Add(box);
+
+				box.arrangeLayers();
 			}
 		}
 
@@ -200,7 +214,6 @@ namespace WolfPaw_ScreenSnip
 
 		public void f_Screen_KeyDown(object sender, KeyEventArgs e)
 		{
-			var c = c_ImgGen.returnCutouts(this);
 			c_ImageHolder u = null;
 			foreach (var cc in Limages)
 			{
@@ -272,6 +285,7 @@ namespace WolfPaw_ScreenSnip
 				if (u != null && Limages.Contains(u))
 				{
 					Limages.Remove(u);
+					Limages.ForEach(x => x.arrangeLayers());
 					Invalidate();
 				}
 			}
@@ -336,9 +350,7 @@ namespace WolfPaw_ScreenSnip
 					}
 				}
 
-
-
-				//TODO: Make Image mime detection recursive!!
+				
 				if (item != null && e.Effect == DragDropEffects.Copy)
 				{
 					foreach (string s in item)
@@ -430,8 +442,10 @@ namespace WolfPaw_ScreenSnip
 
 		public void hideToolBar()
 		{
-			child = new f_SettingPanel();
-			child.parent = this;
+			child = new f_SettingPanel
+			{
+				parent = this
+			};
 			child.Show();
 			Properties.Settings.Default.s_ToolbarPanel = 0;
 			Properties.Settings.Default.Save();
@@ -552,13 +566,23 @@ namespace WolfPaw_ScreenSnip
 				{
 					if (c != null)
 					{
-						if (drawAllTransparentToggle)
+						//c.rotated = true;
+						//c.rotation = 50;
+
+						if (c.rotated && c.rotation != 0)
 						{
-							e.Graphics.DrawImage(c.getImage(), new Rectangle(c.Position, c.Size), 0, 0, c.Image.Size.Width, c.Image.Size.Height, GraphicsUnit.Pixel, attributes);
+							Bitmap b = new Bitmap(100, 100);
+							using (Graphics g = Graphics.FromImage(b))
+							{
+								g.RotateTransform(-c.rotation);
+								g.DrawImage(c.getImage(), 0, 0);
+								g.RotateTransform(c.rotation);
+								e.Graphics.DrawImage(b, new Rectangle(c.Position, c.Size), 0, 0, c.Image.Size.Width, c.Image.Size.Height, GraphicsUnit.Pixel);
+							}
 						}
 						else
 						{
-							if (drawAllTransparent)
+							if (drawAllTransparentToggle || drawAllTransparent)
 							{
 								e.Graphics.DrawImage(c.getImage(), new Rectangle(c.Position, c.Size), 0, 0, c.Image.Size.Width, c.Image.Size.Height, GraphicsUnit.Pixel, attributes);
 							}
@@ -573,22 +597,25 @@ namespace WolfPaw_ScreenSnip
 									e.Graphics.DrawImage(c.getImage(), new Rectangle(c.Position, c.Size), new Rectangle(new Point(0, 0), c.Image.Size), GraphicsUnit.Pixel);
 								}
 							}
-						}
 
-						if (c.selected)
-						{
-							e.Graphics.DrawRectangle(new Pen(c_DefaultBorderColor), new Rectangle(c.Position, c.Size));
-						}
-						else if (c.mouseOver)
-						{
-							e.Graphics.DrawRectangle(new Pen(c_MouseOverBorderColor), new Rectangle(c.Position, c.Size));
-						}
-						if (c.panelShowing)
-						{
-							e.Graphics.FillRectangle(new SolidBrush(c_HandleColor), new RectangleF(c.Position, new Size(c.Width, 20)));
+							if (c.selected)
+							{
+								//TODO: Rotation stuff
+								//e.Graphics.DrawRectangle(Pens.Black, new Rectangle(c.bounds().Left + c.bounds().Width + 10, c.bounds().Top + c.bounds().Height + 10, 10, 10));
+								e.Graphics.DrawRectangle(new Pen(c_DefaultBorderColor), new Rectangle(c.Position, c.Size));
+							}
+							else if (c.mouseOver)
+							{
+								e.Graphics.DrawRectangle(new Pen(c_MouseOverBorderColor), new Rectangle(c.Position, c.Size));
+							}
+							if (c.panelShowing)
+							{
+								e.Graphics.FillRectangle(new SolidBrush(c_HandleColor), new RectangleF(c.Position, new Size(c.Width, 20)));
 
-							e.Graphics.DrawImage(renhan.renderButtons(PointToClient(Cursor.Position), c), new PointF(c.Position.X, c.Position.Y));
+								e.Graphics.DrawImage(renhan.renderButtons(PointToClient(Cursor.Position), c), new PointF(c.Position.X, c.Position.Y));
+							}
 						}
+						
 					}
 				}
 			}
@@ -632,12 +659,19 @@ namespace WolfPaw_ScreenSnip
 
 		private void f_Screen_MouseDown(object sender, MouseEventArgs e)
 		{
+
 			Limages.Sort(new intComparerDesc());
 			foreach (c_ImageHolder c in Limages)
 			{
 				if (renhan.pointInPosition(e.Location, new Rectangle(c.Position, c.Size)))
 				{
 					c.select();
+
+					if (!(renhan.pointInPosition(e.Location, new Rectangle(mouseOverImage.Position, new Size(mouseOverImage.Width, 20)))))
+					{
+						c.bringToTop();
+					}
+
 					selectedImage = c;
 					imageDragPoint = new Point(e.X - c.Left, e.Y - c.Top);
 
@@ -648,11 +682,24 @@ namespace WolfPaw_ScreenSnip
 					}
 
 					if (!c.isOverAnEdge(imageDragPoint) && !c.isOverACorner(imageDragPoint)) { resize = false; cResizer = null; ed = edges.none; cor = corners.none; }
-					else { resize = true; cResizer = c; if (c.isOverAnEdge(imageDragPoint)){ ed = c.overWhichEdge(imageDragPoint); cor = corners.none; } else { cor = c.overWhichCorner(imageDragPoint); ed = edges.none; } }
+					else { resize = true; cResizer = c; if (c.isOverAnEdge(imageDragPoint)) { ed = c.overWhichEdge(imageDragPoint); cor = corners.none; } else { cor = c.overWhichCorner(imageDragPoint); ed = edges.none; } }
 					mdown = true;
 					break;
 				}
+				else if (c.isOverARotaPoint(e.Location))
+				{
+					cRot = c.overWhichRotaPoint(e.Location);
+					cResizer = c;
+					mdown = true;
+					resize = true;
+					break;
+				}
+				else
+				{
+					c.selected = false;
+				}
 			}
+
 			//resize = false;
 			Invalidate();
 		}
@@ -661,6 +708,9 @@ namespace WolfPaw_ScreenSnip
 		{
 			selectedImage = null;
 			mdown = false;
+			if(ed != edges.none) { ed = edges.none; }
+			if(cor != corners.none) { cor = corners.none; }
+			if(cRot != corners.none) { cRot = corners.none; }
 
 			Limages.Sort(new intComparerDesc());
 			foreach (c_ImageHolder c in Limages)
@@ -671,7 +721,7 @@ namespace WolfPaw_ScreenSnip
 					if (c.isOverAButton(pp) && !resize && buttonPress)
 					{
 						btn b = c.overWhichButton(pp);
-						//TODO: HANDLE BUTTON CLICKS
+
 						if (c._buttons.currentValue == btn.hiddenVal.W065)
 						{
 							if(b.value == 10)
@@ -777,7 +827,6 @@ namespace WolfPaw_ScreenSnip
 							}
 						}
 
-						//TODO: Button click
 					}
 
 					break;
@@ -809,6 +858,7 @@ namespace WolfPaw_ScreenSnip
 						{
 							Cursor = Cursors.SizeWE;
 						}
+						break;
 					}
 					else if (cc.isOverACorner(pedge))
 					{
@@ -829,7 +879,7 @@ namespace WolfPaw_ScreenSnip
 						{
 							Cursor = Cursors.SizeNESW;
 						}
-
+						break;
 					}
 					else
 					{
@@ -838,7 +888,22 @@ namespace WolfPaw_ScreenSnip
 				}
 				else
 				{
-					Cursor = Cursors.Default;
+					Point pedge2 = new Point(e.X, e.Y);
+					Rectangle rRota = new Rectangle(cc.bounds().Left - 20, cc.bounds().Top - 20, cc.bounds().Width + 40, cc.bounds().Height + 40);
+					if (rRota.Contains(pedge2) && cc.isOverARotaPoint(pedge2))
+					{
+						corners cir2 = cc.overWhichRotaPoint(pedge2);
+						if (cir2 == corners.rightBottom)
+						{
+							Cursor = Cursors.SizeNESW;
+							cRot = cir2;
+						}
+						break;
+					}
+					else
+					{
+						Cursor = Cursors.Default;
+					}
 				}
 			}
 
@@ -984,6 +1049,10 @@ namespace WolfPaw_ScreenSnip
 						}
 					}
 				}
+				else if(cRot != corners.none)
+				{
+
+				}
 			}
 			
 			if (mdown && selectedImage != null && !resize)
@@ -1050,14 +1119,12 @@ namespace WolfPaw_ScreenSnip
 			}
 			else
 			{
-				
-				c_ImageHolder img = null;
-				
+
 				foreach (c_ImageHolder cc in Limages)
 				{
 					cc.mouseOver = false;
 				}
-				if (renhan.pointOverAny(e.Location, out img))
+				if (renhan.pointOverAny(e.Location, out c_ImageHolder img))
 				{
 					mouseOverImage = img;
 					mouseOverImage.mouseOver = true;
@@ -1224,10 +1291,7 @@ namespace WolfPaw_ScreenSnip
 
 		private void tb_Transparency_ValueChanged(object sender, EventArgs e)
 		{
-			opacityLevel = ((tb_Transparency.Value * 1.0f) / 10.0f);
-			lbl_Opacity.Text = opacityLevel + "";
-			setOpacity();
-			Invalidate();
+			
 		}
 
 		private void cb_Transparent_CheckedChanged(object sender, EventArgs e)

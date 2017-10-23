@@ -14,7 +14,7 @@ namespace WolfPaw_ScreenSnip
 		{
 			PixelOffsetMode pom;
 
-			switch (Properties.Settings.Default.s_g_SmoothingMode)
+			switch (Properties.Settings.Default.s_g_PixelOffsetMode)
 			{
 				case 0:
 					pom = PixelOffsetMode.None;

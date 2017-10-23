@@ -15,28 +15,21 @@ namespace WolfPaw_ScreenSnip
 		public Bitmap FullImage { get; set; }
 		public Bitmap CutImage { get; set; }
 		public List<Point> points { get; set; }
+		public List<Point> pnts2 = new List<Point>();
 		public c_PointStorage ps = new c_PointStorage();
+		public Rectangle cut { get; set; }
 		public int left { get; set; }
 		public int top { get; set; }
 
 		public bool mdown = false;
-		public c_Point mdownPoint = null;
-		c_Point selected = null;
-
-		public f_EditSelection()
-		{
-			InitializeComponent();
-
-			Load += F_EditSelection_Load;
-		}
-
-		private void F_EditSelection_Load(object sender, EventArgs e)
-		{
-			foreach (Point pp in points)
-			{
-				ps.add(new c_Point() { p = pp });
-			}
-		}
+		public bool mouseOver = false;
+		public Point? mouseOverPoint = null;
+		public Point? selectedPoint = null;
+		public Point? draggedPoint = null;
+		public List<Point> selectedPoints = null;
+		public Point[] draggedPoints = null;
+		public Rectangle selectionRectangle = new Rectangle(-1, -1, 0, 0);
+		public Point pntStart = new Point(0, 0);
 
 		protected override CreateParams CreateParams
 		{
@@ -48,130 +41,246 @@ namespace WolfPaw_ScreenSnip
 			}
 		}
 
+		public f_EditSelection()
+		{
+			InitializeComponent();
+
+			Load += F_EditSelection_Load;
+		}
+
+		private void F_EditSelection_Load(object sender, EventArgs e)
+		{
+			
+			foreach(Point p in points)
+			{
+				pnts2.Add(new Point(p.X - left, p.Y - top));
+			}
+			ps.setPoints(pnts2);
+		}
+
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
 
 			e.Graphics.DrawImage(CutImage, new PointF(0, 0));
 
-			foreach (c_Point cp in ps.cPoints())
+			foreach(Point p in pnts2)
 			{
-				Pen _pen = Pens.Blue;
-				c_Point p2 = new c_Point();
+				Point pp = new Point(p.X , p.Y );
 
-				if (c_WindingFunctions.isLeft(new Point(cp.X - left, cp.Y - top), new Point(p2.X - left, p2.Y - top), Cursor.Position) == 0)
+				if (pp == selectedPoint)
 				{
-					_pen = Pens.Red;
+					e.Graphics.FillEllipse(Brushes.Red, new RectangleF(pp.X - 4, pp.Y - 4, 8, 8));
+					e.Graphics.DrawEllipse(Pens.Red, new RectangleF(pp.X - 6, pp.Y - 6, 12, 12));
 				}
-
-				if (ps.getIndex(cp) < ps.cPoints().Count - 1)
+				else if (selectedPoints != null && selectedPoints.Contains(pp))
 				{
-					p2 = ps.getPointAfter(cp);
+					e.Graphics.FillEllipse(Brushes.Orange, new RectangleF(pp.X - 4, pp.Y - 4, 8, 8));
+				}
+				else if(pp == mouseOverPoint)
+				{
+					e.Graphics.FillEllipse(Brushes.Red, new RectangleF(pp.X - 4, pp.Y - 4, 8, 8));
 				}
 				else
 				{
-					p2 = ps.cPoints()[0];
+					e.Graphics.DrawEllipse(Pens.Gray, new RectangleF(pp.X - 2, pp.Y - 2, 4, 4));
 				}
 
-
-				e.Graphics.DrawLine(_pen, new Point(cp.X - left, cp.Y - top), new Point(p2.X - left, p2.Y - top));
-
-				if (cp == selected)
+				if(selectionRectangle.Size != new Size(0, 0))
 				{
-					e.Graphics.FillEllipse(Brushes.Red, new RectangleF(new Point(cp.X - left - 4, cp.Y - top - 4), new Size(9, 9)));
+					e.Graphics.DrawRectangle(Pens.Gray, selectionRectangle);
+				}
+
+			}
+
+			for (int i = 0; i < pnts2.Count; i++)
+			{
+				Point p2 = new Point();
+				if (i + 1 == pnts2.Count)
+				{
+					p2 = pnts2[0];
 				}
 				else
 				{
-					e.Graphics.DrawEllipse(Pens.Red, new RectangleF(new Point(cp.X - left - 2, cp.Y - top - 2), new Size(5, 5)));
+					p2 = pnts2[i + 1];
 				}
-				e.Graphics.FillRectangle(Brushes.LightGray, new RectangleF(new Point(10, Height - 200), new Size(100, 100)));
-				try
-				{
-					e.Graphics.DrawString("Points: " + ps.cPoints().Count + "\r\nP1: " + selected.X + "-" + selected.Y + "\r\nP2: " + ps.getPointAfter(selected).X + "-" + ps.getPointAfter(selected).Y + "\r\nCursor: " + PointToClient(Cursor.Position).X + "-" + PointToClient(Cursor.Position).Y, this.Font, Brushes.Black, new Point(10, Height - 200));
-				}
-				catch
-				{
 
+				e.Graphics.DrawLine(Pens.Blue, pnts2[i], p2);
+			}
+
+		}
+
+		public void getNewImage()
+		{
+			if(pnts2.Count > 2)
+			{
+				List<Point> pnts3 = new List<Point>();
+				foreach (Point ppp in pnts2)
+				{
+					pnts3.Add(new Point(ppp.X + left, ppp.Y + top));
 				}
+				Rectangle cut2 = c_Unsafe.getRect(pnts3);
+
+				Bitmap bmp = new Bitmap(cut2.Width, cut2.Height);
+
+				using (Graphics g = Graphics.FromImage(bmp))
+				{
+					g.DrawImage(this.FullImage, new Rectangle(0, 0, cut2.Width, cut2.Height), cut2, GraphicsUnit.Pixel);
+				}
+
+				CutImage = (Bitmap)c_Unsafe.getPixels(bmp, pnts3, cut2);
+				Invalidate();
 			}
 		}
 
 		public bool mouseIsOverAPoint(Point curp)
 		{
-			Rectangle r = new Rectangle(curp.X - 2, curp.Y - 2, 4, 4);
-			foreach (c_Point p in ps.cPoints())
+			foreach (Point p in pnts2)
 			{
-				if (r.Contains(new Point(p.X - left, p.Y - top)))
-				{
-					return true;
-				}
+				Point pp = new Point((p.X ), (p.Y ));
+				Rectangle r = new Rectangle(pp.X - 4, pp.Y - 4, 8, 8);
+				if (r.Contains(curp)) { return true; }
 			}
 			return false;
 		}
 
-		protected override void OnMouseMove(MouseEventArgs e)
+		public Point? moseOverWhichPoint(Point curp)
 		{
-			base.OnMouseMove(e);
+			Point? ret = null;
 
-			Rectangle r = new Rectangle(e.X - 2, e.Y - 2, 4, 4);
-
-			selected = null;
-
-			foreach(c_Point p in ps.cPoints())
+			foreach(Point p in pnts2)
 			{
-				if (r.Contains(new Point(p.X - left, p.Y - top)))
-				{
-					selected = p;
-					Invalidate();
-					break;
-				}
+				Point pp = new Point((p.X ), (p.Y ));
+				Rectangle r = new Rectangle(pp.X - 4, pp.Y - 4, 8, 8);
+				if (r.Contains(curp)) { ret = pp; break; }
 			}
 
+			return ret;
+		}
+
+		protected override void OnMouseMove(MouseEventArgs e)
+		{
 			if (mdown)
 			{
-				if (mdownPoint != null)
+				if(selectedPoint != null && selectedPoints != null && selectedPoints.Count > 0 && selectedPoints.Contains((Point)selectedPoint))
 				{
-					mdownPoint.setPoint(new Point(e.X + left, e.Y + top));
-					Invalidate();
+					Point p = new Point(e.X , e.Y );
+					Point pp = (Point)selectedPoint;
+					selectedPoints = ps.movePointsInRelation(pp, p, selectedPoints.ToArray());
+					selectedPoint = p;
+
+					getNewImage();
+				}
+				else if(selectedPoint != null)
+				{
+					Point p = new Point(e.X , e.Y );
+					Point pp = new Point(((Point)selectedPoint).X, ((Point)selectedPoint).Y);
+					ps.movePoint(pp, p);
+					selectedPoint = new Point(e.X, e.Y);
 				}
 				else
 				{
+					if(selectedPoints == null) { selectedPoints = new List<Point>(); }
 
+					int x1 = Math.Min(e.X, pntStart.X);
+					int y1 = Math.Min(e.Y, pntStart.Y);
+					int x2 = Math.Max(e.X, pntStart.X);
+					int y2 = Math.Max(e.Y, pntStart.Y);
+
+					int wid = x2 - x1;
+					int hei = y2 - y1;
+
+					selectionRectangle = new Rectangle(x1, y1, wid, hei);
+
+					foreach(Point p in pnts2)
+					{
+						Point pp = new Point(p.X , p.Y );
+						if (selectionRectangle.Contains(pp))
+						{
+							selectedPoints.Add(pp);
+						}
+						else
+						{
+							if (selectedPoints.Contains(pp))
+							{
+								selectedPoints.Remove(pp);
+							}
+						}
+					}
 				}
 			}
+			else
+			{
+				if (mouseIsOverAPoint(e.Location))
+				{
+					mouseOver = true;
+					mouseOverPoint = moseOverWhichPoint(e.Location);
+				}
+				else
+				{
+					mouseOver = false;
+				}
+			}
+
+			Invalidate();
 		}
 
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
-			base.OnMouseDown(e);
+			mdown = true;
+			pntStart = e.Location;
 
-			if (mouseIsOverAPoint(e.Location))
+			if (mouseOver)
 			{
-				if(selected != null)
+				if(selectedPoints != null && selectedPoints.Count > 0)
 				{
-					mdownPoint = selected;
+					if (!selectedPoints.Contains((Point)mouseOverPoint))
+					{
+						selectedPoints = null;
+					}
+					else
+					{
+						draggedPoints = selectedPoints.ToArray();
+					}
 				}
 				else
 				{
-					mdownPoint = null;
+					draggedPoints = null;
 				}
-			}else
-			{
-				mdownPoint = null;
-			}
 
-			mdown = true;
+				selectedPoint = mouseOverPoint;
+				Invalidate();
+			}
+			else
+			{
+				selectionRectangle = new Rectangle(e.X, e.Y, 0, 0);
+				selectedPoint = null;
+				selectedPoints = null;
+			}
 		}
 
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
-			base.OnMouseUp(e);
-
 			mdown = false;
-			mdownPoint = null;
+			selectedPoint = null;
+			selectionRectangle = new Rectangle(-1, -1, 0, 0);
 		}
 
+		private void f_EditSelection_KeyDown(object sender, KeyEventArgs e)
+		{
+			if(e.KeyCode == Keys.Delete)
+			{
+				if(selectedPoints != null && selectedPoints.Count > 0)
+				{
+					ps.removePoints(selectedPoints.ToArray());
+				}
+				else if(selectedPoint != null && pnts2.Contains((Point)selectedPoint))
+				{
+					ps.removePoint((Point)selectedPoint);
+				}
 
-
+				getNewImage();
+			}
+		}
 	}
 }

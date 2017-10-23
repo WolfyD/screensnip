@@ -1,13 +1,13 @@
 ﻿namespace WolfPaw_ScreenSnip
 {
-	partial class f_EditSelection
+	partial class uc_TrackBar
 	{
-		/// <summary>
+		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
 
-		/// <summary>
+		/// <summary> 
 		/// Clean up any resources being used.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -20,25 +20,26 @@
 			base.Dispose(disposing);
 		}
 
-		#region Windows Form Designer generated code
+		#region Component Designer generated code
 
-		/// <summary>
-		/// Required method for Designer support - do not modify
+		/// <summary> 
+		/// Required method for Designer support - do not modify 
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent()
 		{
 			this.SuspendLayout();
 			// 
-			// f_EditSelection
+			// uc_TrackBar
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(595, 529);
 			this.DoubleBuffered = true;
-			this.Name = "f_EditSelection";
-			this.Text = "f_EditSelection";
-			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.f_EditSelection_KeyDown);
+			this.Name = "uc_TrackBar";
+			this.Size = new System.Drawing.Size(132, 25);
+			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.uc_TrackBar_MouseDown);
+			this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.uc_TrackBar_MouseMove);
+			this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.uc_TrackBar_MouseUp);
 			this.ResumeLayout(false);
 
 		}

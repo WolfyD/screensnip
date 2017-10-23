@@ -9,35 +9,40 @@ namespace WolfPaw_ScreenSnip
 {
 	public class c_PointStorage
 	{
-		List<c_Point> pnts = new List<c_Point>();
+		List<Point> pnts = new List<Point>();
 		
-		public List<c_Point> cPoints()
+		public void setPoints(List<Point> pl)
 		{
-			return pnts;
+			pnts = pl;
 		}
 
-		public List<Point> Points()
+		public List<Point> Points2(int x, int y)
 		{
 			List<Point> pp = new List<Point>();
-			foreach(c_Point cp in cPoints())
+			foreach (Point cp in pnts)
 			{
-				pp.Add(cp.p);
+				pp.Add(new Point(cp.X + x, cp.Y + y));
 			}
 
 			return pp;
 		}
 
-		public void add(c_Point p)
+		public List<Point> Points()
+		{
+			return pnts;
+		}
+
+		public void add(Point p)
 		{
 			pnts.Add(p);
 		}
 
-		public void insert(c_Point p, int i)
+		public void insert(Point p, int i)
 		{
 			pnts.Insert(i, p);
 		}
 
-		public void replaceBetween(c_Point p, int start, int end)
+		public void replaceBetween(Point p, int start, int end)
 		{
 			if(end - start > 0)
 			{
@@ -50,14 +55,14 @@ namespace WolfPaw_ScreenSnip
 			}
 		}
 
-		public void removePoint(c_Point p)
+		public void removePoint(Point p)
 		{
 			pnts.Remove(p);
 		}
 
-		public void removePoints(c_Point[] ps)
+		public void removePoints(Point[] ps)
 		{
-			foreach(c_Point p in ps) { pnts.Remove(p); }
+			foreach(Point p in ps) { pnts.Remove(p); }
 		}
 
 		public void removePoints(int start, int length)
@@ -65,17 +70,20 @@ namespace WolfPaw_ScreenSnip
 			pnts.RemoveRange(start, length);
 		}
 
-		public void movePoint(c_Point p, Point p2)
+		public void movePoint(Point p, Point p2)
 		{
-			p.p = p2;
+			if (pnts.Contains(p))
+			{
+				pnts[pnts.IndexOf(p)] = p2;
+			}
 		}
 
-		public int getIndex(c_Point p)
+		public int getIndex(Point p)
 		{
 			return pnts.IndexOf(p);
 		}
 
-		public c_Point getPointBefore(c_Point p)
+		public Point? getPointBefore(Point p)
 		{
 			if (getIndex(p) > 0)
 			{
@@ -87,7 +95,7 @@ namespace WolfPaw_ScreenSnip
 			}
 		}
 
-		public c_Point getPointAfter(c_Point p)
+		public Point? getPointAfter(Point p)
 		{
 			if (getIndex(p) < pnts.Count)
 			{
@@ -99,9 +107,9 @@ namespace WolfPaw_ScreenSnip
 			}
 		}
 
-		public int getPointDistance(c_Point p1, c_Point p2)
+		public int getPointDistance(Point p1, Point p2)
 		{
-			return distance(p1.p, p2.p);
+			return distance(p1, p2);
 		}
 
 		public int distance(Point p1, Point p2)
@@ -116,32 +124,37 @@ namespace WolfPaw_ScreenSnip
 			return ret;
 		}
 
-		public void movePointsInRelation(Point start, Point end, c_Point[] pointsToMove)
+		public List<Point> movePointsInRelation(Point start, Point end, Point[] pointsToMove)
 		{
-			foreach (c_Point p in pointsToMove)
+			List<int> indexes = new List<int>();
+			foreach (Point p in pointsToMove)
 			{
 				int top = start.Y - p.Y;
 				int left = start.X - p.X;
-				p.setPoint(new Point(end.X - left, end.Y - top));
+				Point pp = new Point(end.X - left, end.Y - top);
+
+				int i = pnts.IndexOf(p);
+				if(i >= 0 && i <= pnts.Count)
+				{
+					indexes.Add(i);
+					pnts.Remove(p);
+					pnts.Insert(i, pp);
+				}
+
 			}
+
+			List<Point> pntsret = new List<Point>();
+
+			foreach(int i in indexes)
+			{
+				pntsret.Add(pnts[i]);
+			}
+
+			return pntsret;
 		}
 
 	}
 
 	
-	public class c_Point
-	{
-		private Point P;
-		public Point p { get { return P; } set { P = value; setPoint(value); } }
-		private int x;
-		private int y;
-		public int X { get { return x; } }
-		public int Y { get { return y; } }
-
-		public void setPoint(Point _p)
-		{
-			x = _p.X;
-			y = _p.Y;
-		}
-	}
+	
 }

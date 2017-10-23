@@ -1,19 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using FontAwesome.Sharp;
-
-using System.Data.SQLite;
 
 namespace WolfPaw_ScreenSnip
 {
@@ -29,12 +22,13 @@ namespace WolfPaw_ScreenSnip
 		
 		f_Screen fs = null;
 		f_SettingPanel tools = null;
-		Dictionary<int, uc_CutoutHolder> cutouts = new Dictionary<int, uc_CutoutHolder>();
 
 		private bool highHandle = false;
 		public bool clearRequireAuth = false;
 
 		c_KeyboardHook ck = new c_KeyboardHook();
+
+		public bool hidden = false;
 
 		bool CTRLDOWN = false;
 
@@ -61,15 +55,38 @@ namespace WolfPaw_ScreenSnip
 			clearRequireAuth = Properties.Settings.Default.s_ClearRequireAuth;
 
 			//TODO: rest of settings
+			if(Properties.Settings.Default.s_DPI.Count == 0)
+			{
+				getDPIValues();
+			}
+		}
 
+		public void getDPIValues()
+		{
+			Properties.Settings.Default.s_DPI.Clear();
+			List<Screen> sa = Screen.AllScreens.ToList<Screen>();
+			int i = 0;
+			foreach(Screen s in sa)
+			{
+
+				i = sa.IndexOf(s);
+
+				c_GetDPI.GetDpi(s, DpiType.Raw, out uint px, out uint py);
+
+				Properties.Settings.Default.s_DPI.Add(string.Format("{0}|{1}|{2}|{3}", i, s.DeviceName, px, py));
+				Properties.Settings.Default.Save();
+				MessageBox.Show(Properties.Settings.Default.s_DPI[0]);
+			}
 		}
 
         public void setIcons(string btn, Button b, Control parent)
         {
-            IconButton ib = new IconButton();
-            ib.Parent = parent;
-            ib.Size = new Size(40, 40);
-			ib.IconSize = 40;
+			IconButton ib = new IconButton
+			{
+				Parent = parent,
+				Size = new Size(40, 40),
+				IconSize = 40
+			};
 
 			switch (btn)
             {
@@ -154,52 +171,51 @@ namespace WolfPaw_ScreenSnip
 
         private void Ib_Click(object sender, EventArgs e)
         {
-            IconButton ib = sender as IconButton;
-            if(ib != null && ib.Tag != null && ib.Tag is Button)
-            {
-                string i = ((Button)ib.Tag).Tag.ToString();
+			if (sender is IconButton ib && ib.Tag != null && ib.Tag is Button)
+			{
+				string i = ((Button)ib.Tag).Tag.ToString();
 
-                switch (i)
-                {
-                    case "0":
-                        brn_New_Click(null, null);
-                        break;
+				switch (i)
+				{
+					case "0":
+						brn_New_Click(null, null);
+						break;
 
-                    case "1":
-                        btn_Clear_Click(null, null);
-                        break;
+					case "1":
+						btn_Clear_Click(null, null);
+						break;
 
-                    case "2":
-                        btn_Preview_Click(null, null);
-                        break;
+					case "2":
+						btn_Preview_Click(null, null);
+						break;
 
-                    case "3":
-                        btn_Copy_Click(null, null);
-                        break;
+					case "3":
+						btn_Copy_Click(null, null);
+						break;
 
-                    case "4":
-                        btn_Save_Click(null, null);
-                        break;
+					case "4":
+						btn_Save_Click(null, null);
+						break;
 
-                    case "5":
-                        btn_Print_Click(null, null);
-                        break;
+					case "5":
+						btn_Print_Click(null, null);
+						break;
 
-                    case "6":
-                        btn_AttachToEmail_Click(null, null);
-                        break;
+					case "6":
+						btn_AttachToEmail_Click(null, null);
+						break;
 
-                    case "7":
-                        btn_Options_Click(null, null);
-                        break;
+					case "7":
+						btn_Options_Click(null, null);
+						break;
 
-                    case "8":
-                        btn_Settings_Click(null, null);
-                        break;
+					case "8":
+						btn_Settings_Click(null, null);
+						break;
 
-                    case "9":
-                        btn_Exit_Click(null, null);
-                        break;
+					case "9":
+						btn_Exit_Click(null, null);
+						break;
 
 					case "10":
 						btn_SaveToDB_Click(null, null);
@@ -210,12 +226,12 @@ namespace WolfPaw_ScreenSnip
 						break;
 
 					default:
-                        break;
+						break;
 
 
-                }
-            }
-        }
+				}
+			}
+		}
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -236,11 +252,10 @@ namespace WolfPaw_ScreenSnip
 			this.Activated += Form1_Activated;
 			this.Deactivate += Form1_Deactivate;
 
-			if (Properties.Settings.Default.s_handlePrintScreen)
-			{
-				ck.KeyPressDetected += Ck_KeyPressDetected;
-				ck.KeyReleaseDetected += Ck_KeyReleaseDetected;
-			}
+			ck.KeyPressDetected += Ck_KeyPressDetected;
+			ck.KeyReleaseDetected += Ck_KeyReleaseDetected;
+			
+			loadSettings();
         }
 
 		private void Ck_KeyReleaseDetected(object sender, KeyEventArgs e)
@@ -255,7 +270,7 @@ namespace WolfPaw_ScreenSnip
 
 		private void Ck_KeyPressDetected(object sender, KeyEventArgs e)
 		{
-			if (e.KeyCode == Keys.PrintScreen)
+			if (e.KeyCode == Keys.PrintScreen && Properties.Settings.Default.s_handlePrintScreen)
 			{
 				Bitmap b = new Bitmap(getScreenSize().Width, getScreenSize().Height);
 				using (Graphics g = Graphics.FromImage(b))
@@ -300,23 +315,23 @@ namespace WolfPaw_ScreenSnip
 			{
 				CTRLDOWN = true;
 			}
-			else if (e.KeyCode == Keys.F1 && CTRLDOWN)
+			else if (Properties.Settings.Default.s_HandleShortcuts && e.KeyCode == Keys.F1 && CTRLDOWN)
 			{
 				brn_New_Click("Rect", null);
 			}
-			else if (e.KeyCode == Keys.F2 && CTRLDOWN)
+			else if (Properties.Settings.Default.s_HandleShortcuts && e.KeyCode == Keys.F2 && CTRLDOWN)
 			{
-				brn_New_Click("Window", null);
+				//brn_New_Click("Window", null);
 			}
-			else if (e.KeyCode == Keys.F3 && CTRLDOWN)
+			else if (Properties.Settings.Default.s_HandleShortcuts && e.KeyCode == Keys.F3 && CTRLDOWN)
 			{
 				brn_New_Click("Freehand", null);
 			}
-			else if (e.KeyCode == Keys.F4 && CTRLDOWN)
+			else if (Properties.Settings.Default.s_HandleShortcuts && e.KeyCode == Keys.F4 && CTRLDOWN)
 			{
-				brn_New_Click("Lines", null);
+				//brn_New_Click("Lines", null);
 			}
-			else if (e.KeyCode == Keys.F5 && CTRLDOWN)
+			else if (Properties.Settings.Default.s_HandleShortcuts && e.KeyCode == Keys.F5 && CTRLDOWN)
 			{
 				brn_New_Click("Magic", null);
 			}
@@ -415,10 +430,12 @@ namespace WolfPaw_ScreenSnip
 
 		public Bitmap showCaptureArea(Size s, Bitmap b, int mode)
 		{
-			f_Canvas fc = new f_Canvas();
-			fc.bounds = s;
-			fc.bmp = b;
-			fc.mode = mode;
+			f_Canvas fc = new f_Canvas
+			{
+				bounds = s,
+				bmp = b,
+				mode = mode
+			};
 			fc.ShowDialog();
 			return fc.retImg;
 		}
@@ -429,7 +446,10 @@ namespace WolfPaw_ScreenSnip
 
 			bmp = showCaptureArea(getScreenSize(), captureScreen(), mode);
 			
-			Show();
+			if(!hidden)
+			{
+				Show();
+			}
 			if(fs != null && !fs.IsDisposed) { fs.Show(); }
 			if (tools != null && !tools.IsDisposed) { tools.Show(); }
 			if (fs != null && fs.pw != null && !fs.pw.IsDisposed && QshowPreview()) { fs.pw.Show(); }
@@ -484,13 +504,17 @@ namespace WolfPaw_ScreenSnip
 
 			if (i == 0)
 			{
-				fs = new f_Screen();
-				fs.parent = this;
+				fs = new f_Screen
+				{
+					parent = this
+				};
 				fs.Show();
 				if (Properties.Settings.Default.s_ToolbarPanel == 0)
 				{
-					tools = new f_SettingPanel();
-					tools.parent = fs;
+					tools = new f_SettingPanel
+					{
+						parent = fs
+					};
 					fs.child = tools;
 					tools.Show();
 				}
@@ -537,19 +561,21 @@ namespace WolfPaw_ScreenSnip
 				date = n.Year + "." + n.Month.ToString().PadLeft(2, '0') + "." + n.Day.ToString().PadLeft(2, '0') + "_" + n.Hour.ToString().PadLeft(2, '0') + "." + n.Minute.ToString().PadLeft(2, '0') + "." + n.Second.ToString().PadLeft(2, '0');
 				savename += date;
 			}
-			SaveFileDialog sfd = new SaveFileDialog();
-			sfd.Filter = "Portable Network Graphics Image (PNG)|*.png|" +
+			SaveFileDialog sfd = new SaveFileDialog
+			{
+				Filter = "Portable Network Graphics Image (PNG)|*.png|" +
 							"Bitmap Image (BMP)|*.bmp|" +
 							"Joint Photographic Experts Group Image (JPEG)|*.jpg;*.jpeg|" +
 							"Graphics Interchange Format Image (GIF)|*.gif|" +
 							"Tagged Image File Format Image (TIFF)|*.tif;*.tiff|" +
-							"Windows Metafile Image (WMF)|*.wmf";
-			
-			sfd.FilterIndex = Properties.Settings.Default.s_lastSaveFormat;
+							"Windows Metafile Image (WMF)|*.wmf",
 
-			sfd.FileName = savename;
+				FilterIndex = Properties.Settings.Default.s_lastSaveFormat,
 
-			if(sfd.ShowDialog() == DialogResult.OK)
+				FileName = savename
+			};
+
+			if (sfd.ShowDialog() == DialogResult.OK)
 			{
 
 				ImageFormat _if = ImageFormat.Png;
@@ -656,8 +682,10 @@ namespace WolfPaw_ScreenSnip
 				}
 				else if (fs != null && !fs.IsDisposed)
 				{
-					tools = new f_SettingPanel();
-					tools.parent = fs;
+					tools = new f_SettingPanel
+					{
+						parent = fs
+					};
 					fs.child = tools;
 					tools.Show();
 				}
@@ -681,24 +709,29 @@ namespace WolfPaw_ScreenSnip
 
 		private void btn_Preview_Click(object sender, EventArgs e)
 		{
-			f_Preview fp = new f_Preview();
-			fp.fs = fs;
-			fp.cutouts = fs.Limages;
+			f_Preview fp = new f_Preview
+			{
+				fs = fs,
+				cutouts = fs.Limages
+			};
 			fp.ShowDialog();
 			fp.TopMost = true;
 		}
 
 		private void btn_Print_Click(object sender, EventArgs e)
 		{
-			PageSettings ps = new PageSettings();
-			ps.Margins = new Margins(100, 10, 10, 10);
+			PageSettings ps = new PageSettings
+			{
+				Margins = new Margins(100, 10, 10, 10)
+			};
 			printDocument1.DefaultPageSettings = ps;
 
-			f_PrintSetup fps = new f_PrintSetup();
-			fps.pd = printDocument1;
-			fps.ps = ps;
-			fps.cutouts = cutouts;
-			fps.fs = fs;
+			f_PrintSetup fps = new f_PrintSetup
+			{
+				pd = printDocument1,
+				ps = ps,
+				fs = fs
+			};
 			fps.ShowDialog();
 
 			/*
@@ -753,7 +786,8 @@ namespace WolfPaw_ScreenSnip
 
 		private void btn_Options_Click(object sender, EventArgs e)
 		{
-			Properties.Settings.Default.s_HighHandle = !highHandle;
+			f_Settings _fs = new f_Settings();
+			_fs.ShowDialog();
 			loadSettings();
 		}
 
@@ -809,8 +843,10 @@ namespace WolfPaw_ScreenSnip
         {
 			if (fs != null && !fs.IsDisposed)
 			{
-				f_SaveToDB fsd = new f_SaveToDB();
-				fsd.img = c_ImgGen.createPng(fs, fs.Limages, new object[] { fs.getDrawnPoints(), null });
+				f_SaveToDB fsd = new f_SaveToDB
+				{
+					img = c_ImgGen.createPng(fs, fs.Limages, new object[] { fs.getDrawnPoints(), null })
+				};
 				fsd.ShowDialog();
 			}
         }
@@ -839,6 +875,7 @@ namespace WolfPaw_ScreenSnip
             }
             else
             {
+				hidden = true;
                 Bitmap b = Properties.Resources.scissors1;
                 for(int x = 0; x < b.Width; x++)
                 {
@@ -852,6 +889,7 @@ namespace WolfPaw_ScreenSnip
                     }
                 }
                 ni_Notify.Icon = System.Drawing.Icon.FromHandle(b.GetHicon());
+				ni_Notify.Visible = true;
                 Hide();
             }
 		}
@@ -896,6 +934,9 @@ namespace WolfPaw_ScreenSnip
 
 		private void btn_Question_Click(object sender, EventArgs e)
 		{
+			f_Settings _fs = new f_Settings();
+			_fs.Show();
+			_fs.openHelp();
 			//TODO: Help
 		}
 
@@ -919,8 +960,10 @@ namespace WolfPaw_ScreenSnip
 			}
 			else
 			{
-				fs = new f_Screen();
-				fs.parent = this;
+				fs = new f_Screen
+				{
+					parent = this
+				};
 			}
 
 			fs.Show();
@@ -933,9 +976,95 @@ namespace WolfPaw_ScreenSnip
 			}
 		}
 
-		private void uc_ButtonSelector1_Load(object sender, EventArgs e)
-		{
+		#region NotifyIcon
 
+		private void btn_CMS_Exit_Click(object sender, EventArgs e)
+		{
+			btn_Exit_Click(null, null);
 		}
+
+		private void btn_CMS_MainWindow_Click(object sender, EventArgs e)
+		{
+			this.Show();
+			ni_Notify.Visible = false;
+		}
+
+		private void ni_Notify_DoubleClick(object sender, EventArgs e)
+		{
+			btn_CMS_MainWindow_Click(null, null);
+		}
+
+		private void btn_CMS_ShowScreen_Click(object sender, EventArgs e)
+		{
+			btn_Screen_Click(null, null);
+		}
+
+		private void btn_CMS_Options_Click(object sender, EventArgs e)
+		{
+			btn_Settings_Click(null, null);
+		}
+
+		private void btn_CMS_Email_Click(object sender, EventArgs e)
+		{
+			btn_AttachToEmail_Click(null, null);
+		}
+
+		private void btn_CMS_Print_Click(object sender, EventArgs e)
+		{
+			btn_Print_Click(null, null);
+		}
+
+		private void btn_CMS_BrowseDB_Click(object sender, EventArgs e)
+		{
+			btn_DatabaseLoad_Click(null, null);
+		}
+
+		private void btn_CMS_SaveToDB_Click(object sender, EventArgs e)
+		{
+			btn_SaveToDB_Click(null, null);
+		}
+
+		private void btn_CMS_Copy_Click(object sender, EventArgs e)
+		{
+			btn_Copy_Click(null, null);
+		}
+
+		private void btn_CMS_Save_Click(object sender, EventArgs e)
+		{
+			btn_Save_Click(null, null);
+		}
+
+		private void btn_CMS_Preview_Click(object sender, EventArgs e)
+		{
+			btn_Preview_Click(null, null);
+		}
+
+		private void btn_CMS_Rectangle_Click(object sender, EventArgs e)
+		{
+			handleCutouts(0);
+		}
+
+		private void btn_CMS_Window_Click(object sender, EventArgs e)
+		{
+			handleCutouts(1);
+		}
+
+		private void btn_CMS_Freehand_Click(object sender, EventArgs e)
+		{
+			handleCutouts(2);
+		}
+
+		private void btn_CMS_Line_Click(object sender, EventArgs e)
+		{
+			handleCutouts(3);
+		}
+
+		private void btn_CMS_Magic_Click(object sender, EventArgs e)
+		{
+			handleCutouts(4);
+		}
+
+		#endregion
+
 	}
 }

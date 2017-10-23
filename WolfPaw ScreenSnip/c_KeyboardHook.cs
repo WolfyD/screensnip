@@ -84,18 +84,12 @@ namespace WolfPaw_ScreenSnip
 
 		private void OnKeyPressDetected(object sender, KeyEventArgs args)
 		{
-			if (KeyPressDetected != null)
-			{
-				KeyPressDetected(sender, args);
-			}
+			KeyPressDetected?.Invoke(sender, args);
 		}
 
 		private void OnKeyReleaseDetected(object sender, KeyEventArgs args)
 		{
-			if (KeyReleaseDetected != null)
-			{
-				KeyReleaseDetected(sender, args);
-			}
+			KeyReleaseDetected?.Invoke(sender, args);
 		}
 
 		private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)

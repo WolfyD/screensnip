@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using FontAwesome.Sharp;
 
@@ -84,11 +82,14 @@ namespace WolfPaw_ScreenSnip
 		public bool mouseOver = false;
 		public bool panelShowing = false;
 		public int panelTimeLeft = 0;
+		public int rotation = 0;
+		public bool rotated = false;
 
 		public buttons _buttons = new buttons();
 		
 		public c_ImageHolder()
 		{
+
 			#region BUTTONS
 			btn b_Resize = new btn() {
 				image1 = IconChar.ArrowsAlt.ToBitmap(20, Color.Black),
@@ -299,14 +300,54 @@ namespace WolfPaw_ScreenSnip
 			setSize(new Size(W, H));
 		}
 
+		public void arrangeLayers()
+		{
+			if(selfContainingList != null)
+			{
+				foreach(var c in selfContainingList)
+				{
+					if(c != selfContainingList.Last())
+					{
+						var v = selfContainingList[selfContainingList.IndexOf(c) + 1];
+						int i = v.LayerIndex;
+						if(c.LayerIndex == i) { v.LayerIndex++; }
+					}
+				}
+			}
+		}
+
 		public void LayerUp()
 		{
+			int li = selfContainingList.Max(x => x.LayerIndex);
 
+			if (selfContainingList.Count > 1 && LayerIndex != li)
+			{
+				int ind = selfContainingList.IndexOf(this);
+				int myLayer = LayerIndex;
+				var c = selfContainingList[ind - 1];
+
+				LayerIndex = c.LayerIndex;
+				c.LayerIndex = myLayer;
+			}
+
+			arrangeLayers();
 		}
 
 		public void LayerDown()
 		{
+			int li = selfContainingList.Min(x => x.LayerIndex);
 
+			if (selfContainingList.Count > 1 && LayerIndex != li)
+			{
+				int ind = selfContainingList.IndexOf(this);
+				int myLayer = LayerIndex;
+				var c = selfContainingList[ind + 1];
+
+				LayerIndex = c.LayerIndex;
+				c.LayerIndex = myLayer;
+			}
+
+			arrangeLayers();
 		}
 		#endregion
 
@@ -427,7 +468,6 @@ namespace WolfPaw_ScreenSnip
 		}
 
 		#endregion
-
 
 		#region mouse position
 
@@ -618,8 +658,68 @@ namespace WolfPaw_ScreenSnip
 			return corners.none;
 		}
 
-		#endregion
+		public bool isOverRotaPoint(Point P, corners c)
+		{
+			Rectangle bound = bounds();
 
+			if (c == corners.leftBottom)
+			{
+				if ((P.X >= bound.Left -20 && P.X <= bound.Left -5) && P.Y <= bound.Top + height + 20 && P.Y >= bound.Top + Height + 5)
+				{
+					return true;
+				}
+			}
+			else if (c == corners.leftTop)
+			{
+				if ((P.X >= bound.Left - 20 && P.X <= bound.Left - 5) && P.Y <= bound.Top - 5 && P.Y >= bound.Top - 20)
+				{
+					return true;
+				}
+			}
+			else if (c == corners.rightBottom)
+			{
+				if ((P.X <= bound.Left + width + 20 && P.X >= bound.Left  + width + 5) && P.Y <= bound.Top + height + 20 && P.Y >= bound.Top + Height + 5)
+				{
+					return true;
+				}
+			}
+			else if (c == corners.rightTop)
+			{
+				if ((P.X <= bound.Left + width + 20 && P.X >= bound.Left  + width + 5) && P.Y <= bound.Top - 5 && P.Y >= bound.Top - 20)
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		public bool isOverARotaPoint(Point P)
+		{
+			bool ret = false;
+
+			if (isOverRotaPoint(P, corners.leftBottom) ||
+				isOverRotaPoint(P, corners.leftTop) ||
+				isOverRotaPoint(P, corners.rightBottom) ||
+				isOverRotaPoint(P, corners.rightTop))
+			{
+				ret = true;
+			}
+
+			return ret;
+		}
+
+		public corners overWhichRotaPoint(Point P)
+		{
+			if (isOverRotaPoint(P, corners.leftBottom)) { return corners.leftBottom; }
+			if (isOverRotaPoint(P, corners.leftTop)) { return corners.leftTop; }
+			if (isOverRotaPoint(P, corners.rightBottom)) { return corners.rightBottom; }
+			if (isOverRotaPoint(P, corners.rightTop)) { return corners.rightTop; }
+			return corners.none;
+		}
+
+
+		#endregion
 
 		#region OtherFunctions
 
@@ -633,23 +733,25 @@ namespace WolfPaw_ScreenSnip
 				string date = "";
 				DateTime n = DateTime.Now;
 				date = n.Year + "." + n.Month.ToString().PadLeft(2, '0') + "." + n.Day.ToString().PadLeft(2, '0') + "_" + n.Hour.ToString().PadLeft(2, '0') + "." + n.Minute.ToString().PadLeft(2, '0') + "." + n.Second.ToString().PadLeft(2, '0');
-				if (Properties.Settings.Default.s_AddDateToSaveFileName)
+				if (Properties.Settings.Default.s_SaveHasDateTime)
 				{
 					savename += "_" + date;
 				}
 			}
-			SaveFileDialog sfd = new SaveFileDialog();
-			sfd.Filter = 
+			SaveFileDialog sfd = new SaveFileDialog
+			{
+				Filter =
 						"Portable Network Graphics Image (PNG)|*.png|" +
 						"Bitmap Image (BMP)|*.bmp|" +
 						"Joint Photographic Experts Group Image (JPEG)|*.jpg;*.jpeg|" +
 						"Graphics Interchange Format Image (GIF)|*.gif|" +
 						"Tagged Image File Format Image (TIFF)|*.tif;*.tiff|" +
-						"Windows Metafile Image (WMF)|*.wmf";
+						"Windows Metafile Image (WMF)|*.wmf",
 
-			sfd.FilterIndex = Properties.Settings.Default.s_lastSaveFormat;
+				FilterIndex = Properties.Settings.Default.s_lastSaveFormat,
 
-			sfd.FileName = savename;
+				FileName = savename
+			};
 
 			if (sfd.ShowDialog() == DialogResult.OK)
 			{
@@ -768,9 +870,31 @@ namespace WolfPaw_ScreenSnip
 			}
 		}
 
+		public void bringToTop()
+		{
+			int li = selfContainingList.Max(x => x.LayerIndex);
 
+			if (selfContainingList.Count > 1 && LayerIndex != li)
+			{
+				foreach (c_ImageHolder ch in selfContainingList)
+				{
+					if (ch.LayerIndex > LayerIndex)
+					{
+						ch.LayerIndex--;
+					}
+				}
 
+				this.LayerIndex = li;
+			}
 
+			arrangeLayers();
+		}
+
+		public bool mouseOverPanel(Point pos)
+		{
+			Rectangle r = new Rectangle(0, 0, Width, 20);
+			return r.Contains(pos);
+		}
 
 		#endregion
 

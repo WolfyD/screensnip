@@ -54,9 +54,11 @@ namespace WolfPaw_ScreenSnip
 		{
 			if (sqlc.State == System.Data.ConnectionState.Open)
 			{
-				SQLiteCommand sqlComm = new SQLiteCommand();
-				sqlComm.Connection = sqlc;
-				sqlComm.CommandText = "Create TABLE images (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, desc TEXT, image TEXT, tags TEXT, save_date TEXT)";
+				SQLiteCommand sqlComm = new SQLiteCommand
+				{
+					Connection = sqlc,
+					CommandText = "Create TABLE images (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, desc TEXT, image TEXT, tags TEXT, save_date TEXT)"
+				};
 				sqlComm.ExecuteNonQuery();
 			}
 
@@ -71,9 +73,11 @@ namespace WolfPaw_ScreenSnip
 				return false;
 			}
 
-			SQLiteCommand sqlComm = new SQLiteCommand();
-			sqlComm.Connection = sqlc;
-			sqlComm.CommandText = string.Format("INSERT INTO images (title,desc,image,tags,save_date) VALUES ('{0}','{1}','{2}','{3}','{4}')", title, desc, image, tags, date);
+			SQLiteCommand sqlComm = new SQLiteCommand
+			{
+				Connection = sqlc,
+				CommandText = string.Format("INSERT INTO images (title,desc,image,tags,save_date) VALUES ('{0}','{1}','{2}','{3}','{4}')", title, desc, image, tags, date)
+			};
 			try
 			{
 				sqlComm.ExecuteNonQuery();
@@ -102,9 +106,11 @@ namespace WolfPaw_ScreenSnip
                 return null;
             }
 
-            SQLiteCommand sqlComm = new SQLiteCommand();
-            sqlComm.Connection = sqlc;
-            if (like)
+			SQLiteCommand sqlComm = new SQLiteCommand
+			{
+				Connection = sqlc
+			};
+			if (like)
             {
                 sqlComm.CommandText = string.Format("SELECT * FROM images WHERE title like '%{0}%'", title);
             }
@@ -148,12 +154,14 @@ namespace WolfPaw_ScreenSnip
                 return null;
             }
 
-            SQLiteCommand sqlComm = new SQLiteCommand();
-            sqlComm.Connection = sqlc;
+			SQLiteCommand sqlComm = new SQLiteCommand
+			{
+				Connection = sqlc,
 
-            sqlComm.CommandText = string.Format("SELECT * FROM images WHERE save_date between '{0}' and '{1}'", dates[0], dates[1]);
+				CommandText = string.Format("SELECT * FROM images WHERE save_date between '{0}' and '{1}'", dates[0], dates[1])
+			};
 
-            SQLiteDataReader r = sqlComm.ExecuteReader();
+			SQLiteDataReader r = sqlComm.ExecuteReader();
             while (r.Read())
             {
                 string _title = r.GetString(1);
@@ -179,8 +187,10 @@ namespace WolfPaw_ScreenSnip
 				return null;
 			}
 
-			SQLiteCommand sqlComm = new SQLiteCommand();
-			sqlComm.Connection = sqlc;
+			SQLiteCommand sqlComm = new SQLiteCommand
+			{
+				Connection = sqlc
+			};
 			if (like)
 			{
 				sqlComm.CommandText = string.Format("SELECT * FROM images WHERE desc like '%{0}%'", desc);
@@ -223,10 +233,12 @@ namespace WolfPaw_ScreenSnip
 				return null;
 			}
 
-			SQLiteCommand sqlComm = new SQLiteCommand();
-			sqlComm.Connection = sqlc;
+			SQLiteCommand sqlComm = new SQLiteCommand
+			{
+				Connection = sqlc,
 
-			sqlComm.CommandText = "SELECT id, tags FROM images";
+				CommandText = "SELECT id, tags FROM images"
+			};
 			SQLiteDataReader r1 = sqlComm.ExecuteReader();
 			while (r1.Read())
 			{
@@ -275,9 +287,11 @@ namespace WolfPaw_ScreenSnip
 				return null;
 			}
 
-			SQLiteCommand sqlComm = new SQLiteCommand();
-			sqlComm.Connection = sqlc;
-			sqlComm.CommandText = "SELECT * FROM images";
+			SQLiteCommand sqlComm = new SQLiteCommand
+			{
+				Connection = sqlc,
+				CommandText = "SELECT * FROM images"
+			};
 
 			SQLiteDataReader r = sqlComm.ExecuteReader();
 			while (r.Read())

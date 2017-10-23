@@ -47,19 +47,17 @@ namespace WolfPaw_ScreenSnip
 					MessageBox.Show(ex.ToString());
 				}
 			}
+
+			
 		}
 
 		public void generateImage()
 		{
 			Bitmap _b = c_ImgGen.createPng(fs, cutouts, new object[] { fs.getDrawnPoints(), null }, trender);
 			pb_Pic.Image = _b;
-			List<uc_CutoutHolder> cut = new List<uc_CutoutHolder>();
-			foreach(Control c in fs.Controls)
-			{
-				if(c != null && c is uc_CutoutHolder) { cut.Add(c as uc_CutoutHolder); }
-			}
 
-			lbl_Info.Text = "Size: " + _b.Width + "x" + _b.Height + "px | # of layers: " + cut.Count;
+
+			lbl_Info.Text = "Size: " + _b.Width + "x" + _b.Height + "px | # of layers: " + fs.Limages.Count;
 			//_b.Dispose();
 		}
 

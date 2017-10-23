@@ -16,7 +16,6 @@ namespace WolfPaw_ScreenSnip
 		public PrintDocument pd { get; set; }
 		public PageSettings ps { get; set; }
 		public f_Screen fs { get; set; }
-		public Dictionary<int,uc_CutoutHolder> cutouts { get; set; }
 
 		public f_PrintSetup()
 		{
@@ -29,9 +28,11 @@ namespace WolfPaw_ScreenSnip
 		{
 			foreach (string printer in System.Drawing.Printing.PrinterSettings.InstalledPrinters)
 			{
-				ListViewItem lvi = new ListViewItem();
-				lvi.Text = printer;
-				lvi.ImageIndex = 1;
+				ListViewItem lvi = new ListViewItem
+				{
+					Text = printer,
+					ImageIndex = 1
+				};
 				lv_ListView.Items.Add(lvi);
 			}
 
