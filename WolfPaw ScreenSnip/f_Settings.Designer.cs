@@ -59,6 +59,9 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.tp_Program = new System.Windows.Forms.TabPage();
 			this.groupBox6 = new System.Windows.Forms.GroupBox();
+			this.p_MouseoverBorderColor = new System.Windows.Forms.Panel();
+			this.p_SelectionBorderColor = new System.Windows.Forms.Panel();
+			this.p_PanelColor = new System.Windows.Forms.Panel();
 			this.cb_DragaroundMode = new System.Windows.Forms.ComboBox();
 			this.cb_AllowDragaround = new System.Windows.Forms.CheckBox();
 			this.label26 = new System.Windows.Forms.Label();
@@ -72,6 +75,7 @@
 			this.cb_PreviewOnOpen = new System.Windows.Forms.CheckBox();
 			this.label20 = new System.Windows.Forms.Label();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.p_ScreenBackground = new System.Windows.Forms.Panel();
 			this.cb_AutBeforeDelete = new System.Windows.Forms.CheckBox();
 			this.cb_HandleShortcuts = new System.Windows.Forms.CheckBox();
 			this.cb_HandlePrintScreen = new System.Windows.Forms.CheckBox();
@@ -89,46 +93,44 @@
 			this.cb_UseCleanButtons = new System.Windows.Forms.CheckBox();
 			this.label10 = new System.Windows.Forms.Label();
 			this.tp_Canvas = new System.Windows.Forms.TabPage();
+			this.groupBox8 = new System.Windows.Forms.GroupBox();
+			this.cb_DrawCrosshairs = new System.Windows.Forms.CheckBox();
+			this.cb_DrawPositionData = new System.Windows.Forms.CheckBox();
+			this.cb_DrawRulerBG = new System.Windows.Forms.CheckBox();
+			this.cb_AlwaysShowRuler = new System.Windows.Forms.CheckBox();
+			this.num_MonitorToUse = new System.Windows.Forms.NumericUpDown();
+			this.cb_DPIType = new System.Windows.Forms.ComboBox();
+			this.label19 = new System.Windows.Forms.Label();
+			this.label18 = new System.Windows.Forms.Label();
+			this.label32 = new System.Windows.Forms.Label();
+			this.label31 = new System.Windows.Forms.Label();
+			this.label30 = new System.Windows.Forms.Label();
+			this.label29 = new System.Windows.Forms.Label();
+			this.groupBox7 = new System.Windows.Forms.GroupBox();
+			this.p_CanvasColor = new System.Windows.Forms.Panel();
+			this.num_CanvasTransparency = new System.Windows.Forms.NumericUpDown();
+			this.label28 = new System.Windows.Forms.Label();
+			this.label27 = new System.Windows.Forms.Label();
 			this.tp_Render = new System.Windows.Forms.TabPage();
+			this.rtb_Explanation = new System.Windows.Forms.RichTextBox();
+			this.btn_QuickSetup_LQ = new System.Windows.Forms.Button();
+			this.btn_QuickSetup_OK = new System.Windows.Forms.Button();
+			this.btn_QuickSetup_HQ = new System.Windows.Forms.Button();
+			this.label36 = new System.Windows.Forms.Label();
+			this.groupBox9 = new System.Windows.Forms.GroupBox();
+			this.cb_PixelOffsetMode = new System.Windows.Forms.ComboBox();
+			this.cb_InterpolationMode = new System.Windows.Forms.ComboBox();
+			this.cb_SmoothingMode = new System.Windows.Forms.ComboBox();
+			this.label35 = new System.Windows.Forms.Label();
+			this.label34 = new System.Windows.Forms.Label();
+			this.label33 = new System.Windows.Forms.Label();
 			this.tp_Help = new System.Windows.Forms.TabPage();
 			this.tp_About = new System.Windows.Forms.TabPage();
 			this.p_Help = new System.Windows.Forms.Panel();
 			this.lbl_Description = new System.Windows.Forms.Label();
 			this.label9 = new System.Windows.Forms.Label();
-			this.groupBox7 = new System.Windows.Forms.GroupBox();
-			this.groupBox8 = new System.Windows.Forms.GroupBox();
-			this.label27 = new System.Windows.Forms.Label();
-			this.label28 = new System.Windows.Forms.Label();
-			this.label29 = new System.Windows.Forms.Label();
-			this.label30 = new System.Windows.Forms.Label();
-			this.label31 = new System.Windows.Forms.Label();
-			this.label32 = new System.Windows.Forms.Label();
-			this.num_MonitorToUse = new System.Windows.Forms.NumericUpDown();
-			this.cb_DPIType = new System.Windows.Forms.ComboBox();
-			this.label19 = new System.Windows.Forms.Label();
-			this.label18 = new System.Windows.Forms.Label();
-			this.cb_AlwaysShowRuler = new System.Windows.Forms.CheckBox();
-			this.cb_DrawRulerBG = new System.Windows.Forms.CheckBox();
-			this.cb_DrawPositionData = new System.Windows.Forms.CheckBox();
-			this.cb_DrawCrosshairs = new System.Windows.Forms.CheckBox();
-			this.num_CanvasTransparency = new System.Windows.Forms.NumericUpDown();
-			this.p_CanvasColor = new System.Windows.Forms.Panel();
-			this.p_ScreenBackground = new System.Windows.Forms.Panel();
-			this.p_PanelColor = new System.Windows.Forms.Panel();
-			this.p_SelectionBorderColor = new System.Windows.Forms.Panel();
-			this.p_MouseoverBorderColor = new System.Windows.Forms.Panel();
-			this.groupBox9 = new System.Windows.Forms.GroupBox();
-			this.label33 = new System.Windows.Forms.Label();
-			this.label34 = new System.Windows.Forms.Label();
-			this.label35 = new System.Windows.Forms.Label();
-			this.cb_SmoothingMode = new System.Windows.Forms.ComboBox();
-			this.cb_InterpolationMode = new System.Windows.Forms.ComboBox();
-			this.cb_PixelOffsetMode = new System.Windows.Forms.ComboBox();
-			this.label36 = new System.Windows.Forms.Label();
-			this.btn_QuickSetup_HQ = new System.Windows.Forms.Button();
-			this.btn_QuickSetup_OK = new System.Windows.Forms.Button();
-			this.btn_QuickSetup_LQ = new System.Windows.Forms.Button();
-			this.rtb_Explanation = new System.Windows.Forms.RichTextBox();
+			this.label37 = new System.Windows.Forms.Label();
+			this.label38 = new System.Windows.Forms.Label();
 			this.p_Buttons.SuspendLayout();
 			this.p_Title.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitter)).BeginInit();
@@ -148,13 +150,15 @@
 			this.groupBox3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.num_ButtonSize)).BeginInit();
 			this.tp_Canvas.SuspendLayout();
-			this.tp_Render.SuspendLayout();
-			this.p_Help.SuspendLayout();
-			this.groupBox7.SuspendLayout();
 			this.groupBox8.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.num_MonitorToUse)).BeginInit();
+			this.groupBox7.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.num_CanvasTransparency)).BeginInit();
+			this.tp_Render.SuspendLayout();
 			this.groupBox9.SuspendLayout();
+			this.tp_Help.SuspendLayout();
+			this.tp_About.SuspendLayout();
+			this.p_Help.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// p_Buttons
@@ -330,7 +334,7 @@
 			this.tp_General.Location = new System.Drawing.Point(4, 4);
 			this.tp_General.Name = "tp_General";
 			this.tp_General.Padding = new System.Windows.Forms.Padding(3);
-			this.tp_General.Size = new System.Drawing.Size(378, 328);
+			this.tp_General.Size = new System.Drawing.Size(378, 312);
 			this.tp_General.TabIndex = 0;
 			this.tp_General.Text = "General";
 			this.tp_General.UseVisualStyleBackColor = true;
@@ -412,7 +416,9 @@
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(99, 13);
 			this.label6.TabIndex = 6;
+			this.label6.Tag = "4";
 			this.label6.Text = "Base Delay length: ";
+			this.label6.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
 			// label5
 			// 
@@ -421,7 +427,9 @@
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(72, 13);
 			this.label5.TabIndex = 5;
+			this.label5.Tag = "3";
 			this.label5.Text = "Delay length: ";
+			this.label5.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
 			// label4
 			// 
@@ -430,7 +438,9 @@
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(97, 13);
 			this.label4.TabIndex = 4;
+			this.label4.Tag = "2";
 			this.label4.Text = "Delay before Snip: ";
+			this.label4.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
 			// groupBox1
 			// 
@@ -462,6 +472,7 @@
 			this.btn_BrowseQSDir.Size = new System.Drawing.Size(22, 20);
 			this.btn_BrowseQSDir.TabIndex = 14;
 			this.btn_BrowseQSDir.UseVisualStyleBackColor = true;
+			this.btn_BrowseQSDir.Click += new System.EventHandler(this.btn_BrowseQSDir_Click);
 			// 
 			// tb_QuickSaveDir
 			// 
@@ -488,7 +499,9 @@
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(108, 13);
 			this.label3.TabIndex = 3;
+			this.label3.Tag = "1";
 			this.label3.Text = "QuickSave Directory:";
+			this.label3.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
 			// label2
 			// 
@@ -497,7 +510,9 @@
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(176, 13);
 			this.label2.TabIndex = 2;
+			this.label2.Tag = "0";
 			this.label2.Text = "Save file name has Date and Time: ";
+			this.label2.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
 			// tp_Program
 			// 
@@ -532,19 +547,49 @@
 			this.groupBox6.Controls.Add(this.label22);
 			this.groupBox6.Location = new System.Drawing.Point(6, 383);
 			this.groupBox6.Name = "groupBox6";
-			this.groupBox6.Size = new System.Drawing.Size(346, 163);
+			this.groupBox6.Size = new System.Drawing.Size(349, 163);
 			this.groupBox6.TabIndex = 3;
 			this.groupBox6.TabStop = false;
 			this.groupBox6.Text = "Cutout Settings";
+			// 
+			// p_MouseoverBorderColor
+			// 
+			this.p_MouseoverBorderColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.p_MouseoverBorderColor.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.p_MouseoverBorderColor.Location = new System.Drawing.Point(210, 78);
+			this.p_MouseoverBorderColor.Name = "p_MouseoverBorderColor";
+			this.p_MouseoverBorderColor.Size = new System.Drawing.Size(20, 20);
+			this.p_MouseoverBorderColor.TabIndex = 4;
+			this.p_MouseoverBorderColor.Click += new System.EventHandler(this.p_MouseoverBorderColor_Click);
+			// 
+			// p_SelectionBorderColor
+			// 
+			this.p_SelectionBorderColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.p_SelectionBorderColor.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.p_SelectionBorderColor.Location = new System.Drawing.Point(210, 51);
+			this.p_SelectionBorderColor.Name = "p_SelectionBorderColor";
+			this.p_SelectionBorderColor.Size = new System.Drawing.Size(20, 20);
+			this.p_SelectionBorderColor.TabIndex = 4;
+			this.p_SelectionBorderColor.Click += new System.EventHandler(this.p_SelectionBorderColor_Click);
+			// 
+			// p_PanelColor
+			// 
+			this.p_PanelColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.p_PanelColor.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.p_PanelColor.Location = new System.Drawing.Point(210, 24);
+			this.p_PanelColor.Name = "p_PanelColor";
+			this.p_PanelColor.Size = new System.Drawing.Size(20, 20);
+			this.p_PanelColor.TabIndex = 21;
+			this.p_PanelColor.Click += new System.EventHandler(this.p_PanelColor_Click);
 			// 
 			// cb_DragaroundMode
 			// 
 			this.cb_DragaroundMode.FormattingEnabled = true;
 			this.cb_DragaroundMode.Items.AddRange(new object[] {
-            "Horisontal",
+            "Horizontal",
             "Vertical",
             "Both"});
-			this.cb_DragaroundMode.Location = new System.Drawing.Point(201, 133);
+			this.cb_DragaroundMode.Location = new System.Drawing.Point(210, 133);
 			this.cb_DragaroundMode.Name = "cb_DragaroundMode";
 			this.cb_DragaroundMode.Size = new System.Drawing.Size(77, 21);
 			this.cb_DragaroundMode.TabIndex = 20;
@@ -552,7 +597,7 @@
 			// cb_AllowDragaround
 			// 
 			this.cb_AllowDragaround.AutoSize = true;
-			this.cb_AllowDragaround.Location = new System.Drawing.Point(201, 109);
+			this.cb_AllowDragaround.Location = new System.Drawing.Point(210, 109);
 			this.cb_AllowDragaround.Name = "cb_AllowDragaround";
 			this.cb_AllowDragaround.Size = new System.Drawing.Size(15, 14);
 			this.cb_AllowDragaround.TabIndex = 19;
@@ -565,7 +610,9 @@
 			this.label26.Name = "label26";
 			this.label26.Size = new System.Drawing.Size(98, 13);
 			this.label26.TabIndex = 18;
+			this.label26.Tag = "19";
 			this.label26.Text = "Dragaround mode: ";
+			this.label26.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
 			// label25
 			// 
@@ -574,7 +621,9 @@
 			this.label25.Name = "label25";
 			this.label25.Size = new System.Drawing.Size(95, 13);
 			this.label25.TabIndex = 17;
+			this.label25.Tag = "18";
 			this.label25.Text = "Allow dragaround: ";
+			this.label25.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
 			// label24
 			// 
@@ -583,7 +632,9 @@
 			this.label24.Name = "label24";
 			this.label24.Size = new System.Drawing.Size(129, 13);
 			this.label24.TabIndex = 16;
+			this.label24.Tag = "17";
 			this.label24.Text = "Mouse over border Color: ";
+			this.label24.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
 			// label23
 			// 
@@ -592,7 +643,9 @@
 			this.label23.Name = "label23";
 			this.label23.Size = new System.Drawing.Size(117, 13);
 			this.label23.TabIndex = 15;
+			this.label23.Tag = "16";
 			this.label23.Text = "Selection border Color: ";
+			this.label23.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
 			// label22
 			// 
@@ -601,7 +654,9 @@
 			this.label22.Name = "label22";
 			this.label22.Size = new System.Drawing.Size(100, 13);
 			this.label22.TabIndex = 14;
+			this.label22.Tag = "15";
 			this.label22.Text = "Button panel Color: ";
+			this.label22.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
 			// groupBox5
 			// 
@@ -613,7 +668,7 @@
 			this.groupBox5.Controls.Add(this.label20);
 			this.groupBox5.Location = new System.Drawing.Point(6, 296);
 			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(346, 81);
+			this.groupBox5.Size = new System.Drawing.Size(349, 81);
 			this.groupBox5.TabIndex = 2;
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "Preview Settings";
@@ -624,7 +679,7 @@
 			this.cb_PreviewStyle.Items.AddRange(new object[] {
             "Window",
             "Panel box"});
-			this.cb_PreviewStyle.Location = new System.Drawing.Point(201, 46);
+			this.cb_PreviewStyle.Location = new System.Drawing.Point(210, 46);
 			this.cb_PreviewStyle.Name = "cb_PreviewStyle";
 			this.cb_PreviewStyle.Size = new System.Drawing.Size(77, 21);
 			this.cb_PreviewStyle.TabIndex = 14;
@@ -636,12 +691,14 @@
 			this.label21.Name = "label21";
 			this.label21.Size = new System.Drawing.Size(83, 13);
 			this.label21.TabIndex = 13;
+			this.label21.Tag = "14";
 			this.label21.Text = "Preview to use: ";
+			this.label21.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
 			// cb_PreviewOnOpen
 			// 
 			this.cb_PreviewOnOpen.AutoSize = true;
-			this.cb_PreviewOnOpen.Location = new System.Drawing.Point(201, 23);
+			this.cb_PreviewOnOpen.Location = new System.Drawing.Point(210, 23);
 			this.cb_PreviewOnOpen.Name = "cb_PreviewOnOpen";
 			this.cb_PreviewOnOpen.Size = new System.Drawing.Size(15, 14);
 			this.cb_PreviewOnOpen.TabIndex = 12;
@@ -654,7 +711,9 @@
 			this.label20.Name = "label20";
 			this.label20.Size = new System.Drawing.Size(157, 13);
 			this.label20.TabIndex = 11;
+			this.label20.Tag = "13";
 			this.label20.Text = "Show preview on screen open: ";
+			this.label20.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
 			// groupBox4
 			// 
@@ -670,15 +729,25 @@
 			this.groupBox4.Controls.Add(this.label14);
 			this.groupBox4.Location = new System.Drawing.Point(6, 147);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(346, 143);
+			this.groupBox4.Size = new System.Drawing.Size(349, 143);
 			this.groupBox4.TabIndex = 1;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "Screen Window";
 			// 
+			// p_ScreenBackground
+			// 
+			this.p_ScreenBackground.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.p_ScreenBackground.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.p_ScreenBackground.Location = new System.Drawing.Point(210, 78);
+			this.p_ScreenBackground.Name = "p_ScreenBackground";
+			this.p_ScreenBackground.Size = new System.Drawing.Size(20, 20);
+			this.p_ScreenBackground.TabIndex = 11;
+			this.p_ScreenBackground.Click += new System.EventHandler(this.p_ScreenBackground_Click);
+			// 
 			// cb_AutBeforeDelete
 			// 
 			this.cb_AutBeforeDelete.AutoSize = true;
-			this.cb_AutBeforeDelete.Location = new System.Drawing.Point(201, 107);
+			this.cb_AutBeforeDelete.Location = new System.Drawing.Point(210, 107);
 			this.cb_AutBeforeDelete.Name = "cb_AutBeforeDelete";
 			this.cb_AutBeforeDelete.Size = new System.Drawing.Size(15, 14);
 			this.cb_AutBeforeDelete.TabIndex = 10;
@@ -687,7 +756,7 @@
 			// cb_HandleShortcuts
 			// 
 			this.cb_HandleShortcuts.AutoSize = true;
-			this.cb_HandleShortcuts.Location = new System.Drawing.Point(201, 57);
+			this.cb_HandleShortcuts.Location = new System.Drawing.Point(210, 57);
 			this.cb_HandleShortcuts.Name = "cb_HandleShortcuts";
 			this.cb_HandleShortcuts.Size = new System.Drawing.Size(15, 14);
 			this.cb_HandleShortcuts.TabIndex = 9;
@@ -696,7 +765,7 @@
 			// cb_HandlePrintScreen
 			// 
 			this.cb_HandlePrintScreen.AutoSize = true;
-			this.cb_HandlePrintScreen.Location = new System.Drawing.Point(201, 32);
+			this.cb_HandlePrintScreen.Location = new System.Drawing.Point(210, 32);
 			this.cb_HandlePrintScreen.Name = "cb_HandlePrintScreen";
 			this.cb_HandlePrintScreen.Size = new System.Drawing.Size(15, 14);
 			this.cb_HandlePrintScreen.TabIndex = 8;
@@ -709,7 +778,9 @@
 			this.label17.Name = "label17";
 			this.label17.Size = new System.Drawing.Size(194, 13);
 			this.label17.TabIndex = 4;
+			this.label17.Tag = "12";
 			this.label17.Text = "Require prompt before deleting images: ";
+			this.label17.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
 			// label16
 			// 
@@ -718,7 +789,9 @@
 			this.label16.Name = "label16";
 			this.label16.Size = new System.Drawing.Size(133, 13);
 			this.label16.TabIndex = 3;
+			this.label16.Tag = "11";
 			this.label16.Text = "Screen background color: ";
+			this.label16.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
 			// label15
 			// 
@@ -727,7 +800,9 @@
 			this.label15.Name = "label15";
 			this.label15.Size = new System.Drawing.Size(140, 13);
 			this.label15.TabIndex = 2;
+			this.label15.Tag = "10";
 			this.label15.Text = "Handle keyboard shortcuts: ";
+			this.label15.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
 			// label14
 			// 
@@ -736,7 +811,9 @@
 			this.label14.Name = "label14";
 			this.label14.Size = new System.Drawing.Size(183, 13);
 			this.label14.TabIndex = 1;
+			this.label14.Tag = "9";
 			this.label14.Text = "Handle pressing Print Screen button: ";
+			this.label14.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
 			// groupBox3
 			// 
@@ -752,7 +829,7 @@
 			this.groupBox3.Controls.Add(this.label10);
 			this.groupBox3.Location = new System.Drawing.Point(6, 8);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(346, 133);
+			this.groupBox3.Size = new System.Drawing.Size(349, 133);
 			this.groupBox3.TabIndex = 0;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Main Program";
@@ -760,7 +837,7 @@
 			// cb_RememberLastPosition
 			// 
 			this.cb_RememberLastPosition.AutoSize = true;
-			this.cb_RememberLastPosition.Location = new System.Drawing.Point(201, 104);
+			this.cb_RememberLastPosition.Location = new System.Drawing.Point(210, 104);
 			this.cb_RememberLastPosition.Name = "cb_RememberLastPosition";
 			this.cb_RememberLastPosition.Size = new System.Drawing.Size(15, 14);
 			this.cb_RememberLastPosition.TabIndex = 7;
@@ -773,12 +850,14 @@
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(122, 13);
 			this.label13.TabIndex = 6;
+			this.label13.Tag = "8";
 			this.label13.Text = "Remember last position: ";
+			this.label13.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
 			// cb_MoveToTray
 			// 
 			this.cb_MoveToTray.AutoSize = true;
-			this.cb_MoveToTray.Location = new System.Drawing.Point(201, 78);
+			this.cb_MoveToTray.Location = new System.Drawing.Point(210, 78);
 			this.cb_MoveToTray.Name = "cb_MoveToTray";
 			this.cb_MoveToTray.Size = new System.Drawing.Size(15, 14);
 			this.cb_MoveToTray.TabIndex = 5;
@@ -789,13 +868,15 @@
 			this.label12.AutoSize = true;
 			this.label12.Location = new System.Drawing.Point(6, 78);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(184, 13);
+			this.label12.Size = new System.Drawing.Size(207, 13);
 			this.label12.TabIndex = 4;
-			this.label12.Text = "Move to system tray when minimized: ";
+			this.label12.Tag = "7";
+			this.label12.Text = "Move to notification area when minimized: ";
+			this.label12.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
 			// num_ButtonSize
 			// 
-			this.num_ButtonSize.Location = new System.Drawing.Point(201, 50);
+			this.num_ButtonSize.Location = new System.Drawing.Point(210, 50);
 			this.num_ButtonSize.Maximum = new decimal(new int[] {
             200,
             0,
@@ -822,12 +903,14 @@
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(65, 13);
 			this.label11.TabIndex = 2;
+			this.label11.Tag = "6";
 			this.label11.Text = "Button size: ";
+			this.label11.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
 			// cb_UseCleanButtons
 			// 
 			this.cb_UseCleanButtons.AutoSize = true;
-			this.cb_UseCleanButtons.Location = new System.Drawing.Point(201, 26);
+			this.cb_UseCleanButtons.Location = new System.Drawing.Point(210, 26);
 			this.cb_UseCleanButtons.Name = "cb_UseCleanButtons";
 			this.cb_UseCleanButtons.Size = new System.Drawing.Size(15, 14);
 			this.cb_UseCleanButtons.TabIndex = 1;
@@ -840,7 +923,9 @@
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(118, 13);
 			this.label10.TabIndex = 0;
+			this.label10.Tag = "5";
 			this.label10.Text = "Use clean button style: ";
+			this.label10.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
 			// tp_Canvas
 			// 
@@ -855,86 +940,6 @@
 			this.tp_Canvas.TabIndex = 2;
 			this.tp_Canvas.Text = "Canvas";
 			this.tp_Canvas.UseVisualStyleBackColor = true;
-			// 
-			// tp_Render
-			// 
-			this.tp_Render.Controls.Add(this.rtb_Explanation);
-			this.tp_Render.Controls.Add(this.btn_QuickSetup_LQ);
-			this.tp_Render.Controls.Add(this.btn_QuickSetup_OK);
-			this.tp_Render.Controls.Add(this.btn_QuickSetup_HQ);
-			this.tp_Render.Controls.Add(this.label36);
-			this.tp_Render.Controls.Add(this.groupBox9);
-			this.tp_Render.Location = new System.Drawing.Point(4, 4);
-			this.tp_Render.Name = "tp_Render";
-			this.tp_Render.Padding = new System.Windows.Forms.Padding(3);
-			this.tp_Render.Size = new System.Drawing.Size(378, 312);
-			this.tp_Render.TabIndex = 3;
-			this.tp_Render.Text = "Render";
-			this.tp_Render.UseVisualStyleBackColor = true;
-			// 
-			// tp_Help
-			// 
-			this.tp_Help.Location = new System.Drawing.Point(4, 4);
-			this.tp_Help.Name = "tp_Help";
-			this.tp_Help.Padding = new System.Windows.Forms.Padding(3);
-			this.tp_Help.Size = new System.Drawing.Size(384, 303);
-			this.tp_Help.TabIndex = 4;
-			this.tp_Help.Text = "Help";
-			this.tp_Help.UseVisualStyleBackColor = true;
-			// 
-			// tp_About
-			// 
-			this.tp_About.Location = new System.Drawing.Point(4, 4);
-			this.tp_About.Name = "tp_About";
-			this.tp_About.Padding = new System.Windows.Forms.Padding(3);
-			this.tp_About.Size = new System.Drawing.Size(384, 303);
-			this.tp_About.TabIndex = 5;
-			this.tp_About.Text = "About";
-			this.tp_About.UseVisualStyleBackColor = true;
-			// 
-			// p_Help
-			// 
-			this.p_Help.Controls.Add(this.lbl_Description);
-			this.p_Help.Controls.Add(this.label9);
-			this.p_Help.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.p_Help.Location = new System.Drawing.Point(0, 0);
-			this.p_Help.Name = "p_Help";
-			this.p_Help.Size = new System.Drawing.Size(386, 90);
-			this.p_Help.TabIndex = 0;
-			// 
-			// lbl_Description
-			// 
-			this.lbl_Description.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.lbl_Description.Location = new System.Drawing.Point(3, 25);
-			this.lbl_Description.Name = "lbl_Description";
-			this.lbl_Description.Size = new System.Drawing.Size(379, 65);
-			this.lbl_Description.TabIndex = 1;
-			// 
-			// label9
-			// 
-			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(1, 3);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(66, 13);
-			this.label9.TabIndex = 0;
-			this.label9.Text = "Description: ";
-			// 
-			// groupBox7
-			// 
-			this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox7.Controls.Add(this.p_CanvasColor);
-			this.groupBox7.Controls.Add(this.num_CanvasTransparency);
-			this.groupBox7.Controls.Add(this.label28);
-			this.groupBox7.Controls.Add(this.label27);
-			this.groupBox7.Location = new System.Drawing.Point(6, 8);
-			this.groupBox7.Name = "groupBox7";
-			this.groupBox7.Size = new System.Drawing.Size(345, 100);
-			this.groupBox7.TabIndex = 0;
-			this.groupBox7.TabStop = false;
-			this.groupBox7.Text = "Display";
 			// 
 			// groupBox8
 			// 
@@ -954,64 +959,46 @@
 			this.groupBox8.Controls.Add(this.label29);
 			this.groupBox8.Location = new System.Drawing.Point(6, 114);
 			this.groupBox8.Name = "groupBox8";
-			this.groupBox8.Size = new System.Drawing.Size(345, 220);
+			this.groupBox8.Size = new System.Drawing.Size(294, 220);
 			this.groupBox8.TabIndex = 1;
 			this.groupBox8.TabStop = false;
 			this.groupBox8.Text = "Additional Data";
 			// 
-			// label27
+			// cb_DrawCrosshairs
 			// 
-			this.label27.AutoSize = true;
-			this.label27.Location = new System.Drawing.Point(6, 27);
-			this.label27.Name = "label27";
-			this.label27.Size = new System.Drawing.Size(150, 13);
-			this.label27.TabIndex = 0;
-			this.label27.Text = "Canvas overlay transparency: ";
+			this.cb_DrawCrosshairs.AutoSize = true;
+			this.cb_DrawCrosshairs.Location = new System.Drawing.Point(201, 119);
+			this.cb_DrawCrosshairs.Name = "cb_DrawCrosshairs";
+			this.cb_DrawCrosshairs.Size = new System.Drawing.Size(15, 14);
+			this.cb_DrawCrosshairs.TabIndex = 20;
+			this.cb_DrawCrosshairs.UseVisualStyleBackColor = true;
 			// 
-			// label28
+			// cb_DrawPositionData
 			// 
-			this.label28.AutoSize = true;
-			this.label28.Location = new System.Drawing.Point(6, 61);
-			this.label28.Name = "label28";
-			this.label28.Size = new System.Drawing.Size(112, 13);
-			this.label28.TabIndex = 1;
-			this.label28.Text = "Canvas overlay color: ";
+			this.cb_DrawPositionData.AutoSize = true;
+			this.cb_DrawPositionData.Location = new System.Drawing.Point(201, 89);
+			this.cb_DrawPositionData.Name = "cb_DrawPositionData";
+			this.cb_DrawPositionData.Size = new System.Drawing.Size(15, 14);
+			this.cb_DrawPositionData.TabIndex = 19;
+			this.cb_DrawPositionData.UseVisualStyleBackColor = true;
 			// 
-			// label29
+			// cb_DrawRulerBG
 			// 
-			this.label29.AutoSize = true;
-			this.label29.Location = new System.Drawing.Point(6, 27);
-			this.label29.Name = "label29";
-			this.label29.Size = new System.Drawing.Size(109, 13);
-			this.label29.TabIndex = 0;
-			this.label29.Text = "Always display rulers: ";
+			this.cb_DrawRulerBG.AutoSize = true;
+			this.cb_DrawRulerBG.Location = new System.Drawing.Point(201, 58);
+			this.cb_DrawRulerBG.Name = "cb_DrawRulerBG";
+			this.cb_DrawRulerBG.Size = new System.Drawing.Size(15, 14);
+			this.cb_DrawRulerBG.TabIndex = 18;
+			this.cb_DrawRulerBG.UseVisualStyleBackColor = true;
 			// 
-			// label30
+			// cb_AlwaysShowRuler
 			// 
-			this.label30.AutoSize = true;
-			this.label30.Location = new System.Drawing.Point(6, 58);
-			this.label30.Name = "label30";
-			this.label30.Size = new System.Drawing.Size(143, 13);
-			this.label30.TabIndex = 1;
-			this.label30.Text = "Draw ruler with background: ";
-			// 
-			// label31
-			// 
-			this.label31.AutoSize = true;
-			this.label31.Location = new System.Drawing.Point(6, 89);
-			this.label31.Name = "label31";
-			this.label31.Size = new System.Drawing.Size(101, 13);
-			this.label31.TabIndex = 2;
-			this.label31.Text = "Draw position data: ";
-			// 
-			// label32
-			// 
-			this.label32.AutoSize = true;
-			this.label32.Location = new System.Drawing.Point(6, 120);
-			this.label32.Name = "label32";
-			this.label32.Size = new System.Drawing.Size(89, 13);
-			this.label32.TabIndex = 3;
-			this.label32.Text = "Draw Crosshairs: ";
+			this.cb_AlwaysShowRuler.AutoSize = true;
+			this.cb_AlwaysShowRuler.Location = new System.Drawing.Point(201, 27);
+			this.cb_AlwaysShowRuler.Name = "cb_AlwaysShowRuler";
+			this.cb_AlwaysShowRuler.Size = new System.Drawing.Size(15, 14);
+			this.cb_AlwaysShowRuler.TabIndex = 17;
+			this.cb_AlwaysShowRuler.UseVisualStyleBackColor = true;
 			// 
 			// num_MonitorToUse
 			// 
@@ -1054,7 +1041,9 @@
 			this.label19.Name = "label19";
 			this.label19.Size = new System.Drawing.Size(145, 13);
 			this.label19.TabIndex = 14;
+			this.label19.Tag = "27";
 			this.label19.Text = "Monitor to use for DPI value: ";
+			this.label19.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
 			// label18
 			// 
@@ -1063,43 +1052,78 @@
 			this.label18.Name = "label18";
 			this.label18.Size = new System.Drawing.Size(120, 13);
 			this.label18.TabIndex = 13;
+			this.label18.Tag = "26";
 			this.label18.Text = "DPI measurement type: ";
+			this.label18.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
-			// cb_AlwaysShowRuler
+			// label32
 			// 
-			this.cb_AlwaysShowRuler.AutoSize = true;
-			this.cb_AlwaysShowRuler.Location = new System.Drawing.Point(201, 27);
-			this.cb_AlwaysShowRuler.Name = "cb_AlwaysShowRuler";
-			this.cb_AlwaysShowRuler.Size = new System.Drawing.Size(15, 14);
-			this.cb_AlwaysShowRuler.TabIndex = 17;
-			this.cb_AlwaysShowRuler.UseVisualStyleBackColor = true;
+			this.label32.AutoSize = true;
+			this.label32.Location = new System.Drawing.Point(6, 120);
+			this.label32.Name = "label32";
+			this.label32.Size = new System.Drawing.Size(89, 13);
+			this.label32.TabIndex = 3;
+			this.label32.Tag = "25";
+			this.label32.Text = "Draw Crosshairs: ";
+			this.label32.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
-			// cb_DrawRulerBG
+			// label31
 			// 
-			this.cb_DrawRulerBG.AutoSize = true;
-			this.cb_DrawRulerBG.Location = new System.Drawing.Point(201, 58);
-			this.cb_DrawRulerBG.Name = "cb_DrawRulerBG";
-			this.cb_DrawRulerBG.Size = new System.Drawing.Size(15, 14);
-			this.cb_DrawRulerBG.TabIndex = 18;
-			this.cb_DrawRulerBG.UseVisualStyleBackColor = true;
+			this.label31.AutoSize = true;
+			this.label31.Location = new System.Drawing.Point(6, 89);
+			this.label31.Name = "label31";
+			this.label31.Size = new System.Drawing.Size(101, 13);
+			this.label31.TabIndex = 2;
+			this.label31.Tag = "24";
+			this.label31.Text = "Draw position data: ";
+			this.label31.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
-			// cb_DrawPositionData
+			// label30
 			// 
-			this.cb_DrawPositionData.AutoSize = true;
-			this.cb_DrawPositionData.Location = new System.Drawing.Point(201, 89);
-			this.cb_DrawPositionData.Name = "cb_DrawPositionData";
-			this.cb_DrawPositionData.Size = new System.Drawing.Size(15, 14);
-			this.cb_DrawPositionData.TabIndex = 19;
-			this.cb_DrawPositionData.UseVisualStyleBackColor = true;
+			this.label30.AutoSize = true;
+			this.label30.Location = new System.Drawing.Point(6, 58);
+			this.label30.Name = "label30";
+			this.label30.Size = new System.Drawing.Size(143, 13);
+			this.label30.TabIndex = 1;
+			this.label30.Tag = "23";
+			this.label30.Text = "Draw ruler with background: ";
+			this.label30.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
-			// cb_DrawCrosshairs
+			// label29
 			// 
-			this.cb_DrawCrosshairs.AutoSize = true;
-			this.cb_DrawCrosshairs.Location = new System.Drawing.Point(201, 119);
-			this.cb_DrawCrosshairs.Name = "cb_DrawCrosshairs";
-			this.cb_DrawCrosshairs.Size = new System.Drawing.Size(15, 14);
-			this.cb_DrawCrosshairs.TabIndex = 20;
-			this.cb_DrawCrosshairs.UseVisualStyleBackColor = true;
+			this.label29.AutoSize = true;
+			this.label29.Location = new System.Drawing.Point(6, 27);
+			this.label29.Name = "label29";
+			this.label29.Size = new System.Drawing.Size(109, 13);
+			this.label29.TabIndex = 0;
+			this.label29.Tag = "22";
+			this.label29.Text = "Always display rulers: ";
+			this.label29.MouseEnter += new System.EventHandler(this.WriteHelpString);
+			// 
+			// groupBox7
+			// 
+			this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox7.Controls.Add(this.p_CanvasColor);
+			this.groupBox7.Controls.Add(this.num_CanvasTransparency);
+			this.groupBox7.Controls.Add(this.label28);
+			this.groupBox7.Controls.Add(this.label27);
+			this.groupBox7.Location = new System.Drawing.Point(6, 8);
+			this.groupBox7.Name = "groupBox7";
+			this.groupBox7.Size = new System.Drawing.Size(294, 100);
+			this.groupBox7.TabIndex = 0;
+			this.groupBox7.TabStop = false;
+			this.groupBox7.Text = "Display";
+			// 
+			// p_CanvasColor
+			// 
+			this.p_CanvasColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.p_CanvasColor.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.p_CanvasColor.Location = new System.Drawing.Point(201, 57);
+			this.p_CanvasColor.Name = "p_CanvasColor";
+			this.p_CanvasColor.Size = new System.Drawing.Size(20, 20);
+			this.p_CanvasColor.TabIndex = 3;
+			this.p_CanvasColor.Click += new System.EventHandler(this.p_CanvasColor_Click);
 			// 
 			// num_CanvasTransparency
 			// 
@@ -1129,55 +1153,93 @@
             0,
             65536});
 			// 
-			// p_CanvasColor
+			// label28
 			// 
-			this.p_CanvasColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.p_CanvasColor.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.p_CanvasColor.Location = new System.Drawing.Point(201, 57);
-			this.p_CanvasColor.Name = "p_CanvasColor";
-			this.p_CanvasColor.Size = new System.Drawing.Size(20, 20);
-			this.p_CanvasColor.TabIndex = 3;
-			this.p_CanvasColor.Click += new System.EventHandler(this.p_CanvasColor_Click);
+			this.label28.AutoSize = true;
+			this.label28.Location = new System.Drawing.Point(6, 61);
+			this.label28.Name = "label28";
+			this.label28.Size = new System.Drawing.Size(112, 13);
+			this.label28.TabIndex = 1;
+			this.label28.Tag = "21";
+			this.label28.Text = "Canvas overlay color: ";
+			this.label28.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
-			// p_ScreenBackground
+			// label27
 			// 
-			this.p_ScreenBackground.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.p_ScreenBackground.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.p_ScreenBackground.Location = new System.Drawing.Point(201, 78);
-			this.p_ScreenBackground.Name = "p_ScreenBackground";
-			this.p_ScreenBackground.Size = new System.Drawing.Size(20, 20);
-			this.p_ScreenBackground.TabIndex = 11;
-			this.p_ScreenBackground.Click += new System.EventHandler(this.p_ScreenBackground_Click);
+			this.label27.AutoSize = true;
+			this.label27.Location = new System.Drawing.Point(6, 27);
+			this.label27.Name = "label27";
+			this.label27.Size = new System.Drawing.Size(123, 13);
+			this.label27.TabIndex = 0;
+			this.label27.Tag = "20";
+			this.label27.Text = "Canvas overlay opacity: ";
+			this.label27.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
-			// p_PanelColor
+			// tp_Render
 			// 
-			this.p_PanelColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.p_PanelColor.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.p_PanelColor.Location = new System.Drawing.Point(201, 24);
-			this.p_PanelColor.Name = "p_PanelColor";
-			this.p_PanelColor.Size = new System.Drawing.Size(20, 20);
-			this.p_PanelColor.TabIndex = 21;
-			this.p_PanelColor.Click += new System.EventHandler(this.p_PanelColor_Click);
+			this.tp_Render.Controls.Add(this.rtb_Explanation);
+			this.tp_Render.Controls.Add(this.btn_QuickSetup_LQ);
+			this.tp_Render.Controls.Add(this.btn_QuickSetup_OK);
+			this.tp_Render.Controls.Add(this.btn_QuickSetup_HQ);
+			this.tp_Render.Controls.Add(this.label36);
+			this.tp_Render.Controls.Add(this.groupBox9);
+			this.tp_Render.Location = new System.Drawing.Point(4, 4);
+			this.tp_Render.Name = "tp_Render";
+			this.tp_Render.Padding = new System.Windows.Forms.Padding(3);
+			this.tp_Render.Size = new System.Drawing.Size(378, 312);
+			this.tp_Render.TabIndex = 3;
+			this.tp_Render.Text = "Render";
+			this.tp_Render.UseVisualStyleBackColor = true;
 			// 
-			// p_SelectionBorderColor
+			// rtb_Explanation
 			// 
-			this.p_SelectionBorderColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.p_SelectionBorderColor.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.p_SelectionBorderColor.Location = new System.Drawing.Point(201, 51);
-			this.p_SelectionBorderColor.Name = "p_SelectionBorderColor";
-			this.p_SelectionBorderColor.Size = new System.Drawing.Size(20, 20);
-			this.p_SelectionBorderColor.TabIndex = 4;
-			this.p_SelectionBorderColor.Click += new System.EventHandler(this.p_SelectionBorderColor_Click);
+			this.rtb_Explanation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.rtb_Explanation.Location = new System.Drawing.Point(151, 133);
+			this.rtb_Explanation.Name = "rtb_Explanation";
+			this.rtb_Explanation.Size = new System.Drawing.Size(219, 173);
+			this.rtb_Explanation.TabIndex = 5;
+			this.rtb_Explanation.Text = resources.GetString("rtb_Explanation.Text");
 			// 
-			// p_MouseoverBorderColor
+			// btn_QuickSetup_LQ
 			// 
-			this.p_MouseoverBorderColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.p_MouseoverBorderColor.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.p_MouseoverBorderColor.Location = new System.Drawing.Point(201, 78);
-			this.p_MouseoverBorderColor.Name = "p_MouseoverBorderColor";
-			this.p_MouseoverBorderColor.Size = new System.Drawing.Size(20, 20);
-			this.p_MouseoverBorderColor.TabIndex = 4;
-			this.p_MouseoverBorderColor.Click += new System.EventHandler(this.p_MouseoverBorderColor_Click);
+			this.btn_QuickSetup_LQ.Location = new System.Drawing.Point(15, 249);
+			this.btn_QuickSetup_LQ.Name = "btn_QuickSetup_LQ";
+			this.btn_QuickSetup_LQ.Size = new System.Drawing.Size(130, 36);
+			this.btn_QuickSetup_LQ.TabIndex = 4;
+			this.btn_QuickSetup_LQ.Text = "Low Quality\r\nFastest Processing time";
+			this.btn_QuickSetup_LQ.UseVisualStyleBackColor = true;
+			this.btn_QuickSetup_LQ.Click += new System.EventHandler(this.btn_QuickSetup_LQ_Click);
+			// 
+			// btn_QuickSetup_OK
+			// 
+			this.btn_QuickSetup_OK.Location = new System.Drawing.Point(15, 208);
+			this.btn_QuickSetup_OK.Name = "btn_QuickSetup_OK";
+			this.btn_QuickSetup_OK.Size = new System.Drawing.Size(130, 36);
+			this.btn_QuickSetup_OK.TabIndex = 3;
+			this.btn_QuickSetup_OK.Text = "Okay Quality \r\nDecent Processing time";
+			this.btn_QuickSetup_OK.UseVisualStyleBackColor = true;
+			this.btn_QuickSetup_OK.Click += new System.EventHandler(this.btn_QuickSetup_OK_Click);
+			// 
+			// btn_QuickSetup_HQ
+			// 
+			this.btn_QuickSetup_HQ.Location = new System.Drawing.Point(15, 166);
+			this.btn_QuickSetup_HQ.Name = "btn_QuickSetup_HQ";
+			this.btn_QuickSetup_HQ.Size = new System.Drawing.Size(130, 36);
+			this.btn_QuickSetup_HQ.TabIndex = 2;
+			this.btn_QuickSetup_HQ.Text = "Highest Quality \r\nMost processing time";
+			this.btn_QuickSetup_HQ.UseVisualStyleBackColor = true;
+			this.btn_QuickSetup_HQ.Click += new System.EventHandler(this.btn_QuickSetup_HQ_Click);
+			// 
+			// label36
+			// 
+			this.label36.AutoSize = true;
+			this.label36.Location = new System.Drawing.Point(12, 141);
+			this.label36.Name = "label36";
+			this.label36.Size = new System.Drawing.Size(72, 13);
+			this.label36.TabIndex = 1;
+			this.label36.Text = "Quick Setup: ";
 			// 
 			// groupBox9
 			// 
@@ -1196,45 +1258,18 @@
 			this.groupBox9.TabStop = false;
 			this.groupBox9.Text = "Image Quality settings";
 			// 
-			// label33
+			// cb_PixelOffsetMode
 			// 
-			this.label33.AutoSize = true;
-			this.label33.Location = new System.Drawing.Point(6, 27);
-			this.label33.Name = "label33";
-			this.label33.Size = new System.Drawing.Size(93, 13);
-			this.label33.TabIndex = 0;
-			this.label33.Text = "Smoothing Mode: ";
-			// 
-			// label34
-			// 
-			this.label34.AutoSize = true;
-			this.label34.Location = new System.Drawing.Point(6, 61);
-			this.label34.Name = "label34";
-			this.label34.Size = new System.Drawing.Size(101, 13);
-			this.label34.TabIndex = 1;
-			this.label34.Text = "Interpolation Mode: ";
-			// 
-			// label35
-			// 
-			this.label35.AutoSize = true;
-			this.label35.Location = new System.Drawing.Point(6, 95);
-			this.label35.Name = "label35";
-			this.label35.Size = new System.Drawing.Size(96, 13);
-			this.label35.TabIndex = 2;
-			this.label35.Text = "Pixel Offset Mode: ";
-			// 
-			// cb_SmoothingMode
-			// 
-			this.cb_SmoothingMode.FormattingEnabled = true;
-			this.cb_SmoothingMode.Items.AddRange(new object[] {
+			this.cb_PixelOffsetMode.FormattingEnabled = true;
+			this.cb_PixelOffsetMode.Items.AddRange(new object[] {
             "None",
             "High Speed",
-            "Antialias",
+            "Half",
             "High Quality"});
-			this.cb_SmoothingMode.Location = new System.Drawing.Point(178, 24);
-			this.cb_SmoothingMode.Name = "cb_SmoothingMode";
-			this.cb_SmoothingMode.Size = new System.Drawing.Size(121, 21);
-			this.cb_SmoothingMode.TabIndex = 3;
+			this.cb_PixelOffsetMode.Location = new System.Drawing.Point(178, 92);
+			this.cb_PixelOffsetMode.Name = "cb_PixelOffsetMode";
+			this.cb_PixelOffsetMode.Size = new System.Drawing.Size(121, 21);
+			this.cb_PixelOffsetMode.TabIndex = 5;
 			// 
 			// cb_InterpolationMode
 			// 
@@ -1252,68 +1287,122 @@
 			this.cb_InterpolationMode.Size = new System.Drawing.Size(121, 21);
 			this.cb_InterpolationMode.TabIndex = 4;
 			// 
-			// cb_PixelOffsetMode
+			// cb_SmoothingMode
 			// 
-			this.cb_PixelOffsetMode.FormattingEnabled = true;
-			this.cb_PixelOffsetMode.Items.AddRange(new object[] {
+			this.cb_SmoothingMode.FormattingEnabled = true;
+			this.cb_SmoothingMode.Items.AddRange(new object[] {
             "None",
             "High Speed",
-            "Half",
+            "Antialias",
             "High Quality"});
-			this.cb_PixelOffsetMode.Location = new System.Drawing.Point(178, 92);
-			this.cb_PixelOffsetMode.Name = "cb_PixelOffsetMode";
-			this.cb_PixelOffsetMode.Size = new System.Drawing.Size(121, 21);
-			this.cb_PixelOffsetMode.TabIndex = 5;
+			this.cb_SmoothingMode.Location = new System.Drawing.Point(178, 24);
+			this.cb_SmoothingMode.Name = "cb_SmoothingMode";
+			this.cb_SmoothingMode.Size = new System.Drawing.Size(121, 21);
+			this.cb_SmoothingMode.TabIndex = 3;
 			// 
-			// label36
+			// label35
 			// 
-			this.label36.AutoSize = true;
-			this.label36.Location = new System.Drawing.Point(12, 141);
-			this.label36.Name = "label36";
-			this.label36.Size = new System.Drawing.Size(72, 13);
-			this.label36.TabIndex = 1;
-			this.label36.Text = "Quick Setup: ";
+			this.label35.AutoSize = true;
+			this.label35.Location = new System.Drawing.Point(6, 95);
+			this.label35.Name = "label35";
+			this.label35.Size = new System.Drawing.Size(96, 13);
+			this.label35.TabIndex = 2;
+			this.label35.Tag = "30";
+			this.label35.Text = "Pixel Offset Mode: ";
+			this.label35.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
-			// btn_QuickSetup_HQ
+			// label34
 			// 
-			this.btn_QuickSetup_HQ.Location = new System.Drawing.Point(15, 166);
-			this.btn_QuickSetup_HQ.Name = "btn_QuickSetup_HQ";
-			this.btn_QuickSetup_HQ.Size = new System.Drawing.Size(130, 36);
-			this.btn_QuickSetup_HQ.TabIndex = 2;
-			this.btn_QuickSetup_HQ.Text = "Highest Quality \r\nMost processing time";
-			this.btn_QuickSetup_HQ.UseVisualStyleBackColor = true;
-			this.btn_QuickSetup_HQ.Click += new System.EventHandler(this.btn_QuickSetup_HQ_Click);
+			this.label34.AutoSize = true;
+			this.label34.Location = new System.Drawing.Point(6, 61);
+			this.label34.Name = "label34";
+			this.label34.Size = new System.Drawing.Size(101, 13);
+			this.label34.TabIndex = 1;
+			this.label34.Tag = "29";
+			this.label34.Text = "Interpolation Mode: ";
+			this.label34.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
-			// btn_QuickSetup_OK
+			// label33
 			// 
-			this.btn_QuickSetup_OK.Location = new System.Drawing.Point(15, 208);
-			this.btn_QuickSetup_OK.Name = "btn_QuickSetup_OK";
-			this.btn_QuickSetup_OK.Size = new System.Drawing.Size(130, 36);
-			this.btn_QuickSetup_OK.TabIndex = 3;
-			this.btn_QuickSetup_OK.Text = "Okay Quality \r\nDecent Processing time";
-			this.btn_QuickSetup_OK.UseVisualStyleBackColor = true;
-			this.btn_QuickSetup_OK.Click += new System.EventHandler(this.btn_QuickSetup_OK_Click);
+			this.label33.AutoSize = true;
+			this.label33.Location = new System.Drawing.Point(6, 27);
+			this.label33.Name = "label33";
+			this.label33.Size = new System.Drawing.Size(93, 13);
+			this.label33.TabIndex = 0;
+			this.label33.Tag = "28";
+			this.label33.Text = "Smoothing Mode: ";
+			this.label33.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
-			// btn_QuickSetup_LQ
+			// tp_Help
 			// 
-			this.btn_QuickSetup_LQ.Location = new System.Drawing.Point(15, 249);
-			this.btn_QuickSetup_LQ.Name = "btn_QuickSetup_LQ";
-			this.btn_QuickSetup_LQ.Size = new System.Drawing.Size(130, 36);
-			this.btn_QuickSetup_LQ.TabIndex = 4;
-			this.btn_QuickSetup_LQ.Text = "Low Quality\r\nFastest Processing time";
-			this.btn_QuickSetup_LQ.UseVisualStyleBackColor = true;
-			this.btn_QuickSetup_LQ.Click += new System.EventHandler(this.btn_QuickSetup_LQ_Click);
+			this.tp_Help.Controls.Add(this.label37);
+			this.tp_Help.Location = new System.Drawing.Point(4, 4);
+			this.tp_Help.Name = "tp_Help";
+			this.tp_Help.Padding = new System.Windows.Forms.Padding(3);
+			this.tp_Help.Size = new System.Drawing.Size(378, 328);
+			this.tp_Help.TabIndex = 4;
+			this.tp_Help.Text = "Help";
+			this.tp_Help.UseVisualStyleBackColor = true;
 			// 
-			// rtb_Explanation
+			// tp_About
 			// 
-			this.rtb_Explanation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.tp_About.Controls.Add(this.label38);
+			this.tp_About.Location = new System.Drawing.Point(4, 4);
+			this.tp_About.Name = "tp_About";
+			this.tp_About.Padding = new System.Windows.Forms.Padding(3);
+			this.tp_About.Size = new System.Drawing.Size(378, 312);
+			this.tp_About.TabIndex = 5;
+			this.tp_About.Text = "About";
+			this.tp_About.UseVisualStyleBackColor = true;
+			// 
+			// p_Help
+			// 
+			this.p_Help.Controls.Add(this.lbl_Description);
+			this.p_Help.Controls.Add(this.label9);
+			this.p_Help.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.p_Help.Location = new System.Drawing.Point(0, 0);
+			this.p_Help.Name = "p_Help";
+			this.p_Help.Size = new System.Drawing.Size(386, 90);
+			this.p_Help.TabIndex = 0;
+			// 
+			// lbl_Description
+			// 
+			this.lbl_Description.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.rtb_Explanation.Location = new System.Drawing.Point(151, 133);
-			this.rtb_Explanation.Name = "rtb_Explanation";
-			this.rtb_Explanation.Size = new System.Drawing.Size(219, 173);
-			this.rtb_Explanation.TabIndex = 5;
-			this.rtb_Explanation.Text = resources.GetString("rtb_Explanation.Text");
+			this.lbl_Description.Location = new System.Drawing.Point(3, 25);
+			this.lbl_Description.Name = "lbl_Description";
+			this.lbl_Description.Size = new System.Drawing.Size(379, 65);
+			this.lbl_Description.TabIndex = 1;
+			// 
+			// label9
+			// 
+			this.label9.AutoSize = true;
+			this.label9.Location = new System.Drawing.Point(1, 3);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(66, 13);
+			this.label9.TabIndex = 0;
+			this.label9.Text = "Description: ";
+			// 
+			// label37
+			// 
+			this.label37.AutoSize = true;
+			this.label37.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.label37.Location = new System.Drawing.Point(6, 5);
+			this.label37.Name = "label37";
+			this.label37.Size = new System.Drawing.Size(182, 29);
+			this.label37.TabIndex = 0;
+			this.label37.Text = "Comming soon!";
+			// 
+			// label38
+			// 
+			this.label38.AutoSize = true;
+			this.label38.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.label38.Location = new System.Drawing.Point(6, 5);
+			this.label38.Name = "label38";
+			this.label38.Size = new System.Drawing.Size(182, 29);
+			this.label38.TabIndex = 1;
+			this.label38.Text = "Comming soon!";
 			// 
 			// f_Settings
 			// 
@@ -1351,18 +1440,22 @@
 			this.groupBox3.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.num_ButtonSize)).EndInit();
 			this.tp_Canvas.ResumeLayout(false);
-			this.tp_Render.ResumeLayout(false);
-			this.tp_Render.PerformLayout();
-			this.p_Help.ResumeLayout(false);
-			this.p_Help.PerformLayout();
-			this.groupBox7.ResumeLayout(false);
-			this.groupBox7.PerformLayout();
 			this.groupBox8.ResumeLayout(false);
 			this.groupBox8.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.num_MonitorToUse)).EndInit();
+			this.groupBox7.ResumeLayout(false);
+			this.groupBox7.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.num_CanvasTransparency)).EndInit();
+			this.tp_Render.ResumeLayout(false);
+			this.tp_Render.PerformLayout();
 			this.groupBox9.ResumeLayout(false);
 			this.groupBox9.PerformLayout();
+			this.tp_Help.ResumeLayout(false);
+			this.tp_Help.PerformLayout();
+			this.tp_About.ResumeLayout(false);
+			this.tp_About.PerformLayout();
+			this.p_Help.ResumeLayout(false);
+			this.p_Help.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -1469,5 +1562,7 @@
 		private System.Windows.Forms.Button btn_QuickSetup_HQ;
 		private System.Windows.Forms.Label label36;
 		private System.Windows.Forms.RichTextBox rtb_Explanation;
+		private System.Windows.Forms.Label label37;
+		private System.Windows.Forms.Label label38;
 	}
 }

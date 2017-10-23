@@ -75,7 +75,7 @@ namespace WolfPaw_ScreenSnip
 
 				Properties.Settings.Default.s_DPI.Add(string.Format("{0}|{1}|{2}|{3}", i, s.DeviceName, px, py));
 				Properties.Settings.Default.Save();
-				MessageBox.Show(Properties.Settings.Default.s_DPI[0]);
+				//MessageBox.Show(Properties.Settings.Default.s_DPI[0]);
 			}
 		}
 

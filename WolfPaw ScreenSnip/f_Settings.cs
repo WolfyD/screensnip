@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -138,10 +139,12 @@ namespace WolfPaw_ScreenSnip
 		public Color getColor(Color oColor)
 		{
 			Color cc = new Color();
-			ColorDialog cd = new ColorDialog();
-			cd.Color = oColor;
+			ColorDialog cd = new ColorDialog
+			{
+				Color = oColor
+			};
 
-			if(cd.ShowDialog() == DialogResult.OK)
+			if (cd.ShowDialog() == DialogResult.OK)
 			{
 				cc = cd.Color;
 			}
@@ -240,5 +243,159 @@ namespace WolfPaw_ScreenSnip
 		{
 			p_MouseoverBorderColor.BackColor = getColor(p_MouseoverBorderColor.BackColor);
 		}
+
+		private void btn_BrowseQSDir_Click(object sender, EventArgs e)
+		{
+			FolderBrowserDialog fbd = new FolderBrowserDialog();
+			if(tb_QuickSaveDir.Text != "" && Directory.Exists(tb_QuickSaveDir.Text)) { fbd.SelectedPath = tb_QuickSaveDir.Text; }
+			if(fbd.ShowDialog() == DialogResult.OK)
+			{
+				tb_QuickSaveDir.Text = fbd.SelectedPath;
+			}
+		}
+
+		private void WriteHelpString(object sender, EventArgs e)
+		{
+			String str = "";
+			int.TryParse((sender as Label).Tag.ToString(), out int i);
+
+			switch (i)
+			{
+				case 0:
+					str = "Automatically add date and time to the name of the save file.";
+					break;
+					
+				case 1:
+					str = "Directory where the images are saved when quicksaving. File names are 'ScreenSnip_Date_Time.Extension'";
+					break;
+					
+				case 2:
+					str = "If this checkbox is set to true, the program will delay the snipping by default. This default setting can be overridden with the checkbox on the main form";
+					break;
+
+				case 3:
+					str = "The amount of time the program will wait before opening the Snipping canvas, if delay is turned on.";
+					break;
+
+				case 4:
+					str = "The amount of time the program is delayed by default before opening the cavas. This is necessary on slower computers, to have time to hide the program before opening the canvas. If you can see the program or screen when snipping, you need to set this value higher.";
+					break;
+
+				case 5:
+					str = "If this is turned on the program will use the new, clean buttons instead of the old outdated ones. This change requires a restart to take effect!";
+					break;
+
+				case 6:
+					str = "This value sets the size of the buttons on the main screen. This change requires a restart to take effect!";
+					break;
+
+				case 7:
+					str = "If this box i checked, when minimizing the program it will minimize to the notification area on the tray (next to the clock) instead of just the tray as usual.";
+					break;
+
+				case 8:
+					str = "If this box is checked, the main window will reopen where you last moved it to. Otherwise it will always open at the upper left corner of your screen.";
+					break;
+
+				case 9:
+					str = "This box determines weather the program should detect when the PrintScreen button is pressed and open the picture in the screen";
+					break;
+
+				case 10:
+					str = "This box determines weather the program should detect the shortcut keys (ctrl + F1-F5).";
+					break;
+
+				case 11:
+					str = "The background color of the screen.";
+					break;
+
+				case 12:
+					str = "If this box is checked, the program will warn you about unsaved changes in your picture when you close the screen.";
+					break;
+
+				case 13:
+					str = "If this box is checked, when opening the screen you will see a live preiview of what your end picture will look like (can be memory intensive)";
+					break;
+
+				case 14:
+					str = "Type of preview. Window is a free floating window you can place anywhere. Panelbox is a static box that shows in your tools panel.";
+					break;
+
+				case 15:
+					str = "The color of the button panel of the image boxes on the screen.";
+					break;
+
+				case 16:
+					str = "The color of the border of the image boxes when they are selected.";
+					break;
+
+				case 17:
+					str = "The color of the border of the image boxes when the mouse is over them but they are not selected.";
+					break;
+
+				case 18:
+					str = "Allows dragaround mode. In dragaround mode you can keep moving your mouse to one direction infinitely. Useful for moving large pictures.";
+					break;
+
+				case 19:
+					str = "Dragaround mode. Horizontal allowes you to drag infinitely from left to right or right to left. Vertical allows you to drag infinitely up or down. Both allows both directions simultaneously.";
+					break;
+
+				case 20:
+					str = "The Opacity of the color overlay on the canvas when cutting. Higher value will make the overlay more visible.";
+					break;
+
+				case 21:
+					str = "The color of the overlay on the canvas.";
+					break;
+
+				case 22:
+					str = "If this is checked, rulers will always show on the canvas when cutting. Otherwise rulers will only show when holding the Alt key.";
+					break;
+
+				case 23:
+					str = "If this is checked, the ruler will have a white background, otherwise it will be transparent.";
+					break;
+
+				case 24:
+					str = "If this is checked position data will be drawn to the screen near the mouse pointer when ruler is visible.";
+					break;
+
+				case 25:
+					str = "If this is checked, crosshairs will be drawn on the screen when ruler is visible.";
+					break;
+
+				case 26:
+					str = "You can select the measurements of the ruler on screen. You can select between Centimeters, Inches, and an even distance of 100 pixels.";
+					break;
+
+				case 27:
+					str = "If you have multiple monitors with different DPI characteristics, you can select which one to use as standard for the measurements.";
+					break;
+
+				case 28:
+					str = "Smoothing mode. This value determines the level of antialiasing on the rendered images.";
+					break;
+
+				case 29:
+					str = "Interpolation mode. This value determines the quality of an image after scaling or rotating it.";
+					break;
+
+				case 30:
+					str = "Pixel offset mode. This value determines image quality based on pixel offsetting.";
+					break;
+
+				default:
+					str = "";
+					break;
+
+
+			}
+
+			lbl_Description.Text = str;
+
+		}
+
+		
 	}
 }
