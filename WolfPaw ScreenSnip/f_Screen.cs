@@ -688,7 +688,7 @@ namespace WolfPaw_ScreenSnip
 				}
 				else if (c.isOverARotaPoint(e.Location))
 				{
-					cRot = c.overWhichRotaPoint(e.Location);
+					cRot = corners.rightBottom;
 					cResizer = c;
 					mdown = true;
 					resize = true;
@@ -838,6 +838,26 @@ namespace WolfPaw_ScreenSnip
 		}
 
 		bool resize = false;
+		bool keepAspect = false;
+
+		/// <summary>
+		/// Gets new width from height using the current aspect ratio
+		/// </summary>
+		/// <param name="oWid">Original Width</param>
+		/// <param name="oHei">Original Height</param>
+		/// <param name="nHei">New Height</param>
+		/// <returns>Int: new Width</returns>
+		public int getSizeAspect(int oWid, int oHei, int nHei)
+		{
+			int ret = 0;
+
+			double ratio = (oWid * 1.0) / (oHei * 1.0);
+			double wid = ratio * nHei;
+
+			ret = (int)Math.Floor(wid);
+
+			return ret;
+		}
 
 		//TODO: MOUSE MOVE!!
 		private void f_Screen_MouseMove(object sender, MouseEventArgs e)
@@ -968,9 +988,23 @@ namespace WolfPaw_ScreenSnip
 					if(cor == corners.leftBottom)
 					{
 						int left = cc.Left;
+						
+						if (!keepAspect)
+						{
+							cc.Position = new Point(e.Location.X, cc.Top);
+							cc.Size = new Size(cc.Width - (cc.Left - left), e.Location.Y - cc.Top);
+						}
+						else
+						{
+							int newwid = (getSizeAspect(cc.Image.Width, cc.Image.Height, e.Location.Y - cc.Top));
+							int _Oleft = cc.Left;
+							int _right = cc.Left + cc.Width;
+							cc.Size = new Size(newwid, e.Location.Y - cc.Top);
+							int _newright = cc.Left + cc.Width;
+							int _left = _right - _newright;
+							cc.Position = new Point(_Oleft + _left, cc.Top);
+						}
 
-						cc.Position = new Point(e.Location.X, cc.Top);
-						cc.Size = new Size(cc.Width - (cc.Left - left), e.Location.Y - cc.Top);
 
 						if (e.Location.Y - cc.Top <= 20)
 						{
@@ -988,9 +1022,26 @@ namespace WolfPaw_ScreenSnip
 						//TOP
 						int top = cc.Top;
 						int left = cc.Left;
-
-						cc.Position = new Point(e.Location.X, e.Location.Y);
-						cc.Size = new Size(cc.Width - (cc.Left - left), cc.Height - (cc.Top - top));
+						
+						if (keepAspect)
+						{
+							cc.Position = new Point(e.Location.X, e.Location.Y);
+							cc.Size = new Size(cc.Width - (cc.Left - left), cc.Height - (cc.Top - top));
+						}
+						else
+						{
+							int newwid = (getSizeAspect(cc.Image.Width, cc.Image.Height, cc.Height - (e.Y - top)));
+							int _Oleft = cc.Left;
+							int _right = cc.Left + cc.Width;
+							int _Otop = cc.Top;
+							int _bottom = cc.Top + cc.Height;
+							cc.Size = new Size(newwid, cc.Height - (e.Y - top));
+							int _newright = cc.Left + cc.Width;
+							int _newbottom = cc.Top + cc.Height;
+							int _left = _right - _newright;
+							int _top = _bottom - _newbottom;
+							cc.Position = new Point(_Oleft + _left, _Otop + _top);
+						}
 
 						if (cc.Height - (cc.Top - top) <= 20)
 						{
