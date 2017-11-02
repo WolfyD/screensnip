@@ -50,7 +50,6 @@
 			this.btn_Question = new System.Windows.Forms.PictureBox();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.ni_Notify = new System.Windows.Forms.NotifyIcon(this.components);
-			this.uc_ButtonSelector1 = new WolfPaw_ScreenSnip.uc_ButtonSelector();
 			this.cms_Notify = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.btn_CMS_Rectangle = new System.Windows.Forms.ToolStripMenuItem();
 			this.btn_CMS_Window = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,6 +57,7 @@
 			this.btn_CMS_Line = new System.Windows.Forms.ToolStripMenuItem();
 			this.btn_CMS_Magic = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.btn_CMS_Preview = new System.Windows.Forms.ToolStripMenuItem();
 			this.btn_CMS_Save = new System.Windows.Forms.ToolStripMenuItem();
 			this.btn_CMS_Copy = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -66,13 +66,13 @@
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.btn_CMS_Print = new System.Windows.Forms.ToolStripMenuItem();
 			this.btn_CMS_Email = new System.Windows.Forms.ToolStripMenuItem();
-			this.btn_CMS_Preview = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.btn_CMS_Options = new System.Windows.Forms.ToolStripMenuItem();
 			this.btn_CMS_ShowScreen = new System.Windows.Forms.ToolStripMenuItem();
+			this.btn_CMS_MainWindow = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
 			this.btn_CMS_Exit = new System.Windows.Forms.ToolStripMenuItem();
-			this.btn_CMS_MainWindow = new System.Windows.Forms.ToolStripMenuItem();
+			this.uc_ButtonSelector1 = new WolfPaw_ScreenSnip.uc_ButtonSelector();
 			((System.ComponentModel.ISupportInitialize)(this.btn_Minimize)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.btn_Rollup)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.btn_Question)).BeginInit();
@@ -83,6 +83,7 @@
 			// 
 			this.btn_Copy.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.clipboard;
 			this.btn_Copy.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+			this.btn_Copy.Enabled = false;
 			this.btn_Copy.Location = new System.Drawing.Point(191, 20);
 			this.btn_Copy.Name = "btn_Copy";
 			this.btn_Copy.Size = new System.Drawing.Size(40, 40);
@@ -95,6 +96,7 @@
 			// 
 			this.btn_Save.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.save;
 			this.btn_Save.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+			this.btn_Save.Enabled = false;
 			this.btn_Save.Location = new System.Drawing.Point(232, 20);
 			this.btn_Save.Name = "btn_Save";
 			this.btn_Save.Size = new System.Drawing.Size(40, 40);
@@ -107,6 +109,7 @@
 			// 
 			this.btn_AttachToEmail.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.attach;
 			this.btn_AttachToEmail.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+			this.btn_AttachToEmail.Enabled = false;
 			this.btn_AttachToEmail.Location = new System.Drawing.Point(396, 20);
 			this.btn_AttachToEmail.Name = "btn_AttachToEmail";
 			this.btn_AttachToEmail.Size = new System.Drawing.Size(40, 40);
@@ -182,6 +185,7 @@
 			// 
 			this.btn_Preview.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.preview;
 			this.btn_Preview.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+			this.btn_Preview.Enabled = false;
 			this.btn_Preview.Location = new System.Drawing.Point(150, 20);
 			this.btn_Preview.Name = "btn_Preview";
 			this.btn_Preview.Size = new System.Drawing.Size(40, 40);
@@ -209,6 +213,7 @@
 			// 
 			this.btn_SaveToDB.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.db;
 			this.btn_SaveToDB.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+			this.btn_SaveToDB.Enabled = false;
 			this.btn_SaveToDB.Location = new System.Drawing.Point(273, 20);
 			this.btn_SaveToDB.Name = "btn_SaveToDB";
 			this.btn_SaveToDB.Size = new System.Drawing.Size(40, 40);
@@ -292,15 +297,6 @@
 			this.ni_Notify.Visible = true;
 			this.ni_Notify.DoubleClick += new System.EventHandler(this.ni_Notify_DoubleClick);
 			// 
-			// uc_ButtonSelector1
-			// 
-			this.uc_ButtonSelector1.ButtonSize = 40;
-			this.uc_ButtonSelector1.Location = new System.Drawing.Point(0, 20);
-			this.uc_ButtonSelector1.Name = "uc_ButtonSelector1";
-			this.uc_ButtonSelector1.parent = null;
-			this.uc_ButtonSelector1.Size = new System.Drawing.Size(55, 40);
-			this.uc_ButtonSelector1.TabIndex = 16;
-			// 
 			// cms_Notify
 			// 
 			this.cms_Notify.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -326,7 +322,7 @@
             this.toolStripSeparator5,
             this.btn_CMS_Exit});
 			this.cms_Notify.Name = "cms_Notify";
-			this.cms_Notify.Size = new System.Drawing.Size(181, 408);
+			this.cms_Notify.Size = new System.Drawing.Size(181, 386);
 			// 
 			// btn_CMS_Rectangle
 			// 
@@ -369,6 +365,13 @@
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+			// 
+			// btn_CMS_Preview
+			// 
+			this.btn_CMS_Preview.Name = "btn_CMS_Preview";
+			this.btn_CMS_Preview.Size = new System.Drawing.Size(180, 22);
+			this.btn_CMS_Preview.Text = "Preview Picture";
+			this.btn_CMS_Preview.Click += new System.EventHandler(this.btn_CMS_Preview_Click);
 			// 
 			// btn_CMS_Save
 			// 
@@ -424,13 +427,6 @@
 			this.btn_CMS_Email.Text = "Email Picture";
 			this.btn_CMS_Email.Click += new System.EventHandler(this.btn_CMS_Email_Click);
 			// 
-			// btn_CMS_Preview
-			// 
-			this.btn_CMS_Preview.Name = "btn_CMS_Preview";
-			this.btn_CMS_Preview.Size = new System.Drawing.Size(180, 22);
-			this.btn_CMS_Preview.Text = "Preview Picture";
-			this.btn_CMS_Preview.Click += new System.EventHandler(this.btn_CMS_Preview_Click);
-			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
@@ -450,6 +446,13 @@
 			this.btn_CMS_ShowScreen.Text = "Show Screen";
 			this.btn_CMS_ShowScreen.Click += new System.EventHandler(this.btn_CMS_ShowScreen_Click);
 			// 
+			// btn_CMS_MainWindow
+			// 
+			this.btn_CMS_MainWindow.Name = "btn_CMS_MainWindow";
+			this.btn_CMS_MainWindow.Size = new System.Drawing.Size(180, 22);
+			this.btn_CMS_MainWindow.Text = "Show Main Window";
+			this.btn_CMS_MainWindow.Click += new System.EventHandler(this.btn_CMS_MainWindow_Click);
+			// 
 			// toolStripSeparator5
 			// 
 			this.toolStripSeparator5.Name = "toolStripSeparator5";
@@ -462,12 +465,14 @@
 			this.btn_CMS_Exit.Text = "Exit Program";
 			this.btn_CMS_Exit.Click += new System.EventHandler(this.btn_CMS_Exit_Click);
 			// 
-			// btn_CMS_MainWindow
+			// uc_ButtonSelector1
 			// 
-			this.btn_CMS_MainWindow.Name = "btn_CMS_MainWindow";
-			this.btn_CMS_MainWindow.Size = new System.Drawing.Size(180, 22);
-			this.btn_CMS_MainWindow.Text = "Show Main Window";
-			this.btn_CMS_MainWindow.Click += new System.EventHandler(this.btn_CMS_MainWindow_Click);
+			this.uc_ButtonSelector1.ButtonSize = 40;
+			this.uc_ButtonSelector1.Location = new System.Drawing.Point(0, 20);
+			this.uc_ButtonSelector1.Name = "uc_ButtonSelector1";
+			this.uc_ButtonSelector1.parent = null;
+			this.uc_ButtonSelector1.Size = new System.Drawing.Size(55, 40);
+			this.uc_ButtonSelector1.TabIndex = 16;
 			// 
 			// Form1
 			// 

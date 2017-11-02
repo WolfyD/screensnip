@@ -181,6 +181,7 @@ namespace WolfPaw_ScreenSnip
 				Limages.Add(box);
 
 				box.arrangeLayers();
+				parent.enableButtons(true);
 			}
 		}
 

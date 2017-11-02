@@ -19,6 +19,8 @@ namespace WolfPaw_ScreenSnip
 		public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 		[System.Runtime.InteropServices.DllImportAttribute("user32.dll")]
 		public static extern bool ReleaseCapture();
+
+		List<IconButton> ibList = new List<IconButton>();
 		
 		f_Screen fs = null;
 		f_SettingPanel tools = null;
@@ -93,52 +95,64 @@ namespace WolfPaw_ScreenSnip
             {
                 case "new":
                     ib.Icon = IconChar.Scissors;
+					ib.Name = "new";
                     break;
 
                 case "clear":
                     ib.Icon = IconChar.TrashO;
-                    break;
+					ib.Name = "clear";
+					break;
 
                 case "preview":
                     ib.Icon = IconChar.PictureO;
-                    break;
+					ib.Name = "preview";
+					break;
 
                 case "copy":
                     ib.Icon = IconChar.FilesO;
-                    break;
+					ib.Name = "copy";
+					break;
 
                 case "save":
                     ib.Icon = IconChar.FloppyO;
-                    break;
+					ib.Name = "save";
+					break;
 
                 case "print":
                     ib.Icon = IconChar.Print;
-                    break;
+					ib.Name = "print";
+					break;
 
                 case "mail":
                     ib.Icon = IconChar.EnvelopeO;
-                    break;
+					ib.Name = "mail";
+					break;
 
                 case "settings":
                     ib.Icon = IconChar.Cogs;
-                    break;
+					ib.Name = "settings";
+					break;
 
                 case "tools":
                     ib.Icon = IconChar.Wrench;
-                    break;
+					ib.Name = "tools";
+					break;
 
 				case "db":
 					ib.Icon = IconChar.Database;
+					ib.Name = "db";
 					ib.IconSize = 36;
 					break;
 
 				case "db1":
 					ib.Icon = IconChar.FolderOpenO;
+					ib.Name = "db1";
 					break;
 
 				case "exit":
                     ib.Icon = IconChar.WindowClose;
-                    break;
+					ib.Name = "exit";
+					break;
                     
                 default:
                     break;
@@ -151,8 +165,12 @@ namespace WolfPaw_ScreenSnip
             ib.Padding = new Padding(2, 4, 0, 0);
             ib.Anchor = b.Anchor;
             ib.Tag = b;
+			ib.Enabled = b.Enabled;
             ib.Click += Ib_Click;
-        }
+
+			ibList.Add(ib);
+
+		}
 
         public void cleanButtons()
         {
@@ -267,6 +285,37 @@ namespace WolfPaw_ScreenSnip
 				e.KeyCode == Keys.Control)
 			{
 				CTRLDOWN = false;
+			}
+		}
+
+		public void enableButtons(bool enabled)
+		{
+			if (enabled)
+			{
+				btn_Preview.Enabled = true;
+				btn_Copy.Enabled = true;
+				btn_Save.Enabled = true;
+				btn_SaveToDB.Enabled = true;
+				btn_Print.Enabled = true;
+				btn_AttachToEmail.Enabled = true;
+			}
+			else
+			{
+				btn_Preview.Enabled = false;
+				btn_Copy.Enabled = false;
+				btn_Save.Enabled = false;
+				btn_SaveToDB.Enabled = false;
+				btn_Print.Enabled = false;
+				btn_AttachToEmail.Enabled = false;
+			}
+			enableNewButtons();
+		}
+
+		public void enableNewButtons()
+		{
+			foreach(IconButton ib in ibList)
+			{
+				ib.Enabled = (ib.Tag as Button).Enabled;
 			}
 		}
 
@@ -553,87 +602,90 @@ namespace WolfPaw_ScreenSnip
 
 		public void saveImage()
 		{
-			Bitmap _b = c_ImgGen.createPng(fs,fs.Limages, new object[] { fs.getDrawnPoints(), null });
-			string savename = "ScreenSnip_";
-			
-			if (true || Properties.Settings.Default.s_SaveHasDateTime)
+			if (fs != null && fs.Limages != null && fs.Limages.Count > 0)
 			{
-				string date = "";
-				DateTime n = DateTime.Now;
-				date = n.Year + "." + n.Month.ToString().PadLeft(2, '0') + "." + n.Day.ToString().PadLeft(2, '0') + "_" + n.Hour.ToString().PadLeft(2, '0') + "." + n.Minute.ToString().PadLeft(2, '0') + "." + n.Second.ToString().PadLeft(2, '0');
-				savename += date;
-			}
-			SaveFileDialog sfd = new SaveFileDialog
-			{
-				Filter = "Portable Network Graphics Image (PNG)|*.png|" +
-							"Bitmap Image (BMP)|*.bmp|" +
-							"Joint Photographic Experts Group Image (JPEG)|*.jpg;*.jpeg|" +
-							"Graphics Interchange Format Image (GIF)|*.gif|" +
-							"Tagged Image File Format Image (TIFF)|*.tif;*.tiff|" +
-							"Windows Metafile Image (WMF)|*.wmf",
+				Bitmap _b = c_ImgGen.createPng(fs, fs.Limages, new object[] { fs.getDrawnPoints(), null });
+				string savename = "ScreenSnip_";
 
-				FilterIndex = Properties.Settings.Default.s_lastSaveFormat,
-
-				FileName = savename
-			};
-
-			if (sfd.ShowDialog() == DialogResult.OK)
-			{
-
-				ImageFormat _if = ImageFormat.Png;
-
-				switch (sfd.FileName.Substring(sfd.FileName.LastIndexOf(".") + 1).ToLower())
+				if (true || Properties.Settings.Default.s_SaveHasDateTime)
 				{
-					case "png":
-						_if = ImageFormat.Png;
-						Properties.Settings.Default.s_lastSaveFormat = 0;
-						break;
+					string date = "";
+					DateTime n = DateTime.Now;
+					date = n.Year + "." + n.Month.ToString().PadLeft(2, '0') + "." + n.Day.ToString().PadLeft(2, '0') + "_" + n.Hour.ToString().PadLeft(2, '0') + "." + n.Minute.ToString().PadLeft(2, '0') + "." + n.Second.ToString().PadLeft(2, '0');
+					savename += date;
+				}
+				SaveFileDialog sfd = new SaveFileDialog
+				{
+					Filter = "Portable Network Graphics Image (PNG)|*.png|" +
+								"Bitmap Image (BMP)|*.bmp|" +
+								"Joint Photographic Experts Group Image (JPEG)|*.jpg;*.jpeg|" +
+								"Graphics Interchange Format Image (GIF)|*.gif|" +
+								"Tagged Image File Format Image (TIFF)|*.tif;*.tiff|" +
+								"Windows Metafile Image (WMF)|*.wmf",
 
-					case "bmp":
-						_if = ImageFormat.Bmp;
-						Properties.Settings.Default.s_lastSaveFormat = 1;
-						break;
+					FilterIndex = Properties.Settings.Default.s_lastSaveFormat,
 
-					case "jpg":
-						_if = ImageFormat.Jpeg;
-						Properties.Settings.Default.s_lastSaveFormat = 2;
-						break;
+					FileName = savename
+				};
 
-					case "jpeg":
-						_if = ImageFormat.Jpeg;
-						Properties.Settings.Default.s_lastSaveFormat = 2;
-						break;
+				if (sfd.ShowDialog() == DialogResult.OK)
+				{
 
-					case "gif":
-						_if = ImageFormat.Gif;
-						Properties.Settings.Default.s_lastSaveFormat = 3;
-						break;
+					ImageFormat _if = ImageFormat.Png;
 
-					case "tif":
-						_if = ImageFormat.Tiff;
-						Properties.Settings.Default.s_lastSaveFormat = 4;
-						break;
+					switch (sfd.FileName.Substring(sfd.FileName.LastIndexOf(".") + 1).ToLower())
+					{
+						case "png":
+							_if = ImageFormat.Png;
+							Properties.Settings.Default.s_lastSaveFormat = 0;
+							break;
 
-					case "tiff":
-						_if = ImageFormat.Tiff;
-						Properties.Settings.Default.s_lastSaveFormat = 4;
-						break;
+						case "bmp":
+							_if = ImageFormat.Bmp;
+							Properties.Settings.Default.s_lastSaveFormat = 1;
+							break;
 
-					case "wmf":
-						_if = ImageFormat.Wmf;
-						Properties.Settings.Default.s_lastSaveFormat = 5;
-						break;
+						case "jpg":
+							_if = ImageFormat.Jpeg;
+							Properties.Settings.Default.s_lastSaveFormat = 2;
+							break;
 
-					default:
-						_if = ImageFormat.Png;
-						Properties.Settings.Default.s_lastSaveFormat = 0;
-						break;
+						case "jpeg":
+							_if = ImageFormat.Jpeg;
+							Properties.Settings.Default.s_lastSaveFormat = 2;
+							break;
+
+						case "gif":
+							_if = ImageFormat.Gif;
+							Properties.Settings.Default.s_lastSaveFormat = 3;
+							break;
+
+						case "tif":
+							_if = ImageFormat.Tiff;
+							Properties.Settings.Default.s_lastSaveFormat = 4;
+							break;
+
+						case "tiff":
+							_if = ImageFormat.Tiff;
+							Properties.Settings.Default.s_lastSaveFormat = 4;
+							break;
+
+						case "wmf":
+							_if = ImageFormat.Wmf;
+							Properties.Settings.Default.s_lastSaveFormat = 5;
+							break;
+
+						default:
+							_if = ImageFormat.Png;
+							Properties.Settings.Default.s_lastSaveFormat = 0;
+							break;
+					}
+
+					_b.Save(sfd.FileName, _if);
+
 				}
 
-				_b.Save(sfd.FileName, _if);
-
 			}
-			
 		}
 		
 		private void Form1_MouseDown(object sender, MouseEventArgs e)
@@ -711,13 +763,16 @@ namespace WolfPaw_ScreenSnip
 
 		private void btn_Preview_Click(object sender, EventArgs e)
 		{
-			f_Preview fp = new f_Preview
+			if (fs != null && fs.Limages != null && fs.Limages.Count > 0)
 			{
-				fs = fs,
-				cutouts = fs.Limages
-			};
-			fp.ShowDialog();
-			fp.TopMost = true;
+				f_Preview fp = new f_Preview
+				{
+					fs = fs,
+					cutouts = fs.Limages
+				};
+				fp.ShowDialog();
+				fp.TopMost = true;
+			}
 		}
 
 		private void btn_Print_Click(object sender, EventArgs e)
@@ -988,6 +1043,7 @@ namespace WolfPaw_ScreenSnip
 		private void btn_CMS_MainWindow_Click(object sender, EventArgs e)
 		{
 			this.Show();
+			hidden = false;
 			ni_Notify.Visible = false;
 		}
 
