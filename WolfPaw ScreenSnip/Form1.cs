@@ -389,11 +389,11 @@ namespace WolfPaw_ScreenSnip
 		public Size getScreenSize()
 		{
 			Size s = new Size(-1,-1);
-
+			
             foreach (Screen ss in Screen.AllScreens)
             {
                 s.Width += ss.Bounds.Width;
-                if (ss.Bounds.Height > s.Height) { s.Height = ss.Bounds.Height; }
+                if (ss.Bounds.Bottom > s.Height) { s.Height = ss.Bounds.Height; }
 			}
 
 			return s;
