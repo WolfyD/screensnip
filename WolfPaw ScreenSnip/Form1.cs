@@ -70,8 +70,9 @@ namespace WolfPaw_ScreenSnip
 			{
 
 				i = sa.IndexOf(s);
-
-				c_GetDPI.GetDpi(s, DpiType.Raw, out uint px, out uint py);
+				uint px = 0;
+				uint py = 0;
+				c_GetDPI.GetDpi(s, DpiType.Raw, out px, out py);
 
 				Properties.Settings.Default.s_DPI.Add(string.Format("{0}|{1}|{2}|{3}", i, s.DeviceName, px, py));
 				Properties.Settings.Default.Save();
@@ -171,7 +172,8 @@ namespace WolfPaw_ScreenSnip
 
         private void Ib_Click(object sender, EventArgs e)
         {
-			if (sender is IconButton ib && ib.Tag != null && ib.Tag is Button)
+			IconButton ib = sender as IconButton;
+			if (ib is IconButton && ib.Tag != null && ib.Tag is Button)
 			{
 				string i = ((Button)ib.Tag).Tag.ToString();
 

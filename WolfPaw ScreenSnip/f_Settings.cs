@@ -257,7 +257,8 @@ namespace WolfPaw_ScreenSnip
 		private void WriteHelpString(object sender, EventArgs e)
 		{
 			String str = "";
-			int.TryParse((sender as Label).Tag.ToString(), out int i);
+			int i = 0;
+			int.TryParse((sender as Label).Tag.ToString(), out i);
 
 			switch (i)
 			{

@@ -435,7 +435,10 @@ namespace WolfPaw_ScreenSnip
 
 		public void getDPCM(out int x, out int y)
 		{
-			dpiToInt(out int ix, out int iy);
+			int ix = 0;
+			int iy = 0;
+
+			dpiToInt(out ix, out iy);
 
 			x = (int)(ix * 0.393700787);
 			y = (int)(iy * 0.393700787);

@@ -31,7 +31,8 @@ namespace WolfPaw_ScreenSnip
 		{
 			try
 			{
-				FindMimeFromData(0, null, data, (uint)MimeSampleSize, null, 0, out uint mimeType, 0);
+				uint mimeType = 0;
+				FindMimeFromData(0, null, data, (uint)MimeSampleSize, null, 0, out mimeType, 0);
 
 				var mimePointer = new IntPtr(mimeType);
 				var mime = Marshal.PtrToStringUni(mimePointer);

@@ -1119,12 +1119,12 @@ namespace WolfPaw_ScreenSnip
 			}
 			else
 			{
-
+				c_ImageHolder img = null;
 				foreach (c_ImageHolder cc in Limages)
 				{
 					cc.mouseOver = false;
 				}
-				if (renhan.pointOverAny(e.Location, out c_ImageHolder img))
+				if (renhan.pointOverAny(e.Location, out img))
 				{
 					mouseOverImage = img;
 					mouseOverImage.mouseOver = true;
