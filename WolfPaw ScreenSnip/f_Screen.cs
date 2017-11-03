@@ -277,6 +277,10 @@ namespace WolfPaw_ScreenSnip
 				drawAllTransparent = true;
 				Invalidate();
 			}
+			else if ((e.KeyCode == Keys.Control || e.KeyCode == Keys.LControlKey || e.KeyCode == Keys.RControlKey || e.KeyCode == Keys.ControlKey) && mdown && resize)
+			{
+				keepAspect = true;
+			}
 			else if (e.KeyCode == Keys.F11)
 			{
 				toggleFullScreen();
@@ -984,12 +988,15 @@ namespace WolfPaw_ScreenSnip
 						}
 					}
 				}
+				//CORNERS
 				else if (cor != corners.none)
 				{
-					if(cor == corners.leftBottom)
+					int top = cc.Top;
+					int left = cc.Left;
+					
+
+					if (cor == corners.leftBottom)
 					{
-						int left = cc.Left;
-						
 						if (!keepAspect)
 						{
 							cc.Position = new Point(e.Location.X, cc.Top);
@@ -1006,25 +1013,22 @@ namespace WolfPaw_ScreenSnip
 							cc.Position = new Point(_Oleft + _left, cc.Top);
 						}
 
-
-						if (e.Location.Y - cc.Top <= 20)
+						//---LEFT BOTTOM
+						if (cc.Height <= 20)
 						{
+							cc.Position = new Point(cc.Position.X, top);
 							cc.Size = new Size(cc.Width, 21);
 						}
 						if (cc.Width - (cc.Left - left) <= 20)
 						{
+							cc.Position = new Point(cc.Position.X + cc.Width - 21, cc.Position.Y);
 							cc.Size = new Size(21, cc.Height);
 						}
 
 					}
 					else if (cor == corners.leftTop)
 					{
-						
-						//TOP
-						int top = cc.Top;
-						int left = cc.Left;
-						
-						if (keepAspect)
+						if (!keepAspect)
 						{
 							cc.Position = new Point(e.Location.X, e.Location.Y);
 							cc.Size = new Size(cc.Width - (cc.Left - left), cc.Height - (cc.Top - top));
@@ -1044,62 +1048,81 @@ namespace WolfPaw_ScreenSnip
 							cc.Position = new Point(_Oleft + _left, _Otop + _top);
 						}
 
-						if (cc.Height - (cc.Top - top) <= 20)
+						//---LEFT TOP
+						if (cc.Height <= 20)
 						{
+							cc.Position = new Point(cc.Position.X, cc.Position.Y + cc.Height - 21);
 							cc.Size = new Size(cc.Width, 21);
-							cc.Position = new Point(cc.Position.X, top);
 						}
 						if (cc.Width - (cc.Left - left) <= 20)
 						{
+							cc.Position = new Point(cc.Position.X + cc.Width - 21, cc.Position.Y);
 							cc.Size = new Size(21, cc.Height);
-							cc.Position = new Point(left, cc.Position.Y);
 						}
 
 					}
 					else if (cor == corners.rightBottom)
 					{
-						//BOTTOM
-						if (e.Location.Y - cc.Top > 20)
+
+						if (!keepAspect)
 						{
-							cc.Size = new Size(cc.Width, e.Location.Y - cc.Top);
+							cc.Position = new Point(cc.Left, cc.Top);
+							cc.Size = new Size(e.Location.X - cc.Left, e.Location.Y - cc.Top);
 						}
 						else
 						{
+							cc.Position = new Point(cc.Left, cc.Top);
+							int newwid = (getSizeAspect(cc.Image.Width, cc.Image.Height, e.Y - (cc.Top)));
+							cc.Size = new Size(newwid, e.Location.Y - cc.Top);
+						}
+
+						//---RIGHT BOTTOM
+						if (cc.Height <= 20)
+						{
+							cc.Position = new Point(cc.Position.X, top);
 							cc.Size = new Size(cc.Width, 21);
 						}
-						//RIGHT
-						if (e.Location.X - cc.Left > 20)
+						if (cc.Width - (cc.Left - left) <= 20)
 						{
-							cc.Size = new Size(e.Location.X - cc.Left, cc.Height);
-						}
-						else
-						{
+							cc.Position = new Point(left, cc.Position.Y);
 							cc.Size = new Size(21, cc.Height);
 						}
+
 					}
 					else if (cor == corners.rightTop)
 					{
-						//TOP
-						int top = cc.Top;
-						if (cc.Height - (cc.Top - top) > 20)
+
+						if (!keepAspect)
 						{
 							cc.Position = new Point(cc.Left, e.Location.Y);
-							cc.Size = new Size(cc.Width, cc.Height - (cc.Top - top));
+							cc.Size = new Size(e.Location.X - cc.Left, cc.Height - (cc.Top - top));
 						}
 						else
 						{
+							int newwid = (getSizeAspect(cc.Image.Width, cc.Image.Height, cc.Height - (e.Y - top)));
+							int _Otop = cc.Top;
+							int _bottom = cc.Top + cc.Height;
+							cc.Size = new Size(newwid, cc.Height - (e.Y - top));
+							int _newbottom = cc.Top + cc.Height;
+							int _top = _bottom - _newbottom;
+							cc.Position = new Point(cc.Left, _Otop + _top);
+						}
+
+
+						//---RIGHT TOP
+						if (cc.Height <= 20)
+						{
+							cc.Position = new Point(cc.Position.X, cc.Position.Y + cc.Height - 21);
 							cc.Size = new Size(cc.Width, 21);
 						}
-						//RIGHT
-						if (e.Location.X - cc.Left > 20)
+						if (cc.Width - (cc.Left - left) <= 20)
 						{
-							cc.Size = new Size(e.Location.X - cc.Left, cc.Height);
-						}
-						else
-						{
+							cc.Position = new Point(left, cc.Position.Y);
 							cc.Size = new Size(21, cc.Height);
 						}
 					}
+
+					
 				}
 				else if(cRot != corners.none)
 				{
@@ -1331,6 +1354,7 @@ namespace WolfPaw_ScreenSnip
 		{
 			if ((e.KeyCode == Keys.Control || e.KeyCode == Keys.LControlKey || e.KeyCode == Keys.RControlKey || e.KeyCode == Keys.ControlKey))
 			{
+				keepAspect = false;
 				drawTransparent = false;
 				Invalidate();
 			}

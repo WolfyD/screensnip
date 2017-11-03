@@ -33,6 +33,7 @@ namespace WolfPaw_ScreenSnip
 		public bool hidden = false;
 
 		bool CTRLDOWN = false;
+		bool SHIFTDOWN = false;
 
 		public Form1()
         {
@@ -280,11 +281,17 @@ namespace WolfPaw_ScreenSnip
 
 		private void Ck_KeyReleaseDetected(object sender, KeyEventArgs e)
 		{
-			if(e.KeyCode == Keys.LControlKey ||
+			if (e.KeyCode == Keys.LControlKey ||
 				e.KeyCode == Keys.RControlKey ||
 				e.KeyCode == Keys.Control)
 			{
 				CTRLDOWN = false;
+			}
+			else if (e.KeyCode == Keys.LShiftKey ||
+				e.KeyCode == Keys.RShiftKey ||
+				e.KeyCode == Keys.Shift)
+			{
+				SHIFTDOWN = false;
 			}
 		}
 
@@ -360,29 +367,40 @@ namespace WolfPaw_ScreenSnip
 
 				}
 			}
-			else if (	e.KeyCode == Keys.Control ||
+			else if (e.KeyCode == Keys.Control ||
 						e.KeyCode == Keys.LControlKey ||
 						e.KeyCode == Keys.RControlKey)
 			{
 				CTRLDOWN = true;
 			}
-			else if (Properties.Settings.Default.s_HandleShortcuts && e.KeyCode == Keys.F1 && CTRLDOWN)
+			else if (e.KeyCode == Keys.Shift ||
+						e.KeyCode == Keys.LShiftKey ||
+						e.KeyCode == Keys.ShiftKey ||
+						e.KeyCode == Keys.RShiftKey)
+			{
+				SHIFTDOWN = true;
+			}
+			else if (Properties.Settings.Default.s_HandleShortcuts && e.KeyCode == Keys.F1 && CTRLDOWN && SHIFTDOWN)
+			{
+				brn_New_Click("Rect2", null);
+			}
+			else if (Properties.Settings.Default.s_HandleShortcuts && e.KeyCode == Keys.F1 && CTRLDOWN && !SHIFTDOWN)
 			{
 				brn_New_Click("Rect", null);
 			}
-			else if (Properties.Settings.Default.s_HandleShortcuts && e.KeyCode == Keys.F2 && CTRLDOWN)
+			else if (Properties.Settings.Default.s_HandleShortcuts && e.KeyCode == Keys.F2 && CTRLDOWN && !SHIFTDOWN)
 			{
 				//brn_New_Click("Window", null);
 			}
-			else if (Properties.Settings.Default.s_HandleShortcuts && e.KeyCode == Keys.F3 && CTRLDOWN)
+			else if (Properties.Settings.Default.s_HandleShortcuts && e.KeyCode == Keys.F3 && CTRLDOWN && !SHIFTDOWN)
 			{
 				brn_New_Click("Freehand", null);
 			}
-			else if (Properties.Settings.Default.s_HandleShortcuts && e.KeyCode == Keys.F4 && CTRLDOWN)
+			else if (Properties.Settings.Default.s_HandleShortcuts && e.KeyCode == Keys.F4 && CTRLDOWN && !SHIFTDOWN)
 			{
 				//brn_New_Click("Lines", null);
 			}
-			else if (Properties.Settings.Default.s_HandleShortcuts && e.KeyCode == Keys.F5 && CTRLDOWN)
+			else if (Properties.Settings.Default.s_HandleShortcuts && e.KeyCode == Keys.F5 && CTRLDOWN && !SHIFTDOWN)
 			{
 				brn_New_Click("Magic", null);
 			}
@@ -517,6 +535,9 @@ namespace WolfPaw_ScreenSnip
 					case "Rect":
 						handleCutouts(0);
 						break;
+					case "Rect2":
+						handleCutouts(-1);
+						break;
 					case "Window":
 						handleCutouts(1);
 						break;
@@ -541,39 +562,51 @@ namespace WolfPaw_ScreenSnip
 		public void handleCutouts(int mode)
 		{
 			Bitmap bmp = doCutting(mode);
-			int i = 0;
 
-			var x = Application.OpenForms;
-			foreach (Form f in x)
+			if (mode == -1)
 			{
-				if (f is f_Screen)
+				if(bmp != null)
 				{
-					i++;
-					break;
+					Clipboard.SetImage(bmp);
 				}
 			}
-
-			if (i == 0)
+			else
 			{
-				fs = new f_Screen
+
+				int i = 0;
+
+				var x = Application.OpenForms;
+				foreach (Form f in x)
 				{
-					parent = this
-				};
-				fs.Show();
-				if (Properties.Settings.Default.s_ToolbarPanel == 0)
-				{
-					tools = new f_SettingPanel
+					if (f is f_Screen)
 					{
-						parent = fs
-					};
-					fs.child = tools;
-					tools.Show();
+						i++;
+						break;
+					}
 				}
-			}
 
-			if (fs != null)
-			{
-				fs.addImage(bmp);
+				if (i == 0)
+				{
+					fs = new f_Screen
+					{
+						parent = this
+					};
+					fs.Show();
+					if (Properties.Settings.Default.s_ToolbarPanel == 0)
+					{
+						tools = new f_SettingPanel
+						{
+							parent = fs
+						};
+						fs.child = tools;
+						tools.Show();
+					}
+				}
+
+				if (fs != null)
+				{
+					fs.addImage(bmp);
+				}
 			}
 		}
 

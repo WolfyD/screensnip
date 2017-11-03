@@ -63,6 +63,8 @@ namespace WolfPaw_ScreenSnip
 			Location = new Point(0, 0);
 			Size = bounds;
 
+			if(mode == -1) { mode = 0; }
+
 			BackgroundImage = bmp;
 			if(mode == 4)
 			{
