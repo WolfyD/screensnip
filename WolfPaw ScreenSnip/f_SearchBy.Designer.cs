@@ -54,6 +54,8 @@
 			this.dtp_to = new System.Windows.Forms.DateTimePicker();
 			this.dtp_from = new System.Windows.Forms.DateTimePicker();
 			this.btn_Help = new FontAwesome.Sharp.IconButton();
+			this.label4 = new System.Windows.Forms.Label();
+			this.cb_Tables = new System.Windows.Forms.ComboBox();
 			this.panel1.SuspendLayout();
 			this.p_date.SuspendLayout();
 			this.SuspendLayout();
@@ -239,7 +241,7 @@
 			this.panel1.Controls.Add(this.btn_Search);
 			this.panel1.Controls.Add(this.btn_Cancel);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel1.Location = new System.Drawing.Point(0, 131);
+			this.panel1.Location = new System.Drawing.Point(0, 152);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(298, 29);
 			this.panel1.TabIndex = 15;
@@ -336,18 +338,37 @@
 			this.btn_Help.IconColor = System.Drawing.Color.Black;
 			this.btn_Help.IconSize = 21;
 			this.btn_Help.Image = ((System.Drawing.Image)(resources.GetObject("btn_Help.Image")));
-			this.btn_Help.Location = new System.Drawing.Point(276, 72);
+			this.btn_Help.Location = new System.Drawing.Point(275, 128);
 			this.btn_Help.Name = "btn_Help";
 			this.btn_Help.Padding = new System.Windows.Forms.Padding(2, 4, 0, 0);
 			this.btn_Help.Size = new System.Drawing.Size(23, 23);
 			this.btn_Help.TabIndex = 17;
 			this.btn_Help.UseVisualStyleBackColor = true;
 			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(9, 133);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(40, 13);
+			this.label4.TabIndex = 18;
+			this.label4.Text = "Table: ";
+			// 
+			// cb_Tables
+			// 
+			this.cb_Tables.FormattingEnabled = true;
+			this.cb_Tables.Location = new System.Drawing.Point(106, 128);
+			this.cb_Tables.Name = "cb_Tables";
+			this.cb_Tables.Size = new System.Drawing.Size(125, 21);
+			this.cb_Tables.TabIndex = 19;
+			// 
 			// f_SearchBy
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(298, 160);
+			this.ClientSize = new System.Drawing.Size(298, 181);
 			this.ControlBox = false;
+			this.Controls.Add(this.cb_Tables);
+			this.Controls.Add(this.label4);
 			this.Controls.Add(this.btn_Help);
 			this.Controls.Add(this.p_date);
 			this.Controls.Add(this.panel1);
@@ -366,8 +387,8 @@
 			this.Controls.Add(this.rb_Title);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.MaximizeBox = false;
-			this.MaximumSize = new System.Drawing.Size(1000, 199);
-			this.MinimumSize = new System.Drawing.Size(300, 199);
+			this.MaximumSize = new System.Drawing.Size(1000, 220);
+			this.MinimumSize = new System.Drawing.Size(300, 220);
 			this.Name = "f_SearchBy";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Search By";
@@ -406,5 +427,7 @@
         private System.Windows.Forms.Label label1;
         private FontAwesome.Sharp.IconButton btn_date_Close;
         private FontAwesome.Sharp.IconButton btn_Help;
-    }
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.ComboBox cb_Tables;
+	}
 }

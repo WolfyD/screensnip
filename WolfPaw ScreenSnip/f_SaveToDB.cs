@@ -58,6 +58,17 @@ namespace WolfPaw_ScreenSnip
 					MessageBox.Show(err);
 				}
 			}
+			
+			string[] tables = getTableNames();
+			cb_Tables.Items.Clear();
+			cb_Tables.Items.AddRange(tables);
+			cb_Tables.SelectedIndex = 0;
+		}
+
+		public string[] getTableNames()
+		{
+			string err2 = "";
+			return c_DatabaseHandler.getTableNamesFromDB(c_DatabaseHandler.ConnectToDB(dbFile, out err2));
 		}
 
 		private void btn_DB_Click(object sender, EventArgs e)
@@ -110,7 +121,7 @@ namespace WolfPaw_ScreenSnip
 			System.Data.SQLite.SQLiteConnection sqlc = c_DatabaseHandler.ConnectToDB(dbFile, out err);
 			if(err == "")
 			{
-				c_DatabaseHandler.insertImage(sqlc, tb_Title.Text, tb_Description.Text, hex, getTags(), getDate());
+				c_DatabaseHandler.insertImage(sqlc, cb_Tables.Text, tb_Title.Text, tb_Description.Text, hex, getTags(), getDate());
 				this.Close();
 			}
 			else
@@ -239,8 +250,53 @@ namespace WolfPaw_ScreenSnip
 			}
 			resetBGC();
 		}
-#endregion
 
+		private void btn_AddTable_Click(object sender, EventArgs e)
+		{
+			p_CreateTable.Visible = true;
+			populateTableList();
+		}
 
+		#endregion
+
+		public void populateTableList()
+		{
+			string[] tbls = getTableNames();
+			lv_Tables.Items.Clear();
+
+			foreach(String s in tbls)
+			{
+				ListViewItem lvi = new ListViewItem();
+				lvi.Text = s;
+				lvi.BackColor = lv_Tables.Items.Count % 2 == 0 ? Color.LightBlue : Color.LightYellow;
+				lv_Tables.Items.Add(lvi);
+			}
+		}
+
+		private void btn_CreateNewTable_Click(object sender, EventArgs e)
+		{
+			string err2 = "";
+			var conn = c_DatabaseHandler.ConnectToDB(dbFile, out err2);
+			if (!c_DatabaseHandler.getTableNamesFromDB(conn).Contains(tb_NewTableName.Text))
+			{
+				c_DatabaseHandler.generateAdditionalTable(conn, tb_NewTableName.Text);
+				tb_NewTableName.Text = "";
+				lv_Tables.Items.Clear();
+				p_CreateTable.Hide();
+				load();
+			}
+			else
+			{
+				MessageBox.Show("It seems a table with the name " + tb_NewTableName.Text + " already exists.\r\n\r\nPlease select a different name!", "Table name already exists!");
+			}
+		}
+
+		private void btn_CloseTableCreator_Click(object sender, EventArgs e)
+		{
+			tb_NewTableName.Text = "";
+			lv_Tables.Items.Clear();
+			p_CreateTable.Hide();
+			load();
+		}
 	}
 }

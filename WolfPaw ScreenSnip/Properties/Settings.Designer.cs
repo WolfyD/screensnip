@@ -647,5 +647,41 @@ namespace WolfPaw_ScreenSnip.Properties {
                 this["s_SaveToTable"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool s_ShowTooltipOnMouseOver {
+            get {
+                return ((bool)(this["s_ShowTooltipOnMouseOver"]));
+            }
+            set {
+                this["s_ShowTooltipOnMouseOver"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool s_ShowTooltipOnCutout {
+            get {
+                return ((bool)(this["s_ShowTooltipOnCutout"]));
+            }
+            set {
+                this["s_ShowTooltipOnCutout"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool s_KeepEditImage {
+            get {
+                return ((bool)(this["s_KeepEditImage"]));
+            }
+            set {
+                this["s_KeepEditImage"] = value;
+            }
+        }
     }
 }

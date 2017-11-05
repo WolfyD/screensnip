@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WolfPaw_ScreenSnip
 {
-	class c_returnGraphicSettings
+	public class c_returnGraphicSettings
 	{
 
 		public PixelOffsetMode getPOM()

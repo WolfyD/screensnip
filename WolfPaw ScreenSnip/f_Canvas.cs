@@ -20,6 +20,8 @@ namespace WolfPaw_ScreenSnip
 		public Bitmap retImg { get; set; }
 		public int mode { get; set; }
 		public Image Image { get; set; }
+		public bool save_editable_backup { get; set; }
+		public string randID { get; set; }
 
 		private Rectangle rcSelect = new Rectangle();
 		private Point pntStart;
@@ -302,6 +304,42 @@ namespace WolfPaw_ScreenSnip
 			this.Invalidate();
 		}
 
+		public string genRandomId()
+		{
+			long i1 = DateTime.Now.ToFileTimeUtc();
+			long i2 = (long)new Random((int)Math.Sqrt(i1) + 333).Next();
+
+			string i3 = i1 + "--" + i2;
+
+			System.Security.Cryptography.SHA1CryptoServiceProvider sha1 = new System.Security.Cryptography.SHA1CryptoServiceProvider();
+			string i4 = "";
+			int i = 0;
+			foreach(Byte b in sha1.ComputeHash(Encoding.UTF8.GetBytes(i3)))
+			{
+				if(i > 10) { break; }
+				i4 += b.ToString("X2");
+				i++;
+			}
+
+			i4 = i4 + "_" + DateTime.Now.ToFileTime();
+
+			return i4;
+		}
+
+		public void saveScreenCap(string randomID, List<Point> pnts)
+		{
+			string pointstr = "";
+
+			//MessageBox.Show(randomID);
+
+			foreach(Point p in pnts) { pointstr += p.X + ":" + p.Y + "|"; }
+			pointstr = pointstr.Trim('|');
+
+			string err;
+			c_DatabaseHandler.insertImageToBackups(c_DatabaseHandler.ConnectToDB("editable_backup.db", out err), c_Converter.ConvertToHex((Bitmap)BackgroundImage), randomID, pointstr);
+			randID = randomID;
+		}
+
 		//TODO: MOUSEUP
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
@@ -316,7 +354,15 @@ namespace WolfPaw_ScreenSnip
 						rcSelect, GraphicsUnit.Pixel);
 				}
 
+				var pp = new List<Point> {
+					new Point(rcSelect.X,rcSelect.Y),
+					new Point(rcSelect.X + rcSelect.Width,rcSelect.Y),
+					new Point(rcSelect.X + rcSelect.Width,rcSelect.Y + rcSelect.Height),
+					new Point(rcSelect.X ,rcSelect.Y + rcSelect.Height),
 
+				};
+
+				if (save_editable_backup) { saveScreenCap(genRandomId(), pp);  }
 				DialogResult = DialogResult.OK;
 			}
 			else if (mode == 1)
@@ -338,7 +384,8 @@ namespace WolfPaw_ScreenSnip
                 //bb.Save(@"c:\REPO\test2.bmp");
 
                 retImg = bb;
-                DialogResult = DialogResult.OK;
+				if (save_editable_backup) { saveScreenCap(genRandomId(), cut_points); }
+				DialogResult = DialogResult.OK;
             }
 			else if (mode == 3)
 			{
@@ -359,6 +406,7 @@ namespace WolfPaw_ScreenSnip
 				Bitmap bb = (Bitmap)c_Unsafe.getPixels(b, cut_points, cut);
 				//bb.Save(@"c:\REPO\test2.bmp");
 
+				/*
 				if (shitDown)
 				{
 					Hide();
@@ -374,8 +422,10 @@ namespace WolfPaw_ScreenSnip
 					fed.ShowDialog();
 					bb = fed.CutImage;
 				}
+				*/
 
 				retImg = bb;
+				if (save_editable_backup) { saveScreenCap(genRandomId(), cut_points); }
 				DialogResult = DialogResult.OK;
 			}
 

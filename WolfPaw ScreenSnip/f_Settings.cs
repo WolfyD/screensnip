@@ -36,8 +36,12 @@ namespace WolfPaw_ScreenSnip
 			cb_SnipHasDelay.Checked = Properties.Settings.Default.s_hasDelay;
 			num_DelayLength.Value = Properties.Settings.Default.s_delayLength;
 			num_BaseDelay.Value = Properties.Settings.Default.s_BaseDelay;
+			//MISC
+			cb_ShowTooltips.Checked = Properties.Settings.Default.s_ShowTooltipOnMouseOver;
+			cb_ShowTooltipsOnCutout.Checked = Properties.Settings.Default.s_ShowTooltipOnCutout;
+			cb_SaveBackup.Checked = Properties.Settings.Default.s_KeepEditImage;
 
-		//PROGRAM
+			//PROGRAM
 			//MAIN
 			cb_UseCleanButtons.Checked = Properties.Settings.Default.s_UseCleanButtons;
 			num_ButtonSize.Value = Properties.Settings.Default.s_ButtonSize;
@@ -52,7 +56,7 @@ namespace WolfPaw_ScreenSnip
 			cb_PreviewOnOpen.Checked = Properties.Settings.Default.s_ShowPreview;
 			cb_PreviewStyle.SelectedIndex = Properties.Settings.Default.s_LastPreviewMode;
 			//CUTOUT
-			p_Buttons.BackColor = Properties.Settings.Default.s_CutoutPanelColor;
+			p_PanelColor.BackColor = Properties.Settings.Default.s_CutoutPanelColor;
 			p_SelectionBorderColor.BackColor = Properties.Settings.Default.s_CutoutSelectionColor;
 			p_MouseoverBorderColor.BackColor = Properties.Settings.Default.s_CutoutMouseOverColor;
 			cb_AllowDragaround.Checked = Properties.Settings.Default.s_AllowDragaround;
@@ -92,6 +96,10 @@ namespace WolfPaw_ScreenSnip
 			Properties.Settings.Default.s_hasDelay = cb_SnipHasDelay.Checked;
 			Properties.Settings.Default.s_delayLength = (int)num_DelayLength.Value;
 			Properties.Settings.Default.s_BaseDelay = (int)num_BaseDelay.Value;
+			//MISC
+			Properties.Settings.Default.s_ShowTooltipOnMouseOver = cb_ShowTooltips.Checked;
+			Properties.Settings.Default.s_ShowTooltipOnCutout = cb_ShowTooltipsOnCutout.Checked;
+			Properties.Settings.Default.s_KeepEditImage = cb_SaveBackup.Checked;
 
 		//PROGRAM
 			//MAIN
@@ -108,7 +116,7 @@ namespace WolfPaw_ScreenSnip
 			Properties.Settings.Default.s_ShowPreview = cb_PreviewOnOpen.Checked;
 			Properties.Settings.Default.s_LastPreviewMode = cb_PreviewStyle.SelectedIndex;
 			//CUTOUT
-			Properties.Settings.Default.s_CutoutPanelColor = p_Buttons.BackColor;
+			Properties.Settings.Default.s_CutoutPanelColor = p_PanelColor.BackColor;
 			Properties.Settings.Default.s_CutoutSelectionColor = p_SelectionBorderColor.BackColor;
 			Properties.Settings.Default.s_CutoutMouseOverColor = p_MouseoverBorderColor.BackColor;
 			Properties.Settings.Default.s_AllowDragaround = cb_AllowDragaround.Checked;

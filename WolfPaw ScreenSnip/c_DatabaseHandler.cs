@@ -10,6 +10,8 @@ namespace WolfPaw_ScreenSnip
 {
 	static class c_DatabaseHandler
 	{
+		#region MISC
+
 		/// <summary>
 		/// Builds connection string
 		/// https://www.connectionstrings.com/sqlite/
@@ -40,6 +42,50 @@ namespace WolfPaw_ScreenSnip
 		}
 
 		/// <summary>
+		/// Returns table names from current Database
+		/// </summary>
+		/// <param name="sqlc">SQLite3 Connection</param>
+		/// <returns>String array containing table names</returns>
+		public static String[] getTableNamesFromDB(SQLiteConnection sqlc)
+		{
+			string[] ret;
+
+			if (sqlc.State != System.Data.ConnectionState.Open)
+			{
+				return null;
+			}
+
+			SQLiteCommand sqlComm = new SQLiteCommand
+			{
+				Connection = sqlc,
+				CommandText = "SELECT name FROM sqlite_master WHERE type='table' and name NOT LIKE 'sqlite_sequence'"
+			};
+
+			string tablenames = "";
+
+			try
+			{
+				SQLiteDataReader sr = sqlComm.ExecuteReader();
+				while (sr.Read())
+				{
+					tablenames += sr.GetString(0) + "|";
+				}
+			}
+			catch
+			{
+				return null;
+			}
+			tablenames = tablenames.Trim('|');
+			ret = tablenames.Split('|');
+
+			return ret;
+		}
+
+		#endregion
+
+		#region Table creators
+
+		/// <summary>
 		/// Creates main Images table.
 		/// Columns:
 		///		id INTEGER PRIMARY KEY AUTOINCREMENT, 
@@ -64,7 +110,68 @@ namespace WolfPaw_ScreenSnip
 
 		}
 
-		public static bool insertImage(SQLiteConnection sqlc, string title, string desc, string image, string tags, string date)
+		/// <summary>
+		/// Creates backups table. Backups is where the screen captures are stored for later use 
+		/// in case someone wanted to edit the cutouts they took and wanted more detail than before
+		/// Columns:
+		///		id INTEGER PRIMARY KEY AUTOINCREMENT, 
+		///		imgid TEXT, 
+		///		image TEXT,
+		///		points TEXT
+		/// </summary>
+		/// <param name="sqlc">SQLite3 Connection</param>
+		public static void generateEditTable(SQLiteConnection sqlc)
+		{
+			if (sqlc.State == System.Data.ConnectionState.Open)
+			{
+				SQLiteCommand sqlComm = new SQLiteCommand
+				{
+					Connection = sqlc,
+					CommandText = "Create TABLE backups_for_editing (id INTEGER PRIMARY KEY AUTOINCREMENT, imgid TEXT, image TEXT, points TEXT)"
+				};
+				sqlComm.ExecuteNonQuery();
+			}
+
+		}
+
+		/// <summary>
+		/// Creates additional Images table if someone wants more than one table to sort their images.
+		/// Columns:
+		///		id INTEGER PRIMARY KEY AUTOINCREMENT, 
+		///		title TEXT, 
+		///		desc TEXT, 
+		///		image TEXT, 
+		///		tags TEXT, 
+		///		save_date TEXT
+		/// </summary>
+		/// <param name="sqlc">SQL Connection</param>
+		public static void generateAdditionalTable(SQLiteConnection sqlc, string tableName)
+		{
+			if (sqlc.State == System.Data.ConnectionState.Open)
+			{
+				SQLiteCommand sqlComm = new SQLiteCommand
+				{
+					Connection = sqlc,
+					CommandText = "Create TABLE " + tableName + " (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, desc TEXT, image TEXT, tags TEXT, save_date TEXT)"
+				};
+				sqlComm.ExecuteNonQuery();
+			}
+
+		}
+
+		#endregion
+
+		#region Insert/Update/Delete
+
+		/// <summary>
+		/// Inserts image data into backup table
+		/// </summary>
+		/// <param name="sqlc">SQLite3 Connection</param>
+		/// <param name="image">Image data in X16</param>
+		/// <param name="imgid">Random ID connecting this image to a cutout</param>
+		/// <param name="points">Array of points of the image in the following form: x:y|x:y|x:y...</param>
+		/// <returns>Bool value if the image was added to db successfully</returns>
+		public static bool insertImageToBackups(SQLiteConnection sqlc, string image, string imgid, string points)
 		{
 			bool ret = true;
 
@@ -76,7 +183,7 @@ namespace WolfPaw_ScreenSnip
 			SQLiteCommand sqlComm = new SQLiteCommand
 			{
 				Connection = sqlc,
-				CommandText = string.Format("INSERT INTO images (title,desc,image,tags,save_date) VALUES ('{0}','{1}','{2}','{3}','{4}')", title, desc, image, tags, date)
+				CommandText = string.Format("INSERT INTO backups_for_editing (imgid,image,points) VALUES ('{0}','{1}','{2}')", imgid, image, points)
 			};
 			try
 			{
@@ -90,14 +197,126 @@ namespace WolfPaw_ScreenSnip
 			return ret;
 		}
 
-        /// <summary>
-        /// //TODO:ADD SUMMARY
-        /// </summary>
-        /// <param name="sqlc"></param>
-        /// <param name="title"></param>
-        /// <param name="like"></param>
-        /// <returns></returns>
-        public static List<c_Object> getImagesByTitle(SQLiteConnection sqlc, string title, bool like)
+		/// <summary>
+		/// Updates the points data contained in backup images
+		/// </summary>
+		/// <param name="sqlc">SQLite3 Connection</param>
+		/// <param name="image">Image Data in X16</param>
+		/// <param name="imgid">Random ID connecting image to a cutout</param>
+		/// <param name="points">Array of points in the following format: x:y|x:y|x:y...</param>
+		/// <returns>Bool value if the update was successful</returns>
+		public static bool updateBackupsImage(SQLiteConnection sqlc, string image, string imgid, string points)
+		{
+			bool ret = true;
+
+			if (sqlc.State != System.Data.ConnectionState.Open)
+			{
+				return false;
+			}
+
+			SQLiteCommand sqlComm = new SQLiteCommand
+			{
+				Connection = sqlc,
+				CommandText = string.Format("UPDATE backups_for_editing set points='{0}' WHERE imgid='{1}'", points, imgid)
+			};
+			try
+			{
+				sqlComm.ExecuteNonQuery();
+			}
+			catch
+			{
+				return false;
+			}
+
+			return ret;
+		}
+		
+		/// <summary>
+		/// Deletes a value from the imageBackup table
+		/// </summary>
+		/// <param name="sqlc">SQLite3 Connection</param>
+		/// <param name="imgid">Image ID of the image to delete</param>
+		/// <returns>Bool value if the delete was successful</returns>
+		public static bool deleteBackupsImage(SQLiteConnection sqlc, string imgid)
+		{
+			bool ret = true;
+
+			if (sqlc.State != System.Data.ConnectionState.Open)
+			{
+				return false;
+			}
+
+			SQLiteCommand sqlComm = new SQLiteCommand
+			{
+				Connection = sqlc,
+				CommandText = string.Format("DELETE FROM backups_for_editing WHERE imgid='{0}'", imgid)
+			};
+			try
+			{
+				sqlComm.ExecuteNonQuery();
+
+				using (SQLiteCommand command = sqlc.CreateCommand())
+				{
+					command.CommandText = "vacuum;";
+					command.ExecuteNonQuery();
+				}
+			}
+			catch
+			{
+				return false;
+			}
+
+			return ret;
+		}
+		
+		/// <summary>
+		/// Insetrs image into database
+		/// </summary>
+		/// <param name="sqlc">SQLite3 Connection</param>
+		/// <param name="title">Image title</param>
+		/// <param name="desc">Image description</param>
+		/// <param name="image">Image string in X16</param>
+		/// <param name="tags">Tags for the image</param>
+		/// <param name="date">Date when Image is saved</param>
+		/// <returns>Bool value true if image was saved successfully</returns>
+		public static bool insertImage(SQLiteConnection sqlc, string tableName, string title, string desc, string image, string tags, string date)
+		{
+			bool ret = true;
+
+			if (sqlc.State != System.Data.ConnectionState.Open)
+			{
+				return false;
+			}
+
+			SQLiteCommand sqlComm = new SQLiteCommand
+			{
+				Connection = sqlc,
+				CommandText = string.Format("INSERT INTO {5} (title,desc,image,tags,save_date) VALUES ('{0}','{1}','{2}','{3}','{4}')", title, desc, image, tags, date, tableName)
+			};
+			try
+			{
+				sqlComm.ExecuteNonQuery();
+			}
+			catch
+			{
+				return false;
+			}
+
+			return ret;
+		}
+
+		#endregion
+
+		#region ImageSelectors
+
+		/// <summary>
+		/// Returns images that have a specific title
+		/// </summary>
+		/// <param name="sqlc">SQLite3 Connection</param>
+		/// <param name="title">Title string to match</param>
+		/// <param name="like">Bool value specifying if the match has to be perfect</param>
+		/// <returns>Images that have the specified title</returns>
+		public static List<c_Object> getImagesByTitle(SQLiteConnection sqlc, string title, bool like, string tableName)
         {
             List<c_Object> lco = new List<c_Object>();
 
@@ -112,11 +331,11 @@ namespace WolfPaw_ScreenSnip
 			};
 			if (like)
             {
-                sqlComm.CommandText = string.Format("SELECT * FROM images WHERE title like '%{0}%'", title);
+                sqlComm.CommandText = string.Format("SELECT * FROM " + tableName + " WHERE title like '%{0}%'", title);
             }
             else
             {
-                sqlComm.CommandText = string.Format("SELECT * FROM images WHERE title='{0}'", title);
+                sqlComm.CommandText = string.Format("SELECT * FROM " + tableName + " WHERE title='{0}'", title);
             }
             SQLiteDataReader r = sqlComm.ExecuteReader();
             while (r.Read())
@@ -136,13 +355,12 @@ namespace WolfPaw_ScreenSnip
         }
 
         /// <summary>
-		/// //TODO:ADD SUMMARY
+		/// Returns images saved in a specific date range
 		/// </summary>
-		/// <param name="sqlc"></param>
-		/// <param name="date"></param>
-		/// <param name="like"></param>
-		/// <returns></returns>
-		public static List<c_Object> getImagesByDate(SQLiteConnection sqlc, string date)
+		/// <param name="sqlc">SQLite3 Connection</param>
+		/// <param name="date">Date range split by pipe</param>
+		/// <returns>Pictures that were taken in the selected range</returns>
+		public static List<c_Object> getImagesByDate(SQLiteConnection sqlc, string date, string tableName)
         {
             List<c_Object> lco = new List<c_Object>();
             date = date.Replace("/", "");
@@ -158,7 +376,7 @@ namespace WolfPaw_ScreenSnip
 			{
 				Connection = sqlc,
 
-				CommandText = string.Format("SELECT * FROM images WHERE save_date between '{0}' and '{1}'", dates[0], dates[1])
+				CommandText = string.Format("SELECT * FROM " + tableName + " WHERE save_date between '{0}' and '{1}'", dates[0], dates[1])
 			};
 
 			SQLiteDataReader r = sqlComm.ExecuteReader();
@@ -178,7 +396,14 @@ namespace WolfPaw_ScreenSnip
             return lco;
         }
 
-        public static List<c_Object> getImagesByDescription(SQLiteConnection sqlc, string desc, bool like)
+		/// <summary>
+		/// Returns images that have a specific description text set to them
+		/// </summary>
+		/// <param name="sqlc">SQLite3 Connection</param>
+		/// <param name="desc">Description text to search for</param>
+		/// <param name="like">Bool value determining if the description has to be matched properly</param>
+		/// <returns>Images that have specified description</returns>
+        public static List<c_Object> getImagesByDescription(SQLiteConnection sqlc, string desc, bool like, string tableName)
 		{
 			List<c_Object> lco = new List<c_Object>();
 
@@ -193,11 +418,11 @@ namespace WolfPaw_ScreenSnip
 			};
 			if (like)
 			{
-				sqlComm.CommandText = string.Format("SELECT * FROM images WHERE desc like '%{0}%'", desc);
+				sqlComm.CommandText = string.Format("SELECT * FROM " + tableName + " WHERE desc like '%{0}%'", desc);
 			}
 			else
 			{
-				sqlComm.CommandText = string.Format("SELECT * FROM images WHERE desc='{0}'", desc);
+				sqlComm.CommandText = string.Format("SELECT * FROM " + tableName + " WHERE desc='{0}'", desc);
 			}
 			SQLiteDataReader r = sqlComm.ExecuteReader();
 			while (r.Read())
@@ -217,12 +442,12 @@ namespace WolfPaw_ScreenSnip
 		}
 
 		/// <summary>
-		/// //TODO:ADD SUMMARY 2
+		/// Returns images that have specific tags
 		/// </summary>
-		/// <param name="sqlc"></param>
-		/// <param name="tags"></param>
-		/// <returns></returns>
-		public static List<c_Object> getImagesByTags(SQLiteConnection sqlc, string[] tags)
+		/// <param name="sqlc">SQLite3 Connection</param>
+		/// <param name="tags">The String[] containing the tags needed to return</param>
+		/// <returns>Imaghes that have specified tags</returns>
+		public static List<c_Object> getImagesByTags(SQLiteConnection sqlc, string[] tags, string tableName)
 		{
 			List<c_Object> lco = new List<c_Object>();
 			List<int> ids = new List<int>();
@@ -237,7 +462,7 @@ namespace WolfPaw_ScreenSnip
 			{
 				Connection = sqlc,
 
-				CommandText = "SELECT id, tags FROM images"
+				CommandText = "SELECT id, tags FROM " + tableName + ""
 			};
 			SQLiteDataReader r1 = sqlComm.ExecuteReader();
 			while (r1.Read())
@@ -258,7 +483,7 @@ namespace WolfPaw_ScreenSnip
 				foreach (int i in ids) { idString += i + ","; }
 				idString = idString.Trim(',');
 
-				sqlComm.CommandText = string.Format("SELECT * FROM images WHERE id IN ( {0} )", idString);
+				sqlComm.CommandText = string.Format("SELECT * FROM " + tableName + " WHERE id IN ( {0} )", idString);
 
 				SQLiteDataReader r = sqlComm.ExecuteReader();
 				while (r.Read())
@@ -278,7 +503,12 @@ namespace WolfPaw_ScreenSnip
 			return lco;
 		}
 
-		public static List<c_Object> getImagesAll(SQLiteConnection sqlc)
+		/// <summary>
+		/// Returns all the images saved to DB
+		/// </summary>
+		/// <param name="sqlc">SQLite3 Connection</param>
+		/// <returns>All images from DB</returns>
+		public static List<c_Object> getImagesAll(SQLiteConnection sqlc, string tableName)
 		{
 			List<c_Object> lco = new List<c_Object>();
 
@@ -290,7 +520,7 @@ namespace WolfPaw_ScreenSnip
 			SQLiteCommand sqlComm = new SQLiteCommand
 			{
 				Connection = sqlc,
-				CommandText = "SELECT * FROM images"
+				CommandText = "SELECT * FROM " + tableName + ""
 			};
 
 			SQLiteDataReader r = sqlComm.ExecuteReader();
@@ -310,6 +540,7 @@ namespace WolfPaw_ScreenSnip
 			return lco;
 		}
 
+		#endregion
 
 	}
 }

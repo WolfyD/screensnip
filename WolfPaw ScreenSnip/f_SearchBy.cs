@@ -28,13 +28,18 @@ namespace WolfPaw_ScreenSnip
 
         private void F_SearchBy_Load(object sender, EventArgs e)
         {
-			/*
-            btn_Search.Top = Height - (btn_Search.Height + 39 + 10);
-            btn_Cancel.Top = btn_Search.Top;
-			*/
-        }
+			string[] tables = getTableNames();
+			cb_Tables.Items.Clear();
+			cb_Tables.Items.AddRange(tables);
+			cb_Tables.SelectedIndex = 0;
+		}
 
-        private void btn_Cancel_Click(object sender, EventArgs e)
+		public string[] getTableNames()
+		{
+			return c_DatabaseHandler.getTableNamesFromDB(sqlc);
+		}
+
+		private void btn_Cancel_Click(object sender, EventArgs e)
 		{
 			OK = false;
 			this.Close();
@@ -46,7 +51,7 @@ namespace WolfPaw_ScreenSnip
 
 			if (rb_Title.Checked)
 			{
-				loc = c_DatabaseHandler.getImagesByTitle(sqlc, tb_Title.Text, cb_Title.Checked);
+				loc = c_DatabaseHandler.getImagesByTitle(sqlc, tb_Title.Text, cb_Title.Checked, cb_Tables.Text);
 				if (loc != null && loc.Count > 0)
 				{
 					OK = true;
@@ -55,7 +60,7 @@ namespace WolfPaw_ScreenSnip
 			}
 			else if (rb_Description.Checked)
 			{
-				loc = c_DatabaseHandler.getImagesByDescription(sqlc, tb_Description.Text, cb_Description.Checked);
+				loc = c_DatabaseHandler.getImagesByDescription(sqlc, tb_Description.Text, cb_Description.Checked, cb_Tables.Text);
 				if (loc != null && loc.Count > 0)
 				{
 					OK = true;
@@ -73,7 +78,7 @@ namespace WolfPaw_ScreenSnip
                     }
                 }
 
-                loc = c_DatabaseHandler.getImagesByTags(sqlc, tb_Tags.Tag as String[]);
+                loc = c_DatabaseHandler.getImagesByTags(sqlc, tb_Tags.Tag as String[], cb_Tables.Text);
                 if (loc != null && loc.Count > 0)
                 {
                     OK = true;
@@ -82,7 +87,7 @@ namespace WolfPaw_ScreenSnip
             }
             else if (rb_Date.Checked)
             {
-                loc = c_DatabaseHandler.getImagesByDate(sqlc, tb_Date.Text);
+                loc = c_DatabaseHandler.getImagesByDate(sqlc, tb_Date.Text, cb_Tables.Text);
                 if (loc != null && loc.Count > 0)
                 {
                     OK = true;
@@ -91,7 +96,7 @@ namespace WolfPaw_ScreenSnip
             }
             else if (rb_All.Checked)
 			{
-				loc = c_DatabaseHandler.getImagesAll(sqlc);
+				loc = c_DatabaseHandler.getImagesAll(sqlc, cb_Tables.Text);
 				if (loc != null && loc.Count > 0)
 				{
 					OK = true;

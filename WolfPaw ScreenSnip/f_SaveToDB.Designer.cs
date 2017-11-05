@@ -49,7 +49,21 @@
 			this.btn_Save = new System.Windows.Forms.Button();
 			this.btn_DB = new FontAwesome.Sharp.IconButton();
 			this.lbl_DBFile = new System.Windows.Forms.Label();
+			this.label5 = new System.Windows.Forms.Label();
+			this.cb_Tables = new System.Windows.Forms.ComboBox();
+			this.btn_AddTable = new FontAwesome.Sharp.IconButton();
+			this.p_CreateTable = new System.Windows.Forms.Panel();
+			this.panel2 = new System.Windows.Forms.Panel();
+			this.label6 = new System.Windows.Forms.Label();
+			this.label7 = new System.Windows.Forms.Label();
+			this.tb_NewTableName = new System.Windows.Forms.TextBox();
+			this.btn_CreateNewTable = new System.Windows.Forms.Button();
+			this.lv_Tables = new System.Windows.Forms.ListView();
+			this.ch_TableNames = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.btn_CloseTableCreator = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.pb_Pic)).BeginInit();
+			this.p_CreateTable.SuspendLayout();
+			this.panel2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// pb_Pic
@@ -237,7 +251,7 @@
 			// 
 			// btn_Cancel
 			// 
-			this.btn_Cancel.Location = new System.Drawing.Point(375, 218);
+			this.btn_Cancel.Location = new System.Drawing.Point(375, 245);
 			this.btn_Cancel.Name = "btn_Cancel";
 			this.btn_Cancel.Size = new System.Drawing.Size(96, 23);
 			this.btn_Cancel.TabIndex = 20;
@@ -247,7 +261,7 @@
 			// 
 			// btn_Save
 			// 
-			this.btn_Save.Location = new System.Drawing.Point(482, 218);
+			this.btn_Save.Location = new System.Drawing.Point(482, 245);
 			this.btn_Save.Name = "btn_Save";
 			this.btn_Save.Size = new System.Drawing.Size(96, 23);
 			this.btn_Save.TabIndex = 21;
@@ -281,11 +295,142 @@
 			this.lbl_DBFile.Text = "C:\\DBFile.sqlite";
 			this.lbl_DBFile.UseCompatibleTextRendering = true;
 			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(6, 250);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(40, 13);
+			this.label5.TabIndex = 24;
+			this.label5.Text = "Table: ";
+			// 
+			// cb_Tables
+			// 
+			this.cb_Tables.FormattingEnabled = true;
+			this.cb_Tables.Location = new System.Drawing.Point(86, 247);
+			this.cb_Tables.Name = "cb_Tables";
+			this.cb_Tables.Size = new System.Drawing.Size(121, 21);
+			this.cb_Tables.TabIndex = 25;
+			// 
+			// btn_AddTable
+			// 
+			this.btn_AddTable.Icon = FontAwesome.Sharp.IconChar.PlusCircle;
+			this.btn_AddTable.IconColor = System.Drawing.Color.DimGray;
+			this.btn_AddTable.IconSize = 20;
+			this.btn_AddTable.Image = ((System.Drawing.Image)(resources.GetObject("btn_AddTable.Image")));
+			this.btn_AddTable.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.btn_AddTable.Location = new System.Drawing.Point(208, 246);
+			this.btn_AddTable.Name = "btn_AddTable";
+			this.btn_AddTable.Padding = new System.Windows.Forms.Padding(0, 1, 0, 0);
+			this.btn_AddTable.Size = new System.Drawing.Size(79, 23);
+			this.btn_AddTable.TabIndex = 26;
+			this.btn_AddTable.Text = "Add Table";
+			this.btn_AddTable.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.btn_AddTable.UseVisualStyleBackColor = true;
+			this.btn_AddTable.Click += new System.EventHandler(this.btn_AddTable_Click);
+			// 
+			// p_CreateTable
+			// 
+			this.p_CreateTable.Controls.Add(this.btn_CloseTableCreator);
+			this.p_CreateTable.Controls.Add(this.lv_Tables);
+			this.p_CreateTable.Controls.Add(this.btn_CreateNewTable);
+			this.p_CreateTable.Controls.Add(this.tb_NewTableName);
+			this.p_CreateTable.Controls.Add(this.label7);
+			this.p_CreateTable.Controls.Add(this.panel2);
+			this.p_CreateTable.Location = new System.Drawing.Point(132, 32);
+			this.p_CreateTable.Name = "p_CreateTable";
+			this.p_CreateTable.Size = new System.Drawing.Size(300, 200);
+			this.p_CreateTable.TabIndex = 27;
+			this.p_CreateTable.Visible = false;
+			// 
+			// panel2
+			// 
+			this.panel2.BackColor = System.Drawing.SystemColors.ActiveCaption;
+			this.panel2.Controls.Add(this.label6);
+			this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel2.Location = new System.Drawing.Point(0, 0);
+			this.panel2.Name = "panel2";
+			this.panel2.Size = new System.Drawing.Size(300, 20);
+			this.panel2.TabIndex = 0;
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.label6.ForeColor = System.Drawing.Color.White;
+			this.label6.Location = new System.Drawing.Point(3, 4);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(132, 13);
+			this.label6.TabIndex = 0;
+			this.label6.Text = "Add table to database";
+			// 
+			// label7
+			// 
+			this.label7.AutoSize = true;
+			this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+			this.label7.Location = new System.Drawing.Point(3, 33);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(96, 13);
+			this.label7.TabIndex = 1;
+			this.label7.Text = "New Table Name: ";
+			// 
+			// tb_NewTableName
+			// 
+			this.tb_NewTableName.Location = new System.Drawing.Point(96, 30);
+			this.tb_NewTableName.Name = "tb_NewTableName";
+			this.tb_NewTableName.Size = new System.Drawing.Size(133, 20);
+			this.tb_NewTableName.TabIndex = 2;
+			// 
+			// btn_CreateNewTable
+			// 
+			this.btn_CreateNewTable.Location = new System.Drawing.Point(235, 28);
+			this.btn_CreateNewTable.Name = "btn_CreateNewTable";
+			this.btn_CreateNewTable.Size = new System.Drawing.Size(55, 23);
+			this.btn_CreateNewTable.TabIndex = 3;
+			this.btn_CreateNewTable.Text = "Create";
+			this.btn_CreateNewTable.UseVisualStyleBackColor = true;
+			this.btn_CreateNewTable.Click += new System.EventHandler(this.btn_CreateNewTable_Click);
+			// 
+			// lv_Tables
+			// 
+			this.lv_Tables.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ch_TableNames});
+			this.lv_Tables.FullRowSelect = true;
+			this.lv_Tables.GridLines = true;
+			this.lv_Tables.HideSelection = false;
+			this.lv_Tables.Location = new System.Drawing.Point(6, 56);
+			this.lv_Tables.MultiSelect = false;
+			this.lv_Tables.Name = "lv_Tables";
+			this.lv_Tables.ShowGroups = false;
+			this.lv_Tables.Size = new System.Drawing.Size(284, 110);
+			this.lv_Tables.TabIndex = 10;
+			this.lv_Tables.UseCompatibleStateImageBehavior = false;
+			this.lv_Tables.View = System.Windows.Forms.View.Details;
+			// 
+			// ch_TableNames
+			// 
+			this.ch_TableNames.Text = "Table Name";
+			this.ch_TableNames.Width = 276;
+			// 
+			// btn_CloseTableCreator
+			// 
+			this.btn_CloseTableCreator.Location = new System.Drawing.Point(6, 173);
+			this.btn_CloseTableCreator.Name = "btn_CloseTableCreator";
+			this.btn_CloseTableCreator.Size = new System.Drawing.Size(284, 23);
+			this.btn_CloseTableCreator.TabIndex = 11;
+			this.btn_CloseTableCreator.Text = "Close";
+			this.btn_CloseTableCreator.UseVisualStyleBackColor = true;
+			this.btn_CloseTableCreator.Click += new System.EventHandler(this.btn_CloseTableCreator_Click);
+			// 
 			// f_SaveToDB
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(585, 248);
+			this.ClientSize = new System.Drawing.Size(585, 275);
+			this.Controls.Add(this.p_CreateTable);
+			this.Controls.Add(this.btn_AddTable);
+			this.Controls.Add(this.cb_Tables);
+			this.Controls.Add(this.label5);
 			this.Controls.Add(this.btn_Save);
 			this.Controls.Add(this.btn_Cancel);
 			this.Controls.Add(this.lbl_DBFile);
@@ -309,6 +454,10 @@
 			this.Name = "f_SaveToDB";
 			this.Text = "Save image to DB";
 			((System.ComponentModel.ISupportInitialize)(this.pb_Pic)).EndInit();
+			this.p_CreateTable.ResumeLayout(false);
+			this.p_CreateTable.PerformLayout();
+			this.panel2.ResumeLayout(false);
+			this.panel2.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -336,5 +485,17 @@
 		private System.Windows.Forms.Button btn_Save;
 		private FontAwesome.Sharp.IconButton btn_DB;
 		private System.Windows.Forms.Label lbl_DBFile;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.ComboBox cb_Tables;
+		private FontAwesome.Sharp.IconButton btn_AddTable;
+		private System.Windows.Forms.Panel p_CreateTable;
+		private System.Windows.Forms.ListView lv_Tables;
+		private System.Windows.Forms.ColumnHeader ch_TableNames;
+		private System.Windows.Forms.Button btn_CreateNewTable;
+		private System.Windows.Forms.TextBox tb_NewTableName;
+		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.Panel panel2;
+		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.Button btn_CloseTableCreator;
 	}
 }

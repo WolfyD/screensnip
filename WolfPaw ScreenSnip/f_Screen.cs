@@ -61,6 +61,8 @@ namespace WolfPaw_ScreenSnip
 		public bool drawAllTransparent = false;
 		public bool drawAllTransparentToggle = false;
 		public float opacityLevel = 0.4f;
+
+		public bool showToolTipsOnCutoutButtons = false;
 		// }
 
 		//COLORS {
@@ -107,6 +109,7 @@ namespace WolfPaw_ScreenSnip
 			c_DefaultBorderColor = Properties.Settings.Default.s_CutoutSelectionColor;
 			c_HandleColor = Properties.Settings.Default.s_CutoutPanelColor;
 			BackColor = c_ScreenBackgroundColor;
+			showToolTipsOnCutoutButtons = Properties.Settings.Default.s_ShowTooltipOnCutout;
 
 			setOpacity();
 
@@ -148,19 +151,19 @@ namespace WolfPaw_ScreenSnip
 			Invalidate();
 		}
 
-		public void addImage(Bitmap img)
+		public void addImage(Bitmap img, string cutoutID)
 		{
 			if (Properties.Settings.Default.s_ToolbarPanel == 2)
 			{
-				addImage(img, new Point(5, ts_Tools.Height + 5));
+				addImage(img, new Point(5, ts_Tools.Height + 5), cutoutID);
 			}
 			else
 			{
-				addImage(img, new Point(5, 5));
+				addImage(img, new Point(5, 5), cutoutID);
 			}
 		}
 
-		public void addImage(Bitmap img, Point pos)
+		public void addImage(Bitmap img, Point pos, string cutoutID)
 		{
 			if (img != null)
 			{
@@ -175,7 +178,8 @@ namespace WolfPaw_ScreenSnip
 					Image = img,
 
 					LayerIndex = Limages.Count,
-					selfContainingList = Limages
+					selfContainingList = Limages,
+					backup_id = cutoutID
 				};
 
 				Limages.Add(box);
@@ -210,6 +214,7 @@ namespace WolfPaw_ScreenSnip
 				GC.Collect(1, GCCollectionMode.Forced, true);
 			} catch { }
 
+			parent.enableButtons(false);
 			parent.Activate();
 		}
 
@@ -322,7 +327,7 @@ namespace WolfPaw_ScreenSnip
 		{
 			handleDrag = false;
 
-			addImage(dragableImage, dragablePoint);
+			addImage(dragableImage, dragablePoint, "");
 
 			dragableSize = new Size(0, 0);
 			dragableImage = null;
@@ -511,11 +516,11 @@ namespace WolfPaw_ScreenSnip
 		{
 			if (Clipboard.ContainsImage())
 			{
-				addImage((Bitmap)Clipboard.GetImage());
+				addImage((Bitmap)Clipboard.GetImage(), "");
 			}
 			else if (Clipboard.ContainsText())
 			{
-				addImage(textToImg(Clipboard.GetText()));
+				addImage(textToImg(Clipboard.GetText()), "");
 			}
 		}
 
@@ -552,7 +557,7 @@ namespace WolfPaw_ScreenSnip
 
 		}
 
-		
+		Font tooltipfont = new Font("Consolas", 9, FontStyle.Regular);
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
@@ -618,6 +623,41 @@ namespace WolfPaw_ScreenSnip
 								e.Graphics.FillRectangle(new SolidBrush(c_HandleColor), new RectangleF(c.Position, new Size(c.Width, 20)));
 
 								e.Graphics.DrawImage(renhan.renderButtons(PointToClient(Cursor.Position), c), new PointF(c.Position.X, c.Position.Y));
+
+								Point p = PointToClient(Cursor.Position);
+
+								if (c.isOverAButton(new Point(p.X - c.Left,p.Y - c.Top)) && !resize && MouseButtons.CompareTo(MouseButtons.Left) != 0)
+								{
+									btn bb = c.overWhichButton(new Point(p.X - c.Left, p.Y - c.Top));
+									if (bb.visible)
+									{
+										string ttText = bb.tooltiptext;
+										if (!showToolTipsOnCutoutButtons)
+										{
+											lbl_Panel1_Info.Text = ttText;
+											lbl_Panel2_Info.Text = ttText;
+										}
+										else
+										{
+											try
+											{
+												string title = "";
+												string text = "";
+												int Y = c.Top + 20;
+												Rectangle rec = getTooltipRect(ttText, new Point(p.X, Y), out title, out text);
+												e.Graphics.FillRectangle(new SolidBrush(SystemColors.Info), rec);
+												e.Graphics.DrawString(title, tooltipfont, Brushes.Black, new Point(p.X - (p.X % 25) + 22, Y + 5 + 12));
+												e.Graphics.DrawImage(bb.image1, p.X - (p.X % 25) + 1, Y + 5 + 10);
+												e.Graphics.DrawString(text, tooltipfont, Brushes.Black, new Point(p.X - (p.X % 25) + 2, Y + 5 + 24));
+												e.Graphics.DrawRectangle(Pens.Black, new Rectangle(rec.Left - 1, rec.Top - 1, rec.Width + 2, rec.Height + 2));
+											}
+											catch (Exception ex)
+											{
+												MessageBox.Show(ex.ToString());
+											}
+										}
+									}
+								}
 							}
 						}
 						
@@ -629,6 +669,35 @@ namespace WolfPaw_ScreenSnip
 				this.Close();
 			}
 
+		}
+
+		public Rectangle getTooltipRect(string ins, Point pos, out string newstr1, out string newstr2)
+		{
+			Rectangle ret = new Rectangle(new Point(pos.X - (pos.X % 25), pos.Y + 10), new Size(0, 0));
+
+			string[] s = ins.Split('\n');
+
+			string s2 = s[1];
+			s2 = "\n" + s2;
+			if(s2.Length > 30)
+			{
+				while(s2.Substring(s2.LastIndexOf('\n')).Length > 30)
+				{
+					s2 = s2.Insert(s2.LastIndexOf('\n') + s2.Substring(s2.LastIndexOf('\n'), 30).LastIndexOf(' '), "\r\n");
+				}
+			}
+
+			Size ss = TextRenderer.MeasureText(s2, tooltipfont);
+
+			int height = 22 + ss.Height + 5;
+			int width = 10 + ss.Width + 10;
+
+			ret.Height = height;
+			ret.Width = width;
+
+			newstr1 = s[0];
+			newstr2 = s2;
+			return ret;
 		}
 
 		private void f_Screen_SizeChanged(object sender, EventArgs e)
@@ -664,6 +733,8 @@ namespace WolfPaw_ScreenSnip
 
 		private void f_Screen_MouseDown(object sender, MouseEventArgs e)
 		{
+
+
 
 			Limages.Sort(new intComparerDesc());
 			foreach (c_ImageHolder c in Limages)
@@ -705,6 +776,7 @@ namespace WolfPaw_ScreenSnip
 				}
 			}
 
+
 			//resize = false;
 			Invalidate();
 		}
@@ -713,130 +785,149 @@ namespace WolfPaw_ScreenSnip
 		{
 			selectedImage = null;
 			mdown = false;
+			resize = false;
 			if(ed != edges.none) { ed = edges.none; }
 			if(cor != corners.none) { cor = corners.none; }
 			if(cRot != corners.none) { cRot = corners.none; }
 
-			Limages.Sort(new intComparerDesc());
-			foreach (c_ImageHolder c in Limages)
+			if (e.Button == MouseButtons.Right)
 			{
-				if (renhan.pointInPosition(e.Location, new Rectangle(c.Position, c.Size)))
+				Limages.Sort(new intComparerDesc());
+				foreach (c_ImageHolder c in Limages)
 				{
-					Point pp = new Point(e.X - c.Left, e.Y - c.Top);
-					if (c.isOverAButton(pp) && !resize && buttonPress)
+					if (renhan.pointInPosition(e.Location, new Rectangle(c.Position, c.Size)))
 					{
-						btn b = c.overWhichButton(pp);
+						c.select();
+						cms_Panel.Show(this, e.Location);
+						selectedImage = c;
+						break;
+					}
+				}
+			}
+			else
+			{
 
-						if (c._buttons.currentValue == btn.hiddenVal.W065)
+				Limages.Sort(new intComparerDesc());
+				foreach (c_ImageHolder c in Limages)
+				{
+					if (renhan.pointInPosition(e.Location, new Rectangle(c.Position, c.Size)))
+					{
+						Point pp = new Point(e.X - c.Left, e.Y - c.Top);
+						if (c.isOverAButton(pp) && !resize && buttonPress)
 						{
-							if(b.value == 10)
-							{
-								cms_Panel.Visible = true;
-								cms_Panel.Show(this, e.Location);
-								selectedImage = c;
-							}
-						}
-						else if (c._buttons.currentValue == btn.hiddenVal.W135)
-						{
-							switch (b.value)
-							{
-								case 0:
-									c.Size = c.Image.Size;
-									break;
+							btn b = c.overWhichButton(pp);
 
-								case 10:
+							if (c._buttons.currentValue == btn.hiddenVal.W065)
+							{
+								if (b.value == 10)
+								{
 									cms_Panel.Visible = true;
 									cms_Panel.Show(this, e.Location);
 									selectedImage = c;
-									break;
-
-								case -1:
-									Limages.Remove(c);
-									GC.Collect();
-									Invalidate();
-									break;
+								}
 							}
-						}
-						else if (c._buttons.currentValue == btn.hiddenVal.W175)
-						{
-							switch (b.value)
+							else if (c._buttons.currentValue == btn.hiddenVal.W135)
 							{
-								case 0:
-									c.Size = c.Image.Size;
-									break;
+								switch (b.value)
+								{
+									case 0:
+										c.Size = c.Image.Size;
+										break;
 
-								case 10:
-									cms_Panel.Visible = true;
-									cms_Panel.Show(this, e.Location);
-									selectedImage = c;
-									break;
+									case 10:
+										cms_Panel.Visible = true;
+										cms_Panel.Show(this, e.Location);
+										selectedImage = c;
+										break;
 
-								case 4:
-									//TODO: EDIT!!
-									break;
-
-								case 5:
-									c.saveImage();
-									break;
-
-								case 6:
-									c.copyImage();
-									break;
-
-								case -1:
-									Limages.Remove(c);
-									GC.Collect();
-									Invalidate();
-									break;
+									case -1:
+										Limages.Remove(c);
+										GC.Collect();
+										Invalidate();
+										break;
+								}
 							}
-						}
-						else if (c._buttons.currentValue == btn.hiddenVal.FullWidth)
-						{
-							switch (b.value)
+							else if (c._buttons.currentValue == btn.hiddenVal.W175)
 							{
-								case 0:
-									c.Size = c.Image.Size;
-									break;
+								switch (b.value)
+								{
+									case 0:
+										c.Size = c.Image.Size;
+										break;
 
-								case 1:
-									c.fullscreen();
-									break;
+									case 10:
+										cms_Panel.Visible = true;
+										cms_Panel.Show(this, e.Location);
+										selectedImage = c;
+										break;
 
-								case 2:
-									c.LayerUp();
-									break;
+									case 4:
+										//TODO: EDIT!!
+										break;
 
-								case 3:
-									c.LayerDown();
-									break;
+									case 5:
+										c.saveImage();
+										break;
 
-								case 4:
-									//TODO: EDIT!!
-									break;
+									case 6:
+										c.copyImage();
+										break;
 
-								case 5:
-									c.saveImage();
-									break;
-
-								case 6:
-									c.copyImage();
-									break;
-
-								case -1:
-									Limages.Remove(c);
-									GC.Collect();
-									Invalidate();
-									break;
-
-
+									case -1:
+										Limages.Remove(c);
+										GC.Collect();
+										Invalidate();
+										break;
+								}
 							}
+							else if (c._buttons.currentValue == btn.hiddenVal.FullWidth)
+							{
+								switch (b.value)
+								{
+									case 0:
+										c.Size = c.Image.Size;
+										break;
+
+									case 1:
+										c.fullscreen();
+										break;
+
+									case 2:
+										c.LayerUp();
+										break;
+
+									case 3:
+										c.LayerDown();
+										break;
+
+									case 4:
+										//TODO: EDIT!!
+										break;
+
+									case 5:
+										c.saveImage();
+										break;
+
+									case 6:
+										c.copyImage();
+										break;
+
+									case -1:
+										Limages.Remove(c);
+										GC.Collect();
+										Invalidate();
+										break;
+
+
+								}
+							}
+
 						}
 
+						break;
 					}
 
-					break;
 				}
-
 			}
 
 			Invalidate();
@@ -1344,6 +1435,7 @@ namespace WolfPaw_ScreenSnip
 		{
 			if (hasSelectedImage())
 			{
+				selectedImage.Dispose();
 				Limages.Remove(selectedImage);
 				GC.Collect();
 				Invalidate();

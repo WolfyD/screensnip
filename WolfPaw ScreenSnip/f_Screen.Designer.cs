@@ -103,11 +103,22 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.label8 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
+			this.lbl_Panel1_Info = new System.Windows.Forms.Label();
+			this.lbl_Panel2_Info = new System.Windows.Forms.ToolStripLabel();
+			this.cms_Main = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.btn_CMS_MAIN_Cascade = new System.Windows.Forms.ToolStripMenuItem();
+			this.btn_CMS_MAIN_MakeSameSize = new System.Windows.Forms.ToolStripMenuItem();
+			this.btn_CMS_MAIN_PasteImage = new System.Windows.Forms.ToolStripMenuItem();
+			this.btn_CMS_MAIN_SaveImageToDB = new System.Windows.Forms.ToolStripMenuItem();
+			this.btn_CMS_MAIN_SaveImage = new System.Windows.Forms.ToolStripMenuItem();
+			this.btn_CMS_MAIN_CopyImage = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.num_ToolSize)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.num_Border)).BeginInit();
 			this.cms_Panel.SuspendLayout();
 			this.ts_Tools.SuspendLayout();
 			this.p_Tools.SuspendLayout();
+			this.cms_Main.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// t_Tick
@@ -436,20 +447,20 @@
             this.cms_btn_Copy,
             this.cms_btn_Delete});
 			this.cms_Panel.Name = "cms_Panel";
-			this.cms_Panel.Size = new System.Drawing.Size(137, 180);
+			this.cms_Panel.Size = new System.Drawing.Size(148, 180);
 			// 
 			// cms_btn_Resize
 			// 
 			this.cms_btn_Resize.Image = global::WolfPaw_ScreenSnip.Properties.Resources.full_screen;
 			this.cms_btn_Resize.Name = "cms_btn_Resize";
-			this.cms_btn_Resize.Size = new System.Drawing.Size(136, 22);
+			this.cms_btn_Resize.Size = new System.Drawing.Size(147, 22);
 			this.cms_btn_Resize.Text = "Resize";
 			this.cms_btn_Resize.Click += new System.EventHandler(this.cms_btn_Resize_Click);
 			// 
 			// cms_btn_Fit
 			// 
 			this.cms_btn_Fit.Name = "cms_btn_Fit";
-			this.cms_btn_Fit.Size = new System.Drawing.Size(136, 22);
+			this.cms_btn_Fit.Size = new System.Drawing.Size(147, 22);
 			this.cms_btn_Fit.Text = "Fit";
 			this.cms_btn_Fit.Click += new System.EventHandler(this.cms_btn_Fit_Click);
 			// 
@@ -457,7 +468,7 @@
 			// 
 			this.cms_btn_LayerUp.Image = global::WolfPaw_ScreenSnip.Properties.Resources.up;
 			this.cms_btn_LayerUp.Name = "cms_btn_LayerUp";
-			this.cms_btn_LayerUp.Size = new System.Drawing.Size(136, 22);
+			this.cms_btn_LayerUp.Size = new System.Drawing.Size(147, 22);
 			this.cms_btn_LayerUp.Text = "Layer Up";
 			this.cms_btn_LayerUp.Click += new System.EventHandler(this.cms_btn_LayerUp_Click);
 			// 
@@ -465,39 +476,39 @@
 			// 
 			this.cms_btn_LayerDown.Image = global::WolfPaw_ScreenSnip.Properties.Resources.down;
 			this.cms_btn_LayerDown.Name = "cms_btn_LayerDown";
-			this.cms_btn_LayerDown.Size = new System.Drawing.Size(136, 22);
+			this.cms_btn_LayerDown.Size = new System.Drawing.Size(147, 22);
 			this.cms_btn_LayerDown.Text = "Layer Down";
 			this.cms_btn_LayerDown.Click += new System.EventHandler(this.cms_btn_LayerDown_Click);
 			// 
 			// cms_btn_EditImage
 			// 
 			this.cms_btn_EditImage.Name = "cms_btn_EditImage";
-			this.cms_btn_EditImage.Size = new System.Drawing.Size(136, 22);
-			this.cms_btn_EditImage.Text = "Edit Image";
+			this.cms_btn_EditImage.Size = new System.Drawing.Size(147, 22);
+			this.cms_btn_EditImage.Text = "Edit Cutout";
 			this.cms_btn_EditImage.Click += new System.EventHandler(this.cms_btn_EditImage_Click);
 			// 
 			// cms_btn_Save
 			// 
 			this.cms_btn_Save.Image = global::WolfPaw_ScreenSnip.Properties.Resources.save_20;
 			this.cms_btn_Save.Name = "cms_btn_Save";
-			this.cms_btn_Save.Size = new System.Drawing.Size(136, 22);
-			this.cms_btn_Save.Text = "Save";
+			this.cms_btn_Save.Size = new System.Drawing.Size(147, 22);
+			this.cms_btn_Save.Text = "Save Cutout";
 			this.cms_btn_Save.Click += new System.EventHandler(this.cms_btn_Save_Click);
 			// 
 			// cms_btn_Copy
 			// 
 			this.cms_btn_Copy.Image = global::WolfPaw_ScreenSnip.Properties.Resources.clipboard_20;
 			this.cms_btn_Copy.Name = "cms_btn_Copy";
-			this.cms_btn_Copy.Size = new System.Drawing.Size(136, 22);
-			this.cms_btn_Copy.Text = "Copy";
+			this.cms_btn_Copy.Size = new System.Drawing.Size(147, 22);
+			this.cms_btn_Copy.Text = "Copy Cutout";
 			this.cms_btn_Copy.Click += new System.EventHandler(this.cms_btn_Copy_Click);
 			// 
 			// cms_btn_Delete
 			// 
 			this.cms_btn_Delete.Image = global::WolfPaw_ScreenSnip.Properties.Resources.trashcan;
 			this.cms_btn_Delete.Name = "cms_btn_Delete";
-			this.cms_btn_Delete.Size = new System.Drawing.Size(136, 22);
-			this.cms_btn_Delete.Text = "Delete";
+			this.cms_btn_Delete.Size = new System.Drawing.Size(147, 22);
+			this.cms_btn_Delete.Text = "Delete Cutout";
 			this.cms_btn_Delete.Click += new System.EventHandler(this.cms_btn_Delete_Click);
 			// 
 			// ts_Tools
@@ -522,7 +533,8 @@
             this.toolStripLabel3,
             this.btn_BorderColorPick,
             this.btn_ToolWindow,
-            this.btn_ToolPanel});
+            this.btn_ToolPanel,
+            this.lbl_Panel2_Info});
 			this.ts_Tools.Location = new System.Drawing.Point(0, 0);
 			this.ts_Tools.Name = "ts_Tools";
 			this.ts_Tools.Size = new System.Drawing.Size(926, 25);
@@ -778,6 +790,7 @@
 			// p_Tools
 			// 
 			this.p_Tools.BackColor = System.Drawing.SystemColors.Control;
+			this.p_Tools.Controls.Add(this.lbl_Panel1_Info);
 			this.p_Tools.Controls.Add(this.trackBar);
 			this.p_Tools.Controls.Add(this.lbl_Opacity);
 			this.p_Tools.Controls.Add(this.label10);
@@ -812,7 +825,7 @@
 			this.p_Tools.Controls.Add(this.label8);
 			this.p_Tools.Controls.Add(this.label1);
 			this.p_Tools.Dock = System.Windows.Forms.DockStyle.Right;
-			this.p_Tools.Location = new System.Drawing.Point(926, 0);
+			this.p_Tools.Location = new System.Drawing.Point(901, 0);
 			this.p_Tools.Name = "p_Tools";
 			this.p_Tools.Size = new System.Drawing.Size(200, 560);
 			this.p_Tools.TabIndex = 0;
@@ -943,13 +956,89 @@
 			this.label1.Text = "Tools";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
+			// lbl_Panel1_Info
+			// 
+			this.lbl_Panel1_Info.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.lbl_Panel1_Info.Location = new System.Drawing.Point(2, 525);
+			this.lbl_Panel1_Info.Name = "lbl_Panel1_Info";
+			this.lbl_Panel1_Info.Size = new System.Drawing.Size(127, 32);
+			this.lbl_Panel1_Info.TabIndex = 61;
+			// 
+			// lbl_Panel2_Info
+			// 
+			this.lbl_Panel2_Info.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.lbl_Panel2_Info.Margin = new System.Windows.Forms.Padding(0, 1, 10, 2);
+			this.lbl_Panel2_Info.Name = "lbl_Panel2_Info";
+			this.lbl_Panel2_Info.Size = new System.Drawing.Size(0, 22);
+			// 
+			// cms_Main
+			// 
+			this.cms_Main.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btn_CMS_MAIN_Cascade,
+            this.btn_CMS_MAIN_MakeSameSize,
+            this.btn_CMS_MAIN_SaveImageToDB,
+            this.btn_CMS_MAIN_SaveImage,
+            this.btn_CMS_MAIN_CopyImage,
+            this.btn_CMS_MAIN_PasteImage,
+            this.toolStripMenuItem8});
+			this.cms_Main.Name = "cms_Panel";
+			this.cms_Main.Size = new System.Drawing.Size(200, 158);
+			// 
+			// btn_CMS_MAIN_Cascade
+			// 
+			this.btn_CMS_MAIN_Cascade.Image = global::WolfPaw_ScreenSnip.Properties.Resources.full_screen;
+			this.btn_CMS_MAIN_Cascade.Name = "btn_CMS_MAIN_Cascade";
+			this.btn_CMS_MAIN_Cascade.Size = new System.Drawing.Size(199, 22);
+			this.btn_CMS_MAIN_Cascade.Text = "Cascade Cutouts";
+			// 
+			// btn_CMS_MAIN_MakeSameSize
+			// 
+			this.btn_CMS_MAIN_MakeSameSize.Name = "btn_CMS_MAIN_MakeSameSize";
+			this.btn_CMS_MAIN_MakeSameSize.Size = new System.Drawing.Size(199, 22);
+			this.btn_CMS_MAIN_MakeSameSize.Text = "Make cutouts same size";
+			// 
+			// btn_CMS_MAIN_PasteImage
+			// 
+			this.btn_CMS_MAIN_PasteImage.Image = global::WolfPaw_ScreenSnip.Properties.Resources.down;
+			this.btn_CMS_MAIN_PasteImage.Name = "btn_CMS_MAIN_PasteImage";
+			this.btn_CMS_MAIN_PasteImage.Size = new System.Drawing.Size(199, 22);
+			this.btn_CMS_MAIN_PasteImage.Text = "Paste Image";
+			// 
+			// btn_CMS_MAIN_SaveImageToDB
+			// 
+			this.btn_CMS_MAIN_SaveImageToDB.Name = "btn_CMS_MAIN_SaveImageToDB";
+			this.btn_CMS_MAIN_SaveImageToDB.Size = new System.Drawing.Size(199, 22);
+			this.btn_CMS_MAIN_SaveImageToDB.Text = "Save Image to Database";
+			// 
+			// btn_CMS_MAIN_SaveImage
+			// 
+			this.btn_CMS_MAIN_SaveImage.Image = global::WolfPaw_ScreenSnip.Properties.Resources.save_20;
+			this.btn_CMS_MAIN_SaveImage.Name = "btn_CMS_MAIN_SaveImage";
+			this.btn_CMS_MAIN_SaveImage.Size = new System.Drawing.Size(199, 22);
+			this.btn_CMS_MAIN_SaveImage.Text = "Save Image";
+			// 
+			// btn_CMS_MAIN_CopyImage
+			// 
+			this.btn_CMS_MAIN_CopyImage.Image = global::WolfPaw_ScreenSnip.Properties.Resources.clipboard_20;
+			this.btn_CMS_MAIN_CopyImage.Name = "btn_CMS_MAIN_CopyImage";
+			this.btn_CMS_MAIN_CopyImage.Size = new System.Drawing.Size(199, 22);
+			this.btn_CMS_MAIN_CopyImage.Text = "Copy Image";
+			// 
+			// toolStripMenuItem8
+			// 
+			this.toolStripMenuItem8.Image = global::WolfPaw_ScreenSnip.Properties.Resources.trashcan;
+			this.toolStripMenuItem8.Name = "toolStripMenuItem8";
+			this.toolStripMenuItem8.Size = new System.Drawing.Size(199, 22);
+			this.toolStripMenuItem8.Text = "Delete All Cutouts";
+			// 
 			// f_Screen
 			// 
 			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Gainsboro;
-			this.ClientSize = new System.Drawing.Size(1126, 560);
+			this.ClientSize = new System.Drawing.Size(1101, 560);
 			this.Controls.Add(this.ts_Tools);
 			this.Controls.Add(this.p_Tools);
 			this.DoubleBuffered = true;
@@ -975,6 +1064,7 @@
 			this.ts_Tools.PerformLayout();
 			this.p_Tools.ResumeLayout(false);
 			this.p_Tools.PerformLayout();
+			this.cms_Main.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1054,5 +1144,15 @@
 		private System.Windows.Forms.CheckBox cb_Transparent;
 		private System.Windows.Forms.Label label9;
 		private uc_TrackBar trackBar;
+		private System.Windows.Forms.ToolStripLabel lbl_Panel2_Info;
+		private System.Windows.Forms.Label lbl_Panel1_Info;
+		private System.Windows.Forms.ContextMenuStrip cms_Main;
+		private System.Windows.Forms.ToolStripMenuItem btn_CMS_MAIN_Cascade;
+		private System.Windows.Forms.ToolStripMenuItem btn_CMS_MAIN_MakeSameSize;
+		private System.Windows.Forms.ToolStripMenuItem btn_CMS_MAIN_SaveImageToDB;
+		private System.Windows.Forms.ToolStripMenuItem btn_CMS_MAIN_SaveImage;
+		private System.Windows.Forms.ToolStripMenuItem btn_CMS_MAIN_CopyImage;
+		private System.Windows.Forms.ToolStripMenuItem btn_CMS_MAIN_PasteImage;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem8;
 	}
 }

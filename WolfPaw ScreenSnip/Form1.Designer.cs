@@ -73,6 +73,7 @@
 			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
 			this.btn_CMS_Exit = new System.Windows.Forms.ToolStripMenuItem();
 			this.uc_ButtonSelector1 = new WolfPaw_ScreenSnip.uc_ButtonSelector();
+			this.btn_CMS_QuickRectangle = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.btn_Minimize)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.btn_Rollup)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.btn_Question)).BeginInit();
@@ -89,6 +90,7 @@
 			this.btn_Copy.Size = new System.Drawing.Size(40, 40);
 			this.btn_Copy.TabIndex = 1;
 			this.btn_Copy.Tag = "3";
+			this.toolTip1.SetToolTip(this.btn_Copy, "Copy Image\r\nCopies the image to your clipboard");
 			this.btn_Copy.UseVisualStyleBackColor = true;
 			this.btn_Copy.Click += new System.EventHandler(this.btn_Copy_Click);
 			// 
@@ -102,6 +104,7 @@
 			this.btn_Save.Size = new System.Drawing.Size(40, 40);
 			this.btn_Save.TabIndex = 2;
 			this.btn_Save.Tag = "4";
+			this.toolTip1.SetToolTip(this.btn_Save, "Save Image\r\nSaves the image to your PC");
 			this.btn_Save.UseVisualStyleBackColor = true;
 			this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
 			// 
@@ -115,6 +118,7 @@
 			this.btn_AttachToEmail.Size = new System.Drawing.Size(40, 40);
 			this.btn_AttachToEmail.TabIndex = 3;
 			this.btn_AttachToEmail.Tag = "6";
+			this.toolTip1.SetToolTip(this.btn_AttachToEmail, "Attach image to email\r\nOpens a new email and attaches your image to it");
 			this.btn_AttachToEmail.UseVisualStyleBackColor = true;
 			this.btn_AttachToEmail.Click += new System.EventHandler(this.btn_AttachToEmail_Click);
 			// 
@@ -127,6 +131,8 @@
 			this.btn_Clear.Size = new System.Drawing.Size(40, 40);
 			this.btn_Clear.TabIndex = 4;
 			this.btn_Clear.Tag = "1";
+			this.toolTip1.SetToolTip(this.btn_Clear, "Clear Cutouts\r\nClears all the images you cut out from the screen\r\nWARNING: This a" +
+        "ction can not be undone");
 			this.btn_Clear.UseVisualStyleBackColor = true;
 			this.btn_Clear.Click += new System.EventHandler(this.btn_Clear_Click);
 			// 
@@ -140,6 +146,7 @@
 			this.btn_Exit.Size = new System.Drawing.Size(40, 40);
 			this.btn_Exit.TabIndex = 6;
 			this.btn_Exit.Tag = "9";
+			this.toolTip1.SetToolTip(this.btn_Exit, "Exit \r\nCloses the application");
 			this.btn_Exit.UseVisualStyleBackColor = true;
 			this.btn_Exit.Click += new System.EventHandler(this.btn_Exit_Click);
 			// 
@@ -152,6 +159,7 @@
 			this.btn_Options.Size = new System.Drawing.Size(40, 40);
 			this.btn_Options.TabIndex = 7;
 			this.btn_Options.Tag = "7";
+			this.toolTip1.SetToolTip(this.btn_Options, "Options\r\nOpens the Options screen");
 			this.btn_Options.UseVisualStyleBackColor = true;
 			this.btn_Options.Click += new System.EventHandler(this.btn_Options_Click);
 			// 
@@ -164,6 +172,7 @@
 			this.btn_Settings.Size = new System.Drawing.Size(40, 40);
 			this.btn_Settings.TabIndex = 8;
 			this.btn_Settings.Tag = "8";
+			this.toolTip1.SetToolTip(this.btn_Settings, "Tool panel\r\nOpens / Closes the tool panel in your editor screen");
 			this.btn_Settings.UseVisualStyleBackColor = true;
 			this.btn_Settings.Click += new System.EventHandler(this.btn_Settings_Click);
 			// 
@@ -178,6 +187,7 @@
 			this.btn_Print.Size = new System.Drawing.Size(40, 40);
 			this.btn_Print.TabIndex = 9;
 			this.btn_Print.Tag = "5";
+			this.toolTip1.SetToolTip(this.btn_Print, "Print image\r\nSends your image to the printer");
 			this.btn_Print.UseVisualStyleBackColor = false;
 			this.btn_Print.Click += new System.EventHandler(this.btn_Print_Click);
 			// 
@@ -191,6 +201,7 @@
 			this.btn_Preview.Size = new System.Drawing.Size(40, 40);
 			this.btn_Preview.TabIndex = 10;
 			this.btn_Preview.Tag = "2";
+			this.toolTip1.SetToolTip(this.btn_Preview, "Preview Image\r\nOpens the Image preview screen");
 			this.btn_Preview.UseVisualStyleBackColor = true;
 			this.btn_Preview.Click += new System.EventHandler(this.btn_Preview_Click);
 			// 
@@ -219,6 +230,7 @@
 			this.btn_SaveToDB.Size = new System.Drawing.Size(40, 40);
 			this.btn_SaveToDB.TabIndex = 11;
 			this.btn_SaveToDB.Tag = "10";
+			this.toolTip1.SetToolTip(this.btn_SaveToDB, "Save to Database\r\nSaves the image to the Database");
 			this.btn_SaveToDB.UseVisualStyleBackColor = true;
 			this.btn_SaveToDB.Click += new System.EventHandler(this.btn_SaveToDB_Click);
 			// 
@@ -231,6 +243,8 @@
 			this.btn_DatabaseLoad.Size = new System.Drawing.Size(40, 40);
 			this.btn_DatabaseLoad.TabIndex = 12;
 			this.btn_DatabaseLoad.Tag = "11";
+			this.toolTip1.SetToolTip(this.btn_DatabaseLoad, "Load from Database\r\nOpens the image browser where you can load images from the Da" +
+        "tabase");
 			this.btn_DatabaseLoad.UseVisualStyleBackColor = true;
 			this.btn_DatabaseLoad.Click += new System.EventHandler(this.btn_DatabaseLoad_Click);
 			// 
@@ -243,6 +257,7 @@
 			this.btn_Screen.Size = new System.Drawing.Size(40, 40);
 			this.btn_Screen.TabIndex = 4;
 			this.btn_Screen.Tag = "12";
+			this.toolTip1.SetToolTip(this.btn_Screen, "Open Screen\r\nOpens the cutout editor screen");
 			this.btn_Screen.UseVisualStyleBackColor = true;
 			this.btn_Screen.Click += new System.EventHandler(this.btn_Screen_Click);
 			// 
@@ -256,6 +271,7 @@
 			this.btn_Minimize.Size = new System.Drawing.Size(20, 22);
 			this.btn_Minimize.TabIndex = 13;
 			this.btn_Minimize.TabStop = false;
+			this.toolTip1.SetToolTip(this.btn_Minimize, "Minimize\r\nMinimizes this toolbar to the tray or the Notification area");
 			this.btn_Minimize.Click += new System.EventHandler(this.btn_Minimize_Click);
 			this.btn_Minimize.MouseEnter += new System.EventHandler(this.btn_Minimize_MouseEnter);
 			this.btn_Minimize.MouseLeave += new System.EventHandler(this.btn_Minimize_MouseLeave);
@@ -269,6 +285,7 @@
 			this.btn_Rollup.Size = new System.Drawing.Size(20, 20);
 			this.btn_Rollup.TabIndex = 14;
 			this.btn_Rollup.TabStop = false;
+			this.toolTip1.SetToolTip(this.btn_Rollup, "Roll up/down\r\nRolls this toolbar up or down making it take up less space ");
 			this.btn_Rollup.Click += new System.EventHandler(this.btn_Rollup_Click);
 			this.btn_Rollup.MouseEnter += new System.EventHandler(this.btn_Rollup_MouseEnter);
 			this.btn_Rollup.MouseLeave += new System.EventHandler(this.btn_Rollup_MouseLeave);
@@ -283,9 +300,14 @@
 			this.btn_Question.Size = new System.Drawing.Size(20, 20);
 			this.btn_Question.TabIndex = 15;
 			this.btn_Question.TabStop = false;
+			this.toolTip1.SetToolTip(this.btn_Question, "Help\r\nOpens the help screen");
 			this.btn_Question.Click += new System.EventHandler(this.btn_Question_Click);
 			this.btn_Question.MouseEnter += new System.EventHandler(this.btn_Question_MouseEnter);
 			this.btn_Question.MouseLeave += new System.EventHandler(this.btn_Question_MouseLeave);
+			// 
+			// toolTip1
+			// 
+			this.toolTip1.ShowAlways = true;
 			// 
 			// ni_Notify
 			// 
@@ -299,8 +321,10 @@
 			// 
 			// cms_Notify
 			// 
+			this.cms_Notify.AutoSize = false;
 			this.cms_Notify.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btn_CMS_Rectangle,
+            this.btn_CMS_QuickRectangle,
             this.btn_CMS_Window,
             this.btn_CMS_Freehand,
             this.btn_CMS_Line,
@@ -321,101 +345,114 @@
             this.btn_CMS_MainWindow,
             this.toolStripSeparator5,
             this.btn_CMS_Exit});
+			this.cms_Notify.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
 			this.cms_Notify.Name = "cms_Notify";
-			this.cms_Notify.Size = new System.Drawing.Size(181, 386);
+			this.cms_Notify.Size = new System.Drawing.Size(310, 430);
 			// 
 			// btn_CMS_Rectangle
 			// 
 			this.btn_CMS_Rectangle.Name = "btn_CMS_Rectangle";
-			this.btn_CMS_Rectangle.Size = new System.Drawing.Size(180, 22);
+			this.btn_CMS_Rectangle.ShortcutKeyDisplayString = "Ctrl + F1";
+			this.btn_CMS_Rectangle.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F1)));
+			this.btn_CMS_Rectangle.Size = new System.Drawing.Size(323, 22);
 			this.btn_CMS_Rectangle.Text = "Rectangle cut";
+			this.btn_CMS_Rectangle.ToolTipText = "Cut a rectangle from the screen";
 			this.btn_CMS_Rectangle.Click += new System.EventHandler(this.btn_CMS_Rectangle_Click);
 			// 
 			// btn_CMS_Window
 			// 
 			this.btn_CMS_Window.Enabled = false;
 			this.btn_CMS_Window.Name = "btn_CMS_Window";
-			this.btn_CMS_Window.Size = new System.Drawing.Size(180, 22);
+			this.btn_CMS_Window.ShortcutKeyDisplayString = "Ctrl + F2";
+			this.btn_CMS_Window.Size = new System.Drawing.Size(323, 22);
 			this.btn_CMS_Window.Text = "Window cut";
+			this.btn_CMS_Window.ToolTipText = "Cut out a window from the screen \r\nby clicking on it";
 			this.btn_CMS_Window.Click += new System.EventHandler(this.btn_CMS_Window_Click);
 			// 
 			// btn_CMS_Freehand
 			// 
 			this.btn_CMS_Freehand.Name = "btn_CMS_Freehand";
-			this.btn_CMS_Freehand.Size = new System.Drawing.Size(180, 22);
+			this.btn_CMS_Freehand.ShortcutKeyDisplayString = "Ctrl + F3";
+			this.btn_CMS_Freehand.Size = new System.Drawing.Size(323, 22);
 			this.btn_CMS_Freehand.Text = "Freehand cut";
+			this.btn_CMS_Freehand.ToolTipText = "Cut out an area from the screen \r\nusing freehand selection";
 			this.btn_CMS_Freehand.Click += new System.EventHandler(this.btn_CMS_Freehand_Click);
 			// 
 			// btn_CMS_Line
 			// 
 			this.btn_CMS_Line.Enabled = false;
 			this.btn_CMS_Line.Name = "btn_CMS_Line";
-			this.btn_CMS_Line.Size = new System.Drawing.Size(180, 22);
+			this.btn_CMS_Line.ShortcutKeyDisplayString = "Ctrl + F4";
+			this.btn_CMS_Line.Size = new System.Drawing.Size(323, 22);
 			this.btn_CMS_Line.Text = "Line cut";
+			this.btn_CMS_Line.ToolTipText = "Cut out an area from the screen \r\nby selecting points along it\'s outside";
 			this.btn_CMS_Line.Click += new System.EventHandler(this.btn_CMS_Line_Click);
 			// 
 			// btn_CMS_Magic
 			// 
 			this.btn_CMS_Magic.Name = "btn_CMS_Magic";
-			this.btn_CMS_Magic.Size = new System.Drawing.Size(180, 22);
+			this.btn_CMS_Magic.ShortcutKeyDisplayString = "Ctrl + F5";
+			this.btn_CMS_Magic.Size = new System.Drawing.Size(323, 22);
 			this.btn_CMS_Magic.Text = "Magic cut";
+			this.btn_CMS_Magic.ToolTipText = "Cut out an area from the screen using \r\nfreehand selection mode \r\naided by edge d" +
+    "etection";
 			this.btn_CMS_Magic.Click += new System.EventHandler(this.btn_CMS_Magic_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(269, 6);
 			// 
 			// btn_CMS_Preview
 			// 
 			this.btn_CMS_Preview.Name = "btn_CMS_Preview";
-			this.btn_CMS_Preview.Size = new System.Drawing.Size(180, 22);
+			this.btn_CMS_Preview.Size = new System.Drawing.Size(272, 22);
 			this.btn_CMS_Preview.Text = "Preview Picture";
 			this.btn_CMS_Preview.Click += new System.EventHandler(this.btn_CMS_Preview_Click);
 			// 
 			// btn_CMS_Save
 			// 
 			this.btn_CMS_Save.Name = "btn_CMS_Save";
-			this.btn_CMS_Save.Size = new System.Drawing.Size(180, 22);
+			this.btn_CMS_Save.Size = new System.Drawing.Size(272, 22);
 			this.btn_CMS_Save.Text = "Save Picture";
 			this.btn_CMS_Save.Click += new System.EventHandler(this.btn_CMS_Save_Click);
 			// 
 			// btn_CMS_Copy
 			// 
 			this.btn_CMS_Copy.Name = "btn_CMS_Copy";
-			this.btn_CMS_Copy.Size = new System.Drawing.Size(180, 22);
+			this.btn_CMS_Copy.Size = new System.Drawing.Size(272, 22);
 			this.btn_CMS_Copy.Text = "Copy Picture";
 			this.btn_CMS_Copy.Click += new System.EventHandler(this.btn_CMS_Copy_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(269, 6);
 			// 
 			// btn_CMS_SaveToDB
 			// 
 			this.btn_CMS_SaveToDB.Name = "btn_CMS_SaveToDB";
-			this.btn_CMS_SaveToDB.Size = new System.Drawing.Size(180, 22);
+			this.btn_CMS_SaveToDB.Size = new System.Drawing.Size(272, 22);
 			this.btn_CMS_SaveToDB.Text = "Save Picturte to DB";
 			this.btn_CMS_SaveToDB.Click += new System.EventHandler(this.btn_CMS_SaveToDB_Click);
 			// 
 			// btn_CMS_BrowseDB
 			// 
 			this.btn_CMS_BrowseDB.Name = "btn_CMS_BrowseDB";
-			this.btn_CMS_BrowseDB.Size = new System.Drawing.Size(180, 22);
+			this.btn_CMS_BrowseDB.Size = new System.Drawing.Size(272, 22);
 			this.btn_CMS_BrowseDB.Text = "Browse DB";
 			this.btn_CMS_BrowseDB.Click += new System.EventHandler(this.btn_CMS_BrowseDB_Click);
 			// 
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
+			this.toolStripSeparator3.Size = new System.Drawing.Size(269, 6);
 			// 
 			// btn_CMS_Print
 			// 
 			this.btn_CMS_Print.Enabled = false;
 			this.btn_CMS_Print.Name = "btn_CMS_Print";
-			this.btn_CMS_Print.Size = new System.Drawing.Size(180, 22);
+			this.btn_CMS_Print.Size = new System.Drawing.Size(272, 22);
 			this.btn_CMS_Print.Text = "Print Picture";
 			this.btn_CMS_Print.Click += new System.EventHandler(this.btn_CMS_Print_Click);
 			// 
@@ -423,45 +460,45 @@
 			// 
 			this.btn_CMS_Email.Enabled = false;
 			this.btn_CMS_Email.Name = "btn_CMS_Email";
-			this.btn_CMS_Email.Size = new System.Drawing.Size(180, 22);
+			this.btn_CMS_Email.Size = new System.Drawing.Size(272, 22);
 			this.btn_CMS_Email.Text = "Email Picture";
 			this.btn_CMS_Email.Click += new System.EventHandler(this.btn_CMS_Email_Click);
 			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
+			this.toolStripSeparator4.Size = new System.Drawing.Size(269, 6);
 			// 
 			// btn_CMS_Options
 			// 
 			this.btn_CMS_Options.Name = "btn_CMS_Options";
-			this.btn_CMS_Options.Size = new System.Drawing.Size(180, 22);
+			this.btn_CMS_Options.Size = new System.Drawing.Size(272, 22);
 			this.btn_CMS_Options.Text = "Options";
 			this.btn_CMS_Options.Click += new System.EventHandler(this.btn_CMS_Options_Click);
 			// 
 			// btn_CMS_ShowScreen
 			// 
 			this.btn_CMS_ShowScreen.Name = "btn_CMS_ShowScreen";
-			this.btn_CMS_ShowScreen.Size = new System.Drawing.Size(180, 22);
+			this.btn_CMS_ShowScreen.Size = new System.Drawing.Size(272, 22);
 			this.btn_CMS_ShowScreen.Text = "Show Screen";
 			this.btn_CMS_ShowScreen.Click += new System.EventHandler(this.btn_CMS_ShowScreen_Click);
 			// 
 			// btn_CMS_MainWindow
 			// 
 			this.btn_CMS_MainWindow.Name = "btn_CMS_MainWindow";
-			this.btn_CMS_MainWindow.Size = new System.Drawing.Size(180, 22);
+			this.btn_CMS_MainWindow.Size = new System.Drawing.Size(272, 22);
 			this.btn_CMS_MainWindow.Text = "Show Main Window";
 			this.btn_CMS_MainWindow.Click += new System.EventHandler(this.btn_CMS_MainWindow_Click);
 			// 
 			// toolStripSeparator5
 			// 
 			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(177, 6);
+			this.toolStripSeparator5.Size = new System.Drawing.Size(269, 6);
 			// 
 			// btn_CMS_Exit
 			// 
 			this.btn_CMS_Exit.Name = "btn_CMS_Exit";
-			this.btn_CMS_Exit.Size = new System.Drawing.Size(180, 22);
+			this.btn_CMS_Exit.Size = new System.Drawing.Size(272, 22);
 			this.btn_CMS_Exit.Text = "Exit Program";
 			this.btn_CMS_Exit.Click += new System.EventHandler(this.btn_CMS_Exit_Click);
 			// 
@@ -473,6 +510,16 @@
 			this.uc_ButtonSelector1.parent = null;
 			this.uc_ButtonSelector1.Size = new System.Drawing.Size(55, 40);
 			this.uc_ButtonSelector1.TabIndex = 16;
+			// 
+			// btn_CMS_QuickRectangle
+			// 
+			this.btn_CMS_QuickRectangle.Name = "btn_CMS_QuickRectangle";
+			this.btn_CMS_QuickRectangle.ShortcutKeyDisplayString = "Ctrl + Shift + F1";
+			this.btn_CMS_QuickRectangle.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.F1)));
+			this.btn_CMS_QuickRectangle.Size = new System.Drawing.Size(323, 22);
+			this.btn_CMS_QuickRectangle.Text = "Quick Rectangle Cut                 ";
+			this.btn_CMS_QuickRectangle.ToolTipText = "Copy a rectangle from the screen\r\nto the clipboard";
 			// 
 			// Form1
 			// 
@@ -559,6 +606,7 @@
 		private System.Windows.Forms.ToolStripMenuItem btn_CMS_MainWindow;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
 		private System.Windows.Forms.ToolStripMenuItem btn_CMS_Exit;
+		private System.Windows.Forms.ToolStripMenuItem btn_CMS_QuickRectangle;
 	}
 }
 

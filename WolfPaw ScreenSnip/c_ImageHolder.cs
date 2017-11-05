@@ -78,6 +78,7 @@ namespace WolfPaw_ScreenSnip
 		//Other
 		public f_Screen parent { get; set; }
 		public List<c_ImageHolder> selfContainingList { get; set; }
+		public string backup_id { get; set; }
 		public bool selected = false;
 		public bool mouseOver = false;
 		public bool panelShowing = false;
@@ -912,6 +913,17 @@ namespace WolfPaw_ScreenSnip
 			{
 				if (disposing)
 				{
+					if (Properties.Settings.Default.s_KeepEditImage)
+					{
+						try
+						{
+							String editDBFileName = "editable_backup.db";
+							string err;
+							c_DatabaseHandler.deleteBackupsImage(c_DatabaseHandler.ConnectToDB("editable_backup.db", out err), backup_id);
+						}
+						catch { }
+					}
+
 					image.Dispose();
 					Image.Dispose();
 					scaledImage.Dispose();

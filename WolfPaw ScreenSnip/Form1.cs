@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using FontAwesome.Sharp;
+using System.IO;
 
 namespace WolfPaw_ScreenSnip
 {
@@ -20,20 +21,24 @@ namespace WolfPaw_ScreenSnip
 		[System.Runtime.InteropServices.DllImportAttribute("user32.dll")]
 		public static extern bool ReleaseCapture();
 
-		List<IconButton> ibList = new List<IconButton>();
+		public List<IconButton> ibList = new List<IconButton>();
+		public c_returnGraphicSettings cr = new c_returnGraphicSettings();
+		public c_KeyboardHook ck = new c_KeyboardHook();
+
+		public f_Screen fs = null;
+		public f_SettingPanel tools = null;
 		
-		f_Screen fs = null;
-		f_SettingPanel tools = null;
-
-		private bool highHandle = false;
 		public bool clearRequireAuth = false;
-
-		c_KeyboardHook ck = new c_KeyboardHook();
-
+		
 		public bool hidden = false;
 
-		bool CTRLDOWN = false;
-		bool SHIFTDOWN = false;
+		public bool CTRLDOWN = false;
+		public bool SHIFTDOWN = false;
+
+		public bool EditableMode = false;
+		public bool canSaveEditImages = false;
+		public bool justLoggedIn = true;
+		public string lastCutoutId = "";
 
 		public Form1()
         {
@@ -48,10 +53,6 @@ namespace WolfPaw_ScreenSnip
 
 		public void loadSettings()
 		{
-			//Set handle size
-			highHandle = Properties.Settings.Default.s_HighHandle;
-			if (highHandle){Height = 70;}
-			else{Height = 60;}
 			Form1_Activated(null, null);
 
 			//Set clear
@@ -62,6 +63,46 @@ namespace WolfPaw_ScreenSnip
 			{
 				getDPIValues();
 			}
+
+			toolTip1.Active = Properties.Settings.Default.s_ShowTooltipOnMouseOver;
+
+			EditableMode = Properties.Settings.Default.s_KeepEditImage;
+
+			String editDBFileName = "editable_backup.db";
+
+			if (justLoggedIn && File.Exists(editDBFileName))
+			{
+				File.Delete(editDBFileName);
+			}
+
+			if (EditableMode)
+			{
+				if (!File.Exists(editDBFileName))
+				{
+					File.Create(editDBFileName).Close();
+					string err = "";
+					c_DatabaseHandler.generateEditTable(c_DatabaseHandler.ConnectToDB(editDBFileName, out err));
+					if(err != "")
+					{
+						MessageBox.Show("There was an error while creating the backup database.\r\nThe following Error was recieved:\r\n\r\n" + err, "Error creating table", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						canSaveEditImages = false;
+					}
+					else
+					{
+						canSaveEditImages = true;
+					}
+				}
+			}
+			else
+			{
+				if (File.Exists(editDBFileName))
+				{ 
+					File.Delete(editDBFileName);
+					canSaveEditImages = false;
+				}
+			}
+
+			justLoggedIn = false;
 		}
 
 		public void getDPIValues()
@@ -160,12 +201,14 @@ namespace WolfPaw_ScreenSnip
             }
 
             b.Hide();
+			
             ib.Left = b.Left;
             ib.Top = b.Top;
             ib.ImageAlign = ContentAlignment.MiddleCenter;
             ib.Padding = new Padding(2, 4, 0, 0);
             ib.Anchor = b.Anchor;
             ib.Tag = b;
+			toolTip1.SetToolTip(ib, toolTip1.GetToolTip(b));
 			ib.Enabled = b.Enabled;
             ib.Click += Ib_Click;
 
@@ -173,7 +216,7 @@ namespace WolfPaw_ScreenSnip
 
 		}
 
-        public void cleanButtons()
+		public void cleanButtons()
         {
             //setIcons("new", brn_New,this);
             setIcons("clear", btn_Clear, this);
@@ -275,6 +318,11 @@ namespace WolfPaw_ScreenSnip
 
 			ck.KeyPressDetected += Ck_KeyPressDetected;
 			ck.KeyReleaseDetected += Ck_KeyReleaseDetected;
+
+			if (Properties.Settings.Default.s_RememberLastPosition)
+			{
+				Location = Properties.Settings.Default.s_LastPosition;
+			}
 			
 			loadSettings();
         }
@@ -323,6 +371,8 @@ namespace WolfPaw_ScreenSnip
 			foreach(IconButton ib in ibList)
 			{
 				ib.Enabled = (ib.Tag as Button).Enabled;
+
+				ib.IconColor = ib.Enabled ? Color.Black : Color.FromArgb(255, 250, 100, 100);
 			}
 		}
 
@@ -330,10 +380,10 @@ namespace WolfPaw_ScreenSnip
 		{
 			if (e.KeyCode == Keys.PrintScreen && Properties.Settings.Default.s_handlePrintScreen)
 			{
-				Bitmap b = new Bitmap(getScreenSize().Width, getScreenSize().Height);
+				Size sz = getScreenSize();
+				Bitmap b = new Bitmap(sz.Width, sz.Height);
 				using (Graphics g = Graphics.FromImage(b))
 				{
-					c_returnGraphicSettings cr = new c_returnGraphicSettings();
 					g.InterpolationMode = cr.getIM();
 					g.SmoothingMode = cr.getSM();
 					g.PixelOffsetMode = cr.getPOM();
@@ -348,7 +398,7 @@ namespace WolfPaw_ScreenSnip
 
 				try
 				{
-					fs.addImage(b, new Point(0, 0));
+					fs.addImage(b, new Point(0, 0), "");
 				}
 				catch { }
 
@@ -410,26 +460,12 @@ namespace WolfPaw_ScreenSnip
 
 		private void Form1_Deactivate(object sender, EventArgs e)
 		{
-			if (highHandle)
-			{
-				this.BackgroundImage = Properties.Resources.handle2_tall;
-			}
-			else
-			{
-				this.BackgroundImage = Properties.Resources.handle2;
-			}
+			this.BackgroundImage = Properties.Resources.handle2;
 		}
 
 		private void Form1_Activated(object sender, EventArgs e)
 		{
-			if (highHandle)
-			{
-				this.BackgroundImage = Properties.Resources.handle_tall;
-			}
-			else
-			{
-				this.BackgroundImage = Properties.Resources.handle;
-			}
+			this.BackgroundImage = Properties.Resources.handle;
 		}
 
 		private void btn_Exit_Click(object sender, EventArgs e)
@@ -503,9 +539,13 @@ namespace WolfPaw_ScreenSnip
 			{
 				bounds = s,
 				bmp = b,
-				mode = mode
+				mode = mode,
+				save_editable_backup = canSaveEditImages && EditableMode
 			};
 			fc.ShowDialog();
+
+			if(canSaveEditImages && EditableMode) { lastCutoutId = fc.randID; }
+
 			return fc.retImg;
 		}
 
@@ -592,6 +632,7 @@ namespace WolfPaw_ScreenSnip
 						parent = this
 					};
 					fs.Show();
+					fs.Refresh();
 					if (Properties.Settings.Default.s_ToolbarPanel == 0)
 					{
 						tools = new f_SettingPanel
@@ -605,7 +646,8 @@ namespace WolfPaw_ScreenSnip
 
 				if (fs != null)
 				{
-					fs.addImage(bmp);
+					fs.addImage(bmp, lastCutoutId);
+					lastCutoutId = "";
 				}
 			}
 		}
@@ -732,6 +774,8 @@ namespace WolfPaw_ScreenSnip
 
 		private void Form1_LocationChanged(object sender, EventArgs e)
 		{
+			//IMPORTANT:!!!!!FIX MULTI MONITOR PROBLEM
+
 			int fsw = 0;
 			int fsh = 0;
 
@@ -742,6 +786,12 @@ namespace WolfPaw_ScreenSnip
 				{
 					fsh = s.WorkingArea.Height;
 				}
+			}
+
+			if (Properties.Settings.Default.s_RememberLastPosition)
+			{
+				Properties.Settings.Default.s_LastPosition = Location;
+				Properties.Settings.Default.Save();
 			}
 
 			if(Left < 0) { Left = 0; }
@@ -869,6 +919,7 @@ namespace WolfPaw_ScreenSnip
 							break;
 						}
 					}
+					enableButtons(false);
 					GC.Collect();
 				}
 			}
