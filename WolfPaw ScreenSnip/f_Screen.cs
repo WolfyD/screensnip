@@ -841,6 +841,7 @@ namespace WolfPaw_ScreenSnip
 										break;
 
 									case -1:
+										c.Dispose();
 										Limages.Remove(c);
 										GC.Collect();
 										Invalidate();
@@ -874,6 +875,7 @@ namespace WolfPaw_ScreenSnip
 										break;
 
 									case -1:
+										c.Dispose();
 										Limages.Remove(c);
 										GC.Collect();
 										Invalidate();
@@ -913,6 +915,7 @@ namespace WolfPaw_ScreenSnip
 										break;
 
 									case -1:
+										c.Dispose();
 										Limages.Remove(c);
 										GC.Collect();
 										Invalidate();

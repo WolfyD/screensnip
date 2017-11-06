@@ -105,7 +105,6 @@ namespace WolfPaw_ScreenSnip
 		{
 			//TODO:
 			var item = sender as ToolStripMenuItem;
-			//MessageBox.Show(item.Tag.ToString());
 			Properties.Settings.Default.s_lastTool = Convert.ToInt32(item.Tag.ToString());
 			Properties.Settings.Default.Save();
 			btn_Button.BackgroundImage = item.Image;

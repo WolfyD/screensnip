@@ -62,7 +62,7 @@ namespace WolfPaw_ScreenSnip
 
 		private void F_Canvas_Load(object sender, EventArgs e)
 		{
-			Location = new Point(0, 0);
+			Location = new Point(0, Screen.AllScreens.Min(x => x.Bounds.Y));
 			Size = bounds;
 
 			if(mode == -1) { mode = 0; }

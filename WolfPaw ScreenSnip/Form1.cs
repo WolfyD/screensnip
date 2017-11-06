@@ -54,11 +54,9 @@ namespace WolfPaw_ScreenSnip
 		public void loadSettings()
 		{
 			Form1_Activated(null, null);
-
-			//Set clear
+			
 			clearRequireAuth = Properties.Settings.Default.s_ClearRequireAuth;
-
-			//TODO: rest of settings
+			
 			if(Properties.Settings.Default.s_DPI.Count == 0)
 			{
 				getDPIValues();
@@ -101,6 +99,8 @@ namespace WolfPaw_ScreenSnip
 					canSaveEditImages = false;
 				}
 			}
+
+			MaximumSize = Size;
 
 			justLoggedIn = false;
 		}
@@ -491,13 +491,24 @@ namespace WolfPaw_ScreenSnip
 
 		public Size getScreenSize()
 		{
-			Size s = new Size(-1,-1);
-			
-            foreach (Screen ss in Screen.AllScreens)
+			Size s = new Size();
+
+			Screen[] scr = Screen.AllScreens;
+
+			int scr_top = scr.Min(x => x.Bounds.Y);
+			int scr_bottom = scr.Max(x => x.Bounds.Bottom);
+			int scr_left = scr.Min(x => x.Bounds.Left);
+			int scr_right = scr.Max(x => x.Bounds.Right);
+
+			/*
+			foreach (Screen ss in Screen.AllScreens)
             {
                 s.Width += ss.Bounds.Width;
                 if (ss.Bounds.Bottom > s.Height) { s.Height = ss.Bounds.Height; }
 			}
+			*/
+
+			s = new Size(scr_right - scr_left, scr_bottom - scr_top);
 
 			return s;
 		}
@@ -525,9 +536,10 @@ namespace WolfPaw_ScreenSnip
 
 			Bitmap c = new Bitmap(s.Width, s.Height);
 
+			Screen[] sss = Screen.AllScreens;
 			using (Graphics g = Graphics.FromImage(c))
 			{
-				g.CopyFromScreen(new Point(0, 0), new Point(0, 0), s);
+				g.CopyFromScreen(new Point(sss.Min(x=>x.Bounds.X), sss.Min(x => x.Bounds.Y)), new Point(0, 0), s);
 			}
 
 			return c;
@@ -590,7 +602,6 @@ namespace WolfPaw_ScreenSnip
 					case "Magic":
 						handleCutouts(4);
 						break;
-						//TODO: Switch for cutout method
 				}
 			}
 			else
@@ -659,7 +670,9 @@ namespace WolfPaw_ScreenSnip
 
 		private void btn_Save_Click(object sender, EventArgs e)
 		{
-			saveImage();
+			string sv = "";
+			if(sender != null && sender.ToString() == "quicksave") { sv = "quick"; }
+			saveImage(sv);
 		}
 		
 		public void copyImage()
@@ -675,89 +688,102 @@ namespace WolfPaw_ScreenSnip
 			}
 		}
 
-		public void saveImage()
+		public void saveImage(string svMode)
 		{
 			if (fs != null && fs.Limages != null && fs.Limages.Count > 0)
 			{
 				Bitmap _b = c_ImgGen.createPng(fs, fs.Limages, new object[] { fs.getDrawnPoints(), null });
 				string savename = "ScreenSnip_";
 
-				if (true || Properties.Settings.Default.s_SaveHasDateTime)
+				if (svMode == "quick" && Properties.Settings.Default.s_QuickSaveDir != "" && Directory.Exists(Properties.Settings.Default.s_QuickSaveDir))
 				{
-					string date = "";
-					DateTime n = DateTime.Now;
-					date = n.Year + "." + n.Month.ToString().PadLeft(2, '0') + "." + n.Day.ToString().PadLeft(2, '0') + "_" + n.Hour.ToString().PadLeft(2, '0') + "." + n.Minute.ToString().PadLeft(2, '0') + "." + n.Second.ToString().PadLeft(2, '0');
-					savename += date;
-				}
-				SaveFileDialog sfd = new SaveFileDialog
-				{
-					Filter = "Portable Network Graphics Image (PNG)|*.png|" +
-								"Bitmap Image (BMP)|*.bmp|" +
-								"Joint Photographic Experts Group Image (JPEG)|*.jpg;*.jpeg|" +
-								"Graphics Interchange Format Image (GIF)|*.gif|" +
-								"Tagged Image File Format Image (TIFF)|*.tif;*.tiff|" +
-								"Windows Metafile Image (WMF)|*.wmf",
-
-					FilterIndex = Properties.Settings.Default.s_lastSaveFormat,
-
-					FileName = savename
-				};
-
-				if (sfd.ShowDialog() == DialogResult.OK)
-				{
-
 					ImageFormat _if = ImageFormat.Png;
+					string dts = DateTime.Now.ToShortDateString() + "_" + DateTime.Now.ToLongTimeString();
+					dts = dts.Replace(".", "").Replace(" ", "").Replace(":", "");
 
-					switch (sfd.FileName.Substring(sfd.FileName.LastIndexOf(".") + 1).ToLower())
+					_b.Save(Properties.Settings.Default.s_QuickSaveDir + "\\screensnip_" + dts + ".png", _if);
+				}
+				else
+				{
+					if(svMode == "quick") { MessageBox.Show("It seems that you either have no quicksave directory set up,\r\nor the directory you have set up is unavailable.\r\n\r\nPlease check your quicksave settings in the options,\r\nunder the `General Settings` point!", "Quicksave not available!",MessageBoxButtons.OK,MessageBoxIcon.Exclamation); }
+
+					if (true || Properties.Settings.Default.s_SaveHasDateTime)
 					{
-						case "png":
-							_if = ImageFormat.Png;
-							Properties.Settings.Default.s_lastSaveFormat = 0;
-							break;
-
-						case "bmp":
-							_if = ImageFormat.Bmp;
-							Properties.Settings.Default.s_lastSaveFormat = 1;
-							break;
-
-						case "jpg":
-							_if = ImageFormat.Jpeg;
-							Properties.Settings.Default.s_lastSaveFormat = 2;
-							break;
-
-						case "jpeg":
-							_if = ImageFormat.Jpeg;
-							Properties.Settings.Default.s_lastSaveFormat = 2;
-							break;
-
-						case "gif":
-							_if = ImageFormat.Gif;
-							Properties.Settings.Default.s_lastSaveFormat = 3;
-							break;
-
-						case "tif":
-							_if = ImageFormat.Tiff;
-							Properties.Settings.Default.s_lastSaveFormat = 4;
-							break;
-
-						case "tiff":
-							_if = ImageFormat.Tiff;
-							Properties.Settings.Default.s_lastSaveFormat = 4;
-							break;
-
-						case "wmf":
-							_if = ImageFormat.Wmf;
-							Properties.Settings.Default.s_lastSaveFormat = 5;
-							break;
-
-						default:
-							_if = ImageFormat.Png;
-							Properties.Settings.Default.s_lastSaveFormat = 0;
-							break;
+						string date = "";
+						DateTime n = DateTime.Now;
+						date = n.Year + "." + n.Month.ToString().PadLeft(2, '0') + "." + n.Day.ToString().PadLeft(2, '0') + "_" + n.Hour.ToString().PadLeft(2, '0') + "." + n.Minute.ToString().PadLeft(2, '0') + "." + n.Second.ToString().PadLeft(2, '0');
+						savename += date;
 					}
+					SaveFileDialog sfd = new SaveFileDialog
+					{
+						Filter = "Portable Network Graphics Image (PNG)|*.png|" +
+									"Bitmap Image (BMP)|*.bmp|" +
+									"Joint Photographic Experts Group Image (JPEG)|*.jpg;*.jpeg|" +
+									"Graphics Interchange Format Image (GIF)|*.gif|" +
+									"Tagged Image File Format Image (TIFF)|*.tif;*.tiff|" +
+									"Windows Metafile Image (WMF)|*.wmf",
 
-					_b.Save(sfd.FileName, _if);
+						FilterIndex = Properties.Settings.Default.s_lastSaveFormat,
 
+						FileName = savename
+					};
+
+					if (sfd.ShowDialog() == DialogResult.OK)
+					{
+
+						ImageFormat _if = ImageFormat.Png;
+
+						switch (sfd.FileName.Substring(sfd.FileName.LastIndexOf(".") + 1).ToLower())
+						{
+							case "png":
+								_if = ImageFormat.Png;
+								Properties.Settings.Default.s_lastSaveFormat = 0;
+								break;
+
+							case "bmp":
+								_if = ImageFormat.Bmp;
+								Properties.Settings.Default.s_lastSaveFormat = 1;
+								break;
+
+							case "jpg":
+								_if = ImageFormat.Jpeg;
+								Properties.Settings.Default.s_lastSaveFormat = 2;
+								break;
+
+							case "jpeg":
+								_if = ImageFormat.Jpeg;
+								Properties.Settings.Default.s_lastSaveFormat = 2;
+								break;
+
+							case "gif":
+								_if = ImageFormat.Gif;
+								Properties.Settings.Default.s_lastSaveFormat = 3;
+								break;
+
+							case "tif":
+								_if = ImageFormat.Tiff;
+								Properties.Settings.Default.s_lastSaveFormat = 4;
+								break;
+
+							case "tiff":
+								_if = ImageFormat.Tiff;
+								Properties.Settings.Default.s_lastSaveFormat = 4;
+								break;
+
+							case "wmf":
+								_if = ImageFormat.Wmf;
+								Properties.Settings.Default.s_lastSaveFormat = 5;
+								break;
+
+							default:
+								_if = ImageFormat.Png;
+								Properties.Settings.Default.s_lastSaveFormat = 0;
+								break;
+						}
+
+						_b.Save(sfd.FileName, _if);
+
+					}
 				}
 
 			}
@@ -774,30 +800,12 @@ namespace WolfPaw_ScreenSnip
 
 		private void Form1_LocationChanged(object sender, EventArgs e)
 		{
-			//IMPORTANT:!!!!!FIX MULTI MONITOR PROBLEM
-
-			int fsw = 0;
-			int fsh = 0;
-
-			foreach (Screen s in Screen.AllScreens)
-			{
-				fsw += s.WorkingArea.Width;
-				if(fsh < s.WorkingArea.Height)
-				{
-					fsh = s.WorkingArea.Height;
-				}
-			}
-
-			if (Properties.Settings.Default.s_RememberLastPosition)
-			{
-				Properties.Settings.Default.s_LastPosition = Location;
-				Properties.Settings.Default.Save();
-			}
-
-			if(Left < 0) { Left = 0; }
-			if(Top < 0) { Top = 0; }
-			if(Right > fsw) { Left = fsw - Width;  }
-			if(Bottom > fsh) { Top = fsh - Height; }
+			Screen[] ss = Screen.AllScreens;
+			
+			if(Left < ss.Min(x=>x.Bounds.X)) { Left = ss.Min(x => x.Bounds.X); }
+			if(Top < ss.Min(x => x.Bounds.Y)) { Top = ss.Min(x => x.Bounds.Y); }
+			if(Right > ss.Max(x => x.Bounds.Right)) { Left = ss.Max(x => x.Bounds.Right) - Width;  }
+			if(Bottom > ss.Max(x => x.Bounds.Bottom)) { Top = ss.Max(x => x.Bounds.Bottom) - Height; }
 		}
 
 		private void btn_Settings_Click(object sender, EventArgs e)
@@ -972,6 +980,10 @@ namespace WolfPaw_ScreenSnip
 				{
 					btn_Preview_Click(null, null);
 				}
+				else if (e.KeyCode == Keys.S)
+				{
+					btn_Save_Click("quicksave", null);
+				}
 			}
 		}
 
@@ -1078,7 +1090,6 @@ namespace WolfPaw_ScreenSnip
 			f_Settings _fs = new f_Settings();
 			_fs.Show();
 			_fs.openHelp();
-			//TODO: Help
 		}
 
 		private void btn_Question_MouseEnter(object sender, EventArgs e)

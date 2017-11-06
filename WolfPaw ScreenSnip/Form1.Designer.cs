@@ -52,6 +52,7 @@
 			this.ni_Notify = new System.Windows.Forms.NotifyIcon(this.components);
 			this.cms_Notify = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.btn_CMS_Rectangle = new System.Windows.Forms.ToolStripMenuItem();
+			this.btn_CMS_QuickRectangle = new System.Windows.Forms.ToolStripMenuItem();
 			this.btn_CMS_Window = new System.Windows.Forms.ToolStripMenuItem();
 			this.btn_CMS_Freehand = new System.Windows.Forms.ToolStripMenuItem();
 			this.btn_CMS_Line = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,7 +74,6 @@
 			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
 			this.btn_CMS_Exit = new System.Windows.Forms.ToolStripMenuItem();
 			this.uc_ButtonSelector1 = new WolfPaw_ScreenSnip.uc_ButtonSelector();
-			this.btn_CMS_QuickRectangle = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.btn_Minimize)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.btn_Rollup)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.btn_Question)).BeginInit();
@@ -359,6 +359,16 @@
 			this.btn_CMS_Rectangle.ToolTipText = "Cut a rectangle from the screen";
 			this.btn_CMS_Rectangle.Click += new System.EventHandler(this.btn_CMS_Rectangle_Click);
 			// 
+			// btn_CMS_QuickRectangle
+			// 
+			this.btn_CMS_QuickRectangle.Name = "btn_CMS_QuickRectangle";
+			this.btn_CMS_QuickRectangle.ShortcutKeyDisplayString = "Ctrl + Shift + F1";
+			this.btn_CMS_QuickRectangle.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.F1)));
+			this.btn_CMS_QuickRectangle.Size = new System.Drawing.Size(323, 22);
+			this.btn_CMS_QuickRectangle.Text = "Quick Rectangle Cut                 ";
+			this.btn_CMS_QuickRectangle.ToolTipText = "Copy a rectangle from the screen\r\nto the clipboard";
+			// 
 			// btn_CMS_Window
 			// 
 			this.btn_CMS_Window.Enabled = false;
@@ -401,58 +411,58 @@
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(269, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(306, 6);
 			// 
 			// btn_CMS_Preview
 			// 
 			this.btn_CMS_Preview.Name = "btn_CMS_Preview";
-			this.btn_CMS_Preview.Size = new System.Drawing.Size(272, 22);
+			this.btn_CMS_Preview.Size = new System.Drawing.Size(323, 22);
 			this.btn_CMS_Preview.Text = "Preview Picture";
 			this.btn_CMS_Preview.Click += new System.EventHandler(this.btn_CMS_Preview_Click);
 			// 
 			// btn_CMS_Save
 			// 
 			this.btn_CMS_Save.Name = "btn_CMS_Save";
-			this.btn_CMS_Save.Size = new System.Drawing.Size(272, 22);
+			this.btn_CMS_Save.Size = new System.Drawing.Size(323, 22);
 			this.btn_CMS_Save.Text = "Save Picture";
 			this.btn_CMS_Save.Click += new System.EventHandler(this.btn_CMS_Save_Click);
 			// 
 			// btn_CMS_Copy
 			// 
 			this.btn_CMS_Copy.Name = "btn_CMS_Copy";
-			this.btn_CMS_Copy.Size = new System.Drawing.Size(272, 22);
+			this.btn_CMS_Copy.Size = new System.Drawing.Size(323, 22);
 			this.btn_CMS_Copy.Text = "Copy Picture";
 			this.btn_CMS_Copy.Click += new System.EventHandler(this.btn_CMS_Copy_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(269, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(306, 6);
 			// 
 			// btn_CMS_SaveToDB
 			// 
 			this.btn_CMS_SaveToDB.Name = "btn_CMS_SaveToDB";
-			this.btn_CMS_SaveToDB.Size = new System.Drawing.Size(272, 22);
+			this.btn_CMS_SaveToDB.Size = new System.Drawing.Size(323, 22);
 			this.btn_CMS_SaveToDB.Text = "Save Picturte to DB";
 			this.btn_CMS_SaveToDB.Click += new System.EventHandler(this.btn_CMS_SaveToDB_Click);
 			// 
 			// btn_CMS_BrowseDB
 			// 
 			this.btn_CMS_BrowseDB.Name = "btn_CMS_BrowseDB";
-			this.btn_CMS_BrowseDB.Size = new System.Drawing.Size(272, 22);
+			this.btn_CMS_BrowseDB.Size = new System.Drawing.Size(323, 22);
 			this.btn_CMS_BrowseDB.Text = "Browse DB";
 			this.btn_CMS_BrowseDB.Click += new System.EventHandler(this.btn_CMS_BrowseDB_Click);
 			// 
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(269, 6);
+			this.toolStripSeparator3.Size = new System.Drawing.Size(306, 6);
 			// 
 			// btn_CMS_Print
 			// 
 			this.btn_CMS_Print.Enabled = false;
 			this.btn_CMS_Print.Name = "btn_CMS_Print";
-			this.btn_CMS_Print.Size = new System.Drawing.Size(272, 22);
+			this.btn_CMS_Print.Size = new System.Drawing.Size(323, 22);
 			this.btn_CMS_Print.Text = "Print Picture";
 			this.btn_CMS_Print.Click += new System.EventHandler(this.btn_CMS_Print_Click);
 			// 
@@ -460,45 +470,45 @@
 			// 
 			this.btn_CMS_Email.Enabled = false;
 			this.btn_CMS_Email.Name = "btn_CMS_Email";
-			this.btn_CMS_Email.Size = new System.Drawing.Size(272, 22);
+			this.btn_CMS_Email.Size = new System.Drawing.Size(323, 22);
 			this.btn_CMS_Email.Text = "Email Picture";
 			this.btn_CMS_Email.Click += new System.EventHandler(this.btn_CMS_Email_Click);
 			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(269, 6);
+			this.toolStripSeparator4.Size = new System.Drawing.Size(306, 6);
 			// 
 			// btn_CMS_Options
 			// 
 			this.btn_CMS_Options.Name = "btn_CMS_Options";
-			this.btn_CMS_Options.Size = new System.Drawing.Size(272, 22);
+			this.btn_CMS_Options.Size = new System.Drawing.Size(323, 22);
 			this.btn_CMS_Options.Text = "Options";
 			this.btn_CMS_Options.Click += new System.EventHandler(this.btn_CMS_Options_Click);
 			// 
 			// btn_CMS_ShowScreen
 			// 
 			this.btn_CMS_ShowScreen.Name = "btn_CMS_ShowScreen";
-			this.btn_CMS_ShowScreen.Size = new System.Drawing.Size(272, 22);
+			this.btn_CMS_ShowScreen.Size = new System.Drawing.Size(323, 22);
 			this.btn_CMS_ShowScreen.Text = "Show Screen";
 			this.btn_CMS_ShowScreen.Click += new System.EventHandler(this.btn_CMS_ShowScreen_Click);
 			// 
 			// btn_CMS_MainWindow
 			// 
 			this.btn_CMS_MainWindow.Name = "btn_CMS_MainWindow";
-			this.btn_CMS_MainWindow.Size = new System.Drawing.Size(272, 22);
+			this.btn_CMS_MainWindow.Size = new System.Drawing.Size(323, 22);
 			this.btn_CMS_MainWindow.Text = "Show Main Window";
 			this.btn_CMS_MainWindow.Click += new System.EventHandler(this.btn_CMS_MainWindow_Click);
 			// 
 			// toolStripSeparator5
 			// 
 			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(269, 6);
+			this.toolStripSeparator5.Size = new System.Drawing.Size(306, 6);
 			// 
 			// btn_CMS_Exit
 			// 
 			this.btn_CMS_Exit.Name = "btn_CMS_Exit";
-			this.btn_CMS_Exit.Size = new System.Drawing.Size(272, 22);
+			this.btn_CMS_Exit.Size = new System.Drawing.Size(323, 22);
 			this.btn_CMS_Exit.Text = "Exit Program";
 			this.btn_CMS_Exit.Click += new System.EventHandler(this.btn_CMS_Exit_Click);
 			// 
@@ -510,16 +520,6 @@
 			this.uc_ButtonSelector1.parent = null;
 			this.uc_ButtonSelector1.Size = new System.Drawing.Size(55, 40);
 			this.uc_ButtonSelector1.TabIndex = 16;
-			// 
-			// btn_CMS_QuickRectangle
-			// 
-			this.btn_CMS_QuickRectangle.Name = "btn_CMS_QuickRectangle";
-			this.btn_CMS_QuickRectangle.ShortcutKeyDisplayString = "Ctrl + Shift + F1";
-			this.btn_CMS_QuickRectangle.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.F1)));
-			this.btn_CMS_QuickRectangle.Size = new System.Drawing.Size(323, 22);
-			this.btn_CMS_QuickRectangle.Text = "Quick Rectangle Cut                 ";
-			this.btn_CMS_QuickRectangle.ToolTipText = "Copy a rectangle from the screen\r\nto the clipboard";
 			// 
 			// Form1
 			// 
@@ -549,6 +549,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "Form1";
+			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Screen Snip";
 			this.LocationChanged += new System.EventHandler(this.Form1_LocationChanged);

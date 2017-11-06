@@ -325,7 +325,7 @@ namespace WolfPaw_ScreenSnip
 			{
 				int ind = selfContainingList.IndexOf(this);
 				int myLayer = LayerIndex;
-				var c = selfContainingList[ind - 1];
+				var c = selfContainingList[ind + 1];
 
 				LayerIndex = c.LayerIndex;
 				c.LayerIndex = myLayer;
@@ -342,7 +342,7 @@ namespace WolfPaw_ScreenSnip
 			{
 				int ind = selfContainingList.IndexOf(this);
 				int myLayer = LayerIndex;
-				var c = selfContainingList[ind + 1];
+				var c = selfContainingList[ind - 1];
 
 				LayerIndex = c.LayerIndex;
 				c.LayerIndex = myLayer;
@@ -926,7 +926,7 @@ namespace WolfPaw_ScreenSnip
 
 					image.Dispose();
 					Image.Dispose();
-					scaledImage.Dispose();
+					//scaledImage.Dispose();
 					parent.Invalidate();
 				}
 				
