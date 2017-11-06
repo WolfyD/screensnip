@@ -51,6 +51,12 @@ namespace WolfPaw_ScreenSnip
 			
         }
 
+		public static void getMailClient()
+		{
+			object mailClient = Microsoft.Win32.Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Clients\Mail", "", "none");
+			Console.WriteLine(mailClient.ToString());
+		}
+
 		public void loadSettings()
 		{
 			Form1_Activated(null, null);
@@ -989,7 +995,7 @@ namespace WolfPaw_ScreenSnip
 
         private void btn_AttachToEmail_Click(object sender, EventArgs e)
         {
-
+			getMailClient();
         }
 
         private void btn_SaveToDB_Click(object sender, EventArgs e)
