@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(f_Settings));
 			this.p_Buttons = new System.Windows.Forms.Panel();
 			this.btn_Bugreport = new System.Windows.Forms.Button();
@@ -45,8 +46,10 @@
 			this.tc_Tabs = new System.Windows.Forms.TabControl();
 			this.tp_General = new System.Windows.Forms.TabPage();
 			this.groupBox10 = new System.Windows.Forms.GroupBox();
+			this.cb_SaveBackup = new System.Windows.Forms.CheckBox();
 			this.cb_ShowTooltipsOnCutout = new System.Windows.Forms.CheckBox();
 			this.cb_ShowTooltips = new System.Windows.Forms.CheckBox();
+			this.label43 = new System.Windows.Forms.Label();
 			this.label42 = new System.Windows.Forms.Label();
 			this.label41 = new System.Windows.Forms.Label();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -141,9 +144,8 @@
 			this.label40 = new System.Windows.Forms.Label();
 			this.p_Help = new System.Windows.Forms.Panel();
 			this.lbl_Description = new System.Windows.Forms.Label();
-			this.label9 = new System.Windows.Forms.Label();
-			this.label43 = new System.Windows.Forms.Label();
-			this.cb_SaveBackup = new System.Windows.Forms.CheckBox();
+			this.lbl_DescTitle = new System.Windows.Forms.Label();
+			this.t_effect = new System.Windows.Forms.Timer(this.components);
 			this.p_Buttons.SuspendLayout();
 			this.p_Title.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitter)).BeginInit();
@@ -198,6 +200,7 @@
 			// 
 			// btn_Bugreport
 			// 
+			this.btn_Bugreport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btn_Bugreport.BackColor = System.Drawing.SystemColors.Control;
 			this.btn_Bugreport.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
 			this.btn_Bugreport.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
@@ -207,9 +210,11 @@
 			this.btn_Bugreport.TabIndex = 9;
 			this.btn_Bugreport.Text = "Bug Report";
 			this.btn_Bugreport.UseVisualStyleBackColor = false;
+			this.btn_Bugreport.Click += new System.EventHandler(this.btn_Bugreport_Click);
 			// 
 			// btn_Shortcuts
 			// 
+			this.btn_Shortcuts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btn_Shortcuts.BackColor = System.Drawing.SystemColors.Control;
 			this.btn_Shortcuts.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
 			this.btn_Shortcuts.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
@@ -219,9 +224,11 @@
 			this.btn_Shortcuts.TabIndex = 8;
 			this.btn_Shortcuts.Text = "Shortcuts";
 			this.btn_Shortcuts.UseVisualStyleBackColor = false;
+			this.btn_Shortcuts.Click += new System.EventHandler(this.btn_Shortcuts_Click);
 			// 
 			// btn_Close
 			// 
+			this.btn_Close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btn_Close.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.btn_Close.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
 			this.btn_Close.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
@@ -235,6 +242,7 @@
 			// 
 			// btn_About
 			// 
+			this.btn_About.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btn_About.BackColor = System.Drawing.SystemColors.Control;
 			this.btn_About.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
 			this.btn_About.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
@@ -248,6 +256,7 @@
 			// 
 			// btn_Help
 			// 
+			this.btn_Help.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btn_Help.BackColor = System.Drawing.SystemColors.Control;
 			this.btn_Help.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
 			this.btn_Help.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
@@ -368,7 +377,7 @@
 			this.tc_Tabs.Location = new System.Drawing.Point(0, 0);
 			this.tc_Tabs.Name = "tc_Tabs";
 			this.tc_Tabs.SelectedIndex = 0;
-			this.tc_Tabs.Size = new System.Drawing.Size(386, 386);
+			this.tc_Tabs.Size = new System.Drawing.Size(386, 393);
 			this.tc_Tabs.TabIndex = 0;
 			// 
 			// tp_General
@@ -379,13 +388,15 @@
 			this.tp_General.Location = new System.Drawing.Point(4, 4);
 			this.tp_General.Name = "tp_General";
 			this.tp_General.Padding = new System.Windows.Forms.Padding(3);
-			this.tp_General.Size = new System.Drawing.Size(378, 360);
+			this.tp_General.Size = new System.Drawing.Size(378, 367);
 			this.tp_General.TabIndex = 0;
 			this.tp_General.Text = "General";
 			this.tp_General.UseVisualStyleBackColor = true;
 			// 
 			// groupBox10
 			// 
+			this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox10.Controls.Add(this.cb_SaveBackup);
 			this.groupBox10.Controls.Add(this.cb_ShowTooltipsOnCutout);
 			this.groupBox10.Controls.Add(this.cb_ShowTooltips);
@@ -398,6 +409,15 @@
 			this.groupBox10.TabIndex = 2;
 			this.groupBox10.TabStop = false;
 			this.groupBox10.Text = "Misc";
+			// 
+			// cb_SaveBackup
+			// 
+			this.cb_SaveBackup.AutoSize = true;
+			this.cb_SaveBackup.Location = new System.Drawing.Point(188, 74);
+			this.cb_SaveBackup.Name = "cb_SaveBackup";
+			this.cb_SaveBackup.Size = new System.Drawing.Size(15, 14);
+			this.cb_SaveBackup.TabIndex = 2;
+			this.cb_SaveBackup.UseVisualStyleBackColor = true;
 			// 
 			// cb_ShowTooltipsOnCutout
 			// 
@@ -417,6 +437,17 @@
 			this.cb_ShowTooltips.TabIndex = 1;
 			this.cb_ShowTooltips.UseVisualStyleBackColor = true;
 			// 
+			// label43
+			// 
+			this.label43.AutoSize = true;
+			this.label43.Location = new System.Drawing.Point(6, 73);
+			this.label43.Name = "label43";
+			this.label43.Size = new System.Drawing.Size(177, 13);
+			this.label43.TabIndex = 0;
+			this.label43.Tag = "33";
+			this.label43.Text = "Keep editable backup with cutouts: ";
+			this.label43.MouseEnter += new System.EventHandler(this.WriteHelpString);
+			// 
 			// label42
 			// 
 			this.label42.AutoSize = true;
@@ -424,7 +455,9 @@
 			this.label42.Name = "label42";
 			this.label42.Size = new System.Drawing.Size(168, 13);
 			this.label42.TabIndex = 0;
+			this.label42.Tag = "32";
 			this.label42.Text = "Show Tooltips on cutout controls: ";
+			this.label42.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
 			// label41
 			// 
@@ -433,7 +466,9 @@
 			this.label41.Name = "label41";
 			this.label41.Size = new System.Drawing.Size(135, 13);
 			this.label41.TabIndex = 0;
+			this.label41.Tag = "31";
 			this.label41.Text = "Show Tooltips on controls: ";
+			this.label41.MouseEnter += new System.EventHandler(this.WriteHelpString);
 			// 
 			// groupBox2
 			// 
@@ -621,7 +656,7 @@
 			this.tp_Program.Location = new System.Drawing.Point(4, 4);
 			this.tp_Program.Name = "tp_Program";
 			this.tp_Program.Padding = new System.Windows.Forms.Padding(3);
-			this.tp_Program.Size = new System.Drawing.Size(378, 344);
+			this.tp_Program.Size = new System.Drawing.Size(378, 360);
 			this.tp_Program.TabIndex = 1;
 			this.tp_Program.Text = "Program";
 			this.tp_Program.UseVisualStyleBackColor = true;
@@ -643,7 +678,7 @@
 			this.groupBox6.Controls.Add(this.label22);
 			this.groupBox6.Location = new System.Drawing.Point(6, 383);
 			this.groupBox6.Name = "groupBox6";
-			this.groupBox6.Size = new System.Drawing.Size(298, 163);
+			this.groupBox6.Size = new System.Drawing.Size(281, 163);
 			this.groupBox6.TabIndex = 3;
 			this.groupBox6.TabStop = false;
 			this.groupBox6.Text = "Cutout Settings";
@@ -764,7 +799,7 @@
 			this.groupBox5.Controls.Add(this.label20);
 			this.groupBox5.Location = new System.Drawing.Point(6, 296);
 			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(298, 81);
+			this.groupBox5.Size = new System.Drawing.Size(281, 81);
 			this.groupBox5.TabIndex = 2;
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "Preview Settings";
@@ -825,7 +860,7 @@
 			this.groupBox4.Controls.Add(this.label14);
 			this.groupBox4.Location = new System.Drawing.Point(6, 147);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(298, 143);
+			this.groupBox4.Size = new System.Drawing.Size(281, 143);
 			this.groupBox4.TabIndex = 1;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "Screen Window";
@@ -925,7 +960,7 @@
 			this.groupBox3.Controls.Add(this.label10);
 			this.groupBox3.Location = new System.Drawing.Point(6, 8);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(298, 133);
+			this.groupBox3.Size = new System.Drawing.Size(281, 133);
 			this.groupBox3.TabIndex = 0;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Main Program";
@@ -1032,7 +1067,7 @@
 			this.tp_Canvas.Location = new System.Drawing.Point(4, 4);
 			this.tp_Canvas.Name = "tp_Canvas";
 			this.tp_Canvas.Padding = new System.Windows.Forms.Padding(3);
-			this.tp_Canvas.Size = new System.Drawing.Size(378, 344);
+			this.tp_Canvas.Size = new System.Drawing.Size(378, 360);
 			this.tp_Canvas.TabIndex = 2;
 			this.tp_Canvas.Text = "Canvas";
 			this.tp_Canvas.UseVisualStyleBackColor = true;
@@ -1282,7 +1317,7 @@
 			this.tp_Render.Location = new System.Drawing.Point(4, 4);
 			this.tp_Render.Name = "tp_Render";
 			this.tp_Render.Padding = new System.Windows.Forms.Padding(3);
-			this.tp_Render.Size = new System.Drawing.Size(378, 344);
+			this.tp_Render.Size = new System.Drawing.Size(378, 338);
 			this.tp_Render.TabIndex = 3;
 			this.tp_Render.Text = "Render";
 			this.tp_Render.UseVisualStyleBackColor = true;
@@ -1294,7 +1329,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.rtb_Explanation.Location = new System.Drawing.Point(151, 133);
 			this.rtb_Explanation.Name = "rtb_Explanation";
-			this.rtb_Explanation.Size = new System.Drawing.Size(219, 205);
+			this.rtb_Explanation.Size = new System.Drawing.Size(219, 199);
 			this.rtb_Explanation.TabIndex = 5;
 			this.rtb_Explanation.Text = resources.GetString("rtb_Explanation.Text");
 			// 
@@ -1435,7 +1470,7 @@
 			this.tp_Help.Location = new System.Drawing.Point(4, 4);
 			this.tp_Help.Name = "tp_Help";
 			this.tp_Help.Padding = new System.Windows.Forms.Padding(3);
-			this.tp_Help.Size = new System.Drawing.Size(378, 344);
+			this.tp_Help.Size = new System.Drawing.Size(378, 338);
 			this.tp_Help.TabIndex = 4;
 			this.tp_Help.Text = "Help";
 			this.tp_Help.UseVisualStyleBackColor = true;
@@ -1456,7 +1491,7 @@
 			this.tp_About.Location = new System.Drawing.Point(4, 4);
 			this.tp_About.Name = "tp_About";
 			this.tp_About.Padding = new System.Windows.Forms.Padding(3);
-			this.tp_About.Size = new System.Drawing.Size(378, 344);
+			this.tp_About.Size = new System.Drawing.Size(378, 360);
 			this.tp_About.TabIndex = 5;
 			this.tp_About.Text = "About";
 			this.tp_About.UseVisualStyleBackColor = true;
@@ -1477,7 +1512,7 @@
 			this.tp_Shortcuts.Location = new System.Drawing.Point(4, 4);
 			this.tp_Shortcuts.Name = "tp_Shortcuts";
 			this.tp_Shortcuts.Padding = new System.Windows.Forms.Padding(3);
-			this.tp_Shortcuts.Size = new System.Drawing.Size(378, 344);
+			this.tp_Shortcuts.Size = new System.Drawing.Size(378, 360);
 			this.tp_Shortcuts.TabIndex = 6;
 			this.tp_Shortcuts.Text = "Shortcuts";
 			this.tp_Shortcuts.UseVisualStyleBackColor = true;
@@ -1498,7 +1533,7 @@
 			this.tp_Bugreport.Location = new System.Drawing.Point(4, 4);
 			this.tp_Bugreport.Name = "tp_Bugreport";
 			this.tp_Bugreport.Padding = new System.Windows.Forms.Padding(3);
-			this.tp_Bugreport.Size = new System.Drawing.Size(378, 344);
+			this.tp_Bugreport.Size = new System.Drawing.Size(378, 360);
 			this.tp_Bugreport.TabIndex = 7;
 			this.tp_Bugreport.Text = "Bugreport";
 			this.tp_Bugreport.UseVisualStyleBackColor = true;
@@ -1516,7 +1551,7 @@
 			// p_Help
 			// 
 			this.p_Help.Controls.Add(this.lbl_Description);
-			this.p_Help.Controls.Add(this.label9);
+			this.p_Help.Controls.Add(this.lbl_DescTitle);
 			this.p_Help.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.p_Help.Location = new System.Drawing.Point(0, 0);
 			this.p_Help.Name = "p_Help";
@@ -1533,38 +1568,28 @@
 			this.lbl_Description.Size = new System.Drawing.Size(379, 75);
 			this.lbl_Description.TabIndex = 1;
 			// 
-			// label9
+			// lbl_DescTitle
 			// 
-			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(1, 3);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(66, 13);
-			this.label9.TabIndex = 0;
-			this.label9.Text = "Description: ";
+			this.lbl_DescTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.lbl_DescTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lbl_DescTitle.Location = new System.Drawing.Point(1, 3);
+			this.lbl_DescTitle.Name = "lbl_DescTitle";
+			this.lbl_DescTitle.Size = new System.Drawing.Size(385, 20);
+			this.lbl_DescTitle.TabIndex = 0;
+			this.lbl_DescTitle.Text = "Description: ";
 			// 
-			// label43
+			// t_effect
 			// 
-			this.label43.AutoSize = true;
-			this.label43.Location = new System.Drawing.Point(6, 73);
-			this.label43.Name = "label43";
-			this.label43.Size = new System.Drawing.Size(177, 13);
-			this.label43.TabIndex = 0;
-			this.label43.Text = "Keep editable backup with cutouts: ";
-			// 
-			// cb_SaveBackup
-			// 
-			this.cb_SaveBackup.AutoSize = true;
-			this.cb_SaveBackup.Location = new System.Drawing.Point(188, 74);
-			this.cb_SaveBackup.Name = "cb_SaveBackup";
-			this.cb_SaveBackup.Size = new System.Drawing.Size(15, 14);
-			this.cb_SaveBackup.TabIndex = 2;
-			this.cb_SaveBackup.UseVisualStyleBackColor = true;
+			this.t_effect.Interval = 1;
+			this.t_effect.Tick += new System.EventHandler(this.t_effect_Tick);
 			// 
 			// f_Settings
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(547, 470);
+			this.ControlBox = false;
 			this.Controls.Add(this.splitter);
 			this.Controls.Add(this.p_Buttons);
 			this.Name = "f_Settings";
@@ -1617,7 +1642,6 @@
 			this.tp_Bugreport.ResumeLayout(false);
 			this.tp_Bugreport.PerformLayout();
 			this.p_Help.ResumeLayout(false);
-			this.p_Help.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -1673,7 +1697,7 @@
 		private System.Windows.Forms.CheckBox cb_UseCleanButtons;
 		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.Label lbl_Description;
-		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.Label lbl_DescTitle;
 		private System.Windows.Forms.CheckBox cb_AutBeforeDelete;
 		private System.Windows.Forms.CheckBox cb_HandleShortcuts;
 		private System.Windows.Forms.CheckBox cb_HandlePrintScreen;
@@ -1739,5 +1763,6 @@
 		private System.Windows.Forms.Label label41;
 		private System.Windows.Forms.CheckBox cb_SaveBackup;
 		private System.Windows.Forms.Label label43;
+		private System.Windows.Forms.Timer t_effect;
 	}
 }

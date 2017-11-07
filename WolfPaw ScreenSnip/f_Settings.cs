@@ -206,6 +206,16 @@ namespace WolfPaw_ScreenSnip
 			tc_Tabs.SelectedIndex = 5;
 		}
 
+		private void btn_Bugreport_Click(object sender, EventArgs e)
+		{
+			tc_Tabs.SelectedIndex = 7;
+		}
+
+		private void btn_Shortcuts_Click(object sender, EventArgs e)
+		{
+			tc_Tabs.SelectedIndex = 6;
+		}
+
 		private void btn_QuickSetup_HQ_Click(object sender, EventArgs e)
 		{
 			cb_SmoothingMode.SelectedIndex = 3;
@@ -394,6 +404,18 @@ namespace WolfPaw_ScreenSnip
 					str = "Pixel offset mode. This value determines image quality based on pixel offsetting.";
 					break;
 
+				case 31:
+					str = "If this is turned on, tooltips will show when you hover your cursor over controls.";
+					break;
+
+				case 32:
+					str = "If this is turned on, the information about cutout buttons will show as tooltips instead of text in the description box.";
+					break;
+
+				case 33:
+					str = "If this box is checked, the program will attempt to save a screenshot for every cutout you make to make it possible to recut them in editing.";
+					break;
+
 				default:
 					str = "";
 					break;
@@ -402,9 +424,55 @@ namespace WolfPaw_ScreenSnip
 			}
 
 			lbl_Description.Text = str;
-
+			setEffect();
 		}
 
-		
+		int effectCurrent = 0;
+		int effectMax = 10;
+		bool effectUp = false;
+
+		public void setEffect()
+		{
+			if (t_effect.Enabled == false)
+			{
+				effectCurrent = 0;
+				effectUp = false;
+				t_effect.Start();
+			}
+		}
+
+		private void t_effect_Tick(object sender, EventArgs e)
+		{
+			if (!effectUp)
+			{
+				if (effectCurrent < effectMax)
+				{
+					Color c = lbl_DescTitle.BackColor;
+
+					lbl_DescTitle.BackColor = Color.FromArgb(255, c.R - 2, c.G - 2, c.B - 2);
+
+					effectCurrent++;
+				}
+				else
+				{
+					effectUp = true;
+				}
+			}
+			else
+			{
+				if (effectCurrent > 0)
+				{
+					Color c = lbl_DescTitle.BackColor;
+
+					lbl_DescTitle.BackColor = Color.FromArgb(255, c.R + 2, c.G + 2, c.B + 2);
+
+					effectCurrent--;
+				}
+				else
+				{
+					t_effect.Stop();
+				}
+			}
+		}
 	}
 }
