@@ -85,11 +85,14 @@ namespace WolfPaw_ScreenSnip
 		public int panelTimeLeft = 0;
 		public int rotation = 0;
 		public bool rotated = false;
+		public bool stayOnTop = false;
+		public bool visible = false;
 
 		public buttons _buttons = new buttons();
 		
-		public c_ImageHolder()
+		public c_ImageHolder(string cid)
 		{
+			backup_id = cid;
 
 			#region BUTTONS
 			btn b_Resize = new btn() {
@@ -214,6 +217,17 @@ namespace WolfPaw_ScreenSnip
 			}
 
 			#endregion
+
+			if(backup_id == "EDITLAYER")
+			{
+				stayOnTop = true;
+				visible = false;
+			}
+			else
+			{
+				stayOnTop = false;
+				visible = true;
+			}
 		}
 
 
@@ -424,9 +438,13 @@ namespace WolfPaw_ScreenSnip
 
 		public void setImage(Bitmap img)
 		{
-			image = img;
-			parent.Invalidate();
-			createScaledImage();
+			try
+			{
+				image = img;
+				parent.Invalidate();
+				createScaledImage();
+			}
+			catch { }
 		}
 
 		public Bitmap getImage()

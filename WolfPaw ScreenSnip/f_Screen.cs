@@ -61,6 +61,7 @@ namespace WolfPaw_ScreenSnip
 		public bool drawAllTransparent = false;
 		public bool drawAllTransparentToggle = false;
 		public float opacityLevel = 0.4f;
+		c_ImageHolder editLayer;
 
 		public bool showToolTipsOnCutoutButtons = false;
 		// }
@@ -141,6 +142,21 @@ namespace WolfPaw_ScreenSnip
 			
 			renhan = new c_RenderHandler(Limages);
 			trackBar.OnValueChange += TrackBar_OnValueChange;
+
+			addImage(new Bitmap(Screen.AllScreens.Max(x => x.Bounds.Right), Screen.AllScreens.Max(x => x.Bounds.Bottom)), new Point(0, 0), "EDITLAYER");
+
+			/*
+			editLayer = new c_ImageHolder()
+			{
+				backup_id = "EDITLAYER",
+				Image = new Bitmap(Screen.AllScreens.Max(x=>x.Bounds.Right), Screen.AllScreens.Max(x => x.Bounds.Bottom)),
+				LayerIndex = -10,
+				parent = this,
+				Position = new Point(100, 100),
+				selfContainingList = Limages,
+				Size = new Size(1000, 1000)
+			};
+			*/
 		}
 
 		private void TrackBar_OnValueChange(object sender, ValueEventArgs e)
@@ -167,7 +183,7 @@ namespace WolfPaw_ScreenSnip
 		{
 			if (img != null)
 			{
-				var box = new c_ImageHolder
+				var box = new c_ImageHolder(cutoutID)
 				{
 					parent = this,
 
@@ -178,8 +194,7 @@ namespace WolfPaw_ScreenSnip
 					Image = img,
 
 					LayerIndex = Limages.Count,
-					selfContainingList = Limages,
-					backup_id = cutoutID
+					selfContainingList = Limages
 				};
 
 				Limages.Add(box);
@@ -574,7 +589,7 @@ namespace WolfPaw_ScreenSnip
 				organizeImageList();
 				foreach (c_ImageHolder c in Limages)
 				{
-					if (c != null)
+					if (c != null && c.visible)
 					{
 						//c.rotated = true;
 						//c.rotation = 50;
@@ -1344,6 +1359,7 @@ namespace WolfPaw_ScreenSnip
 			return null;
 		}
 
+		//TODO: Drawing layer
 		public void showHideEditLayer(bool show)
 		{
 			if (show)
