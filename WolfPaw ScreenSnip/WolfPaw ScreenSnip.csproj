@@ -87,6 +87,7 @@
     <Compile Include="c_Converter.cs" />
     <Compile Include="c_DatabaseHandler.cs" />
     <Compile Include="c_DrawnPoints.cs" />
+    <Compile Include="c_EditLayer.cs" />
     <Compile Include="c_ImageHolder.cs" />
     <Compile Include="c_ImgGen.cs" />
     <Compile Include="c_KeyboardHook.cs" />
@@ -196,6 +197,12 @@
     <Compile Include="uc_ButtonSelector.Designer.cs">
       <DependentUpon>uc_ButtonSelector.cs</DependentUpon>
     </Compile>
+    <Compile Include="uc_TextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="uc_TextBox.Designer.cs">
+      <DependentUpon>uc_TextBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="uc_TrackBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -256,6 +263,9 @@
     </Compile>
     <EmbeddedResource Include="uc_ButtonSelector.resx">
       <DependentUpon>uc_ButtonSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="uc_TextBox.resx">
+      <DependentUpon>uc_TextBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="uc_TrackBar.resx">
       <DependentUpon>uc_TrackBar.cs</DependentUpon>

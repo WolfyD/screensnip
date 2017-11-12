@@ -37,6 +37,7 @@ namespace WolfPaw_ScreenSnip
 		//TOOLS {
 		public Color toolColor = Color.Black;
 		private int CurrentTool;
+		public float toolSize = 1;
 		public int currentTool
 		{
 			get { return CurrentTool; }
@@ -61,7 +62,8 @@ namespace WolfPaw_ScreenSnip
 		public bool drawAllTransparent = false;
 		public bool drawAllTransparentToggle = false;
 		public float opacityLevel = 0.4f;
-		c_ImageHolder editLayer;
+		public bool editLayerOpen = false;
+		c_EditLayer editLayer = new c_EditLayer();
 
 		public bool showToolTipsOnCutoutButtons = false;
 		// }
@@ -143,20 +145,8 @@ namespace WolfPaw_ScreenSnip
 			renhan = new c_RenderHandler(Limages);
 			trackBar.OnValueChange += TrackBar_OnValueChange;
 
-			addImage(new Bitmap(Screen.AllScreens.Max(x => x.Bounds.Right), Screen.AllScreens.Max(x => x.Bounds.Bottom)), new Point(0, 0), "EDITLAYER");
-
-			/*
-			editLayer = new c_ImageHolder()
-			{
-				backup_id = "EDITLAYER",
-				Image = new Bitmap(Screen.AllScreens.Max(x=>x.Bounds.Right), Screen.AllScreens.Max(x => x.Bounds.Bottom)),
-				LayerIndex = -10,
-				parent = this,
-				Position = new Point(100, 100),
-				selfContainingList = Limages,
-				Size = new Size(1000, 1000)
-			};
-			*/
+			
+			
 		}
 
 		private void TrackBar_OnValueChange(object sender, ValueEventArgs e)
@@ -586,96 +576,131 @@ namespace WolfPaw_ScreenSnip
 			//TODO: PAINT!!
 			try
 			{
-				organizeImageList();
-				foreach (c_ImageHolder c in Limages)
+				if (!editLayerOpen)
 				{
-					if (c != null && c.visible)
-					{
-						//c.rotated = true;
-						//c.rotation = 50;
 
-						if (c.rotated && c.rotation != 0)
+					organizeImageList();
+					foreach (c_ImageHolder c in Limages)
+					{
+						if (c != null && c.visible)
 						{
-							Bitmap b = new Bitmap(100, 100);
-							using (Graphics g = Graphics.FromImage(b))
+							//c.rotated = true;
+							//c.rotation = 50;
+
+							if (c.rotated && c.rotation != 0)
 							{
-								g.RotateTransform(-c.rotation);
-								g.DrawImage(c.getImage(), 0, 0);
-								g.RotateTransform(c.rotation);
-								e.Graphics.DrawImage(b, new Rectangle(c.Position, c.Size), 0, 0, c.Image.Size.Width, c.Image.Size.Height, GraphicsUnit.Pixel);
-							}
-						}
-						else
-						{
-							if (drawAllTransparentToggle || drawAllTransparent)
-							{
-								e.Graphics.DrawImage(c.getImage(), new Rectangle(c.Position, c.Size), 0, 0, c.Image.Size.Width, c.Image.Size.Height, GraphicsUnit.Pixel, attributes);
+								Bitmap b = new Bitmap(100, 100);
+								using (Graphics g = Graphics.FromImage(b))
+								{
+									g.RotateTransform(-c.rotation);
+									g.DrawImage(c.getImage(), 0, 0);
+									g.RotateTransform(c.rotation);
+									e.Graphics.DrawImage(b, new Rectangle(c.Position, c.Size), 0, 0, c.Image.Size.Width, c.Image.Size.Height, GraphicsUnit.Pixel);
+								}
 							}
 							else
 							{
-								if (selectedImage == c && drawTransparent)
+								if (drawAllTransparentToggle || drawAllTransparent)
 								{
 									e.Graphics.DrawImage(c.getImage(), new Rectangle(c.Position, c.Size), 0, 0, c.Image.Size.Width, c.Image.Size.Height, GraphicsUnit.Pixel, attributes);
 								}
 								else
 								{
-									e.Graphics.DrawImage(c.getImage(), new Rectangle(c.Position, c.Size), new Rectangle(new Point(0, 0), c.Image.Size), GraphicsUnit.Pixel);
-								}
-							}
-
-							if (c.selected)
-							{
-								//TODO: Rotation stuff
-								//e.Graphics.DrawRectangle(Pens.Black, new Rectangle(c.bounds().Left + c.bounds().Width + 10, c.bounds().Top + c.bounds().Height + 10, 10, 10));
-								e.Graphics.DrawRectangle(new Pen(c_DefaultBorderColor), new Rectangle(c.Position, c.Size));
-							}
-							else if (c.mouseOver)
-							{
-								e.Graphics.DrawRectangle(new Pen(c_MouseOverBorderColor), new Rectangle(c.Position, c.Size));
-							}
-							if (c.panelShowing)
-							{
-								e.Graphics.FillRectangle(new SolidBrush(c_HandleColor), new RectangleF(c.Position, new Size(c.Width, 20)));
-
-								e.Graphics.DrawImage(renhan.renderButtons(PointToClient(Cursor.Position), c), new PointF(c.Position.X, c.Position.Y));
-
-								Point p = PointToClient(Cursor.Position);
-
-								if (c.isOverAButton(new Point(p.X - c.Left,p.Y - c.Top)) && !resize && MouseButtons.CompareTo(MouseButtons.Left) != 0)
-								{
-									btn bb = c.overWhichButton(new Point(p.X - c.Left, p.Y - c.Top));
-									if (bb.visible)
+									if (selectedImage == c && drawTransparent)
 									{
-										string ttText = bb.tooltiptext;
-										if (!showToolTipsOnCutoutButtons)
+										e.Graphics.DrawImage(c.getImage(), new Rectangle(c.Position, c.Size), 0, 0, c.Image.Size.Width, c.Image.Size.Height, GraphicsUnit.Pixel, attributes);
+									}
+									else
+									{
+										e.Graphics.DrawImage(c.getImage(), new Rectangle(c.Position, c.Size), new Rectangle(new Point(0, 0), c.Image.Size), GraphicsUnit.Pixel);
+									}
+								}
+
+								if (c.selected)
+								{
+									//TODO: Rotation stuff
+									//e.Graphics.DrawRectangle(Pens.Black, new Rectangle(c.bounds().Left + c.bounds().Width + 10, c.bounds().Top + c.bounds().Height + 10, 10, 10));
+									e.Graphics.DrawRectangle(new Pen(c_DefaultBorderColor), new Rectangle(c.Position, c.Size));
+								}
+								else if (c.mouseOver)
+								{
+									e.Graphics.DrawRectangle(new Pen(c_MouseOverBorderColor), new Rectangle(c.Position, c.Size));
+								}
+								if (c.panelShowing)
+								{
+									e.Graphics.FillRectangle(new SolidBrush(c_HandleColor), new RectangleF(c.Position, new Size(c.Width, 20)));
+
+									e.Graphics.DrawImage(renhan.renderButtons(PointToClient(Cursor.Position), c), new PointF(c.Position.X, c.Position.Y));
+
+									Point p = PointToClient(Cursor.Position);
+
+									if (c.isOverAButton(new Point(p.X - c.Left, p.Y - c.Top)) && !resize && MouseButtons.CompareTo(MouseButtons.Left) != 0)
+									{
+										btn bb = c.overWhichButton(new Point(p.X - c.Left, p.Y - c.Top));
+										if (bb.visible)
 										{
-											lbl_Panel1_Info.Text = ttText;
-											lbl_Panel2_Info.Text = ttText;
-										}
-										else
-										{
-											try
+											string ttText = bb.tooltiptext;
+											if (!showToolTipsOnCutoutButtons)
 											{
-												string title = "";
-												string text = "";
-												int Y = c.Top + 20;
-												Rectangle rec = getTooltipRect(ttText, new Point(p.X, Y), out title, out text);
-												e.Graphics.FillRectangle(new SolidBrush(SystemColors.Info), rec);
-												e.Graphics.DrawString(title, tooltipfont, Brushes.Black, new Point(p.X - (p.X % 25) + 22, Y + 5 + 12));
-												e.Graphics.DrawImage(bb.image1, p.X - (p.X % 25) + 1, Y + 5 + 10);
-												e.Graphics.DrawString(text, tooltipfont, Brushes.Black, new Point(p.X - (p.X % 25) + 2, Y + 5 + 24));
-												e.Graphics.DrawRectangle(Pens.Black, new Rectangle(rec.Left - 1, rec.Top - 1, rec.Width + 2, rec.Height + 2));
+												lbl_Panel1_Info.Text = ttText;
+												lbl_Panel2_Info.Text = ttText;
 											}
-											catch (Exception ex)
+											else
 											{
-												MessageBox.Show(ex.ToString());
+												try
+												{
+													string title = "";
+													string text = "";
+													int Y = c.Top + 20;
+													Rectangle rec = getTooltipRect(ttText, new Point(p.X, Y), out title, out text);
+													e.Graphics.FillRectangle(new SolidBrush(SystemColors.Info), rec);
+													e.Graphics.DrawString(title, tooltipfont, Brushes.Black, new Point(p.X - (p.X % 25) + 22, Y + 5 + 12));
+													e.Graphics.DrawImage(bb.image1, p.X - (p.X % 25) + 1, Y + 5 + 10);
+													e.Graphics.DrawString(text, tooltipfont, Brushes.Black, new Point(p.X - (p.X % 25) + 2, Y + 5 + 24));
+													e.Graphics.DrawRectangle(Pens.Black, new Rectangle(rec.Left - 1, rec.Top - 1, rec.Width + 2, rec.Height + 2));
+												}
+												catch (Exception ex)
+												{
+													MessageBox.Show(ex.ToString());
+												}
 											}
 										}
 									}
 								}
 							}
+
 						}
-						
+
+					}
+
+				}
+				else
+				{
+					foreach(var c in Limages)
+					{
+						e.Graphics.DrawImage(c.getImage(), new Rectangle(c.Position, c.Size), new Rectangle(new Point(0, 0), c.Image.Size), GraphicsUnit.Pixel);
+					}
+
+					//TODO: PAINT EDITLAYER
+					foreach (c_EditLayerElement element in editLayer.elements)
+					{
+						if (element.type == elementTypes.drawing)
+						{
+							e.Graphics.DrawImage(element._Drawing, element._Position);
+							
+							if (true || element._Selected)
+							{
+								e.Graphics.DrawRectangle(Pens.Black, new Rectangle(element._Position, element._Size));
+							}
+						}
+						else if (element.type == elementTypes.arrow)
+						{
+
+						}
+						else
+						{
+
+						}
 					}
 				}
 			}
@@ -748,51 +773,68 @@ namespace WolfPaw_ScreenSnip
 
 		private void f_Screen_MouseDown(object sender, MouseEventArgs e)
 		{
-
-
-
-			Limages.Sort(new intComparerDesc());
-			foreach (c_ImageHolder c in Limages)
+			if (!editLayerOpen)
 			{
-				if (renhan.pointInPosition(e.Location, new Rectangle(c.Position, c.Size)))
+				Limages.Sort(new intComparerDesc());
+				foreach (c_ImageHolder c in Limages)
 				{
-					c.select();
-
-					if (!(renhan.pointInPosition(e.Location, new Rectangle(mouseOverImage.Position, new Size(mouseOverImage.Width, 20)))))
+					if (renhan.pointInPosition(e.Location, new Rectangle(c.Position, c.Size)))
 					{
-						c.bringToTop();
+						c.select();
+
+						if (!(renhan.pointInPosition(e.Location, new Rectangle(mouseOverImage.Position, new Size(mouseOverImage.Width, 20)))))
+						{
+							c.bringToTop();
+						}
+
+						selectedImage = c;
+						imageDragPoint = new Point(e.X - c.Left, e.Y - c.Top);
+
+						buttonPress = false;
+						if (c.isOverAButton(imageDragPoint))
+						{
+							buttonPress = true;
+						}
+
+						if (!c.isOverAnEdge(imageDragPoint) && !c.isOverACorner(imageDragPoint)) { resize = false; cResizer = null; ed = edges.none; cor = corners.none; }
+						else { resize = true; cResizer = c; if (c.isOverAnEdge(imageDragPoint)) { ed = c.overWhichEdge(imageDragPoint); cor = corners.none; } else { cor = c.overWhichCorner(imageDragPoint); ed = edges.none; } }
+						mdown = true;
+						break;
 					}
-
-					selectedImage = c;
-					imageDragPoint = new Point(e.X - c.Left, e.Y - c.Top);
-
-					buttonPress = false;
-					if (c.isOverAButton(imageDragPoint))
+					else if (c.isOverARotaPoint(e.Location))
 					{
-						buttonPress = true;
+						cRot = corners.rightBottom;
+						cResizer = c;
+						mdown = true;
+						resize = true;
+						break;
 					}
-
-					if (!c.isOverAnEdge(imageDragPoint) && !c.isOverACorner(imageDragPoint)) { resize = false; cResizer = null; ed = edges.none; cor = corners.none; }
-					else { resize = true; cResizer = c; if (c.isOverAnEdge(imageDragPoint)) { ed = c.overWhichEdge(imageDragPoint); cor = corners.none; } else { cor = c.overWhichCorner(imageDragPoint); ed = edges.none; } }
-					mdown = true;
-					break;
+					else
+					{
+						c.selected = false;
+					}
 				}
-				else if (c.isOverARotaPoint(e.Location))
+			}
+			else
+			{
+				Pen p = new Pen(toolColor, toolSize);
+				Brush b = new SolidBrush(toolColor);
+				//TODO: MOUSEDOWN EDITLAYER
+				if(CurrentTool == 1)
 				{
-					cRot = corners.rightBottom;
-					cResizer = c;
-					mdown = true;
-					resize = true;
-					break;
-				}
-				else
-				{
-					c.selected = false;
+					if (editLayer.mouseOverElement(e.Location))
+					{
+						mdown = true;
+					}
+					else
+					{
+						editLayer.addElement(new Bitmap(50, 50), new Point(e.Location.X - 25, e.Location.Y - 25), new Size(50, 50));
+						mdown = true;
+					}
 				}
 			}
 
-
-			//resize = false;
+			
 			Invalidate();
 		}
 
@@ -805,147 +847,155 @@ namespace WolfPaw_ScreenSnip
 			if(cor != corners.none) { cor = corners.none; }
 			if(cRot != corners.none) { cRot = corners.none; }
 
-			if (e.Button == MouseButtons.Right)
+			if (!editLayerOpen)
 			{
-				Limages.Sort(new intComparerDesc());
-				foreach (c_ImageHolder c in Limages)
+
+				if (e.Button == MouseButtons.Right)
 				{
-					if (renhan.pointInPosition(e.Location, new Rectangle(c.Position, c.Size)))
+					Limages.Sort(new intComparerDesc());
+					foreach (c_ImageHolder c in Limages)
 					{
-						c.select();
-						cms_Panel.Show(this, e.Location);
-						selectedImage = c;
-						break;
+						if (renhan.pointInPosition(e.Location, new Rectangle(c.Position, c.Size)))
+						{
+							c.select();
+							cms_Panel.Show(this, e.Location);
+							selectedImage = c;
+							break;
+						}
+					}
+				}
+				else
+				{
+
+					Limages.Sort(new intComparerDesc());
+					foreach (c_ImageHolder c in Limages)
+					{
+						if (renhan.pointInPosition(e.Location, new Rectangle(c.Position, c.Size)))
+						{
+							Point pp = new Point(e.X - c.Left, e.Y - c.Top);
+							if (c.isOverAButton(pp) && !resize && buttonPress)
+							{
+								btn b = c.overWhichButton(pp);
+
+								if (c._buttons.currentValue == btn.hiddenVal.W065)
+								{
+									if (b.value == 10)
+									{
+										cms_Panel.Visible = true;
+										cms_Panel.Show(this, e.Location);
+										selectedImage = c;
+									}
+								}
+								else if (c._buttons.currentValue == btn.hiddenVal.W135)
+								{
+									switch (b.value)
+									{
+										case 0:
+											c.Size = c.Image.Size;
+											break;
+
+										case 10:
+											cms_Panel.Visible = true;
+											cms_Panel.Show(this, e.Location);
+											selectedImage = c;
+											break;
+
+										case -1:
+											c.Dispose();
+											Limages.Remove(c);
+											GC.Collect();
+											Invalidate();
+											break;
+									}
+								}
+								else if (c._buttons.currentValue == btn.hiddenVal.W175)
+								{
+									switch (b.value)
+									{
+										case 0:
+											c.Size = c.Image.Size;
+											break;
+
+										case 10:
+											cms_Panel.Visible = true;
+											cms_Panel.Show(this, e.Location);
+											selectedImage = c;
+											break;
+
+										case 4:
+											//TODO: EDIT!!
+											break;
+
+										case 5:
+											c.saveImage();
+											break;
+
+										case 6:
+											c.copyImage();
+											break;
+
+										case -1:
+											c.Dispose();
+											Limages.Remove(c);
+											GC.Collect();
+											Invalidate();
+											break;
+									}
+								}
+								else if (c._buttons.currentValue == btn.hiddenVal.FullWidth)
+								{
+									switch (b.value)
+									{
+										case 0:
+											c.Size = c.Image.Size;
+											break;
+
+										case 1:
+											c.fullscreen();
+											break;
+
+										case 2:
+											c.LayerUp();
+											break;
+
+										case 3:
+											c.LayerDown();
+											break;
+
+										case 4:
+											//TODO: EDIT!!
+											break;
+
+										case 5:
+											c.saveImage();
+											break;
+
+										case 6:
+											c.copyImage();
+											break;
+
+										case -1:
+											c.Dispose();
+											Limages.Remove(c);
+											GC.Collect();
+											Invalidate();
+											break;
+
+
+									}
+								}
+
+							}
+
+							break;
+						}
+
 					}
 				}
 			}
 			else
 			{
-
-				Limages.Sort(new intComparerDesc());
-				foreach (c_ImageHolder c in Limages)
-				{
-					if (renhan.pointInPosition(e.Location, new Rectangle(c.Position, c.Size)))
-					{
-						Point pp = new Point(e.X - c.Left, e.Y - c.Top);
-						if (c.isOverAButton(pp) && !resize && buttonPress)
-						{
-							btn b = c.overWhichButton(pp);
-
-							if (c._buttons.currentValue == btn.hiddenVal.W065)
-							{
-								if (b.value == 10)
-								{
-									cms_Panel.Visible = true;
-									cms_Panel.Show(this, e.Location);
-									selectedImage = c;
-								}
-							}
-							else if (c._buttons.currentValue == btn.hiddenVal.W135)
-							{
-								switch (b.value)
-								{
-									case 0:
-										c.Size = c.Image.Size;
-										break;
-
-									case 10:
-										cms_Panel.Visible = true;
-										cms_Panel.Show(this, e.Location);
-										selectedImage = c;
-										break;
-
-									case -1:
-										c.Dispose();
-										Limages.Remove(c);
-										GC.Collect();
-										Invalidate();
-										break;
-								}
-							}
-							else if (c._buttons.currentValue == btn.hiddenVal.W175)
-							{
-								switch (b.value)
-								{
-									case 0:
-										c.Size = c.Image.Size;
-										break;
-
-									case 10:
-										cms_Panel.Visible = true;
-										cms_Panel.Show(this, e.Location);
-										selectedImage = c;
-										break;
-
-									case 4:
-										//TODO: EDIT!!
-										break;
-
-									case 5:
-										c.saveImage();
-										break;
-
-									case 6:
-										c.copyImage();
-										break;
-
-									case -1:
-										c.Dispose();
-										Limages.Remove(c);
-										GC.Collect();
-										Invalidate();
-										break;
-								}
-							}
-							else if (c._buttons.currentValue == btn.hiddenVal.FullWidth)
-							{
-								switch (b.value)
-								{
-									case 0:
-										c.Size = c.Image.Size;
-										break;
-
-									case 1:
-										c.fullscreen();
-										break;
-
-									case 2:
-										c.LayerUp();
-										break;
-
-									case 3:
-										c.LayerDown();
-										break;
-
-									case 4:
-										//TODO: EDIT!!
-										break;
-
-									case 5:
-										c.saveImage();
-										break;
-
-									case 6:
-										c.copyImage();
-										break;
-
-									case -1:
-										c.Dispose();
-										Limages.Remove(c);
-										GC.Collect();
-										Invalidate();
-										break;
-
-
-								}
-							}
-
-						}
-
-						break;
-					}
-
-				}
+				//TODO: MOUSEUP EDITLAYER
 			}
 
 			Invalidate();
@@ -976,352 +1026,367 @@ namespace WolfPaw_ScreenSnip
 		//TODO: MOUSE MOVE!!
 		private void f_Screen_MouseMove(object sender, MouseEventArgs e)
 		{
-			foreach (c_ImageHolder cc in Limages)
+			if (!editLayerOpen)
 			{
-				Point pedge = new Point(e.X - cc.Left, e.Y - cc.Top);
-				if (cc.bounds().Contains(e.Location))
+				foreach (c_ImageHolder cc in Limages)
 				{
-					if (cc.isOverAnEdge(pedge))
+					Point pedge = new Point(e.X - cc.Left, e.Y - cc.Top);
+					if (cc.bounds().Contains(e.Location))
 					{
-						edges ed = cc.overWhichEdge(pedge);
-						if (ed == edges.bottom || ed == edges.top)
+						if (cc.isOverAnEdge(pedge))
 						{
-							Cursor = Cursors.SizeNS;
+							edges ed = cc.overWhichEdge(pedge);
+							if (ed == edges.bottom || ed == edges.top)
+							{
+								Cursor = Cursors.SizeNS;
+							}
+							else if (ed == edges.left || ed == edges.right)
+							{
+								Cursor = Cursors.SizeWE;
+							}
+							break;
 						}
-						else if (ed == edges.left || ed == edges.right)
+						else if (cc.isOverACorner(pedge))
 						{
-							Cursor = Cursors.SizeWE;
+							corners cir = cc.overWhichCorner(pedge);
+							if (cir == corners.leftBottom)
+							{
+								Cursor = Cursors.SizeNESW;
+							}
+							else if (cir == corners.leftTop)
+							{
+								Cursor = Cursors.SizeNWSE;
+							}
+							else if (cir == corners.rightBottom)
+							{
+								Cursor = Cursors.SizeNWSE;
+							}
+							else if (cir == corners.rightTop)
+							{
+								Cursor = Cursors.SizeNESW;
+							}
+							break;
 						}
-						break;
-					}
-					else if (cc.isOverACorner(pedge))
-					{
-						corners cir = cc.overWhichCorner(pedge);
-						if (cir == corners.leftBottom)
+						else
 						{
-							Cursor = Cursors.SizeNESW;
+							Cursor = Cursors.Default;
 						}
-						else if (cir == corners.leftTop)
-						{
-							Cursor = Cursors.SizeNWSE;
-						}
-						else if (cir == corners.rightBottom)
-						{
-							Cursor = Cursors.SizeNWSE;
-						}
-						else if (cir == corners.rightTop)
-						{
-							Cursor = Cursors.SizeNESW;
-						}
-						break;
 					}
 					else
 					{
-						Cursor = Cursors.Default;
+						Point pedge2 = new Point(e.X, e.Y);
+						Rectangle rRota = new Rectangle(cc.bounds().Left - 20, cc.bounds().Top - 20, cc.bounds().Width + 40, cc.bounds().Height + 40);
+						if (rRota.Contains(pedge2) && cc.isOverARotaPoint(pedge2))
+						{
+							corners cir2 = cc.overWhichRotaPoint(pedge2);
+							if (cir2 == corners.rightBottom)
+							{
+								Cursor = Cursors.SizeNESW;
+								cRot = cir2;
+							}
+							break;
+						}
+						else
+						{
+							Cursor = Cursors.Default;
+						}
 					}
+				}
+
+				if (mdown && resize)
+				{
+					var cc = cResizer;
+					if (ed != edges.none)
+					{
+						if (ed == edges.bottom)
+						{
+							if (e.Location.Y - cc.Top > 20)
+							{
+								cc.Size = new Size(cc.Width, e.Location.Y - cc.Top);
+							}
+							else
+							{
+								cc.Size = new Size(cc.Width, 21);
+							}
+						}
+						else if (ed == edges.top)
+						{
+							int top = cc.Top;
+							if (cc.Height - (cc.Top - top) > 20)
+							{
+								cc.Position = new Point(cc.Left, e.Location.Y);
+								cc.Size = new Size(cc.Width, cc.Height - (cc.Top - top));
+							}
+							else
+							{
+
+								cc.Size = new Size(cc.Width, 21);
+							}
+						}
+						else if (ed == edges.left)
+						{
+							int left = cc.Left;
+							if (cc.Width - (cc.Left - left) > 20)
+							{
+								cc.Position = new Point(e.Location.X, cc.Top);
+								cc.Size = new Size(cc.Width - (cc.Left - left), cc.Height);
+							}
+							else
+							{
+								cc.Size = new Size(21, cc.Height);
+								cc.Position = new Point(cc.Position.X - 2, cc.Position.Y);
+							}
+						}
+						else if (ed == edges.right)
+						{
+							if (e.Location.X - cc.Left > 20)
+							{
+								cc.Size = new Size(e.Location.X - cc.Left, cc.Height);
+							}
+							else
+							{
+								cc.Size = new Size(21, cc.Height);
+							}
+						}
+					}
+					//CORNERS
+					else if (cor != corners.none)
+					{
+						int top = cc.Top;
+						int left = cc.Left;
+
+
+						if (cor == corners.leftBottom)
+						{
+							if (!keepAspect)
+							{
+								cc.Position = new Point(e.Location.X, cc.Top);
+								cc.Size = new Size(cc.Width - (cc.Left - left), e.Location.Y - cc.Top);
+							}
+							else
+							{
+								int newwid = (getSizeAspect(cc.Image.Width, cc.Image.Height, e.Location.Y - cc.Top));
+								int _Oleft = cc.Left;
+								int _right = cc.Left + cc.Width;
+								cc.Size = new Size(newwid, e.Location.Y - cc.Top);
+								int _newright = cc.Left + cc.Width;
+								int _left = _right - _newright;
+								cc.Position = new Point(_Oleft + _left, cc.Top);
+							}
+
+							//---LEFT BOTTOM
+							if (cc.Height <= 20)
+							{
+								cc.Position = new Point(cc.Position.X, top);
+								cc.Size = new Size(cc.Width, 21);
+							}
+							if (cc.Width - (cc.Left - left) <= 20)
+							{
+								cc.Position = new Point(cc.Position.X + cc.Width - 21, cc.Position.Y);
+								cc.Size = new Size(21, cc.Height);
+							}
+
+						}
+						else if (cor == corners.leftTop)
+						{
+							if (!keepAspect)
+							{
+								cc.Position = new Point(e.Location.X, e.Location.Y);
+								cc.Size = new Size(cc.Width - (cc.Left - left), cc.Height - (cc.Top - top));
+							}
+							else
+							{
+								int newwid = (getSizeAspect(cc.Image.Width, cc.Image.Height, cc.Height - (e.Y - top)));
+								int _Oleft = cc.Left;
+								int _right = cc.Left + cc.Width;
+								int _Otop = cc.Top;
+								int _bottom = cc.Top + cc.Height;
+								cc.Size = new Size(newwid, cc.Height - (e.Y - top));
+								int _newright = cc.Left + cc.Width;
+								int _newbottom = cc.Top + cc.Height;
+								int _left = _right - _newright;
+								int _top = _bottom - _newbottom;
+								cc.Position = new Point(_Oleft + _left, _Otop + _top);
+							}
+
+							//---LEFT TOP
+							if (cc.Height <= 20)
+							{
+								cc.Position = new Point(cc.Position.X, cc.Position.Y + cc.Height - 21);
+								cc.Size = new Size(cc.Width, 21);
+							}
+							if (cc.Width - (cc.Left - left) <= 20)
+							{
+								cc.Position = new Point(cc.Position.X + cc.Width - 21, cc.Position.Y);
+								cc.Size = new Size(21, cc.Height);
+							}
+
+						}
+						else if (cor == corners.rightBottom)
+						{
+
+							if (!keepAspect)
+							{
+								cc.Position = new Point(cc.Left, cc.Top);
+								cc.Size = new Size(e.Location.X - cc.Left, e.Location.Y - cc.Top);
+							}
+							else
+							{
+								cc.Position = new Point(cc.Left, cc.Top);
+								int newwid = (getSizeAspect(cc.Image.Width, cc.Image.Height, e.Y - (cc.Top)));
+								cc.Size = new Size(newwid, e.Location.Y - cc.Top);
+							}
+
+							//---RIGHT BOTTOM
+							if (cc.Height <= 20)
+							{
+								cc.Position = new Point(cc.Position.X, top);
+								cc.Size = new Size(cc.Width, 21);
+							}
+							if (cc.Width - (cc.Left - left) <= 20)
+							{
+								cc.Position = new Point(left, cc.Position.Y);
+								cc.Size = new Size(21, cc.Height);
+							}
+
+						}
+						else if (cor == corners.rightTop)
+						{
+
+							if (!keepAspect)
+							{
+								cc.Position = new Point(cc.Left, e.Location.Y);
+								cc.Size = new Size(e.Location.X - cc.Left, cc.Height - (cc.Top - top));
+							}
+							else
+							{
+								int newwid = (getSizeAspect(cc.Image.Width, cc.Image.Height, cc.Height - (e.Y - top)));
+								int _Otop = cc.Top;
+								int _bottom = cc.Top + cc.Height;
+								cc.Size = new Size(newwid, cc.Height - (e.Y - top));
+								int _newbottom = cc.Top + cc.Height;
+								int _top = _bottom - _newbottom;
+								cc.Position = new Point(cc.Left, _Otop + _top);
+							}
+
+
+							//---RIGHT TOP
+							if (cc.Height <= 20)
+							{
+								cc.Position = new Point(cc.Position.X, cc.Position.Y + cc.Height - 21);
+								cc.Size = new Size(cc.Width, 21);
+							}
+							if (cc.Width - (cc.Left - left) <= 20)
+							{
+								cc.Position = new Point(left, cc.Position.Y);
+								cc.Size = new Size(21, cc.Height);
+							}
+						}
+
+
+					}
+					else if (cRot != corners.none)
+					{
+
+					}
+				}
+
+				if (mdown && selectedImage != null && !resize)
+				{
+					buttonPress = false;
+					selectedImage.Position = new Point(e.X - imageDragPoint.X, e.Y - imageDragPoint.Y);
+
+					if (Properties.Settings.Default.s_AllowDragaround)
+					{
+						//DRAGAROUND X
+						if (e.X <= 0 && Properties.Settings.Default.s_DragaroundX)
+						{
+							if (selectedImage.Left + selectedImage.Width > PointToScreen(new Point(getBounds().Width, e.Y)).X)
+							{
+								imageDragPoint.X += getBounds().Width;
+							}
+							else
+							{
+								imageDragPoint.X = selectedImage.bounds().Width - 10;
+							}
+							Cursor.Position = PointToScreen(new Point(getBounds().Width - 19, e.Y));
+						}
+						else if (e.X >= getBounds().Width - 18 && Properties.Settings.Default.s_DragaroundX)
+						{
+							if (selectedImage.Left < 0)
+							{
+								imageDragPoint.X -= (getBounds().Width);
+							}
+							else
+							{
+								imageDragPoint.X = 10;
+							}
+							Cursor.Position = new Point(new Point(getBounds().Left + 10, 0).X, PointToScreen(new Point(0, e.Y)).Y);
+						}
+
+						//DRAGAROUND Y
+						if (e.Y < 0 && Properties.Settings.Default.s_DragaroundY)
+						{
+							if (selectedImage.Top + selectedImage.Height > PointToScreen(new Point(e.X, getBounds().Height)).Y)
+							{
+								imageDragPoint.Y = getBounds().Height;
+							}
+							else
+							{
+								imageDragPoint.Y = selectedImage.bounds().Height - 10;
+							}
+							Cursor.Position = PointToScreen(new Point(e.X, getBounds().Height - 39));
+						}
+						else if (e.Y > getBounds().Height - 39 && Properties.Settings.Default.s_DragaroundY)
+						{
+							if (selectedImage.Top < 0)
+							{
+								imageDragPoint.Y = getBounds().Y;
+							}
+							else
+							{
+								imageDragPoint.Y = 10;
+							}
+							Cursor.Position = new Point(PointToScreen(new Point(e.X, 0)).X, getBounds().Top + 39);
+						}
+					}
+
+					Invalidate();
 				}
 				else
 				{
-					Point pedge2 = new Point(e.X, e.Y);
-					Rectangle rRota = new Rectangle(cc.bounds().Left - 20, cc.bounds().Top - 20, cc.bounds().Width + 40, cc.bounds().Height + 40);
-					if (rRota.Contains(pedge2) && cc.isOverARotaPoint(pedge2))
+					c_ImageHolder img = null;
+					foreach (c_ImageHolder cc in Limages)
 					{
-						corners cir2 = cc.overWhichRotaPoint(pedge2);
-						if (cir2 == corners.rightBottom)
+						cc.mouseOver = false;
+					}
+					if (renhan.pointOverAny(e.Location, out img))
+					{
+						mouseOverImage = img;
+						mouseOverImage.mouseOver = true;
+						if (renhan.pointInPosition(e.Location, new Rectangle(mouseOverImage.Position, new Size(mouseOverImage.Width, 20))))
 						{
-							Cursor = Cursors.SizeNESW;
-							cRot = cir2;
+							mouseOverImage.showPanel();
 						}
-						break;
 					}
 					else
 					{
-						Cursor = Cursors.Default;
+						mouseOverImage = null;
 					}
+					Invalidate();
 				}
-			}
-
-			if (mdown && resize)
-			{
-				var cc = cResizer;
-				if (ed != edges.none)
-				{
-					if (ed == edges.bottom)
-					{
-						if (e.Location.Y - cc.Top > 20)
-						{
-							cc.Size = new Size(cc.Width, e.Location.Y - cc.Top);
-						}
-						else
-						{
-							cc.Size = new Size(cc.Width, 21);
-						}
-					}
-					else if (ed == edges.top)
-					{
-						int top = cc.Top;
-						if (cc.Height - (cc.Top - top) > 20)
-						{
-							cc.Position = new Point(cc.Left, e.Location.Y);
-							cc.Size = new Size(cc.Width, cc.Height - (cc.Top - top));
-						}
-						else
-						{
-
-							cc.Size = new Size(cc.Width, 21);
-						}
-					}
-					else if (ed == edges.left)
-					{
-						int left = cc.Left;
-						if (cc.Width - (cc.Left - left) > 20)
-						{
-							cc.Position = new Point(e.Location.X, cc.Top);
-							cc.Size = new Size(cc.Width - (cc.Left - left), cc.Height);
-						}
-						else
-						{
-							cc.Size = new Size(21, cc.Height);
-							cc.Position = new Point(cc.Position.X - 2, cc.Position.Y);
-						}
-					}
-					else if (ed == edges.right)
-					{
-						if (e.Location.X - cc.Left > 20)
-						{
-							cc.Size = new Size(e.Location.X - cc.Left, cc.Height);
-						}
-						else
-						{
-							cc.Size = new Size(21, cc.Height);
-						}
-					}
-				}
-				//CORNERS
-				else if (cor != corners.none)
-				{
-					int top = cc.Top;
-					int left = cc.Left;
-					
-
-					if (cor == corners.leftBottom)
-					{
-						if (!keepAspect)
-						{
-							cc.Position = new Point(e.Location.X, cc.Top);
-							cc.Size = new Size(cc.Width - (cc.Left - left), e.Location.Y - cc.Top);
-						}
-						else
-						{
-							int newwid = (getSizeAspect(cc.Image.Width, cc.Image.Height, e.Location.Y - cc.Top));
-							int _Oleft = cc.Left;
-							int _right = cc.Left + cc.Width;
-							cc.Size = new Size(newwid, e.Location.Y - cc.Top);
-							int _newright = cc.Left + cc.Width;
-							int _left = _right - _newright;
-							cc.Position = new Point(_Oleft + _left, cc.Top);
-						}
-
-						//---LEFT BOTTOM
-						if (cc.Height <= 20)
-						{
-							cc.Position = new Point(cc.Position.X, top);
-							cc.Size = new Size(cc.Width, 21);
-						}
-						if (cc.Width - (cc.Left - left) <= 20)
-						{
-							cc.Position = new Point(cc.Position.X + cc.Width - 21, cc.Position.Y);
-							cc.Size = new Size(21, cc.Height);
-						}
-
-					}
-					else if (cor == corners.leftTop)
-					{
-						if (!keepAspect)
-						{
-							cc.Position = new Point(e.Location.X, e.Location.Y);
-							cc.Size = new Size(cc.Width - (cc.Left - left), cc.Height - (cc.Top - top));
-						}
-						else
-						{
-							int newwid = (getSizeAspect(cc.Image.Width, cc.Image.Height, cc.Height - (e.Y - top)));
-							int _Oleft = cc.Left;
-							int _right = cc.Left + cc.Width;
-							int _Otop = cc.Top;
-							int _bottom = cc.Top + cc.Height;
-							cc.Size = new Size(newwid, cc.Height - (e.Y - top));
-							int _newright = cc.Left + cc.Width;
-							int _newbottom = cc.Top + cc.Height;
-							int _left = _right - _newright;
-							int _top = _bottom - _newbottom;
-							cc.Position = new Point(_Oleft + _left, _Otop + _top);
-						}
-
-						//---LEFT TOP
-						if (cc.Height <= 20)
-						{
-							cc.Position = new Point(cc.Position.X, cc.Position.Y + cc.Height - 21);
-							cc.Size = new Size(cc.Width, 21);
-						}
-						if (cc.Width - (cc.Left - left) <= 20)
-						{
-							cc.Position = new Point(cc.Position.X + cc.Width - 21, cc.Position.Y);
-							cc.Size = new Size(21, cc.Height);
-						}
-
-					}
-					else if (cor == corners.rightBottom)
-					{
-
-						if (!keepAspect)
-						{
-							cc.Position = new Point(cc.Left, cc.Top);
-							cc.Size = new Size(e.Location.X - cc.Left, e.Location.Y - cc.Top);
-						}
-						else
-						{
-							cc.Position = new Point(cc.Left, cc.Top);
-							int newwid = (getSizeAspect(cc.Image.Width, cc.Image.Height, e.Y - (cc.Top)));
-							cc.Size = new Size(newwid, e.Location.Y - cc.Top);
-						}
-
-						//---RIGHT BOTTOM
-						if (cc.Height <= 20)
-						{
-							cc.Position = new Point(cc.Position.X, top);
-							cc.Size = new Size(cc.Width, 21);
-						}
-						if (cc.Width - (cc.Left - left) <= 20)
-						{
-							cc.Position = new Point(left, cc.Position.Y);
-							cc.Size = new Size(21, cc.Height);
-						}
-
-					}
-					else if (cor == corners.rightTop)
-					{
-
-						if (!keepAspect)
-						{
-							cc.Position = new Point(cc.Left, e.Location.Y);
-							cc.Size = new Size(e.Location.X - cc.Left, cc.Height - (cc.Top - top));
-						}
-						else
-						{
-							int newwid = (getSizeAspect(cc.Image.Width, cc.Image.Height, cc.Height - (e.Y - top)));
-							int _Otop = cc.Top;
-							int _bottom = cc.Top + cc.Height;
-							cc.Size = new Size(newwid, cc.Height - (e.Y - top));
-							int _newbottom = cc.Top + cc.Height;
-							int _top = _bottom - _newbottom;
-							cc.Position = new Point(cc.Left, _Otop + _top);
-						}
-
-
-						//---RIGHT TOP
-						if (cc.Height <= 20)
-						{
-							cc.Position = new Point(cc.Position.X, cc.Position.Y + cc.Height - 21);
-							cc.Size = new Size(cc.Width, 21);
-						}
-						if (cc.Width - (cc.Left - left) <= 20)
-						{
-							cc.Position = new Point(left, cc.Position.Y);
-							cc.Size = new Size(21, cc.Height);
-						}
-					}
-
-					
-				}
-				else if(cRot != corners.none)
-				{
-
-				}
-			}
-			
-			if (mdown && selectedImage != null && !resize)
-			{
-				buttonPress = false;
-				selectedImage.Position = new Point(e.X - imageDragPoint.X, e.Y - imageDragPoint.Y);
-
-				if (Properties.Settings.Default.s_AllowDragaround)
-				{
-					//DRAGAROUND X
-					if (e.X <= 0 && Properties.Settings.Default.s_DragaroundX)
-					{
-						if (selectedImage.Left + selectedImage.Width > PointToScreen(new Point(getBounds().Width, e.Y)).X)
-						{
-							imageDragPoint.X += getBounds().Width;
-						}
-						else
-						{
-							imageDragPoint.X = selectedImage.bounds().Width - 10;
-						}
-						Cursor.Position = PointToScreen(new Point(getBounds().Width - 19, e.Y));
-					}
-					else if (e.X >= getBounds().Width - 18 && Properties.Settings.Default.s_DragaroundX)
-					{
-						if (selectedImage.Left < 0)
-						{
-							imageDragPoint.X -= (getBounds().Width);
-						}
-						else
-						{
-							imageDragPoint.X = 10;
-						}
-						Cursor.Position = new Point(new Point(getBounds().Left + 10, 0).X, PointToScreen(new Point(0, e.Y)).Y);
-					}
-
-					//DRAGAROUND Y
-					if (e.Y < 0 && Properties.Settings.Default.s_DragaroundY)
-					{
-						if (selectedImage.Top + selectedImage.Height > PointToScreen(new Point(e.X, getBounds().Height)).Y)
-						{
-							imageDragPoint.Y = getBounds().Height;
-						}
-						else
-						{
-							imageDragPoint.Y = selectedImage.bounds().Height - 10;
-						}
-						Cursor.Position = PointToScreen(new Point(e.X, getBounds().Height - 39));
-					}
-					else if (e.Y > getBounds().Height - 39 && Properties.Settings.Default.s_DragaroundY)
-					{
-						if (selectedImage.Top < 0)
-						{
-							imageDragPoint.Y = getBounds().Y;
-						}
-						else
-						{
-							imageDragPoint.Y = 10;
-						}
-						Cursor.Position = new Point(PointToScreen(new Point(e.X,0)).X, getBounds().Top + 39);
-					}
-				}
-
-				Invalidate();
 			}
 			else
 			{
-				c_ImageHolder img = null;
-				foreach (c_ImageHolder cc in Limages)
+				//TODO: MOUSEMOVE EDITLAYER
+				if (mdown && editLayer.mouseOverElement(e.Location))
 				{
-					cc.mouseOver = false;
-				}
-				if (renhan.pointOverAny(e.Location, out img))
-				{
-					mouseOverImage = img;
-					mouseOverImage.mouseOver = true;
-					if (renhan.pointInPosition(e.Location, new Rectangle(mouseOverImage.Position, new Size(mouseOverImage.Width, 20))))
+					c_EditLayerElement elem = editLayer.getElementUnderMouse(e.Location);
+					if (currentTool == 1 && elem.type == elementTypes.drawing)
 					{
-						mouseOverImage.showPanel();
+						elem._Points.Add(e.Location);
 					}
 				}
-				else
-				{
-					mouseOverImage = null;
-				}
-				Invalidate();
 			}
 		}
 		
@@ -1358,17 +1423,17 @@ namespace WolfPaw_ScreenSnip
 			//TODO: Add functionality
 			return null;
 		}
-
+		
 		//TODO: Drawing layer
 		public void showHideEditLayer(bool show)
 		{
 			if (show)
 			{
-
+				editLayerOpen = true;
 			}
 			else
 			{
-
+				editLayerOpen = false;
 			}
 		}
 
