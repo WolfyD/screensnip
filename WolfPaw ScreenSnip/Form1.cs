@@ -8,6 +8,7 @@ using System.Threading;
 using System.Windows.Forms;
 using FontAwesome.Sharp;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace WolfPaw_ScreenSnip
 {
@@ -40,6 +41,42 @@ namespace WolfPaw_ScreenSnip
 		public bool justLoggedIn = true;
 		public string lastCutoutId = "";
 
+
+		#region MAPI
+
+		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+		public class MapiMessage
+		{
+			public int reserved;
+			public string subject;
+			public string noteText;
+			public string messageType;
+			public string dateReceived;
+			public string conversationID;
+			public int flags;
+			public IntPtr originator;
+			public int recipCount;
+			public IntPtr recips;
+			public int fileCount;
+			public IntPtr files;
+		}
+
+		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+		public class MapiFileDesc
+		{
+			public int reserved;
+			public int flags;
+			public int position;
+			public string path;
+			public string name;
+			public IntPtr type;
+		}
+
+		[DllImport("MAPI32.DLL", CharSet = CharSet.Ansi)]
+		public static extern uint MAPISendMail(IntPtr lhSession, IntPtr ulUIParam,MapiMessage lpMessage, uint flFlags, uint ulReserved);
+
+		#endregion
+
 		public Form1()
         {
             InitializeComponent();
@@ -51,10 +88,56 @@ namespace WolfPaw_ScreenSnip
 			
         }
 
-		public static void getMailClient()
+		public void getMailClient()
 		{
 			object mailClient = Microsoft.Win32.Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Clients\Mail", "", "none");
 			Console.WriteLine(mailClient.ToString());
+
+
+			if (mailClient.ToString().ToLower().Contains("outlook"))
+			{
+				//Thread t = new Thread(ThreadStart => SendMail(@"C:\Users\radicsm\Desktop\xxx\test.jpg"));
+				//Thread t = new Thread(new ThreadStart(startSend));
+				//t.Start();
+				startSend();
+			}
+		}
+
+		public void startSend()
+		{
+			SendMail(@"C:\Users\radicsm\Desktop\xxx\test.jpg");
+		}
+
+		public int SendMail(string fileName)
+		{
+			MapiMessage msg = new MapiMessage();
+			msg.subject = "Hello World!";
+			msg.noteText = "See attached file for details";
+			msg.files = GetAttachments(fileName, out msg.fileCount);
+
+			int result = (int)MAPISendMail(new IntPtr(0), new IntPtr(0), msg, 0x00000001 | 0x00000008, 0);
+			if (result > 1 || result < 0)
+				throw new System.InvalidOperationException();
+			return result;
+		}
+
+		IntPtr GetAttachments(string fileName, out int fileCount)
+		{
+			int size = Marshal.SizeOf(typeof(MapiFileDesc));
+			IntPtr intPtr = Marshal.AllocHGlobal(size);
+
+			MapiFileDesc mapiFileDesc = new MapiFileDesc();
+			//An integer used to indicate where in the message text to render the attachment.
+			mapiFileDesc.position = -1;
+			int ptr = (int)intPtr;
+
+			mapiFileDesc.name = Path.GetFileName(fileName);
+			mapiFileDesc.path = fileName;
+			Marshal.StructureToPtr(mapiFileDesc, (IntPtr)ptr, false);
+			ptr += size;
+
+			fileCount = 1;
+			return intPtr;
 		}
 
 		public void loadSettings()
