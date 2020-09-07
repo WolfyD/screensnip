@@ -209,7 +209,7 @@
 			this.btn_EditTags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btn_EditTags.FlatAppearance.BorderSize = 0;
 			this.btn_EditTags.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btn_EditTags.Icon = FontAwesome.Sharp.IconChar.Eye;
+			this.btn_EditTags.IconChar = FontAwesome.Sharp.IconChar.Eye;
 			this.btn_EditTags.IconColor = System.Drawing.Color.Black;
 			this.btn_EditTags.IconSize = 22;
 			this.btn_EditTags.Image = ((System.Drawing.Image)(resources.GetObject("btn_EditTags.Image")));
@@ -225,7 +225,7 @@
 			this.btn_EditDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btn_EditDate.FlatAppearance.BorderSize = 0;
 			this.btn_EditDate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btn_EditDate.Icon = FontAwesome.Sharp.IconChar.CalendarO;
+			this.btn_EditDate.IconChar = FontAwesome.Sharp.IconChar.Calendar;
 			this.btn_EditDate.IconColor = System.Drawing.Color.Black;
 			this.btn_EditDate.IconSize = 22;
 			this.btn_EditDate.Image = ((System.Drawing.Image)(resources.GetObject("btn_EditDate.Image")));
@@ -264,7 +264,7 @@
 			// btn_date_Close
 			// 
 			this.btn_date_Close.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.btn_date_Close.Icon = FontAwesome.Sharp.IconChar.Check;
+			this.btn_date_Close.IconChar = FontAwesome.Sharp.IconChar.Check;
 			this.btn_date_Close.IconColor = System.Drawing.Color.Black;
 			this.btn_date_Close.IconSize = 28;
 			this.btn_date_Close.Image = ((System.Drawing.Image)(resources.GetObject("btn_date_Close.Image")));
@@ -334,7 +334,7 @@
 			// btn_Help
 			// 
 			this.btn_Help.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btn_Help.Icon = FontAwesome.Sharp.IconChar.QuestionCircle;
+			this.btn_Help.IconChar = FontAwesome.Sharp.IconChar.QuestionCircle;
 			this.btn_Help.IconColor = System.Drawing.Color.Black;
 			this.btn_Help.IconSize = 21;
 			this.btn_Help.Image = ((System.Drawing.Image)(resources.GetObject("btn_Help.Image")));

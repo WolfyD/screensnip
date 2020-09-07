@@ -56,7 +56,7 @@
 			// 
 			// btn_Close
 			// 
-			this.btn_Close.Icon = FontAwesome.Sharp.IconChar.Times;
+			this.btn_Close.IconChar = FontAwesome.Sharp.IconChar.Times;
 			this.btn_Close.IconColor = System.Drawing.Color.Black;
 			this.btn_Close.IconSize = 16;
 			this.btn_Close.Image = ((System.Drawing.Image)(resources.GetObject("btn_Close.Image")));
@@ -81,7 +81,7 @@
 			// 
 			// btn_Add
 			// 
-			this.btn_Add.Icon = FontAwesome.Sharp.IconChar.Plus;
+			this.btn_Add.IconChar = FontAwesome.Sharp.IconChar.Plus;
 			this.btn_Add.IconColor = System.Drawing.Color.Black;
 			this.btn_Add.IconSize = 16;
 			this.btn_Add.Image = ((System.Drawing.Image)(resources.GetObject("btn_Add.Image")));

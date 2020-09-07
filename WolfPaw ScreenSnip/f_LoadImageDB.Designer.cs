@@ -64,7 +64,7 @@
             // 
             this.btn_Prev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Prev.Enabled = false;
-            this.btn_Prev.Icon = FontAwesome.Sharp.IconChar.ArrowLeft;
+            this.btn_Prev.IconChar = FontAwesome.Sharp.IconChar.ArrowLeft;
             this.btn_Prev.IconColor = System.Drawing.Color.Black;
             this.btn_Prev.IconSize = 28;
             this.btn_Prev.Image = ((System.Drawing.Image)(resources.GetObject("btn_Prev.Image")));
@@ -83,7 +83,7 @@
             // 
             this.btn_Next.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Next.Enabled = false;
-            this.btn_Next.Icon = FontAwesome.Sharp.IconChar.ArrowRight;
+            this.btn_Next.IconChar = FontAwesome.Sharp.IconChar.ArrowRight;
             this.btn_Next.IconColor = System.Drawing.Color.Black;
             this.btn_Next.IconSize = 28;
             this.btn_Next.Image = ((System.Drawing.Image)(resources.GetObject("btn_Next.Image")));
@@ -102,7 +102,7 @@
             // 
             this.btn_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btn_Search.Enabled = false;
-            this.btn_Search.Icon = FontAwesome.Sharp.IconChar.Search;
+            this.btn_Search.IconChar = FontAwesome.Sharp.IconChar.Search;
             this.btn_Search.IconColor = System.Drawing.Color.Black;
             this.btn_Search.IconSize = 18;
             this.btn_Search.Image = ((System.Drawing.Image)(resources.GetObject("btn_Search.Image")));
@@ -148,7 +148,7 @@
             this.btn_Data.BackColor = System.Drawing.Color.Black;
             this.btn_Data.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btn_Data.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Data.Icon = FontAwesome.Sharp.IconChar.Bars;
+            this.btn_Data.IconChar = FontAwesome.Sharp.IconChar.Bars;
             this.btn_Data.IconColor = System.Drawing.Color.White;
             this.btn_Data.IconSize = 28;
             this.btn_Data.Image = ((System.Drawing.Image)(resources.GetObject("btn_Data.Image")));
@@ -266,7 +266,7 @@
             // btn_Tags
             // 
             this.btn_Tags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_Tags.Icon = FontAwesome.Sharp.IconChar.Eye;
+            this.btn_Tags.IconChar = FontAwesome.Sharp.IconChar.Eye;
             this.btn_Tags.IconColor = System.Drawing.Color.Black;
             this.btn_Tags.IconSize = 18;
             this.btn_Tags.Image = ((System.Drawing.Image)(resources.GetObject("btn_Tags.Image")));
@@ -333,7 +333,7 @@
             // 
             this.btn_Copy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btn_Copy.Enabled = false;
-            this.btn_Copy.Icon = FontAwesome.Sharp.IconChar.Clipboard;
+            this.btn_Copy.IconChar = FontAwesome.Sharp.IconChar.Clipboard;
             this.btn_Copy.IconColor = System.Drawing.Color.Black;
             this.btn_Copy.IconSize = 18;
             this.btn_Copy.Image = ((System.Drawing.Image)(resources.GetObject("btn_Copy.Image")));
@@ -353,7 +353,7 @@
             // 
             this.btn_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btn_Save.Enabled = false;
-            this.btn_Save.Icon = FontAwesome.Sharp.IconChar.FloppyO;
+            this.btn_Save.IconChar = FontAwesome.Sharp.IconChar.Save;
             this.btn_Save.IconColor = System.Drawing.Color.Black;
             this.btn_Save.IconSize = 18;
             this.btn_Save.Image = ((System.Drawing.Image)(resources.GetObject("btn_Save.Image")));

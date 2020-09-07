@@ -594,7 +594,7 @@
 			this.btn_BrowseQSDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btn_BrowseQSDir.FlatAppearance.BorderSize = 0;
 			this.btn_BrowseQSDir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btn_BrowseQSDir.Icon = FontAwesome.Sharp.IconChar.FolderOpenO;
+			this.btn_BrowseQSDir.IconChar = FontAwesome.Sharp.IconChar.FolderOpen;
 			this.btn_BrowseQSDir.IconColor = System.Drawing.Color.Black;
 			this.btn_BrowseQSDir.IconSize = 22;
 			this.btn_BrowseQSDir.Image = ((System.Drawing.Image)(resources.GetObject("btn_BrowseQSDir.Image")));

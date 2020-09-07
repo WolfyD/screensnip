@@ -101,6 +101,7 @@ namespace WolfPaw_ScreenSnip
 				//t.Start();
 				startSend();
 			}
+			else { startSend(); }
 		}
 
 		public void startSend()
@@ -225,63 +226,63 @@ namespace WolfPaw_ScreenSnip
 			switch (btn)
             {
                 case "new":
-                    ib.Icon = IconChar.Scissors;
+                    ib.IconChar = IconChar.Cut;
 					ib.Name = "new";
                     break;
 
                 case "clear":
-                    ib.Icon = IconChar.TrashO;
+                    ib.IconChar = IconChar.Trash;
 					ib.Name = "clear";
 					break;
 
                 case "preview":
-                    ib.Icon = IconChar.PictureO;
+                    ib.IconChar = IconChar.Image;
 					ib.Name = "preview";
 					break;
 
                 case "copy":
-                    ib.Icon = IconChar.FilesO;
+                    ib.IconChar = IconChar.Clone;
 					ib.Name = "copy";
 					break;
 
                 case "save":
-                    ib.Icon = IconChar.FloppyO;
+                    ib.IconChar = IconChar.Save;
 					ib.Name = "save";
 					break;
 
                 case "print":
-                    ib.Icon = IconChar.Print;
+                    ib.IconChar = IconChar.Print;
 					ib.Name = "print";
 					break;
 
                 case "mail":
-                    ib.Icon = IconChar.EnvelopeO;
+                    ib.IconChar = IconChar.Envelope;
 					ib.Name = "mail";
 					break;
 
                 case "settings":
-                    ib.Icon = IconChar.Cogs;
+                    ib.IconChar = IconChar.Cogs;
 					ib.Name = "settings";
 					break;
 
                 case "tools":
-                    ib.Icon = IconChar.Wrench;
+                    ib.IconChar = IconChar.Wrench;
 					ib.Name = "tools";
 					break;
 
 				case "db":
-					ib.Icon = IconChar.Database;
+					ib.IconChar = IconChar.Database;
 					ib.Name = "db";
 					ib.IconSize = 36;
 					break;
 
 				case "db1":
-					ib.Icon = IconChar.FolderOpenO;
+					ib.IconChar = IconChar.FolderOpen;
 					ib.Name = "db1";
 					break;
 
 				case "exit":
-                    ib.Icon = IconChar.WindowClose;
+                    ib.IconChar = IconChar.WindowClose;
 					ib.Name = "exit";
 					break;
                     

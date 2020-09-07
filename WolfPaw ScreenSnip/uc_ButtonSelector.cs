@@ -41,13 +41,13 @@ namespace WolfPaw_ScreenSnip
 			cms_Buttons.ShowCheckMargin = false;
 			cms_Buttons.ShowImageMargin = false;
 
-			ToolStripItem tsiRec = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false,  myText = "Rectangle", Image = IconChar.Scissors.ToBitmap(buttonSize, Color.Black), Tag = 0 };
+			ToolStripItem tsiRec = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false,  myText = "Rectangle", Image = IconChar.Cut.ToBitmap(buttonSize, Color.Black), Tag = 0 };
 			tsiRec.Click += itemClick;
 			ToolStripItem tsiWindow = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Window", Image = IconChar.WindowMaximize.ToBitmap(buttonSize, Color.Black), Tag = 1 };
 			tsiWindow.Click += itemClick;
-			ToolStripItem tsiFreehand = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Freehand", Image = IconChar.PencilSquareO.ToBitmap(buttonSize, Color.Black), Tag = 2 };
+			ToolStripItem tsiFreehand = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Freehand", Image = IconChar.PenSquare.ToBitmap(buttonSize, Color.Black), Tag = 2 };
 			tsiFreehand.Click += itemClick;
-			ToolStripItem tsiPoint = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Line", Image = IconChar.StarO.ToBitmap(buttonSize, Color.Black), Tag = 3 };
+			ToolStripItem tsiPoint = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Line", Image = IconChar.Star.ToBitmap(buttonSize, Color.Black), Tag = 3 };
 			tsiPoint.Click += itemClick;
 			ToolStripItem tsiMagic = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Magic", Image = IconChar.Magic.ToBitmap(buttonSize, Color.Black), Tag = 4 };
 			tsiMagic.Click += itemClick;

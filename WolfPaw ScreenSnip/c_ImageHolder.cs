@@ -109,8 +109,8 @@ namespace WolfPaw_ScreenSnip
 
 			btn b_FullScreen = new btn()
 			{
-				image1 = IconChar.Arrows.ToBitmap(20, Color.Black),
-				image2 = IconChar.Arrows.ToBitmap(20, Color.White),
+				image1 = IconChar.ArrowsAlt.ToBitmap(20, Color.Black),
+				image2 = IconChar.ArrowsAlt.ToBitmap(20, Color.White),
 				pos = 1,
 				anchor = btn.anchors.left,
 				borderWidth = 2,
@@ -122,8 +122,8 @@ namespace WolfPaw_ScreenSnip
 
 			btn b_LayerUp = new btn()
 			{
-				image1 = IconChar.ArrowCircleOUp.ToBitmap(20, Color.Black),
-				image2 = IconChar.ArrowCircleOUp.ToBitmap(20, Color.White),
+				image1 = IconChar.ArrowCircleUp.ToBitmap(20, Color.Black),
+				image2 = IconChar.ArrowCircleUp.ToBitmap(20, Color.White),
 				pos = 2,
 				anchor = btn.anchors.left,
 				borderWidth = 2,
@@ -135,8 +135,8 @@ namespace WolfPaw_ScreenSnip
 
 			btn b_LayerDown = new btn()
 			{
-				image1 = IconChar.ArrowCircleODown.ToBitmap(20, Color.Black),
-				image2 = IconChar.ArrowCircleODown.ToBitmap(20, Color.White),
+				image1 = IconChar.ArrowCircleDown.ToBitmap(20, Color.Black),
+				image2 = IconChar.ArrowCircleDown.ToBitmap(20, Color.White),
 				pos = 3,
 				anchor = btn.anchors.left,
 				borderWidth = 2,
@@ -174,8 +174,8 @@ namespace WolfPaw_ScreenSnip
 
 			btn b_SaveImage = new btn()
 			{
-				image1 = IconChar.FloppyO.ToBitmap(20, Color.Black),
-				image2 = IconChar.FloppyO.ToBitmap(20, Color.White),
+				image1 = IconChar.Save.ToBitmap(20, Color.Black),
+				image2 = IconChar.Save.ToBitmap(20, Color.White),
 				pos = 2,
 				anchor = btn.anchors.right,
 				borderWidth = 2,
@@ -187,8 +187,8 @@ namespace WolfPaw_ScreenSnip
 
 			btn b_CopyImage = new btn()
 			{
-				image1 = IconChar.FilesO.ToBitmap(20, Color.Black),
-				image2 = IconChar.FilesO.ToBitmap(20, Color.White),
+				image1 = IconChar.Clone.ToBitmap(20, Color.Black),
+				image2 = IconChar.Clone.ToBitmap(20, Color.White),
 				pos = 1,
 				anchor = btn.anchors.right,
 				borderWidth = 2,
@@ -200,8 +200,8 @@ namespace WolfPaw_ScreenSnip
 
 			btn b_DeleteImage = new btn()
 			{
-				image1 = IconChar.TrashO.ToBitmap(20, Color.Black),
-				image2 = IconChar.TrashO.ToBitmap(20, Color.White),
+				image1 = IconChar.Trash.ToBitmap(20, Color.Black),
+				image2 = IconChar.Trash.ToBitmap(20, Color.White),
 				pos = 0,
 				anchor = btn.anchors.right,
 				borderWidth = 2,

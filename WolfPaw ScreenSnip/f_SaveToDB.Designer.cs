@@ -173,7 +173,7 @@
 			this.btn_Top.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.btn_Top.FlatAppearance.BorderSize = 0;
 			this.btn_Top.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btn_Top.Icon = FontAwesome.Sharp.IconChar.AngleDoubleUp;
+			this.btn_Top.IconChar = FontAwesome.Sharp.IconChar.AngleDoubleUp;
 			this.btn_Top.IconColor = System.Drawing.Color.Black;
 			this.btn_Top.IconSize = 22;
 			this.btn_Top.Image = ((System.Drawing.Image)(resources.GetObject("btn_Top.Image")));
@@ -189,7 +189,7 @@
 			this.btn_Up.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.btn_Up.FlatAppearance.BorderSize = 0;
 			this.btn_Up.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btn_Up.Icon = FontAwesome.Sharp.IconChar.AngleUp;
+			this.btn_Up.IconChar = FontAwesome.Sharp.IconChar.AngleUp;
 			this.btn_Up.IconColor = System.Drawing.Color.Black;
 			this.btn_Up.IconSize = 22;
 			this.btn_Up.Image = ((System.Drawing.Image)(resources.GetObject("btn_Up.Image")));
@@ -206,7 +206,7 @@
 			this.btn_Delete.FlatAppearance.BorderSize = 0;
 			this.btn_Delete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btn_Delete.ForeColor = System.Drawing.Color.Red;
-			this.btn_Delete.Icon = FontAwesome.Sharp.IconChar.Ban;
+			this.btn_Delete.IconChar = FontAwesome.Sharp.IconChar.Ban;
 			this.btn_Delete.IconColor = System.Drawing.Color.Red;
 			this.btn_Delete.IconSize = 22;
 			this.btn_Delete.Image = ((System.Drawing.Image)(resources.GetObject("btn_Delete.Image")));
@@ -222,7 +222,7 @@
 			this.btn_Down.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.btn_Down.FlatAppearance.BorderSize = 0;
 			this.btn_Down.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btn_Down.Icon = FontAwesome.Sharp.IconChar.AngleDown;
+			this.btn_Down.IconChar = FontAwesome.Sharp.IconChar.AngleDown;
 			this.btn_Down.IconColor = System.Drawing.Color.Black;
 			this.btn_Down.IconSize = 22;
 			this.btn_Down.Image = ((System.Drawing.Image)(resources.GetObject("btn_Down.Image")));
@@ -238,7 +238,7 @@
 			this.btn_Bottom.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.btn_Bottom.FlatAppearance.BorderSize = 0;
 			this.btn_Bottom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btn_Bottom.Icon = FontAwesome.Sharp.IconChar.AngleDoubleDown;
+			this.btn_Bottom.IconChar = FontAwesome.Sharp.IconChar.AngleDoubleDown;
 			this.btn_Bottom.IconColor = System.Drawing.Color.Black;
 			this.btn_Bottom.IconSize = 22;
 			this.btn_Bottom.Image = ((System.Drawing.Image)(resources.GetObject("btn_Bottom.Image")));
@@ -271,7 +271,7 @@
 			// 
 			// btn_DB
 			// 
-			this.btn_DB.Icon = FontAwesome.Sharp.IconChar.Database;
+			this.btn_DB.IconChar = FontAwesome.Sharp.IconChar.Database;
 			this.btn_DB.IconColor = System.Drawing.Color.DimGray;
 			this.btn_DB.IconSize = 20;
 			this.btn_DB.Image = ((System.Drawing.Image)(resources.GetObject("btn_DB.Image")));
@@ -314,7 +314,7 @@
 			// 
 			// btn_AddTable
 			// 
-			this.btn_AddTable.Icon = FontAwesome.Sharp.IconChar.PlusCircle;
+			this.btn_AddTable.IconChar = FontAwesome.Sharp.IconChar.PlusCircle;
 			this.btn_AddTable.IconColor = System.Drawing.Color.DimGray;
 			this.btn_AddTable.IconSize = 20;
 			this.btn_AddTable.Image = ((System.Drawing.Image)(resources.GetObject("btn_AddTable.Image")));

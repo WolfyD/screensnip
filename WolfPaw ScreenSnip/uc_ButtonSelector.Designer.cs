@@ -37,7 +37,7 @@
 			// 
 			// btn_DropDown
 			// 
-			this.btn_DropDown.Icon = FontAwesome.Sharp.IconChar.CaretDown;
+			this.btn_DropDown.IconChar = FontAwesome.Sharp.IconChar.CaretDown;
 			this.btn_DropDown.IconColor = System.Drawing.Color.Black;
 			this.btn_DropDown.IconSize = 16;
 			this.btn_DropDown.Image = ((System.Drawing.Image)(resources.GetObject("btn_DropDown.Image")));

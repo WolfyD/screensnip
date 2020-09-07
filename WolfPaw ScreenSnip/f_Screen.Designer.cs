@@ -131,7 +131,7 @@
 			// 
 			this.btn_Manipulate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btn_Manipulate.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.btn_Manipulate.Icon = FontAwesome.Sharp.IconChar.MousePointer;
+			this.btn_Manipulate.IconChar = FontAwesome.Sharp.IconChar.MousePointer;
 			this.btn_Manipulate.IconColor = System.Drawing.Color.Black;
 			this.btn_Manipulate.IconSize = 20;
 			this.btn_Manipulate.Image = ((System.Drawing.Image)(resources.GetObject("btn_Manipulate.Image")));
@@ -148,7 +148,7 @@
 			// btn_ToolStrip
 			// 
 			this.btn_ToolStrip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btn_ToolStrip.Icon = FontAwesome.Sharp.IconChar.ArrowUp;
+			this.btn_ToolStrip.IconChar = FontAwesome.Sharp.IconChar.ArrowUp;
 			this.btn_ToolStrip.IconColor = System.Drawing.Color.Black;
 			this.btn_ToolStrip.IconSize = 32;
 			this.btn_ToolStrip.Image = ((System.Drawing.Image)(resources.GetObject("btn_ToolStrip.Image")));
@@ -165,7 +165,7 @@
 			// btn_Dock
 			// 
 			this.btn_Dock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btn_Dock.Icon = FontAwesome.Sharp.IconChar.ArrowsAlt;
+			this.btn_Dock.IconChar = FontAwesome.Sharp.IconChar.ArrowsAlt;
 			this.btn_Dock.IconColor = System.Drawing.Color.Black;
 			this.btn_Dock.IconSize = 32;
 			this.btn_Dock.Image = ((System.Drawing.Image)(resources.GetObject("btn_Dock.Image")));
@@ -183,7 +183,7 @@
 			// 
 			this.btn_Eraser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btn_Eraser.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.btn_Eraser.Icon = FontAwesome.Sharp.IconChar.Eraser;
+			this.btn_Eraser.IconChar = FontAwesome.Sharp.IconChar.Eraser;
 			this.btn_Eraser.IconColor = System.Drawing.Color.Black;
 			this.btn_Eraser.IconSize = 20;
 			this.btn_Eraser.Image = ((System.Drawing.Image)(resources.GetObject("btn_Eraser.Image")));
@@ -200,7 +200,7 @@
 			// 
 			this.btn_Line.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btn_Line.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.btn_Line.Icon = FontAwesome.Sharp.IconChar.Minus;
+			this.btn_Line.IconChar = FontAwesome.Sharp.IconChar.Minus;
 			this.btn_Line.IconColor = System.Drawing.Color.Black;
 			this.btn_Line.IconSize = 20;
 			this.btn_Line.Image = ((System.Drawing.Image)(resources.GetObject("btn_Line.Image")));
@@ -218,7 +218,7 @@
 			// 
 			this.btn_Marker.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btn_Marker.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.btn_Marker.Icon = FontAwesome.Sharp.IconChar.PencilSquare;
+			this.btn_Marker.IconChar = FontAwesome.Sharp.IconChar.PenSquare;
 			this.btn_Marker.IconColor = System.Drawing.Color.Black;
 			this.btn_Marker.IconSize = 22;
 			this.btn_Marker.Image = ((System.Drawing.Image)(resources.GetObject("btn_Marker.Image")));
@@ -236,7 +236,7 @@
 			// 
 			this.btn_Arrow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btn_Arrow.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.btn_Arrow.Icon = FontAwesome.Sharp.IconChar.ArrowLeft;
+			this.btn_Arrow.IconChar = FontAwesome.Sharp.IconChar.ArrowLeft;
 			this.btn_Arrow.IconColor = System.Drawing.Color.Black;
 			this.btn_Arrow.IconSize = 20;
 			this.btn_Arrow.Image = ((System.Drawing.Image)(resources.GetObject("btn_Arrow.Image")));
@@ -253,7 +253,7 @@
 			// 
 			this.btn_Text.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btn_Text.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.btn_Text.Icon = FontAwesome.Sharp.IconChar.Font;
+			this.btn_Text.IconChar = FontAwesome.Sharp.IconChar.Font;
 			this.btn_Text.IconColor = System.Drawing.Color.Black;
 			this.btn_Text.IconSize = 20;
 			this.btn_Text.Image = ((System.Drawing.Image)(resources.GetObject("btn_Text.Image")));
@@ -270,7 +270,7 @@
 			// 
 			this.btn_Oval.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btn_Oval.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.btn_Oval.Icon = FontAwesome.Sharp.IconChar.CircleO;
+			this.btn_Oval.IconChar = FontAwesome.Sharp.IconChar.Circle;
 			this.btn_Oval.IconColor = System.Drawing.Color.Black;
 			this.btn_Oval.IconSize = 20;
 			this.btn_Oval.Image = ((System.Drawing.Image)(resources.GetObject("btn_Oval.Image")));
@@ -287,7 +287,7 @@
 			// 
 			this.btn_Square.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btn_Square.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.btn_Square.Icon = FontAwesome.Sharp.IconChar.SquareO;
+			this.btn_Square.IconChar = FontAwesome.Sharp.IconChar.Square;
 			this.btn_Square.IconColor = System.Drawing.Color.Black;
 			this.btn_Square.IconSize = 20;
 			this.btn_Square.Image = ((System.Drawing.Image)(resources.GetObject("btn_Square.Image")));
@@ -304,7 +304,7 @@
 			// 
 			this.btn_Pen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btn_Pen.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.btn_Pen.Icon = FontAwesome.Sharp.IconChar.Pencil;
+			this.btn_Pen.IconChar = FontAwesome.Sharp.IconChar.Pen;
 			this.btn_Pen.IconColor = System.Drawing.Color.Black;
 			this.btn_Pen.IconSize = 20;
 			this.btn_Pen.Image = ((System.Drawing.Image)(resources.GetObject("btn_Pen.Image")));
@@ -560,7 +560,7 @@
             this.textToolStripMenuItem,
             this.arrowToolToolStripMenuItem,
             this.eraserToolStripMenuItem});
-			this.btn_ToolSelector.Icon = FontAwesome.Sharp.IconChar.MousePointer;
+			this.btn_ToolSelector.IconChar = FontAwesome.Sharp.IconChar.MousePointer;
 			this.btn_ToolSelector.IconColor = System.Drawing.Color.Black;
 			this.btn_ToolSelector.IconSize = 30;
 			this.btn_ToolSelector.Image = ((System.Drawing.Image)(resources.GetObject("btn_ToolSelector.Image")));
@@ -636,7 +636,7 @@
 			// btn_ToolColorPick
 			// 
 			this.btn_ToolColorPick.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btn_ToolColorPick.Icon = FontAwesome.Sharp.IconChar.Tint;
+			this.btn_ToolColorPick.IconChar = FontAwesome.Sharp.IconChar.Tint;
 			this.btn_ToolColorPick.IconColor = System.Drawing.Color.Black;
 			this.btn_ToolColorPick.IconSize = 30;
 			this.btn_ToolColorPick.Image = ((System.Drawing.Image)(resources.GetObject("btn_ToolColorPick.Image")));
@@ -662,7 +662,7 @@
 			// btn_FontSelect
 			// 
 			this.btn_FontSelect.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btn_FontSelect.Icon = FontAwesome.Sharp.IconChar.Font;
+			this.btn_FontSelect.IconChar = FontAwesome.Sharp.IconChar.Font;
 			this.btn_FontSelect.IconColor = System.Drawing.Color.Black;
 			this.btn_FontSelect.IconSize = 30;
 			this.btn_FontSelect.Image = ((System.Drawing.Image)(resources.GetObject("btn_FontSelect.Image")));
@@ -687,7 +687,7 @@
 			// cb_Background
 			// 
 			this.cb_Background.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.cb_Background.Icon = FontAwesome.Sharp.IconChar.CheckSquareO;
+			this.cb_Background.IconChar = FontAwesome.Sharp.IconChar.CheckSquare;
 			this.cb_Background.IconColor = System.Drawing.Color.Black;
 			this.cb_Background.IconSize = 30;
 			this.cb_Background.Image = ((System.Drawing.Image)(resources.GetObject("cb_Background.Image")));
@@ -699,7 +699,7 @@
 			// btn_BGColorPick
 			// 
 			this.btn_BGColorPick.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btn_BGColorPick.Icon = FontAwesome.Sharp.IconChar.Tint;
+			this.btn_BGColorPick.IconChar = FontAwesome.Sharp.IconChar.Tint;
 			this.btn_BGColorPick.IconColor = System.Drawing.Color.Black;
 			this.btn_BGColorPick.IconSize = 30;
 			this.btn_BGColorPick.Image = ((System.Drawing.Image)(resources.GetObject("btn_BGColorPick.Image")));
@@ -723,7 +723,7 @@
 			// cb_BorderOn
 			// 
 			this.cb_BorderOn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.cb_BorderOn.Icon = FontAwesome.Sharp.IconChar.CheckSquareO;
+			this.cb_BorderOn.IconChar = FontAwesome.Sharp.IconChar.CheckSquare;
 			this.cb_BorderOn.IconColor = System.Drawing.Color.Black;
 			this.cb_BorderOn.IconSize = 30;
 			this.cb_BorderOn.Image = ((System.Drawing.Image)(resources.GetObject("cb_BorderOn.Image")));
@@ -749,7 +749,7 @@
 			// btn_BorderColorPick
 			// 
 			this.btn_BorderColorPick.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btn_BorderColorPick.Icon = FontAwesome.Sharp.IconChar.Tint;
+			this.btn_BorderColorPick.IconChar = FontAwesome.Sharp.IconChar.Tint;
 			this.btn_BorderColorPick.IconColor = System.Drawing.Color.Black;
 			this.btn_BorderColorPick.IconSize = 30;
 			this.btn_BorderColorPick.Image = ((System.Drawing.Image)(resources.GetObject("btn_BorderColorPick.Image")));
@@ -763,7 +763,7 @@
 			// 
 			this.btn_ToolWindow.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
 			this.btn_ToolWindow.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btn_ToolWindow.Icon = FontAwesome.Sharp.IconChar.ArrowRight;
+			this.btn_ToolWindow.IconChar = FontAwesome.Sharp.IconChar.ArrowRight;
 			this.btn_ToolWindow.IconColor = System.Drawing.Color.Black;
 			this.btn_ToolWindow.IconSize = 30;
 			this.btn_ToolWindow.Image = ((System.Drawing.Image)(resources.GetObject("btn_ToolWindow.Image")));
@@ -777,7 +777,7 @@
 			// 
 			this.btn_ToolPanel.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
 			this.btn_ToolPanel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btn_ToolPanel.Icon = FontAwesome.Sharp.IconChar.ArrowsAlt;
+			this.btn_ToolPanel.IconChar = FontAwesome.Sharp.IconChar.ArrowsAlt;
 			this.btn_ToolPanel.IconColor = System.Drawing.Color.Black;
 			this.btn_ToolPanel.IconSize = 30;
 			this.btn_ToolPanel.Image = ((System.Drawing.Image)(resources.GetObject("btn_ToolPanel.Image")));
