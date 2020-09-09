@@ -38,19 +38,22 @@ namespace WolfPaw_ScreenSnip
 
 		private void Uc_ButtonSelector_Load(object sender, EventArgs e)
 		{
+			cms_Buttons.AutoClose = false;
+			btn_DropDown.Padding = new Padding(0, 0, 5, 0);
+
 			cms_Buttons.ShowCheckMargin = false;
 			cms_Buttons.ShowImageMargin = false;
 
 			ToolStripItem tsiRec = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false,  myText = "Rectangle", Image = IconChar.Cut.ToBitmap(buttonSize, Color.Black), Tag = 0 };
-			tsiRec.Click += itemClick;
+			tsiRec.Click += ItemClick;
 			ToolStripItem tsiWindow = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Window", Image = IconChar.WindowMaximize.ToBitmap(buttonSize, Color.Black), Tag = 1 };
-			tsiWindow.Click += itemClick;
+			tsiWindow.Click += ItemClick;
 			ToolStripItem tsiFreehand = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Freehand", Image = IconChar.PenSquare.ToBitmap(buttonSize, Color.Black), Tag = 2 };
-			tsiFreehand.Click += itemClick;
+			tsiFreehand.Click += ItemClick;
 			ToolStripItem tsiPoint = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Line", Image = IconChar.Star.ToBitmap(buttonSize, Color.Black), Tag = 3 };
-			tsiPoint.Click += itemClick;
+			tsiPoint.Click += ItemClick;
 			ToolStripItem tsiMagic = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Magic", Image = IconChar.Magic.ToBitmap(buttonSize, Color.Black), Tag = 4 };
-			tsiMagic.Click += itemClick;
+			tsiMagic.Click += ItemClick;
 
 			cms_Buttons.Items.Add(tsiRec);
 			cms_Buttons.Items.Add(tsiWindow);
@@ -101,14 +104,14 @@ namespace WolfPaw_ScreenSnip
 			cmsIsClosed = true;
 		}
 
-		private void itemClick(object sender, EventArgs e)
+		private void ItemClick(object sender, EventArgs e)
 		{
 			//TODO:
 			var item = sender as ToolStripMenuItem;
 			Properties.Settings.Default.s_lastTool = Convert.ToInt32(item.Tag.ToString());
 			Properties.Settings.Default.Save();
 			btn_Button.BackgroundImage = item.Image;
-			dropDownClose();
+			DropDownClose();
 			btn_Button_Click(null, null);
 		}
 
@@ -121,41 +124,47 @@ namespace WolfPaw_ScreenSnip
 			this.Width = btn_DropDown.Right;
 		}
 
-		public void dropDownOpen()
+		public void DropDownOpen()
 		{
 			cms_Buttons.Show(this, new Point(0, buttonSize));
 		}
 
-		public void dropDownClose()
+		public void DropDownClose()
 		{
-			cms_Buttons.Hide();
+			cms_Buttons.Close();
 		}
 
-		public bool checkDropDown()
+		public bool IsDropDownOpen()
 		{
 			return !cmsIsClosed;
-		}
-
-		private void btn_DropDown_Click(object sender, EventArgs e)
-		{
-			if (checkDropDown())
-			{
-				dropDownClose();
-			}
-			else
-			{
-				cmsIsClosed = false;
-				dropDownOpen();
-			}
 		}
 
 		private void btn_Button_Click(object sender, EventArgs e)
 		{
 			parent.handleCutouts(Properties.Settings.Default.s_lastTool);
 		}
-	}
 
-	public partial class myTSMI : ToolStripMenuItem
+        private void btn_DropDown_MouseDown(object sender, MouseEventArgs e)
+        {
+			cmsIsClosed = !IsDropDownOpen();
+		}
+
+        private void btn_DropDown_MouseUp(object sender, MouseEventArgs e)
+        {
+			if (!cmsIsClosed)
+			{
+				cmsIsClosed = true;
+				DropDownClose();
+			}
+			else
+			{
+				cmsIsClosed = false;
+				DropDownOpen();
+			}
+		}
+    }
+
+    public partial class myTSMI : ToolStripMenuItem
 	{
 		public string myText = "";
 
@@ -168,7 +177,7 @@ namespace WolfPaw_ScreenSnip
 		{
 			base.OnPaint(e);
 
-			e.Graphics.DrawImage(this.Image, new PointF(Width / 2 - this.Image.Width / 2, 0));
+			e.Graphics.DrawImage(this.Image, new PointF(Width / 2 - this.Image.Width / 2 - 5, 0));
 		}
 	}
 }

@@ -88,7 +88,9 @@ namespace WolfPaw_ScreenSnip
 			
         }
 
-		public void getMailClient()
+        #region MAIL
+
+        public void getMailClient()
 		{
 			object mailClient = Microsoft.Win32.Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Clients\Mail", "", "none");
 			Console.WriteLine(mailClient.ToString());
@@ -140,6 +142,8 @@ namespace WolfPaw_ScreenSnip
 			fileCount = 1;
 			return intPtr;
 		}
+
+		#endregion
 
 		public void loadSettings()
 		{

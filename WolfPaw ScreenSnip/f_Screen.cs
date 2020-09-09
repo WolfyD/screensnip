@@ -16,69 +16,86 @@ namespace WolfPaw_ScreenSnip
 {
 	public partial class f_Screen : Form
 	{
-		//-------VARIABLES
-		//WINDOWS
-		public f_SettingPanel child = null;
-		public Form1 parent = null;
-		public f_previewWindow pw = null;
+        #region Variables
+        //-------VARIABLES
 
-		//FORMAT ARRAYS
-		string[] imageFormats = new string[] { "image/gif", "image/jpeg", "image/pjpeg", "image/png", "image/x-png", "image/tiff", "image/bmp", "image/x-xbitmap", "image/x-jg", "image/x-emf", "image/x-wmf" };
-		string[] stringFormats = new string[] { "text/plain", "text/html", "text/xml", "text/richtext", "text/scriptlet" };
-		
-		//DRAG N DROP {
-		bool handleDrag = false;
-		Font dragableFont = new Font("Consolas", 12, FontStyle.Regular);
-		Bitmap dragableImage = null;
-		Size dragableSize = new Size(1, 1);
-		Point dragablePoint = new Point(0, 0);
-		// }
+			#region WINDOWS
 
-		//TOOLS {
-		public Color toolColor = Color.Black;
-		private int CurrentTool;
-		public float toolSize = 1;
-		public int currentTool
-		{
-			get { return CurrentTool; }
-			set { CurrentTool = value; changeTool(CurrentTool); }
-		}
-		c_ImageHolder cResizer = null;
-		// }
+			public f_SettingPanel child = null;
+			public Form1 parent = null;
+			public f_previewWindow pw = null;
 
-		//RENDERING {
-		public List<c_ImageHolder> Limages = new List<c_ImageHolder>();
-		public bool mdown = false;
-		public c_ImageHolder selectedImage = null;
-		public c_ImageHolder mouseOverImage = null;
-		public Point imageDragPoint = new Point();
-		c_RenderHandler renhan = null;
-		edges ed = edges.none;
-		corners cor = corners.none;
-		corners cRot = corners.none;
-		ColorMatrix cm = new ColorMatrix();
-		ImageAttributes attributes = new ImageAttributes();
-		public bool drawTransparent = false;
-		public bool drawAllTransparent = false;
-		public bool drawAllTransparentToggle = false;
-		public float opacityLevel = 0.4f;
-		public bool editLayerOpen = false;
-		c_EditLayer editLayer = new c_EditLayer();
+			#endregion
 
-		public bool showToolTipsOnCutoutButtons = false;
-		// }
+			#region FORMAT ARRAYS
 
-		//COLORS {
-		/// <summary> Color of handle above image containing buttons </summary>
-		Color c_HandleColor = Color.FromArgb(255, 153, 180, 209);
-		/// <summary> Color of border surrounding image when clicked on </summary>
-		Color c_DefaultBorderColor = Color.FromArgb(255, 0, 0, 0);
-		/// <summary> Color of border surrounging image when mouse is over image</summary>
-		Color c_MouseOverBorderColor = Color.FromArgb(255, 180, 180, 180);
-		/// <summary> Color of background of the Screen </summary>
-		Color c_ScreenBackgroundColor = Color.FromArgb(255, 220, 220, 220);
+			string[] imageFormats = new string[] { "image/gif", "image/jpeg", "image/pjpeg", "image/png", "image/x-png", "image/tiff", "image/bmp", "image/x-xbitmap", "image/x-jg", "image/x-emf", "image/x-wmf" };
+			string[] stringFormats = new string[] { "text/plain", "text/html", "text/xml", "text/richtext", "text/scriptlet" };
 
-		// }
+			#endregion
+
+			#region DRAG N DROP
+
+			bool handleDrag = false;
+			Font dragableFont = new Font("Consolas", 12, FontStyle.Regular);
+			Bitmap dragableImage = null;
+			Size dragableSize = new Size(1, 1);
+			Point dragablePoint = new Point(0, 0);
+
+			#endregion
+
+			#region TOOLS
+
+			public Color toolColor = Color.Black;
+			private int CurrentTool;
+			public float toolSize = 1;
+			public int currentTool
+			{
+				get { return CurrentTool; }
+				set { CurrentTool = value; changeTool(CurrentTool); }
+			}
+			c_ImageHolder cResizer = null;
+
+			#endregion
+
+			#region RENDERING
+
+			public List<c_ImageHolder> Limages = new List<c_ImageHolder>();
+			public bool mdown = false;
+			public c_ImageHolder selectedImage = null;
+			public c_ImageHolder mouseOverImage = null;
+			public Point imageDragPoint = new Point();
+			c_RenderHandler renhan = null;
+			edges ed = edges.none;
+			corners cor = corners.none;
+			corners cRot = corners.none;
+			ColorMatrix cm = new ColorMatrix();
+			ImageAttributes attributes = new ImageAttributes();
+			public bool drawTransparent = false;
+			public bool drawAllTransparent = false;
+			public bool drawAllTransparentToggle = false;
+			public float opacityLevel = 0.4f;
+			public bool editLayerOpen = false;
+			c_EditLayer editLayer = new c_EditLayer();
+
+			public bool showToolTipsOnCutoutButtons = false;
+
+			#endregion
+
+			#region COLORS
+
+			/// <summary> Color of handle above image containing buttons </summary>
+			Color c_HandleColor = Color.FromArgb(255, 153, 180, 209);
+			/// <summary> Color of border surrounding image when clicked on </summary>
+			Color c_DefaultBorderColor = Color.FromArgb(255, 0, 0, 0);
+			/// <summary> Color of border surrounging image when mouse is over image</summary>
+			Color c_MouseOverBorderColor = Color.FromArgb(255, 180, 180, 180);
+			/// <summary> Color of background of the Screen </summary>
+			Color c_ScreenBackgroundColor = Color.FromArgb(255, 220, 220, 220);
+
+			#endregion
+
+		#endregion
 
 
 		//-------FUNCTIONS
@@ -144,9 +161,6 @@ namespace WolfPaw_ScreenSnip
 			
 			renhan = new c_RenderHandler(Limages);
 			trackBar.OnValueChange += TrackBar_OnValueChange;
-
-			
-			
 		}
 
 		private void TrackBar_OnValueChange(object sender, ValueEventArgs e)
@@ -566,6 +580,11 @@ namespace WolfPaw_ScreenSnip
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
+			if(Limages == null || Limages.Count < 1)
+            {
+				return;
+            }
+
 			base.OnPaint(e);
 
 			var cr = new c_returnGraphicSettings();
@@ -749,11 +768,14 @@ namespace WolfPaw_ScreenSnip
 		{
 			try
 			{
-				Limages.Sort(new intComparer());
+                if (Limages != null && Limages.Count > 1)
+                {
+					Limages.Sort(new intComparer());
+				}
 			}
-			catch
+			catch(Exception ex)
 			{
-
+				Console.WriteLine(ex.ToString());
 			}
 		}
 		

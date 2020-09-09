@@ -455,6 +455,12 @@
   <ItemGroup>
     <None Include="Resources\measurebox.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pencil.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

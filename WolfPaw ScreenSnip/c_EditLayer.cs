@@ -9,6 +9,12 @@ namespace WolfPaw_ScreenSnip
 {
 	public class c_EditLayer
 	{
+		//TODO
+		//TODO
+		//TODO
+		//TODO
+		//TODO
+
 		public List<c_EditLayerElement> elements = new List<c_EditLayerElement>();
 
 		public bool mouseOverElement(Point p)
