@@ -30,7 +30,7 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="s_lastSaveDir" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">%UserProfile%/Pictures/ScreenSnip</Value>
     </Setting>
     <Setting Name="s_hasDelay" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
