@@ -26,12 +26,12 @@ namespace Up2Site.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string s_ProjectFolder {
+        public string s_x64_Folder {
             get {
-                return ((string)(this["s_ProjectFolder"]));
+                return ((string)(this["s_x64_Folder"]));
             }
             set {
-                this["s_ProjectFolder"] = value;
+                this["s_x64_Folder"] = value;
             }
         }
         
@@ -73,25 +73,49 @@ namespace Up2Site.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string s_Overwrite {
+        [global::System.Configuration.DefaultSettingValueAttribute("2000-01-01")]
+        public global::System.DateTime s_LastUploadSuccess {
             get {
-                return ((string)(this["s_Overwrite"]));
+                return ((global::System.DateTime)(this["s_LastUploadSuccess"]));
             }
             set {
-                this["s_Overwrite"] = value;
+                this["s_LastUploadSuccess"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string s_AutoGetVersionNum {
+        public string s_x86_Folder {
             get {
-                return ((string)(this["s_AutoGetVersionNum"]));
+                return ((string)(this["s_x86_Folder"]));
             }
             set {
-                this["s_AutoGetVersionNum"] = value;
+                this["s_x86_Folder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string s_LastErrorMessage {
+            get {
+                return ((string)(this["s_LastErrorMessage"]));
+            }
+            set {
+                this["s_LastErrorMessage"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string s_LastErrorLog {
+            get {
+                return ((string)(this["s_LastErrorLog"]));
+            }
+            set {
+                this["s_LastErrorLog"] = value;
             }
         }
     }
