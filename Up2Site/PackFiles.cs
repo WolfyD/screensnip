@@ -6,12 +6,17 @@ namespace Up2Site
 {
     public static class PackFiles
     {
+        public static void Init()
+        {
+            if (Directory.Exists("zip")) { Directory.Delete("zip", true); }
+            Directory.CreateDirectory("zip");
+        }
+
         public static bool PackFilesToZip(string InPath, string VersionNumber, bool x64, out String FilePath)
         {
             try
             {
-                if (Directory.Exists("zip")) { Directory.Delete("zip", true); }
-                Directory.CreateDirectory("zip");
+                if (Directory.Exists($"{InPath}/Release")) { InPath += "/Release"; }
                 string filepath = $"zip/Snip_{((x64 ? "x64_" : "x86_") + VersionNumber)}.zip";
                 ZipFile.CreateFromDirectory(InPath, filepath, CompressionLevel.Fastest, false);
                 

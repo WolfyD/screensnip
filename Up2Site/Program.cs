@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Up2Site
 {
@@ -128,12 +124,15 @@ namespace Up2Site
                     SetFilePath("x64");
                     break;
                 case 2:
-                    Logs();
+                    TestFilePath("x86");
+                    break;
+                case 3:
+                    TestFilePath("x64");
                     break;
                 default:
                     return -1;
             }
-
+            Properties.Settings.Default.Save();
             return 0;
         }
 
@@ -152,15 +151,7 @@ namespace Up2Site
             Console.ForegroundColor = ConsoleColor.White;
 
             string path = Console.ReadLine();
-            if (!Directory.Exists(path))
-            {
-                //TODO: Warn that there is no such path
-                //Yes/No
-            }
 
-            //TODO: Ask if sure, if no, call self
-
-            //If sure:
             if(architecture == "x86")
             {
                 Properties.Settings.Default.s_x86_Folder = path;
@@ -184,9 +175,37 @@ namespace Up2Site
             }
         }
         
+        public static void WriteSetting(string Title, string Setting)
+        {
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine(Title);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(Setting);
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine("");
+        }
+
+        public static string GetTimeFromDT(DateTime dt)
+        {
+            return dt.ToShortDateString() + " " + dt.ToShortTimeString();
+        }
+
         public static void Logs()
         {
-            //todo: Make screen where user sees logged stuff
+            Header();
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"===== Settings and Logs =====");
+            Console.WriteLine("");
+
+            WriteSetting("Latest version", Properties.Settings.Default.s_LastVersion);
+            WriteSetting("Last upload attempt", GetTimeFromDT(Properties.Settings.Default.s_LastUploadAttempt));
+            WriteSetting("Was the last upload successful", Properties.Settings.Default.s_WasLastUploadSuccess ? "Yes" : "No");
+            if (!Properties.Settings.Default.s_WasLastUploadSuccess)
+            {
+                WriteSetting("Last successful upload", GetTimeFromDT(Properties.Settings.Default.s_LastUploadSuccess));
+            }
+
+            Console.ReadLine();
         }
 
         public static void HandleUploadProcess()
@@ -202,35 +221,36 @@ namespace Up2Site
 
                 Log("Creating FTP...");
                 FTP ftp = new FTP(UN: credentials.username, PWD: credentials.password, ADDR: credentials.hostname, DIR: versionNum);
-                Log("Success!", 1);
+                Log("Success!\r\n", 1);
 
-                //TODO: Remove
-                Properties.Settings.Default.s_x64_Folder = @"F:\[[STORAGE]]\[-PROJECTS]\Repos\screensnip\WolfPaw ScreenSnip\bin\x64\Release";
-                Properties.Settings.Default.s_x86_Folder = @"F:\[[STORAGE]]\[-PROJECTS]\Repos\screensnip\WolfPaw ScreenSnip\bin\x86\Release";
-                
+                //Properties.Settings.Default.s_x64_Folder = @"F:\[[STORAGE]]\[-PROJECTS]\Repos\screensnip\WolfPaw ScreenSnip\bin\x64\Release";
+                //Properties.Settings.Default.s_x86_Folder = @"F:\[[STORAGE]]\[-PROJECTS]\Repos\screensnip\WolfPaw ScreenSnip\bin\x86\Release";
+
+                PackFiles.Init();
+
                 Log("Zipping files...");
                 Log("x64...");
                 PackFiles.PackFilesToZip(Properties.Settings.Default.s_x64_Folder, versionNum, true, out string path64);
                 Log($"Created file [./zip/Snip_x64_{versionNum}.zip] with MD5 [{GetVersionNum.GetMD5HashForFile($"zip/Snip_x64_{versionNum}.zip")}]", 0);
-                Log("Success!", 1);
+                Log("Success!\r\n", 1);
                 Log("x86...");
                 PackFiles.PackFilesToZip(Properties.Settings.Default.s_x86_Folder, versionNum, false, out string path86);
                 Log($"Created file [./zip/Snip_x86_{versionNum}.zip] with MD5 [{GetVersionNum.GetMD5HashForFile($"zip/Snip_x86_{versionNum}.zip")}]", 0);
-                Log("Success!", 1);
+                Log("Success!\r\n", 1);
 
                 Log("Update...");
                 ftp.Update(path64, path86);
                 Log("Upload...");
                 Log("x64...");
                 ftp.Upload(path64);
-                Log("Success!", 1);
+                Log("Success!\r\n", 1);
                 Log("x86...");
                 ftp.Upload(path86);
-                Log("Success!", 1);
+                Log("Success!\r\n", 1);
 
                 Log("Disconnect...");
                 ftp.DisconnectFtp();
-                Log("Success!", 1);
+                Log("Success!\r\n", 1);
 
                 Log("\r\nProcess ended successfully : " + DateTime.Now.ToLongTimeString(), 1);
 
@@ -243,6 +263,9 @@ namespace Up2Site
                 Properties.Settings.Default.s_LastErrorMessage = ex.Message;
                 Log("Error -> " + ex.Message, 3);
             }
+
+            Console.WriteLine("Press [Enter] key to return to menu...");
+            Console.ReadLine();
         }
 
         public static void Log(string message, int severity = 2)
