@@ -655,10 +655,10 @@ namespace WolfPaw_ScreenSnip
 
 									if (c.isOverAButton(new Point(p.X - c.Left, p.Y - c.Top)) && !resize && MouseButtons.CompareTo(MouseButtons.Left) != 0)
 									{
-										btn bb = c.overWhichButton(new Point(p.X - c.Left, p.Y - c.Top));
+										Btn bb = c.overWhichButton(new Point(p.X - c.Left, p.Y - c.Top));
 										if (bb.visible)
 										{
-											string ttText = bb.tooltiptext;
+											string ttText = bb.Tooltiptext;
 											if (!showToolTipsOnCutoutButtons)
 											{
 												lbl_Panel1_Info.Text = ttText;
@@ -674,7 +674,7 @@ namespace WolfPaw_ScreenSnip
 													Rectangle rec = getTooltipRect(ttText, new Point(p.X, Y), out title, out text);
 													e.Graphics.FillRectangle(new SolidBrush(SystemColors.Info), rec);
 													e.Graphics.DrawString(title, tooltipfont, Brushes.Black, new Point(p.X - (p.X % 25) + 22, Y + 5 + 12));
-													e.Graphics.DrawImage(bb.image1, p.X - (p.X % 25) + 1, Y + 5 + 10);
+													e.Graphics.DrawImage(bb.Image1, p.X - (p.X % 25) + 1, Y + 5 + 10);
 													e.Graphics.DrawString(text, tooltipfont, Brushes.Black, new Point(p.X - (p.X % 25) + 2, Y + 5 + 24));
 													e.Graphics.DrawRectangle(Pens.Black, new Rectangle(rec.Left - 1, rec.Top - 1, rec.Width + 2, rec.Height + 2));
 												}
@@ -897,20 +897,20 @@ namespace WolfPaw_ScreenSnip
 							Point pp = new Point(e.X - c.Left, e.Y - c.Top);
 							if (c.isOverAButton(pp) && !resize && buttonPress)
 							{
-								btn b = c.overWhichButton(pp);
+								Btn b = c.overWhichButton(pp);
 
-								if (c._buttons.currentValue == btn.hiddenVal.W065)
+								if (c._buttons.currentValue == Btn.HiddenVal.W065)
 								{
-									if (b.value == 10)
+									if (b.Value == 10)
 									{
 										cms_Panel.Visible = true;
 										cms_Panel.Show(this, e.Location);
 										selectedImage = c;
 									}
 								}
-								else if (c._buttons.currentValue == btn.hiddenVal.W135)
+								else if (c._buttons.currentValue == Btn.HiddenVal.W135)
 								{
-									switch (b.value)
+									switch (b.Value)
 									{
 										case 0:
 											c.Size = c.Image.Size;
@@ -930,9 +930,9 @@ namespace WolfPaw_ScreenSnip
 											break;
 									}
 								}
-								else if (c._buttons.currentValue == btn.hiddenVal.W175)
+								else if (c._buttons.currentValue == Btn.HiddenVal.W175)
 								{
-									switch (b.value)
+									switch (b.Value)
 									{
 										case 0:
 											c.Size = c.Image.Size;
@@ -964,9 +964,9 @@ namespace WolfPaw_ScreenSnip
 											break;
 									}
 								}
-								else if (c._buttons.currentValue == btn.hiddenVal.FullWidth)
+								else if (c._buttons.currentValue == Btn.HiddenVal.FullWidth)
 								{
-									switch (b.value)
+									switch (b.Value)
 									{
 										case 0:
 											c.Size = c.Image.Size;

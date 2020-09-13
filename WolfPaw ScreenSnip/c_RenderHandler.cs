@@ -50,36 +50,36 @@ namespace WolfPaw_ScreenSnip
 
 			using (Graphics g = Graphics.FromImage(ret))
 			{
-				foreach (btn b in c._buttons.btns)
+				foreach (Btn b in c._buttons.btns)
 				{
 					if (b.visible)
 					{
-						if (b.anchor == btn.anchors.left)
+						if (b.Anchor == Btn.Anchors.left)
 						{
 							if (c.isOverButton(newp, b))
 							{
-								g.DrawImage(b.image2, new Point(b.pos * b.Size + (b.pos > 1 ? b.pos + 1 : 0) - b.PadRight + (b.pos > 0 ? (b.pos * 2) : 0), b.PadTop));
+								g.DrawImage(b.Image2, new Point(b.Pos * b.Size + (b.Pos > 1 ? b.Pos + 1 : 0) - b.PadRight + (b.Pos > 0 ? (b.Pos * 2) : 0), b.PadTop));
 							}
 							else
 							{
-								g.DrawImage(b.image1, new Point(b.pos * b.Size + (b.pos > 1 ? b.pos + 1 : 0) - b.PadRight + (b.pos > 0 ? (b.pos * 2) : 0), b.PadTop));
+								g.DrawImage(b.Image1, new Point(b.Pos * b.Size + (b.Pos > 1 ? b.Pos + 1 : 0) - b.PadRight + (b.Pos > 0 ? (b.Pos * 2) : 0), b.PadTop));
 							}
 
-							g.DrawRectangle(Pens.Black, new Rectangle(b.pos * c.buttonSize + (b.pos > 0 ? (b.pos * 2) : 0), 0, c.buttonSize, c.buttonSize));
+							g.DrawRectangle(Pens.Black, new Rectangle(b.Pos * c.buttonSize + (b.Pos > 0 ? (b.Pos * 2) : 0), 0, c.buttonSize, c.buttonSize));
 						}
 						else
 						{
 							if (c.isOverButton(newp, b))
 							{
-								g.DrawImage(b.image2, new Point(c.Width - (((b.pos + 1) * b.Size + 7) - b.PadRight + (b.pos * 2)), b.PadTop));
+								g.DrawImage(b.Image2, new Point(c.Width - (((b.Pos + 1) * b.Size + 7) - b.PadRight + (b.Pos * 2)), b.PadTop));
 							}
 							else
 							{
-								g.DrawImage(b.image1, new Point(c.Width - (((b.pos + 1) * b.Size + 7) - b.PadRight + (b.pos * 2)), b.PadTop));
+								g.DrawImage(b.Image1, new Point(c.Width - (((b.Pos + 1) * b.Size + 7) - b.PadRight + (b.Pos * 2)), b.PadTop));
 								//g.DrawImage(b.image1, new Point(c.Width - (((b.pos + 1) * b.Size) + (b.pos * 2)), 0));
 							}
 
-							g.DrawRectangle(Pens.Black, new Rectangle(c.Width - (((b.pos + 1) * c.buttonSize) + (b.pos * 2)), 0, c.buttonSize, c.buttonSize));
+							g.DrawRectangle(Pens.Black, new Rectangle(c.Width - (((b.Pos + 1) * c.buttonSize) + (b.Pos * 2)), 0, c.buttonSize, c.buttonSize));
 						}
 					}
 

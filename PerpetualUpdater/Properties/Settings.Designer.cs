@@ -61,6 +61,7 @@ namespace PerpetualUpdater.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2020-01-01")]
         public global::System.DateTime s_LastCheck {
             get {
                 return ((global::System.DateTime)(this["s_LastCheck"]));
@@ -187,6 +188,18 @@ namespace PerpetualUpdater.Properties {
             }
             set {
                 this["s_StartMinimized"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool s_FirstTime {
+            get {
+                return ((bool)(this["s_FirstTime"]));
+            }
+            set {
+                this["s_FirstTime"] = value;
             }
         }
     }

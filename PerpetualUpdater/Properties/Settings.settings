@@ -12,7 +12,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="s_LastCheck" Type="System.DateTime" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">2020-01-01</Value>
     </Setting>
     <Setting Name="s_Architecture" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -43,6 +43,9 @@
     </Setting>
     <Setting Name="s_StartMinimized" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="s_FirstTime" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

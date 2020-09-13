@@ -10,7 +10,8 @@ namespace PerpetualUpdater
     {
         Timer t = new Timer();
         int TimerCountdown = 0;
-
+        Console console = new Console();
+        
         public MainForm()
         {
             InitializeComponent();
@@ -19,6 +20,9 @@ namespace PerpetualUpdater
             t.Interval = 1000;
             t.Start();
             t.Tick += T_Tick;
+            console.TextBox = tb_ConsoleOutput;
+
+            this.Icon = Properties.Resources.update;
         }
 
         private void T_Tick(object sender, EventArgs e)
@@ -51,9 +55,17 @@ namespace PerpetualUpdater
                 btn_Hide_Click(null, null);
             }
 
+            if (Properties.Settings.Default.s_FirstTime)
+            {
+                Properties.Settings.Default.s_FirstTime = false;
+                btn_Info_Click(null, null);
+            }
+
             LoadSettings();
             LoadInfo();
             Height = 235;
+
+            CheckIfPathOk();
         }
 
         public void SetTimerCountdown()
@@ -100,13 +112,25 @@ namespace PerpetualUpdater
         private void LoadInfo()
         {
             string path = Properties.Settings.Default.s_Path;
-            lbl_IsInstalled.Text = "✗ - Not Installed";
+            
             if (path != "" && Directory.Exists(path))
             {
                 if(File.Exists(path + "\\WolfPaw ScreenSnip.exe"))
                 {
                     lbl_IsInstalled.Text = "✓ - Installed";
                 }
+                else
+                {
+                    lbl_IsInstalled.Text = "✗ - Not Installed";
+                    Properties.Settings.Default.s_CurrentVersion = "";
+                    Properties.Settings.Default.Save();
+                }
+            }
+            else
+            {
+                lbl_IsInstalled.Text = "✗ - Not Installed";
+                Properties.Settings.Default.s_CurrentVersion = "";
+                Properties.Settings.Default.Save();
             }
 
             lbl_Architecture.Text = Properties.Settings.Default.s_ArchitectureInstalled;
@@ -128,7 +152,9 @@ namespace PerpetualUpdater
         private void bnt_Settings_Click(object sender, EventArgs e)
         {
             LoadSettings();
+            p_SettingsPanel.BringToFront();
             p_SettingsPanel.Show();
+            p_ButtonPanel.BringToFront();
             p_ButtonPanel.Enabled = false;
         }
 
@@ -142,7 +168,7 @@ namespace PerpetualUpdater
             ShowInTaskbar = false;
             Hide();
             ni_Icon.Visible = true;
-            ni_Icon.Icon = this.Icon;
+            ni_Icon.Icon = Properties.Resources.update_smoll;
         }
 
         private void ll_OpenPath_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -192,8 +218,25 @@ namespace PerpetualUpdater
             CheckUpdate(true);
         }
 
+        public bool CheckIfPathOk()
+        {
+            string path = Properties.Settings.Default.s_Path;
+            if (path == "" || Directory.Exists(path) == false)
+            {
+                MessageBox.Show("There is no path set up to save the program to.\r\nPlease open Settings and create/select a directory to save to.", "No path specified.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+
+            return true;
+        }
+
         public void CheckUpdate(bool IsManual = false)
         {
+            if (!CheckIfPathOk())
+            {
+                return;
+            }
+
             UpdateManager um = new UpdateManager();
             um.ConnectFtp(credentials.username, credentials.password, credentials.hostname);
             um.TryUpdate(IsManual);
@@ -253,6 +296,22 @@ namespace PerpetualUpdater
         private void cmd_NIMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             btn_NIMenu_CheckUpdate.Text = $"Check for Update ({GetTimeFromTimer()})";
+        }
+
+        private void btn_Info_Click(object sender, EventArgs e)
+        {
+            Info info = new Info();
+            info.ShowDialog();
+        }
+
+        private void btn_NIMenu_CheckUpdate_Click(object sender, EventArgs e)
+        {
+            CheckUpdate();
+        }
+
+        private void ni_Icon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            btn_NIMenu_ShowWindow_Click(null, null);
         }
     }
 }

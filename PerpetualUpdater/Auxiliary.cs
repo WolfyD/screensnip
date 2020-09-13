@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using FluentFTP;
+using Microsoft.Win32;
 using System;
 
 namespace PerpetualUpdater
@@ -19,6 +20,26 @@ namespace PerpetualUpdater
                 Properties.Settings.Default.s_SWW = false;
             }
             Properties.Settings.Default.Save();
+        }
+
+        public static bool CompareMD5(string hash, string path, out string cHash)
+        {
+            cHash = GetMD5HashForFile(path);
+
+            return cHash == hash;
+        }
+
+        public static string GetMD5HashForFile(String Path)
+        {
+            byte[] filebytes = System.IO.File.ReadAllBytes(Path);
+            byte[] md5bytes = System.Security.Cryptography.MD5CryptoServiceProvider.Create().ComputeHash(filebytes, 0, filebytes.Length);
+            string md5 = "";
+            foreach (byte b in md5bytes)
+            {
+                md5 += b.ToString("X2").ToUpper();
+            }
+
+            return md5;
         }
     }
 }

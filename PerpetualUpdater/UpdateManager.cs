@@ -1,5 +1,6 @@
 ﻿using System.IO.Compression;
 using System.Windows.Forms;
+using WSH = IWshRuntimeLibrary;
 using System.Linq;
 using System.Net;
 using System.IO;
@@ -11,6 +12,7 @@ namespace PerpetualUpdater
     class UpdateManager
     {
         private FtpClient ftp = null;
+        private string hash = "";
 
         public bool TryUpdate(bool IsManual = false)
         {
@@ -46,6 +48,13 @@ namespace PerpetualUpdater
                             filename = (arch == "x86" ? "Snip_x86" : "Snip_x64") + filename;
 
                             ftp.DownloadFile(filename, filename, FtpLocalExists.Overwrite);
+
+                            if (!Auxiliary.CompareMD5(hash, filename, out string cHash)) {
+                                Console.WriteLine("Error! -> file hash not matching hash in version file...");
+                                Console.WriteLine("Expected hash: " + hash);
+                                Console.WriteLine("Calculated hash: " + cHash);
+                                return false;
+                            }
 
                             Properties.Settings.Default.s_LastDownload = DateTime.Now;
 
@@ -92,6 +101,11 @@ click the [Check for Update] button manually";
                     Properties.Settings.Default.Save();
                 }
             }
+            else
+            {
+                Console.WriteLine("No new update found.");
+                Console.WriteLine($"Current version: {Properties.Settings.Default.s_CurrentVersion}");
+            }
 
             return false;
         }
@@ -110,12 +124,23 @@ click the [Check for Update] button manually";
 
         public bool CheckIfIconExists()
         {
-            return false;
+            string dt = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+            return File.Exists(dt + "\\ScreenSnip.lnk");
         }
 
         public void CreateIcon()
         {
+            string dt = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
+            dt += "\\ScreenSnip.lnk";
+
+            string shortcutLocation = dt;
+            WSH.WshShell shell = new WSH.WshShell();
+            WSH.IWshShortcut shortcut = (WSH.IWshShortcut)shell.CreateShortcut(shortcutLocation);
+            shortcut.Description = "WolfPaw Screen Snipper tool";
+            shortcut.TargetPath = Properties.Settings.Default.s_Path + "\\WolfPaw ScreenSnip.exe";
+            shortcut.Save();
         }
 
         public bool CheckNewerExists()
@@ -139,6 +164,8 @@ click the [Check for Update] button manually";
         {
             ftp.DownloadFile("v.txt", "v.txt", FtpLocalExists.Overwrite, FtpVerify.None);
             string version = File.ReadAllLines("v.txt").Where(x=>x.StartsWith("#") == false).FirstOrDefault();
+            hash = File.ReadAllLines("v.txt").Where(x => x.StartsWith("# " + Properties.Settings.Default.s_Architecture)).FirstOrDefault();
+            hash = hash.Replace("# x64 - ", "").Replace("# x86 - ", "");
             version = version.Trim();
 
             if(Version.TryParse(version, out Version ver))
