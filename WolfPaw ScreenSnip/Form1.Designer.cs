@@ -515,6 +515,7 @@
             // uc_ButtonSelector1
             // 
             this.uc_ButtonSelector1.ButtonSize = 40;
+            this.uc_ButtonSelector1.Function = WolfPaw_ScreenSnip.DropDownFunction.DataManagement;
             this.uc_ButtonSelector1.Location = new System.Drawing.Point(0, 20);
             this.uc_ButtonSelector1.Name = "uc_ButtonSelector1";
             this.uc_ButtonSelector1.parent = null;

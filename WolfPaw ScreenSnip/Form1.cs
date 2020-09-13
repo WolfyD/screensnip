@@ -208,11 +208,9 @@ namespace WolfPaw_ScreenSnip
 			{
 
 				i = sa.IndexOf(s);
-				uint px = 0;
-				uint py = 0;
-				c_GetDPI.GetDpi(s, DpiType.Raw, out px, out py);
+                c_GetDPI.GetDpi(s, DpiType.Raw, out uint px, out uint py);
 
-				Properties.Settings.Default.s_DPI.Add(string.Format("{0}|{1}|{2}|{3}", i, s.DeviceName, px, py));
+                Properties.Settings.Default.s_DPI.Add(string.Format("{0}|{1}|{2}|{3}", i, s.DeviceName, px, py));
 				Properties.Settings.Default.Save();
 				//MessageBox.Show(Properties.Settings.Default.s_DPI[0]);
 			}
@@ -299,7 +297,7 @@ namespace WolfPaw_ScreenSnip
             ib.Left = b.Left;
             ib.Top = b.Top;
             ib.ImageAlign = ContentAlignment.MiddleCenter;
-            ib.Padding = new Padding(2, 4, 0, 0);
+            ib.Padding = new Padding(0, 4, 6, 0);
             ib.Anchor = b.Anchor;
             ib.Tag = b;
 			toolTip1.SetToolTip(ib, toolTip1.GetToolTip(b));

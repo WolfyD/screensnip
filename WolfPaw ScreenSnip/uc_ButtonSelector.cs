@@ -14,6 +14,13 @@ namespace WolfPaw_ScreenSnip
 	public partial class uc_ButtonSelector : UserControl
 	{
 		private int buttonSize = 50;
+		private DropDownFunction function;
+		[Browsable(true)]
+		public DropDownFunction Function
+		{
+            get { return function; }
+            set { function = value; }
+		}
 
 		public Form1 parent { get; set; }
 
@@ -36,6 +43,8 @@ namespace WolfPaw_ScreenSnip
 			Load += Uc_ButtonSelector_Load;
 		}
 
+		Bitmap bmp = null;
+
 		private void Uc_ButtonSelector_Load(object sender, EventArgs e)
 		{
 			cms_Buttons.AutoClose = false;
@@ -44,56 +53,112 @@ namespace WolfPaw_ScreenSnip
 			cms_Buttons.ShowCheckMargin = false;
 			cms_Buttons.ShowImageMargin = false;
 
-			ToolStripItem tsiRec = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false,  myText = "Rectangle", Image = IconChar.Cut.ToBitmap(buttonSize, Color.Black), Tag = 0 };
-			tsiRec.Click += ItemClick;
-			ToolStripItem tsiWindow = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Window", Image = IconChar.WindowMaximize.ToBitmap(buttonSize, Color.Black), Tag = 1 };
-			tsiWindow.Click += ItemClick;
-			ToolStripItem tsiFreehand = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Freehand", Image = IconChar.PenSquare.ToBitmap(buttonSize, Color.Black), Tag = 2 };
-			tsiFreehand.Click += ItemClick;
-			ToolStripItem tsiPoint = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Line", Image = IconChar.Star.ToBitmap(buttonSize, Color.Black), Tag = 3 };
-			tsiPoint.Click += ItemClick;
-			ToolStripItem tsiMagic = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Magic", Image = IconChar.Magic.ToBitmap(buttonSize, Color.Black), Tag = 4 };
-			tsiMagic.Click += ItemClick;
-
-			cms_Buttons.Items.Add(tsiRec);
-			cms_Buttons.Items.Add(tsiWindow);
-			cms_Buttons.Items.Add(tsiFreehand);
-			cms_Buttons.Items.Add(tsiPoint);
-			cms_Buttons.Items.Add(tsiMagic);
-
-			cms_Buttons.Width = Width;
-			cms_Buttons.Height = cms_Buttons.Items.Count * (buttonSize + 1);
-
-			cms_Buttons.Closed += Cms_Buttons_Closed;
-
-			Bitmap bmp = null;
-
-			switch (Properties.Settings.Default.s_lastTool)
+			if (function == DropDownFunction.Cutout)
 			{
-				case 0:
-					bmp = (Bitmap)tsiRec.Image;
-					break;
+				ToolStripItem tsiRec = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Rectangle", Image = IconChar.Cut.ToBitmap(buttonSize, Color.Black), Tag = 0 };
+				tsiRec.Click += ItemClick;
+				ToolStripItem tsiWindow = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Window", Image = IconChar.WindowMaximize.ToBitmap(buttonSize, Color.Black), Tag = 1 };
+				tsiWindow.Click += ItemClick;
+				ToolStripItem tsiFreehand = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Freehand", Image = IconChar.PenSquare.ToBitmap(buttonSize, Color.Black), Tag = 2 };
+				tsiFreehand.Click += ItemClick;
+				ToolStripItem tsiPoint = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Line", Image = IconChar.Star.ToBitmap(buttonSize, Color.Black), Tag = 3 };
+				tsiPoint.Click += ItemClick;
+				ToolStripItem tsiMagic = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Magic", Image = IconChar.Magic.ToBitmap(buttonSize, Color.Black), Tag = 4 };
+				tsiMagic.Click += ItemClick;
 
-				case 1:
-					bmp = (Bitmap)tsiWindow.Image;
-					break;
+				cms_Buttons.Items.Add(tsiRec);
+				cms_Buttons.Items.Add(tsiWindow);
+				cms_Buttons.Items.Add(tsiFreehand);
+				cms_Buttons.Items.Add(tsiPoint);
+				cms_Buttons.Items.Add(tsiMagic);
 
-				case 2:
-					bmp = (Bitmap)tsiFreehand.Image;
-					break;
+				cms_Buttons.Width = Width;
+				cms_Buttons.Height = cms_Buttons.Items.Count * (buttonSize + 1);
 
-				case 3:
-					bmp = (Bitmap)tsiPoint.Image;
-					break;
+				cms_Buttons.Closed += Cms_Buttons_Closed;
 
-				case 4:
-					bmp = (Bitmap)tsiMagic.Image;
-					break;
+				switch (Properties.Settings.Default.s_lastTool)
+				{
+					case 0:
+						bmp = (Bitmap)tsiRec.Image;
+						break;
 
-				default:
-					bmp = (Bitmap)tsiRec.Image;
-					break;
+					case 1:
+						bmp = (Bitmap)tsiWindow.Image;
+						break;
 
+					case 2:
+						bmp = (Bitmap)tsiFreehand.Image;
+						break;
+
+					case 3:
+						bmp = (Bitmap)tsiPoint.Image;
+						break;
+
+					case 4:
+						bmp = (Bitmap)tsiMagic.Image;
+						break;
+
+					default:
+						bmp = (Bitmap)tsiRec.Image;
+						break;
+
+				}
+			}
+			else if (function == DropDownFunction.DataManagement)
+			{
+				Bitmap save = Properties.Resources.database_down;
+				save.Save("D:\\save_test.bmp");
+				Bitmap load = Properties.Resources.database_up;
+				ToolStripItem tsiDBSave = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Save to DB", Image = save, Tag = 0 };
+				tsiDBSave.Click += ItemClick;
+				ToolStripItem tsiDBLoad = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Load from DB", Image = load, Tag = 1 };
+				tsiDBLoad.Click += ItemClick;
+				ToolStripItem tsiFreehand = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Freehand", Image = IconChar.PenSquare.ToBitmap(buttonSize, Color.Black), Tag = 2 };
+				tsiFreehand.Click += ItemClick;
+				ToolStripItem tsiPoint = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Line", Image = IconChar.Star.ToBitmap(buttonSize, Color.Black), Tag = 3 };
+				tsiPoint.Click += ItemClick;
+				ToolStripItem tsiMagic = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Magic", Image = IconChar.Magic.ToBitmap(buttonSize, Color.Black), Tag = 4 };
+				tsiMagic.Click += ItemClick;
+
+				cms_Buttons.Items.Add(tsiDBSave);
+				cms_Buttons.Items.Add(tsiDBLoad);
+				cms_Buttons.Items.Add(tsiFreehand);
+				cms_Buttons.Items.Add(tsiPoint);
+				cms_Buttons.Items.Add(tsiMagic);
+
+				cms_Buttons.Width = Width;
+				cms_Buttons.Height = cms_Buttons.Items.Count * (buttonSize + 1);
+
+				cms_Buttons.Closed += Cms_Buttons_Closed;
+
+				switch (Properties.Settings.Default.s_lastTool)
+				{
+					case 0:
+						bmp = (Bitmap)tsiDBSave.Image;
+						break;
+
+					case 1:
+						bmp = (Bitmap)tsiDBLoad.Image;
+						break;
+
+					case 2:
+						bmp = (Bitmap)tsiFreehand.Image;
+						break;
+
+					case 3:
+						bmp = (Bitmap)tsiPoint.Image;
+						break;
+
+					case 4:
+						bmp = (Bitmap)tsiMagic.Image;
+						break;
+
+					default:
+						bmp = (Bitmap)tsiDBSave.Image;
+						break;
+
+				}
 			}
 
 			btn_Button.BackgroundImage = bmp;
@@ -162,6 +227,14 @@ namespace WolfPaw_ScreenSnip
 				DropDownOpen();
 			}
 		}
+    }
+
+	public enum DropDownFunction
+    {
+		Cutout,
+		DataManagement,
+		Share,
+		Other
     }
 
     public partial class myTSMI : ToolStripMenuItem
