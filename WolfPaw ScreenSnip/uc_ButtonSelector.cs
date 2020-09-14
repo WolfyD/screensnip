@@ -15,11 +15,10 @@ namespace WolfPaw_ScreenSnip
 	{
 		private int buttonSize = 50;
 		private DropDownFunction function;
-		[Browsable(true)]
 		public DropDownFunction Function
 		{
-            get { return function; }
-            set { function = value; }
+			get { return function; }
+			set { function = value; }
 		}
 
 		public Form1 parent { get; set; }
@@ -35,7 +34,7 @@ namespace WolfPaw_ScreenSnip
 				setButtonSize(buttonSize);
 			}
 		}
-		
+
 		public uc_ButtonSelector()
 		{
 			InitializeComponent();
@@ -107,12 +106,10 @@ namespace WolfPaw_ScreenSnip
 			}
 			else if (function == DropDownFunction.DataManagement)
 			{
-				Bitmap save = Properties.Resources.database_down;
-				save.Save("D:\\save_test.bmp");
-				Bitmap load = Properties.Resources.database_up;
-				ToolStripItem tsiDBSave = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Save to DB", Image = save, Tag = 0 };
+
+				ToolStripItem tsiDBSave = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, mySubTitle = "Save", myText = "Save to DB", Image = IconChar.Database.ToBitmap(buttonSize, Color.Black), Tag = 5 };
 				tsiDBSave.Click += ItemClick;
-				ToolStripItem tsiDBLoad = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Load from DB", Image = load, Tag = 1 };
+				ToolStripItem tsiDBLoad = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, mySubTitle = "Load", myText = "Load from DB", Image = IconChar.Database.ToBitmap(buttonSize, Color.Black), Tag = 6 };
 				tsiDBLoad.Click += ItemClick;
 				ToolStripItem tsiFreehand = new myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Freehand", Image = IconChar.PenSquare.ToBitmap(buttonSize, Color.Black), Tag = 2 };
 				tsiFreehand.Click += ItemClick;
@@ -206,16 +203,29 @@ namespace WolfPaw_ScreenSnip
 
 		private void btn_Button_Click(object sender, EventArgs e)
 		{
-			parent.handleCutouts(Properties.Settings.Default.s_lastTool);
-		}
+            switch (function)
+            {
+                case DropDownFunction.Cutout:
+					parent.handleCutouts(Properties.Settings.Default.s_lastTool);
+					break;
+                case DropDownFunction.DataManagement:
+                    break;
+                case DropDownFunction.Share:
+                    break;
+                case DropDownFunction.Other:
+                    break;
+                default:
+                    break;
+            }
+        }
 
-        private void btn_DropDown_MouseDown(object sender, MouseEventArgs e)
-        {
+		private void btn_DropDown_MouseDown(object sender, MouseEventArgs e)
+		{
 			cmsIsClosed = !IsDropDownOpen();
 		}
 
-        private void btn_DropDown_MouseUp(object sender, MouseEventArgs e)
-        {
+		private void btn_DropDown_MouseUp(object sender, MouseEventArgs e)
+		{
 			if (!cmsIsClosed)
 			{
 				cmsIsClosed = true;
@@ -227,19 +237,20 @@ namespace WolfPaw_ScreenSnip
 				DropDownOpen();
 			}
 		}
-    }
+	}
 
 	public enum DropDownFunction
-    {
+	{
 		Cutout,
 		DataManagement,
 		Share,
 		Other
-    }
+	}
 
-    public partial class myTSMI : ToolStripMenuItem
+	public partial class myTSMI : ToolStripMenuItem
 	{
 		public string myText = "";
+		public string mySubTitle = "";
 
 		public myTSMI()
 		{
@@ -250,7 +261,23 @@ namespace WolfPaw_ScreenSnip
 		{
 			base.OnPaint(e);
 
-			e.Graphics.DrawImage(this.Image, new PointF(Width / 2 - this.Image.Width / 2 - 5, 0));
+			e.Graphics.DrawImage(this.Image, new PointF(Width / 2 - this.Image.Width / 2 - 4, 0));
+			//e.Graphics.DrawRectangle(Pens.Red, new Rectangle(0, 0, 40, 40));,
+			Bitmap bmp = new Bitmap(Width, Image.Height);
+			if (mySubTitle != "")
+			{
+				Font f = this.Font;
+				int fSize = 20;
+				Size size = new Size(Width + 1, 10);
+
+				while (size.Width > Width)
+				{
+					fSize--;
+					f = new Font("Consolas", fSize, FontStyle.Bold);
+					size = TextRenderer.MeasureText(mySubTitle, f);
+				}
+				e.Graphics.DrawString(mySubTitle, f, Brushes.Gray, new Point(Width / 2, Image.Height - (size.Height - 2)), new StringFormat() { Alignment = StringAlignment.Center });
+			}
 		}
 	}
 }

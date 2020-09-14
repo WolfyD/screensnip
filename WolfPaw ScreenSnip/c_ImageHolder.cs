@@ -336,6 +336,8 @@ namespace WolfPaw_ScreenSnip
 
         #region Layer bs
 
+		//TODO: Fix Layering
+
         public void arrangeLayers()
 		{
 			if (selfContainingList != null)

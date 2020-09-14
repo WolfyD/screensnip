@@ -77,8 +77,8 @@ namespace WolfPaw_ScreenSnip
 			public float opacityLevel = 0.4f;
 			public bool editLayerOpen = false;
 			c_EditLayer editLayer = new c_EditLayer();
-
-			public bool showToolTipsOnCutoutButtons = false;
+		Font tooltipfont = new Font("Consolas", 9, FontStyle.Regular);
+		public bool showToolTipsOnCutoutButtons = false;
 
 			#endregion
 
@@ -252,8 +252,6 @@ namespace WolfPaw_ScreenSnip
 			if (e.KeyCode == Keys.Left || e.KeyCode == Keys.Right ||
 				e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
 			{
-				
-
 				int add = 1;
 				if (e.Control) { add = 5; }
 
@@ -305,6 +303,10 @@ namespace WolfPaw_ScreenSnip
 			{
 				keepAspect = true;
 			}
+			else if ((e.KeyCode == Keys.Alt || e.KeyCode == Keys.LMenu || e.KeyCode == Keys.RMenu || e.KeyCode == Keys.Menu) && resize)
+			{
+				//TODO: Add Center Resize!
+			}
 			else if (e.KeyCode == Keys.F11)
 			{
 				toggleFullScreen();
@@ -317,6 +319,15 @@ namespace WolfPaw_ScreenSnip
 					Limages.ForEach(x => x.arrangeLayers());
 					Invalidate();
 				}
+			}
+			else if (false)
+            {
+				//TODO: Add more functionality
+				/*
+					#1) HorisontalMove && VerticalMove only
+					#2) Draw positioning lines
+					#3) Line up with other image
+				 */
 			}
 			else
 			{
@@ -371,6 +382,7 @@ namespace WolfPaw_ScreenSnip
 				{
 					try
 					{
+						//TODO: Add RTF/HTML processing
 						item[0] = e.Data.GetData(DataFormats.Text).ToString();
 					}
 					catch
@@ -407,7 +419,7 @@ namespace WolfPaw_ScreenSnip
 						{
 							try
 							{
-								string ss = s.Replace("\t", "              ");
+								string ss = s.Replace("\t", "    ");
 								dragableImage = textToImg(ss);
 								handleDrag = true;
 							}
@@ -576,8 +588,6 @@ namespace WolfPaw_ScreenSnip
 
 		}
 
-		Font tooltipfont = new Font("Consolas", 9, FontStyle.Regular);
-
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			if(Limages == null || Limages.Count < 1)
@@ -640,6 +650,27 @@ namespace WolfPaw_ScreenSnip
 									//TODO: Rotation stuff
 									//e.Graphics.DrawRectangle(Pens.Black, new Rectangle(c.bounds().Left + c.bounds().Width + 10, c.bounds().Top + c.bounds().Height + 10, 10, 10));
 									e.Graphics.DrawRectangle(new Pen(c_DefaultBorderColor), new Rectangle(c.Position, c.Size));
+
+									//TODO: Clean this up -> move rectangles and rotation point outside of method into variables
+									e.Graphics.FillRectangles(Brushes.White, new Rectangle[] {
+										new Rectangle(){ Height = 3, Width = 3, X = c.Position.X + c.Size.Width / 2, Y = c.Position.Y  },
+										new Rectangle(){ Height = 3, Width = 3, X = c.Position.X + c.Size.Width / 2, Y = c.Position.Y + c.Height },
+										new Rectangle(){ Height = 3, Width = 3, X = c.Position.X, Y = c.Position.Y + c.Height / 2 },
+										new Rectangle(){ Height = 3, Width = 3, X = c.Position.X + c.Size.Width, Y = c.Position.Y + c.Height / 2 },
+									}) ;
+
+									e.Graphics.DrawRectangles(Pens.Black, new Rectangle[] {
+										new Rectangle(){ Height = 5, Width = 5, X = c.Position.X + c.Size.Width / 2 - 1, Y = c.Position.Y - 2  },
+										new Rectangle(){ Height = 5, Width = 5, X = c.Position.X + c.Size.Width / 2 - 1, Y = c.Position.Y + c.Height - 2 },
+										new Rectangle(){ Height = 5, Width = 5, X = c.Position.X - 2, Y = c.Position.Y + c.Height / 2 - 1 },
+										new Rectangle(){ Height = 5, Width = 5, X = c.Position.X + c.Size.Width - 2, Y = c.Position.Y + c.Height / 2 - 1 },
+									});
+
+									Point Origin = new Point(c.Position.X + c.Width / 2, c.Position.Y + c.Height / 2);
+									Point pos = c_Geometry.GetPointFromAngle(Origin, c.Height / 2 + 50, c.rotation + 90);
+									Size siz = new Size(6, 6);
+									e.Graphics.FillEllipse(Brushes.Red, new Rectangle(pos, siz));
+									e.Graphics.DrawEllipse(Pens.Black,  new Rectangle(pos, siz));
 								}
 								else if (c.mouseOver)
 								{
@@ -668,10 +699,8 @@ namespace WolfPaw_ScreenSnip
 											{
 												try
 												{
-													string title = "";
-													string text = "";
-													int Y = c.Top + 20;
-													Rectangle rec = getTooltipRect(ttText, new Point(p.X, Y), out title, out text);
+                                                    int Y = c.Top + 20;
+                                                    Rectangle rec = getTooltipRect(ttText, new Point(p.X, Y), out string title, out string text);
 													e.Graphics.FillRectangle(new SolidBrush(SystemColors.Info), rec);
 													e.Graphics.DrawString(title, tooltipfont, Brushes.Black, new Point(p.X - (p.X % 25) + 22, Y + 5 + 12));
 													e.Graphics.DrawImage(bb.Image1, p.X - (p.X % 25) + 1, Y + 5 + 10);
@@ -800,7 +829,7 @@ namespace WolfPaw_ScreenSnip
 				Limages.Sort(new intComparerDesc());
 				foreach (c_ImageHolder c in Limages)
 				{
-					if (renhan.pointInPosition(e.Location, new Rectangle(c.Position, c.Size)))
+					if (mouseOverImage != null && renhan.pointInPosition(e.Location, new Rectangle(c.Position, c.Size)))
 					{
 						c.select();
 

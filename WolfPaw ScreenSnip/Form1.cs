@@ -189,6 +189,7 @@ namespace WolfPaw_ScreenSnip
 			{
 				if (File.Exists(editDBFileName))
 				{ 
+					//TODO: Fix issue when it can't delete
 					File.Delete(editDBFileName);
 					canSaveEditImages = false;
 				}
