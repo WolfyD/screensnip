@@ -10,15 +10,14 @@ using System.Windows.Forms;
 
 namespace WolfPaw_ScreenSnip
 {
-	public partial class f_SettingPanel : Form
+	public partial class f_ToolsPanel : Form
 	{
 		public f_Screen parent = null;
 		public Point pos = new Point(-1, -1);
 		public bool posChange = true;
         public bool docked = false;
 
-
-		public f_SettingPanel()
+		public f_ToolsPanel()
 		{
 			InitializeComponent();
 

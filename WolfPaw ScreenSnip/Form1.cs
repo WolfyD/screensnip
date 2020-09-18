@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using FontAwesome.Sharp;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Windows.Threading;
 
 namespace WolfPaw_ScreenSnip
 {
@@ -26,12 +27,23 @@ namespace WolfPaw_ScreenSnip
 		public c_returnGraphicSettings cr = new c_returnGraphicSettings();
 		public c_KeyboardHook ck = new c_KeyboardHook();
 
-		public f_Screen fs = null;
-		public f_SettingPanel tools = null;
+		public f_Screen f_EditorScreen = null;
+		public f_ToolsPanel tools = null;
 		
 		public bool clearRequireAuth = false;
 		
-		public bool hidden = false;
+		public bool IsHidden = false;
+		private bool AllowRollUp = false;
+		private bool CanRollUp = false;
+		private RollState RollUpState = RollState.FullyDown;
+		private RollState NextRollUpState = RollState.RollingUp;
+		private int RollCounter = 0;
+		private int RollDelayCounter = 0;
+		private const int RollCounterMax = 6;
+		private const int RollDelayCounterMax = 55;
+		private bool RollConfirmed = false;
+		private int mX = 0;
+		private int mY = 0;
 
 		public bool CTRLDOWN = false;
 		public bool SHIFTDOWN = false;
@@ -40,6 +52,9 @@ namespace WolfPaw_ScreenSnip
 		public bool canSaveEditImages = false;
 		public bool justLoggedIn = true;
 		public string lastCutoutId = "";
+
+		public System.Windows.Forms.Timer RollupTimer = new System.Windows.Forms.Timer() { Interval = 10 };
+		public System.Windows.Forms.Timer MouseTracker = new System.Windows.Forms.Timer() { Interval = 10 };
 
 
 		#region MAPI
@@ -77,15 +92,100 @@ namespace WolfPaw_ScreenSnip
 
 		#endregion
 
-		public Form1()
+		public Form1(string[] args)
         {
             InitializeComponent();
 
-			Left = 0;
-			Top = 0;
+			CheckArgs(args);
 
             Load += Form1_Load;
-			
+            RollupTimer.Tick += RollupTimer_Tick;
+            MouseTracker.Tick += MouseTracker_Tick;
+		}
+
+        private void MouseTracker_Tick(object sender, EventArgs e)
+        {
+			mX = MousePosition.X;
+			mY = MousePosition.Y;
+		}
+
+        private void RollupTimer_Tick(object sender, EventArgs e)
+        {
+            if (AllowRollUp)
+            {
+				if (RollDelayCounter < RollDelayCounterMax)
+				{
+					RollDelayCounter++;
+				}
+                else if(RollDelayCounter == RollDelayCounterMax)
+                {
+					RollDelayCounter++;
+					RollConfirmed = ConfirmRoll();
+					if (!RollConfirmed) { RollDelayCounter = 0;  }
+					RollCounter = 0;
+				}
+				else if (RollConfirmed) 
+				{
+					if (RollUpState == RollState.FullyDown || RollUpState == RollState.FullyUp)
+					{
+						RollDelayCounter = 0;
+						RollCounter = 0;
+						RollupTimer.Stop();
+					}
+					else
+					{
+						RollCounter++;
+
+						if (RollUpState == RollState.RollingDown)
+						{
+							Height += 10;
+
+							if (RollCounter == RollCounterMax)
+							{
+								RollUpState = RollState.FullyDown;
+								NextRollUpState = RollState.RollingUp;
+								RollDelayCounter = 0;
+							}
+						}
+						else if (CanRollUp)
+						{
+							Height -= 10;
+
+							if (RollCounter == RollCounterMax)
+							{
+								RollUpState = RollState.FullyUp;
+								NextRollUpState = RollState.RollingDown;
+								RollDelayCounter = 0;
+							}
+                        }
+                        else
+                        {
+							Console.WriteLine("----------> Can't Roll Up!!");
+                        }
+					}
+
+					if(RollCounter > RollCounterMax)
+                    {
+						RollUpState = RollState.FullyDown;
+						Height = 60;
+						NextRollUpState = RollState.RollingUp;
+						RollDelayCounter = 0;
+					}
+                }
+            }
+        }
+
+        private void CheckArgs(string[] args)
+        {
+			foreach(string s in args)
+            {
+				if(s == "-resetPosition")
+                {
+					Properties.Settings.Default.s_LastPosition = new Point(0, 0);
+					Left = 0;
+					Top = 0;
+                }
+            }
         }
 
         #region MAIL
@@ -318,10 +418,10 @@ namespace WolfPaw_ScreenSnip
             setIcons("save", btn_Save, this);
 			setIcons("db", btn_SaveToDB, this);
 			setIcons("db1", btn_DatabaseLoad, this);
-			setIcons("print", btn_Print, this);
-            setIcons("mail", btn_AttachToEmail, this);
+			//setIcons("print", btn_Print, this);
+            //setIcons("mail", btn_AttachToEmail, this);
             setIcons("settings", btn_Options, this);
-            setIcons("tools", btn_Settings, this);
+            //setIcons("tools", btn_Settings, this);
             setIcons("exit", btn_Exit, this);
         }
 
@@ -414,6 +514,7 @@ namespace WolfPaw_ScreenSnip
 
 			if (Properties.Settings.Default.s_RememberLastPosition)
 			{
+				Console.WriteLine(Properties.Settings.Default.s_LastPosition);
 				Location = Properties.Settings.Default.s_LastPosition;
 			}
 			
@@ -444,8 +545,8 @@ namespace WolfPaw_ScreenSnip
 				btn_Copy.Enabled = true;
 				btn_Save.Enabled = true;
 				btn_SaveToDB.Enabled = true;
-				btn_Print.Enabled = true;
-				btn_AttachToEmail.Enabled = true;
+				//btn_Print.Enabled = true;
+				//btn_AttachToEmail.Enabled = true;
 			}
 			else
 			{
@@ -453,8 +554,8 @@ namespace WolfPaw_ScreenSnip
 				btn_Copy.Enabled = false;
 				btn_Save.Enabled = false;
 				btn_SaveToDB.Enabled = false;
-				btn_Print.Enabled = false;
-				btn_AttachToEmail.Enabled = false;
+				//btn_Print.Enabled = false;
+				//btn_AttachToEmail.Enabled = false;
 			}
 			enableNewButtons();
 		}
@@ -484,21 +585,21 @@ namespace WolfPaw_ScreenSnip
 					g.CopyFromScreen(new Point(0, 0), new Point(0, 0), b.Size);
 				}
 
-				if (fs == null || fs.IsDisposed)
+				if (f_EditorScreen == null || f_EditorScreen.IsDisposed)
 				{
 					btn_Screen_Click(null, null);
 				}
 
 				try
 				{
-					fs.addImage(b, new Point(0, 0), "");
+					f_EditorScreen.addImage(b, new Point(0, 0), "");
 				}
 				catch { }
 
 				//OnKeyDown(new KeyEventArgs(Keys.V | Keys.Control));
-				if (fs != null && !fs.IsDisposed)
+				if (f_EditorScreen != null && !f_EditorScreen.IsDisposed)
 				{
-					fs.BringToFront();
+					f_EditorScreen.BringToFront();
 				}
 
 				try
@@ -614,9 +715,9 @@ namespace WolfPaw_ScreenSnip
 		public Bitmap captureScreen()
 		{
 			Hide();
-			if(fs != null) { fs.Hide(); }
+			if(f_EditorScreen != null) { f_EditorScreen.Hide(); }
             if(tools != null) { tools.Hide(); }
-			if (fs != null && fs.pw != null && QshowPreview()) { fs.pw.Hide(); }
+			if (f_EditorScreen != null && f_EditorScreen.pw != null && QshowPreview()) { f_EditorScreen.pw.Hide(); }
 
 			Thread.Sleep(Properties.Settings.Default.s_BaseDelay);
 
@@ -660,13 +761,13 @@ namespace WolfPaw_ScreenSnip
 
 			bmp = showCaptureArea(getScreenSize(), captureScreen(), mode);
 			
-			if(!hidden)
+			if(!IsHidden)
 			{
 				Show();
 			}
-			if(fs != null && !fs.IsDisposed) { fs.Show(); }
+			if(f_EditorScreen != null && !f_EditorScreen.IsDisposed) { f_EditorScreen.Show(); }
 			if (tools != null && !tools.IsDisposed) { tools.Show(); }
-			if (fs != null && fs.pw != null && !fs.pw.IsDisposed && QshowPreview()) { fs.pw.Show(); }
+			if (f_EditorScreen != null && f_EditorScreen.pw != null && !f_EditorScreen.pw.IsDisposed && QshowPreview()) { f_EditorScreen.pw.Show(); }
 
 			return bmp;
 		}
@@ -731,26 +832,26 @@ namespace WolfPaw_ScreenSnip
 
 				if (i == 0)
 				{
-					fs = new f_Screen
+					f_EditorScreen = new f_Screen
 					{
 						parent = this
 					};
-					fs.Show();
-					fs.Refresh();
+					f_EditorScreen.Show();
+					f_EditorScreen.Refresh();
 					if (Properties.Settings.Default.s_ToolbarPanel == 0)
 					{
-						tools = new f_SettingPanel
+						tools = new f_ToolsPanel
 						{
-							parent = fs
+							parent = f_EditorScreen
 						};
-						fs.child = tools;
+						f_EditorScreen.child = tools;
 						tools.Show();
 					}
 				}
 
-				if (fs != null)
+				if (f_EditorScreen != null)
 				{
-					fs.addImage(bmp, lastCutoutId);
+					f_EditorScreen.addImage(bmp, lastCutoutId);
 					lastCutoutId = "";
 				}
 			}
@@ -772,7 +873,7 @@ namespace WolfPaw_ScreenSnip
 		{
 			try
 			{
-				Bitmap _b = c_ImgGen.createPng(fs,fs.Limages, new object[] { fs.getDrawnPoints(), null });
+				Bitmap _b = c_ImgGen.createPng(f_EditorScreen,f_EditorScreen.Limages, new object[] { f_EditorScreen.getDrawnPoints(), null });
 				Clipboard.SetImage(_b);
 			}
 			catch
@@ -783,9 +884,9 @@ namespace WolfPaw_ScreenSnip
 
 		public void saveImage(string svMode)
 		{
-			if (fs != null && fs.Limages != null && fs.Limages.Count > 0)
+			if (f_EditorScreen != null && f_EditorScreen.Limages != null && f_EditorScreen.Limages.Count > 0)
 			{
-				Bitmap _b = c_ImgGen.createPng(fs, fs.Limages, new object[] { fs.getDrawnPoints(), null });
+				Bitmap _b = c_ImgGen.createPng(f_EditorScreen, f_EditorScreen.Limages, new object[] { f_EditorScreen.getDrawnPoints(), null });
 				string savename = "ScreenSnip_";
 
 				if (svMode == "quick" && Properties.Settings.Default.s_QuickSaveDir != "" && Directory.Exists(Properties.Settings.Default.s_QuickSaveDir))
@@ -899,6 +1000,14 @@ namespace WolfPaw_ScreenSnip
 			if(Top < ss.Min(x => x.Bounds.Y)) { Top = ss.Min(x => x.Bounds.Y); }
 			if(Right > ss.Max(x => x.Bounds.Right)) { Left = ss.Max(x => x.Bounds.Right) - Width;  }
 			if(Bottom > ss.Max(x => x.Bounds.Bottom)) { Top = ss.Max(x => x.Bounds.Bottom) - Height; }
+
+			CanRollUp = (Top == ss.Min(x => x.Bounds.Y));
+			btn_Rollup.Visible = CanRollUp;
+
+            if (!CanRollUp)
+            {
+				DoRolldown();
+            }
 		}
 
 		private void btn_Settings_Click(object sender, EventArgs e)
@@ -918,28 +1027,28 @@ namespace WolfPaw_ScreenSnip
 
 					}
 				}
-				else if (fs != null && !fs.IsDisposed)
+				else if (f_EditorScreen != null && !f_EditorScreen.IsDisposed)
 				{
-					tools = new f_SettingPanel
+					tools = new f_ToolsPanel
 					{
-						parent = fs
+						parent = f_EditorScreen
 					};
-					fs.child = tools;
+					f_EditorScreen.child = tools;
 					tools.Show();
 				}
 			}
 			else if (panel == 1)
 			{
-				if(fs != null && !fs.IsDisposed)
+				if(f_EditorScreen != null && !f_EditorScreen.IsDisposed)
 				{
-					fs.togglePanel();
+					f_EditorScreen.togglePanel();
 				}
 			}
 			else if (panel == 2)
 			{
-				if (fs != null && !fs.IsDisposed)
+				if (f_EditorScreen != null && !f_EditorScreen.IsDisposed)
 				{
-					fs.toggleToolbar();
+					f_EditorScreen.toggleToolbar();
 				}
 			}
 			
@@ -947,12 +1056,12 @@ namespace WolfPaw_ScreenSnip
 
 		private void btn_Preview_Click(object sender, EventArgs e)
 		{
-			if (fs != null && fs.Limages != null && fs.Limages.Count > 0)
+			if (f_EditorScreen != null && f_EditorScreen.Limages != null && f_EditorScreen.Limages.Count > 0)
 			{
 				f_Preview fp = new f_Preview
 				{
-					fs = fs,
-					cutouts = fs.Limages
+					fs = f_EditorScreen,
+					cutouts = f_EditorScreen.Limages
 				};
 				fp.ShowDialog();
 				fp.TopMost = true;
@@ -961,6 +1070,11 @@ namespace WolfPaw_ScreenSnip
 
 		private void btn_Print_Click(object sender, EventArgs e)
 		{
+			
+		}
+
+		private void __UNUSED__printStuff()
+        {
 			PageSettings ps = new PageSettings
 			{
 				Margins = new Margins(100, 10, 10, 10)
@@ -971,7 +1085,7 @@ namespace WolfPaw_ScreenSnip
 			{
 				pd = printDocument1,
 				ps = ps,
-				fs = fs
+				fs = f_EditorScreen
 			};
 			fps.ShowDialog();
 
@@ -984,11 +1098,16 @@ namespace WolfPaw_ScreenSnip
 			*/
 		}
 
+		private void __UNUSED__AttachToMail()
+        {
+			getMailClient();
+		}
+
 		private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
 		{
 			try
 			{
-				e.Graphics.DrawImage(c_ImgGen.createPng(fs, fs.Limages, new object[] { fs.getDrawnPoints(), null }), new Point(10, 10));
+				e.Graphics.DrawImage(c_ImgGen.createPng(f_EditorScreen, f_EditorScreen.Limages, new object[] { f_EditorScreen.getDrawnPoints(), null }), new Point(10, 10));
 				c_returnGraphicSettings cg = new c_returnGraphicSettings();
 
 				e.Graphics.SmoothingMode = cg.getSM();
@@ -1006,14 +1125,14 @@ namespace WolfPaw_ScreenSnip
 		{
 			if (!clearRequireAuth || MessageBox.Show("You are about to clear your cutouts.\r\nAre you sure you wish to continue?\r\n\r\nTo continue click Yes!","Are you sure?",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
 			{
-				if (fs != null && !fs.IsDisposed)
+				if (f_EditorScreen != null && !f_EditorScreen.IsDisposed)
 				{
-					while(fs.Limages.Count > 0)
+					while(f_EditorScreen.Limages.Count > 0)
 					{
 						try
 						{
-							fs.Limages[0].Dispose();
-							fs.Limages.RemoveAt(0);
+							f_EditorScreen.Limages[0].Dispose();
+							f_EditorScreen.Limages.RemoveAt(0);
 						}
 						catch
 						{
@@ -1058,7 +1177,7 @@ namespace WolfPaw_ScreenSnip
                     try
                     {
                         btn_Screen_Click(null, null);
-                        fs.paste();
+                        f_EditorScreen.paste();
                     }
                     catch
                     {
@@ -1082,16 +1201,16 @@ namespace WolfPaw_ScreenSnip
 
         private void btn_AttachToEmail_Click(object sender, EventArgs e)
         {
-			getMailClient();
+			
         }
 
         private void btn_SaveToDB_Click(object sender, EventArgs e)
         {
-			if (fs != null && !fs.IsDisposed)
+			if (f_EditorScreen != null && !f_EditorScreen.IsDisposed)
 			{
 				f_SaveToDB fsd = new f_SaveToDB
 				{
-					img = c_ImgGen.createPng(fs, fs.Limages, new object[] { fs.getDrawnPoints(), null })
+					img = c_ImgGen.createPng(f_EditorScreen, f_EditorScreen.Limages, new object[] { f_EditorScreen.getDrawnPoints(), null })
 				};
 				fsd.ShowDialog();
 			}
@@ -1106,11 +1225,15 @@ namespace WolfPaw_ScreenSnip
 		private void btn_Minimize_MouseEnter(object sender, EventArgs e)
 		{
 			btn_Minimize.Image = Properties.Resources.minimize_white;
+
+			DoRolldown();
 		}
 
 		private void btn_Minimize_MouseLeave(object sender, EventArgs e)
 		{
 			btn_Minimize.Image = Properties.Resources.minimize_black;
+
+			DoRollup();
 		}
 
 		private void btn_Minimize_Click(object sender, EventArgs e)
@@ -1121,7 +1244,7 @@ namespace WolfPaw_ScreenSnip
             }
             else
             {
-				hidden = true;
+				IsHidden = true;
                 Bitmap b = Properties.Resources.scissors1;
                 for(int x = 0; x < b.Width; x++)
                 {
@@ -1142,21 +1265,33 @@ namespace WolfPaw_ScreenSnip
 
 		private void btn_Rollup_Click(object sender, EventArgs e)
 		{
-			if(Height == 20)
+			AllowRollUp = !AllowRollUp;
+
+			if (AllowRollUp)
 			{
-				Height = 60;
-                btn_Rollup.Image = Properties.Resources.rollup_white;
-            }
+				MouseTracker.Start();
+				btn_Rollup.Image = Properties.Resources.rolldown_white;
+			}
 			else
 			{
-				Height = 20;
-                btn_Rollup.Image = Properties.Resources.rolldown_white;
-            }
+				MouseTracker.Stop();
+				btn_Rollup.Image = Properties.Resources.rollup_white;
+			}
+			//if(Height == 20)
+			//{
+			//	Height = 60;
+            //    btn_Rollup.Image = Properties.Resources.rollup_white;
+            //}
+			//else
+			//{
+			//	Height = 20;
+            //    btn_Rollup.Image = Properties.Resources.rolldown_white;
+            //}
 		}
 
 		private void btn_Rollup_MouseEnter(object sender, EventArgs e)
 		{
-			if(Height == 20)
+			if(AllowRollUp)
 			{
 				btn_Rollup.Image = Properties.Resources.rolldown_white;
 			}
@@ -1164,11 +1299,13 @@ namespace WolfPaw_ScreenSnip
 			{
 				btn_Rollup.Image = Properties.Resources.rollup_white;
 			}
+
+			DoRolldown();
 		}
 
 		private void btn_Rollup_MouseLeave(object sender, EventArgs e)
 		{
-			if (Height == 20)
+			if (AllowRollUp)
 			{
 				btn_Rollup.Image = Properties.Resources.rolldown_black;
 			}
@@ -1176,47 +1313,32 @@ namespace WolfPaw_ScreenSnip
 			{
 				btn_Rollup.Image = Properties.Resources.rollup_black;
 			}
-		}
 
-		private void btn_Question_Click(object sender, EventArgs e)
-		{
-			f_Settings _fs = new f_Settings();
-			_fs.Show();
-			_fs.openHelp();
-		}
-
-		private void btn_Question_MouseEnter(object sender, EventArgs e)
-		{
-			btn_Question.Image = Properties.Resources.questionmark_white;
-		}
-
-		private void btn_Question_MouseLeave(object sender, EventArgs e)
-		{
-			btn_Question.Image = Properties.Resources.questionmark_black;
+			DoRollup();
 		}
 
 		private void btn_Screen_Click(object sender, EventArgs e)
 		{
-			if(fs != null && !fs.IsDisposed)
+			if(f_EditorScreen != null && !f_EditorScreen.IsDisposed)
 			{
-				fs.WindowState = FormWindowState.Normal;
-				fs.BringToFront();
-				fs.Focus();
+				f_EditorScreen.WindowState = FormWindowState.Normal;
+				f_EditorScreen.BringToFront();
+				f_EditorScreen.Focus();
 			}
 			else
 			{
-				fs = new f_Screen
+				f_EditorScreen = new f_Screen
 				{
 					parent = this
 				};
 			}
 
-			fs.Show();
+			f_EditorScreen.Show();
 			if (Properties.Settings.Default.s_ToolbarPanel == 0)
 			{
-				if (tools == null || tools.IsDisposed) { tools = new f_SettingPanel(); }
-				fs.child = tools;
-				tools.parent = fs;
+				if (tools == null || tools.IsDisposed) { tools = new f_ToolsPanel(); }
+				f_EditorScreen.child = tools;
+				tools.parent = f_EditorScreen;
 				tools.Show();
 			}
 		}
@@ -1231,7 +1353,7 @@ namespace WolfPaw_ScreenSnip
 		private void btn_CMS_MainWindow_Click(object sender, EventArgs e)
 		{
 			this.Show();
-			hidden = false;
+			IsHidden = false;
 			ni_Notify.Visible = false;
 		}
 
@@ -1310,7 +1432,85 @@ namespace WolfPaw_ScreenSnip
 			handleCutouts(4);
 		}
 
-		#endregion
+        #endregion
 
-	}
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+			if(WindowState == FormWindowState.Normal && Properties.Settings.Default.s_RememberLastPosition)
+            {
+				Properties.Settings.Default.s_LastPosition = Location;
+				Properties.Settings.Default.Save();
+			}
+        }
+
+        private void Form1_MouseLeave(object sender, EventArgs e)
+        {
+			RollDelayCounter = 0;
+			RollCounter = 0;
+			DoRollup();
+        }
+
+        private void Form1_MouseEnter(object sender, EventArgs e)
+        {
+			RollDelayCounter = 0;
+			RollCounter = 0;
+			DoRolldown();
+		}
+
+		private void DoRollup()
+        {
+			if (AllowRollUp && CanRollUp && RollUpState == RollState.FullyDown)
+			{
+				RollUpState = NextRollUpState;
+				RollupTimer.Start();
+			}
+		}
+
+		private void DoRolldown()
+        {
+			if (AllowRollUp && RollUpState == RollState.FullyUp)
+			{
+				RollUpState = NextRollUpState;
+				RollupTimer.Start();
+			}
+		}
+
+		public Rectangle GetFormRect()
+        {
+			Rectangle rect = Rectangle.Empty;
+
+			rect.X = Left;
+			rect.Y = Top;
+			rect.Width = Width;
+			rect.Height = Height;
+
+			return rect;
+        }
+
+		private bool MouseOverForm()
+        {
+			return GetFormRect().Contains(mX, mY);
+        }
+
+		private bool ConfirmRoll()
+        {
+			if(RollUpState == RollState.FullyDown || RollUpState == RollState.FullyUp) { return true; }
+			if(RollUpState == RollState.RollingDown)
+            {
+				return MouseOverForm();
+            }
+            else
+            {
+				return !MouseOverForm();
+            }
+        }
+    }
+
+    public enum RollState
+    {
+		FullyDown	= 0,
+		RollingDown	= 1,
+		RollingUp	= 2,
+		FullyUp		= 3
+    }
 }

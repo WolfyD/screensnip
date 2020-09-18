@@ -21,7 +21,7 @@ namespace WolfPaw_ScreenSnip
 
 			#region WINDOWS
 
-			public f_SettingPanel child = null;
+			public f_ToolsPanel child = null;
 			public Form1 parent = null;
 			public f_previewWindow pw = null;
 
@@ -77,8 +77,8 @@ namespace WolfPaw_ScreenSnip
 			public float opacityLevel = 0.4f;
 			public bool editLayerOpen = false;
 			c_EditLayer editLayer = new c_EditLayer();
-		Font tooltipfont = new Font("Consolas", 9, FontStyle.Regular);
-		public bool showToolTipsOnCutoutButtons = false;
+			Font tooltipfont = new Font("Consolas", 9, FontStyle.Regular);
+			public bool showToolTipsOnCutoutButtons = false;
 
 			#endregion
 
@@ -187,9 +187,9 @@ namespace WolfPaw_ScreenSnip
 		{
 			if (img != null)
 			{
-				var box = new c_ImageHolder(cutoutID)
+				var box = new c_ImageHolder(cutoutID, this)
 				{
-					parent = this,
+					//parent = this,
 
 					Size = new Size(img.Width, img.Height),
 
@@ -198,7 +198,8 @@ namespace WolfPaw_ScreenSnip
 					Image = img,
 
 					LayerIndex = Limages.Count,
-					selfContainingList = Limages
+
+					//selfContainingList = Limages
 				};
 
 				Limages.Add(box);
@@ -483,7 +484,7 @@ namespace WolfPaw_ScreenSnip
 
 		public void hideToolBar()
 		{
-			child = new f_SettingPanel
+			child = new f_ToolsPanel
 			{
 				parent = this
 			};
@@ -686,7 +687,7 @@ namespace WolfPaw_ScreenSnip
 
 									if (c.isOverAButton(new Point(p.X - c.Left, p.Y - c.Top)) && !resize && MouseButtons.CompareTo(MouseButtons.Left) != 0)
 									{
-										Btn bb = c.overWhichButton(new Point(p.X - c.Left, p.Y - c.Top));
+										CustomPanelButton bb = c.overWhichButton(new Point(p.X - c.Left, p.Y - c.Top));
 										if (bb.visible)
 										{
 											string ttText = bb.Tooltiptext;
@@ -716,11 +717,8 @@ namespace WolfPaw_ScreenSnip
 									}
 								}
 							}
-
 						}
-
 					}
-
 				}
 				else
 				{
@@ -926,9 +924,9 @@ namespace WolfPaw_ScreenSnip
 							Point pp = new Point(e.X - c.Left, e.Y - c.Top);
 							if (c.isOverAButton(pp) && !resize && buttonPress)
 							{
-								Btn b = c.overWhichButton(pp);
+								CustomPanelButton b = c.overWhichButton(pp);
 
-								if (c._buttons.currentValue == Btn.HiddenVal.W065)
+								if (c._buttons.currentValue == CustomPanelButton.HiddenVal.W065)
 								{
 									if (b.Value == 10)
 									{
@@ -937,7 +935,7 @@ namespace WolfPaw_ScreenSnip
 										selectedImage = c;
 									}
 								}
-								else if (c._buttons.currentValue == Btn.HiddenVal.W135)
+								else if (c._buttons.currentValue == CustomPanelButton.HiddenVal.W135)
 								{
 									switch (b.Value)
 									{
@@ -959,7 +957,7 @@ namespace WolfPaw_ScreenSnip
 											break;
 									}
 								}
-								else if (c._buttons.currentValue == Btn.HiddenVal.W175)
+								else if (c._buttons.currentValue == CustomPanelButton.HiddenVal.W175)
 								{
 									switch (b.Value)
 									{
@@ -993,7 +991,7 @@ namespace WolfPaw_ScreenSnip
 											break;
 									}
 								}
-								else if (c._buttons.currentValue == Btn.HiddenVal.FullWidth)
+								else if (c._buttons.currentValue == CustomPanelButton.HiddenVal.FullWidth)
 								{
 									switch (b.Value)
 									{
@@ -1347,10 +1345,10 @@ namespace WolfPaw_ScreenSnip
 					buttonPress = false;
 					selectedImage.Position = new Point(e.X - imageDragPoint.X, e.Y - imageDragPoint.Y);
 
-					if (Properties.Settings.Default.s_AllowDragaround)
+					if (Properties.Settings.Default.s_DragaroundSetting > 0)
 					{
 						//DRAGAROUND X
-						if (e.X <= 0 && Properties.Settings.Default.s_DragaroundX)
+						if (e.X <= 0 && new int[] { 1, 3 }.Contains(Properties.Settings.Default.s_DragaroundSetting))
 						{
 							if (selectedImage.Left + selectedImage.Width > PointToScreen(new Point(getBounds().Width, e.Y)).X)
 							{
@@ -1362,7 +1360,7 @@ namespace WolfPaw_ScreenSnip
 							}
 							Cursor.Position = PointToScreen(new Point(getBounds().Width - 19, e.Y));
 						}
-						else if (e.X >= getBounds().Width - 18 && Properties.Settings.Default.s_DragaroundX)
+						else if (e.X >= getBounds().Width - 18 && new int[] { 1, 3 }.Contains(Properties.Settings.Default.s_DragaroundSetting))
 						{
 							if (selectedImage.Left < 0)
 							{
@@ -1376,7 +1374,7 @@ namespace WolfPaw_ScreenSnip
 						}
 
 						//DRAGAROUND Y
-						if (e.Y < 0 && Properties.Settings.Default.s_DragaroundY)
+						if (e.Y < 0 && new int[] { 2, 3 }.Contains(Properties.Settings.Default.s_DragaroundSetting))
 						{
 							if (selectedImage.Top + selectedImage.Height > PointToScreen(new Point(e.X, getBounds().Height)).Y)
 							{
@@ -1388,7 +1386,7 @@ namespace WolfPaw_ScreenSnip
 							}
 							Cursor.Position = PointToScreen(new Point(e.X, getBounds().Height - 39));
 						}
-						else if (e.Y > getBounds().Height - 39 && Properties.Settings.Default.s_DragaroundY)
+						else if (e.Y > getBounds().Height - 39 && new int[] { 2, 3 }.Contains(Properties.Settings.Default.s_DragaroundSetting))
 						{
 							if (selectedImage.Top < 0)
 							{

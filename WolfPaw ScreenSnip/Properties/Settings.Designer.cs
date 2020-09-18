@@ -469,37 +469,13 @@ namespace WolfPaw_ScreenSnip.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool s_AllowDragaround {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int s_DragaroundSetting {
             get {
-                return ((bool)(this["s_AllowDragaround"]));
+                return ((int)(this["s_DragaroundSetting"]));
             }
             set {
-                this["s_AllowDragaround"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool s_DragaroundX {
-            get {
-                return ((bool)(this["s_DragaroundX"]));
-            }
-            set {
-                this["s_DragaroundX"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool s_DragaroundY {
-            get {
-                return ((bool)(this["s_DragaroundY"]));
-            }
-            set {
-                this["s_DragaroundY"] = value;
+                this["s_DragaroundSetting"] = value;
             }
         }
         

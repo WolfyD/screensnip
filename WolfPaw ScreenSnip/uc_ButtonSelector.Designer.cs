@@ -55,6 +55,7 @@
             this.btn_Button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btn_Button.Location = new System.Drawing.Point(0, 0);
             this.btn_Button.Name = "btn_Button";
+            this.btn_Button.Padding = new System.Windows.Forms.Padding(0, 2, 2, 0);
             this.btn_Button.Size = new System.Drawing.Size(50, 50);
             this.btn_Button.TabIndex = 2;
             this.btn_Button.UseVisualStyleBackColor = true;

@@ -5,7 +5,9 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,15 +15,31 @@ namespace WolfPaw_ScreenSnip
 {
 	public partial class f_Settings : Form
 	{
+		ToolTip tt = null;
+		System.Windows.Forms.Timer tttimer = new System.Windows.Forms.Timer();
+		int popupcounter = 0;
+		string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+		bool cancel = true;
+
 		public f_Settings()
 		{
 			InitializeComponent();
 			Load += F_Settings_Load;
+			tttimer.Interval = 100;
+            tttimer.Tick += Tttimer_Tick;
 		}
 
-		private void F_Settings_Load(object sender, EventArgs e)
+        private void Tttimer_Tick(object sender, EventArgs e)
+        {
+			popupcounter++;
+            if(popupcounter >= 20) { tt.Dispose(); tttimer.Stop(); }
+        }
+
+        private void F_Settings_Load(object sender, EventArgs e)
 		{
 			loadSettings();
+			
+			ll_Version.Text = version;
 		}
 
 		public void loadSettings()
@@ -59,8 +77,7 @@ namespace WolfPaw_ScreenSnip
 			p_PanelColor.BackColor = Properties.Settings.Default.s_CutoutPanelColor;
 			p_SelectionBorderColor.BackColor = Properties.Settings.Default.s_CutoutSelectionColor;
 			p_MouseoverBorderColor.BackColor = Properties.Settings.Default.s_CutoutMouseOverColor;
-			cb_AllowDragaround.Checked = Properties.Settings.Default.s_AllowDragaround;
-			cb_DragaroundMode.SelectedIndex = (Properties.Settings.Default.s_DragaroundX && Properties.Settings.Default.s_DragaroundY ? 2 : (Properties.Settings.Default.s_DragaroundX ? 0 : 1));
+			cb_DragaroundMode.SelectedIndex = Properties.Settings.Default.s_DragaroundSetting;
 
 			//CANVAS
 			//DISPLAY
@@ -119,9 +136,7 @@ namespace WolfPaw_ScreenSnip
 			Properties.Settings.Default.s_CutoutPanelColor = p_PanelColor.BackColor;
 			Properties.Settings.Default.s_CutoutSelectionColor = p_SelectionBorderColor.BackColor;
 			Properties.Settings.Default.s_CutoutMouseOverColor = p_MouseoverBorderColor.BackColor;
-			Properties.Settings.Default.s_AllowDragaround = cb_AllowDragaround.Checked;
-			Properties.Settings.Default.s_DragaroundX = (cb_DragaroundMode.SelectedIndex == 0 || cb_DragaroundMode.SelectedIndex == 2) ? true : false;
-			Properties.Settings.Default.s_DragaroundY = (cb_DragaroundMode.SelectedIndex == 1 || cb_DragaroundMode.SelectedIndex == 2) ? true : false;
+			Properties.Settings.Default.s_DragaroundSetting = cb_DragaroundMode.SelectedIndex;
 
 		//CANVAS
 			//DISPLAY
@@ -167,7 +182,7 @@ namespace WolfPaw_ScreenSnip
 
 		private void btn_Close_Click(object sender, EventArgs e)
 		{
-			saveSettings();
+			cancel = false;
 			this.Close();
 		}
 
@@ -474,5 +489,47 @@ namespace WolfPaw_ScreenSnip
 				}
 			}
 		}
-	}
+
+        private void ll_Copy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+			Clipboard.SetText("radics.marton.j@gmail.com");
+			int x = ll_Copy.Location.X;
+			int y = ll_Copy.Location.Y;
+			tt = new ToolTip();
+			tt.IsBalloon = true;
+			popupcounter = 0;
+			tttimer.Start();
+			//PointToScreen(new Point(x, y + 20))
+			tt.Show("Copied to clipboard!", this, new Point(p_Buttons.Width + 10,label40.Height + panel3.Height), 1000);
+		}
+
+        private void ll_Mailto_Click(object sender, EventArgs e)
+        {
+			
+			System.Diagnostics.Process.Start($"Mailto:radics.marton.j@gmail.com?subject=bugreport ({version})&body=Hello,%0D%0A%0D%0AI have found the following bug in your program [WolfPaw ScreenSnip v{version}].%0D%0A%0D%0A%0D%0A[--Simple Error Description--]%0D%0A%0D%0A%0D%0AI am attaching all the information I can about it below.%0D%0A%0D%0ABest,%0D%0A<Name Optional>%0D%0A%0D%0A[--All additional information related to error--]");
+        }
+
+        private void ll_Mailto_Feature_Click(object sender, EventArgs e)
+        {
+			System.Diagnostics.Process.Start($"Mailto:radics.marton.j@gmail.com?subject=Feature request&body=Hello,%0D%0A%0D%0AI had a really awesome idea for the next version of your program [WolfPaw ScreenSnip].%0D%0A%0D%0A%0D%0A[--Your amazing idea--]%0D%0A%0D%0A%0D%0AI'll write more about it below.%0D%0A%0D%0ABest,%0D%0A<Name Optional>%0D%0A%0D%0A[--All the details of your idea (details, wireframes, images, etc...)--]");
+		}
+
+        private void ll_Version_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+			System.Diagnostics.Process.Start($"https://snip.wolfpaw.hu/vinfo?v={version}");
+        }
+
+        private void f_Settings_FormClosing(object sender, FormClosingEventArgs e)
+        {
+			if (!cancel)
+			{
+				saveSettings();
+			}
+		}
+
+        private void btn_Cancel_Click(object sender, EventArgs e)
+        {
+			Close();
+        }
+    }
 }

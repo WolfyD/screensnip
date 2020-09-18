@@ -1,6 +1,6 @@
 ﻿namespace WolfPaw_ScreenSnip
 {
-	partial class f_SettingPanel
+	partial class f_ToolsPanel
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(f_SettingPanel));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(f_ToolsPanel));
 			this.label1 = new System.Windows.Forms.Label();
 			this.r_BgTransparent = new System.Windows.Forms.RadioButton();
 			this.r_BgColor = new System.Windows.Forms.RadioButton();

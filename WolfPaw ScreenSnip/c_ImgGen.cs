@@ -11,6 +11,7 @@ namespace WolfPaw_ScreenSnip
 	static class c_ImgGen
 	{
 
+		//DrawTBG => Draw with Transparent Background checkered pattern
 		public static Bitmap createImage(System.Drawing.Rectangle rec, List<c_ImageHolder> cutouts, bool drawTBG)
 		{
 			int border = 0;
@@ -34,10 +35,9 @@ namespace WolfPaw_ScreenSnip
 					g.InterpolationMode = cg.getIM();
 					g.PixelOffsetMode = cg.getPOM();
 
-					g.Clear(Color.Transparent);
+					//g.Clear(Color.Transparent);
 
-					if (Properties.Settings.Default.s_hasBgColor)
-					{ g.Clear(Properties.Settings.Default.s_bgColor); }
+					if (Properties.Settings.Default.s_hasBgColor) { g.Clear(Properties.Settings.Default.s_bgColor); }
 					else { g.Clear(Color.Transparent); }
 
 					if (drawTBG)

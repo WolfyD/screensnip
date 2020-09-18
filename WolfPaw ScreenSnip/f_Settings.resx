@@ -117,16 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="btn_BrowseQSDir.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAALFJREFUSEvtk+0JhDAQBVOADdiADdiHjdiBLVwvNmEXNuO9+RHYC/lYFYQDBwYE
-        l5eXRMPf08vROMjbEHrI1bjLRd5ilmkIrVnM7uL0TghGSydpTXjqJnnfJBdcg2DaNzkbzB1cCua5dAyp
-        zHH5WWzwR8ateqS9LfVDDJ4kDVwXI5indbUxKzPk/ZyYY57WRQhmiAYe4qfYnGdVguOR1ORHIpS7cEF4
-        LihndfsvL48RwhcvbTn7bqsKgQAAAABJRU5ErkJggg==
-</value>
-  </data>
   <data name="rtb_Explanation.Text" xml:space="preserve">
     <value>Smoothing mode:
 	Determines the antialiasing applied to an image.
@@ -153,7 +143,35 @@ Pixel Offset mode:
 	 • HighQuality
 	 • Half
 	 • HighSpeed
-	 • None</value>
+	 • None
+
+
+
+
+
+
+
+</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Hi guys!
+
+Sorry, this is just a quick update, so at least the few things 
+I had time to fix can get out there.
+
+The next thing I do will be to add the bug reporting, promise.
+Wish I had more free time to spend with working on this, 
+but hey, that's life for ya :P
+
+For now, if you find any bugs, please send the bug report in an email to:
+radics.marton.j@gmail.com</value>
+  </data>
+  <data name="label44.Text" xml:space="preserve">
+    <value>To make things a little easier until then, I set the Mailto links up with a short template.
+If it doesn't fit your purposes, feel free to remove it.
+
+Thank you guys a bunch, have fun and enjoy the weekend :)
+</value>
   </data>
   <metadata name="t_effect.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>

@@ -8,7 +8,7 @@ using FontAwesome.Sharp;
 
 namespace WolfPaw_ScreenSnip
 {
-	public class c_ImageHolder : IDisposable
+    public class c_ImageHolder : IDisposable
 	{
 		#region ENUMS
 
@@ -61,6 +61,8 @@ namespace WolfPaw_ScreenSnip
 		private Size size;
 
 		//Position
+		public Point Offset { get { return offset; } set { offset = value; /*CallSetOffset*/ } }
+		private Point offset;
 		public int Left { get { return left; } }
 		private int left;
 		public int Top { get { return top; } }
@@ -77,10 +79,11 @@ namespace WolfPaw_ScreenSnip
 		private Bitmap image;
 		public imageBorder Border { get { return border; } set { setBorder(value); }  }
 		private imageBorder border;
+		//TODO: Add float for scale and handling global scaling
 
 		//Other
-		public f_Screen parent { get; set; }
-		public List<c_ImageHolder> selfContainingList { get; set; }
+		public f_Screen parent; //{ get; set; }
+		public List<c_ImageHolder> selfContainingList;// { get; set; }
 		public string backup_id { get; set; }
 		public bool selected = false;
 		public bool mouseOver = false;
@@ -96,8 +99,10 @@ namespace WolfPaw_ScreenSnip
 
 		#endregion
 
-		public c_ImageHolder(string cid)
+		public c_ImageHolder(string cid, f_Screen _parent)
 		{
+			parent = _parent;
+
 			backup_id = cid;
 
 			SetupButtons();
@@ -117,130 +122,130 @@ namespace WolfPaw_ScreenSnip
 		private void SetupButtons()
         {
 			#region BUTTONS
-			Btn b_Resize = new Btn()
+			CustomPanelButton b_Resize = new CustomPanelButton()
 			{
 				Image1 = IconChar.ArrowsAlt.ToBitmap(buttonSize, Color.Black),
 				Image2 = IconChar.ArrowsAlt.ToBitmap(buttonSize, Color.White),
 				Pos = 0,
 				PadRight = 1,
-				Anchor = Btn.Anchors.left,
+				Anchor = CustomPanelButton.Anchors.left,
 				BorderWidth = 8,
 				Value = 0,
-				HiddenAtVal = Btn.HiddenVal.W065,
+				HiddenAtVal = CustomPanelButton.HiddenVal.W065,
 				Tooltiptext = "Resize\r\nResize image to original dimentions"
 			};
 			_buttons.Add(b_Resize);
 
-			Btn b_FullScreen = new Btn()
+			CustomPanelButton b_FullScreen = new CustomPanelButton()
 			{
 				Image1 = IconChar.ExpandArrowsAlt.ToBitmap(buttonSize, Color.Black),
 				Image2 = IconChar.ExpandArrowsAlt.ToBitmap(buttonSize, Color.White),
 				PadTop = 2,
 				PadRight = 0,
 				Pos = 1,
-				Anchor = Btn.Anchors.left,
+				Anchor = CustomPanelButton.Anchors.left,
 				BorderWidth = 2,
 				Value = 1,
-				HiddenAtVal = Btn.HiddenVal.W175,
+				HiddenAtVal = CustomPanelButton.HiddenVal.W175,
 				Tooltiptext = "Full Screen\r\nResize image to fit the screen size\r\n(keeping aspect ratio)"
 			};
 			_buttons.Add(b_FullScreen);
 
-			Btn b_LayerUp = new Btn()
+			CustomPanelButton b_LayerUp = new CustomPanelButton()
 			{
 				Image1 = IconChar.ArrowCircleUp.ToBitmap(buttonSize, Color.Black),
 				Image2 = IconChar.ArrowCircleUp.ToBitmap(buttonSize, Color.White),
 				Pos = 2,
-				Anchor = Btn.Anchors.left,
+				Anchor = CustomPanelButton.Anchors.left,
 				BorderWidth = 2,
 				Value = 2,
-				HiddenAtVal = Btn.HiddenVal.W175,
+				HiddenAtVal = CustomPanelButton.HiddenVal.W175,
 				Tooltiptext = "Layer Up\r\nMoves the image to a higher layer"
 			};
 			_buttons.Add(b_LayerUp);
 
-			Btn b_LayerDown = new Btn()
+			CustomPanelButton b_LayerDown = new CustomPanelButton()
 			{
 				Image1 = IconChar.ArrowCircleDown.ToBitmap(buttonSize, Color.Black),
 				Image2 = IconChar.ArrowCircleDown.ToBitmap(buttonSize, Color.White),
 				Pos = 3,
-				Anchor = Btn.Anchors.left,
+				Anchor = CustomPanelButton.Anchors.left,
 				BorderWidth = 2,
 				Value = 3,
-				HiddenAtVal = Btn.HiddenVal.W175,
+				HiddenAtVal = CustomPanelButton.HiddenVal.W175,
 				Tooltiptext = "Layer Down\r\nMoves the image to a lower layer"
 			};
 			_buttons.Add(b_LayerDown);
 
-			Btn b_CMS = new Btn()
+			CustomPanelButton b_CMS = new CustomPanelButton()
 			{
 				Image1 = IconChar.CaretUp.ToBitmap(buttonSize, Color.Black),
 				Image2 = IconChar.CaretUp.ToBitmap(buttonSize, Color.White),
 				Pos = 4,
-				Anchor = Btn.Anchors.right,
+				Anchor = CustomPanelButton.Anchors.right,
 				BorderWidth = 2,
 				Value = 10,
-				HiddenAtVal = Btn.HiddenVal.FullWidthOnly,
+				HiddenAtVal = CustomPanelButton.HiddenVal.FullWidthOnly,
 				Tooltiptext = "Open Menu\r\nOpens the dropdown menu allowing you to see more buttoins than can appear currently"
 			};
 			_buttons.Add(b_CMS);
 
-			Btn b_EditImage = new Btn()
+			CustomPanelButton b_EditImage = new CustomPanelButton()
 			{
 				Image1 = IconChar.PaintBrush.ToBitmap(buttonSize, Color.Black),
 				Image2 = IconChar.PaintBrush.ToBitmap(buttonSize, Color.White),
 				Pos = 3,
 				PadRight = -1,
-				Anchor = Btn.Anchors.right,
+				Anchor = CustomPanelButton.Anchors.right,
 				BorderWidth = 2,
 				Value = 4,
-				HiddenAtVal = Btn.HiddenVal.W135,
+				HiddenAtVal = CustomPanelButton.HiddenVal.W135,
 				Tooltiptext = "Edit Image\r\nOpens this image for editing"
 			};
 			_buttons.Add(b_EditImage);
 
-			Btn b_SaveImage = new Btn()
+			CustomPanelButton b_SaveImage = new CustomPanelButton()
 			{
 				Image1 = IconChar.Save.ToBitmap(buttonSize, Color.Black),
 				Image2 = IconChar.Save.ToBitmap(buttonSize, Color.White),
 				Pos = 2,
-				Anchor = Btn.Anchors.right,
+				Anchor = CustomPanelButton.Anchors.right,
 				BorderWidth = 2,
 				Value = 5,
-				HiddenAtVal = Btn.HiddenVal.W135,
+				HiddenAtVal = CustomPanelButton.HiddenVal.W135,
 				Tooltiptext = "Save Image\r\nSaves this image into a separate file"
 			};
 			_buttons.Add(b_SaveImage);
 
-			Btn b_CopyImage = new Btn()
+			CustomPanelButton b_CopyImage = new CustomPanelButton()
 			{
 				Image1 = IconChar.Clone.ToBitmap(buttonSize, Color.Black),
 				Image2 = IconChar.Clone.ToBitmap(buttonSize, Color.White),
 				Pos = 1,
 				PadRight = 1,
-				Anchor = Btn.Anchors.right,
+				Anchor = CustomPanelButton.Anchors.right,
 				BorderWidth = 2,
 				Value = 6,
-				HiddenAtVal = Btn.HiddenVal.W135,
+				HiddenAtVal = CustomPanelButton.HiddenVal.W135,
 				Tooltiptext = "Copy Image\r\nCopies this image to the clipboard"
 			};
 			_buttons.Add(b_CopyImage);
 
-			Btn b_DeleteImage = new Btn()
+			CustomPanelButton b_DeleteImage = new CustomPanelButton()
 			{
 				Image1 = IconChar.Trash.ToBitmap(buttonSize, Color.Black),
 				Image2 = IconChar.Trash.ToBitmap(buttonSize, Color.White),
 				Pos = 0,
 				PadRight = 2,
-				Anchor = Btn.Anchors.right,
+				Anchor = CustomPanelButton.Anchors.right,
 				BorderWidth = 2,
 				Value = -1,
-				HiddenAtVal = Btn.HiddenVal.W065,
+				HiddenAtVal = CustomPanelButton.HiddenVal.W065,
 				Tooltiptext = "Delete Image\r\nRemoves this image from the screen"
 			};
 			_buttons.Add(b_DeleteImage);
 
-			foreach (Btn bb in _buttons.btns)
+			foreach (CustomPanelButton bb in _buttons.btns)
 			{
 				bb.originalPos = bb.Pos;
 			}
@@ -336,39 +341,52 @@ namespace WolfPaw_ScreenSnip
 
         #region Layer bs
 
-		//TODO: Fix Layering
-
         public void arrangeLayers()
 		{
+			selfContainingList = parent.Limages;
+
 			if (selfContainingList != null)
 			{
-				foreach (var c in selfContainingList)
+				selfContainingList = selfContainingList.OrderBy(x => x.LayerIndex).ToList();
+
+                for (int i = 0; i < selfContainingList.Count; i++)
+                {
+					selfContainingList[i].LayerIndex = i;
+                }
+			}
+
+			GC.Collect();
+		}
+
+		public void LayerUp_OLD()
+		{
+			int li = selfContainingList.Max(x => x.LayerIndex);
+
+			if (selfContainingList.Count > 1 && LayerIndex < li)
+			{
+				int ind = selfContainingList.IndexOf(this);
+				if(ind < selfContainingList.Count - 1)
 				{
-					if (c != selfContainingList.Last())
-					{
-						var v = selfContainingList[selfContainingList.IndexOf(c) + 1];
-						int i = v.LayerIndex;
-						if (c.LayerIndex == i) { v.LayerIndex++; }
-					}
+					int myLayer = LayerIndex;
+					var c = selfContainingList[ind + 1];
+				
+					LayerIndex = c.LayerIndex;
+					c.LayerIndex = myLayer;
 				}
 			}
 		}
 
 		public void LayerUp()
 		{
+			arrangeLayers();
+
 			int li = selfContainingList.Max(x => x.LayerIndex);
 
-			if (selfContainingList.Count > 1 && LayerIndex != li)
+			if (selfContainingList.Count > 1 && LayerIndex < li)
 			{
-				int ind = selfContainingList.IndexOf(this);
-				if(ind < selfContainingList.Count - 1)
-                {
-					int myLayer = LayerIndex;
-					var c = selfContainingList[ind + 1];
-
-					LayerIndex = c.LayerIndex;
-					c.LayerIndex = myLayer;
-				}
+				li = LayerIndex;
+				selfContainingList[li].LayerIndex += 1;
+				selfContainingList[li + 1].LayerIndex -= 1;
 			}
 
 			arrangeLayers();
@@ -376,19 +394,15 @@ namespace WolfPaw_ScreenSnip
 
 		public void LayerDown()
 		{
+			arrangeLayers();
+
 			int li = selfContainingList.Min(x => x.LayerIndex);
 
-			if (selfContainingList.Count > 1 && LayerIndex != li)
+			if (selfContainingList.Count > 1 && LayerIndex > li)
 			{
-				int ind = selfContainingList.IndexOf(this);
-				if (ind > 0)
-				{
-					int myLayer = LayerIndex;
-					var c = selfContainingList[ind - 1];
-
-					LayerIndex = c.LayerIndex;
-					c.LayerIndex = myLayer;
-				}
+				li = LayerIndex;
+				selfContainingList[li].LayerIndex -= 1;
+				selfContainingList[li - 1].LayerIndex += 1;
 			}
 
 			arrangeLayers();
@@ -399,16 +413,13 @@ namespace WolfPaw_ScreenSnip
 			layerIndex = lInd;
 		}
 
-		public int getLayerIndex()
-		{
-			return layerIndex;
-		}
-
 		public void bringToTop()
 		{
+			arrangeLayers();
+
 			int li = selfContainingList.Max(x => x.LayerIndex);
 
-			if (selfContainingList.Count > 1 && LayerIndex != li)
+			if (selfContainingList.Count > 1 && LayerIndex < li)
 			{
 				foreach (c_ImageHolder ch in selfContainingList)
 				{
@@ -429,6 +440,7 @@ namespace WolfPaw_ScreenSnip
 		#region Position
 		public void setPosition(Point p)
 		{
+			//TODO: Add offset!!
 			position = p;
 			left = p.X;
 			top = p.Y;
@@ -438,6 +450,10 @@ namespace WolfPaw_ScreenSnip
 		{
 			return position;
 		}
+
+		//TODO: Add GetOffsetPosition: Get the position with the added offset value
+
+		//TODO: Add SetOffsetPosition: Set the position whenever the offset changes
 
 		public int getLeft()
 		{
@@ -543,12 +559,12 @@ namespace WolfPaw_ScreenSnip
 
 		#region mouse position
 
-		public Rectangle getButtonRect(Btn b)
+		public Rectangle getButtonRect(CustomPanelButton b)
 		{
 			int lft = 0;
 
 			Rectangle ret = new Rectangle(0, 0, 20, 20);
-			if (b.Anchor == Btn.Anchors.left)
+			if (b.Anchor == CustomPanelButton.Anchors.left)
 			{
 				lft = b.Pos * 22;
 			}
@@ -562,13 +578,13 @@ namespace WolfPaw_ScreenSnip
 			return ret;
 		}
 
-		public bool isOverButton(Point P, Btn b)
+		public bool isOverButton(Point P, CustomPanelButton b)
 		{
 			int lft = 0;
 
 			if (P.Y >= 0 && P.Y <= 20)
 			{
-				if (b.Anchor == Btn.Anchors.left)
+				if (b.Anchor == CustomPanelButton.Anchors.left)
 				{
 					lft = b.Pos * 22;
 				}
@@ -585,7 +601,7 @@ namespace WolfPaw_ScreenSnip
 
 		public bool isOverAButton(Point P)
 		{
-			foreach(Btn b in _buttons.btns)
+			foreach(CustomPanelButton b in _buttons.btns)
 			{
 				Rectangle r = getButtonRect(b);
 				if (r.Contains(P)) { return true; }
@@ -593,9 +609,9 @@ namespace WolfPaw_ScreenSnip
 			return false;
 		}
 
-		public Btn overWhichButton(Point P)
+		public CustomPanelButton overWhichButton(Point P)
 		{
-			foreach (Btn b in _buttons.btns)
+			foreach (CustomPanelButton b in _buttons.btns)
 			{
 				Rectangle r = getButtonRect(b);
 				if (r.Contains(P)) { return b; }
@@ -999,158 +1015,6 @@ namespace WolfPaw_ScreenSnip
 
 		#endregion
 
-	}
-
-	public class buttons
-	{
-		public List<Btn> btns = new List<Btn>();
-		private int wid;
-		public int panelWidth { get { return wid; } set { wid = value; SetupButtons(wid); } }
-		public Btn.HiddenVal currentValue = Btn.HiddenVal.FullWidth;
-		/// <summary>
-		/// <para>1,	//Resize	 </para>
-		/// <para>1,	//Fullscreen </para>
-		/// <para>1,	//Layerup	 </para>
-		/// <para>1,	//Layerdown	 </para>
-		/// <para>0,	//CMS		 </para>
-		/// <para>1,	//Edit		 </para>
-		/// <para>1,	//Save		 </para>
-		/// <para>1,	//Copy		 </para>
-		/// <para>1	//Delete		 </para>
-		/// </summary>
-		public int[] visibleButtons = new int[] 
-		{
-			1,	//Resize
-			1,	//Fullscreen
-			1,	//Layerup
-			1,	//Layerdown
-			0,	//CMS
-			1,	//Edit
-			1,	//Save
-			1,	//Copy
-			1	//Delete
-		};
-
-		public void Add(Btn button)
-		{
-			btns.Add(button);
-		}
-
-		public void Remove(Btn button)
-		{
-			btns.Remove(button);
-		}
-
-		public void GetCurrentValue(int w)
-		{
-			if (w >= 175)
-			{
-				currentValue = Btn.HiddenVal.FullWidth;
-			}
-			else if (w >= 135)
-			{
-				currentValue = Btn.HiddenVal.W175;
-			}
-			else if (w >= 65)
-			{
-				currentValue = Btn.HiddenVal.W135;
-			}
-			else
-			{
-				currentValue = Btn.HiddenVal.W065;
-			}
-		}
-		
-		public void SetupButtons(int w)
-		{
-			GetCurrentValue(w);
-
-			foreach (Btn b in btns)
-			{
-				if (b.HiddenAtVal != Btn.HiddenVal.FullWidthOnly)
-				{
-					if (currentValue < b.HiddenAtVal)
-					{
-						b.visible = true;
-						b.Pos = b.originalPos;
-					}
-					else
-					{
-						b.visible = false;
-						b.Pos = -9999;
-					}
-				}
-				else
-				{
-					if (currentValue != Btn.HiddenVal.FullWidth)
-					{
-						b.visible = true;
-						if(currentValue < Btn.HiddenVal.W135)
-						{
-							b.Pos = 4;
-						}
-						else if(currentValue == Btn.HiddenVal.W135)
-						{
-							b.Pos = 1;
-						}
-						else
-						{
-							b.Pos = 0;
-						}
-					}
-					else
-					{
-						b.visible = false;
-					}
-				}
-			}
-
-		}
-	}
-
-	public class Btn
-	{
-		public enum Anchors
-		{ left, right }
-
-		public enum HiddenVal
-		{
-			FullWidth,
-			FullWidthOnly,
-			W175,
-			W135,
-			W065
-		}
-
-		public Bitmap Image1 { get; set; }
-		public Bitmap Image2 { get; set; }
-		public int Pos { get; set; }
-        public int originalPos = 0;
-		public Anchors Anchor { get; set; }
-		public int BorderWidth { get; set; }
-		public int Value { get; set; }
-		public HiddenVal HiddenAtVal { get; set; }
-		public string Tooltiptext { get; set; }
-		public bool visible = true;
-
-		public int Size { get; set; } = 18;
-		public int PadTop { get; set; } = 2;
-		public int PadRight { get; set; } = 0;
-
-		/// <summary>
-		/// Bitmap image1  |  
-		/// Bitmap image2  |  
-		/// int pos  |  
-		/// anchors anchor  |  
-		/// int borderWidth  |  
-		/// int value  |  
-		/// hiddenVal hiddenAtVal  |  
-		/// string tooltiptext
-		/// </summary>
-		public Btn()
-		{
-			originalPos = Pos;
-		}
 	}
 
 }
