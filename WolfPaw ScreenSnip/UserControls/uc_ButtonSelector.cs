@@ -14,6 +14,7 @@ namespace WolfPaw_ScreenSnip
     public partial class uc_ButtonSelector : UserControl
 	{
 		private int buttonSize = 50;
+		private int ClickedButtonIndex = -1;
 		private DropDownFunction function;
 		public DropDownFunction Function
 		{
@@ -111,51 +112,19 @@ namespace WolfPaw_ScreenSnip
 				tsiDBSave.Click += ItemClick;
 				ToolStripItem tsiDBLoad = new uc_myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, mySubTitle = "Load", myText = "Load from DB", Image = IconChar.Database.ToBitmap(buttonSize, Color.Black), Tag = 6 };
 				tsiDBLoad.Click += ItemClick;
-				ToolStripItem tsiFreehand = new uc_myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Freehand", Image = IconChar.PenSquare.ToBitmap(buttonSize, Color.Black), Tag = 7 };
-				tsiFreehand.Click += ItemClick;
-				ToolStripItem tsiPoint = new uc_myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Line", Image = IconChar.Star.ToBitmap(buttonSize, Color.Black), Tag = 8 };
-				tsiPoint.Click += ItemClick;
-				ToolStripItem tsiMagic = new uc_myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Magic", Image = IconChar.Magic.ToBitmap(buttonSize, Color.Black), Tag = 4 };
-				tsiMagic.Click += ItemClick;
+				ToolStripItem tsiBackupDB = new uc_myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Freehand", Image = IconChar.PenSquare.ToBitmap(buttonSize, Color.Black), Tag = 7 };
+				tsiBackupDB.Click += ItemClick;
 
 				cms_Buttons.Items.Add(tsiDBSave);
 				cms_Buttons.Items.Add(tsiDBLoad);
-				cms_Buttons.Items.Add(tsiFreehand);
-				cms_Buttons.Items.Add(tsiPoint);
-				cms_Buttons.Items.Add(tsiMagic);
+				cms_Buttons.Items.Add(tsiBackupDB);
 
 				cms_Buttons.Width = Width;
 				cms_Buttons.Height = cms_Buttons.Items.Count * (buttonSize + 1);
 
 				cms_Buttons.Closed += Cms_Buttons_Closed;
 
-				switch (Properties.Settings.Default.s_lastTool)
-				{
-					case 0:
-						bmp = (Bitmap)tsiDBSave.Image;
-						break;
-
-					case 1:
-						bmp = (Bitmap)tsiDBLoad.Image;
-						break;
-
-					case 2:
-						bmp = (Bitmap)tsiFreehand.Image;
-						break;
-
-					case 3:
-						bmp = (Bitmap)tsiPoint.Image;
-						break;
-
-					case 4:
-						bmp = (Bitmap)tsiMagic.Image;
-						break;
-
-					default:
-						bmp = (Bitmap)tsiDBSave.Image;
-						break;
-
-				}
+				bmp = (Bitmap)tsiDBSave.Image;
 			}
 
 			btn_Button.BackgroundImage = bmp;
@@ -170,9 +139,15 @@ namespace WolfPaw_ScreenSnip
 		{
 			//TODO:
 			var item = sender as ToolStripMenuItem;
-			Properties.Settings.Default.s_lastTool = Convert.ToInt32(item.Tag.ToString());
-			Properties.Settings.Default.Save();
-			btn_Button.BackgroundImage = item.Image;
+			ClickedButtonIndex = Convert.ToInt32(item.Tag.ToString());
+
+			if (function == DropDownFunction.Cutout)
+			{
+				btn_Button.BackgroundImage = item.Image;
+				Properties.Settings.Default.s_lastTool = ClickedButtonIndex;
+				Properties.Settings.Default.Save();
+			}
+
 			DropDownClose();
 			btn_Button_Click(null, null);
 		}
@@ -206,7 +181,7 @@ namespace WolfPaw_ScreenSnip
             switch (function)
             {
                 case DropDownFunction.Cutout:
-					parent.handleCutouts(Properties.Settings.Default.s_lastTool);
+					parent.handleCutouts(ClickedButtonIndex);
 					break;
                 case DropDownFunction.DataManagement:
                     break;

@@ -145,7 +145,22 @@ namespace WolfPaw_ScreenSnip
 			return ret;
 		}
 
-		public static double[,] matrix
+        public static Bitmap Laplacian5x5OfGaussian5x5Filter1(this Bitmap sourceBitmap)
+        {
+            Bitmap resultBitmap =
+                   ExtBitmap.ConvolutionFilter(sourceBitmap,
+                                    Gaussian5x5Type1,
+                                       1.0 / 159.0, 0, true);
+
+
+            resultBitmap = ExtBitmap.ConvolutionFilter(resultBitmap,
+                                 Laplacian5x5, 1.0, 0, false);
+
+
+            return resultBitmap;
+        }
+
+        public static double[,] matrix
 		{
 			get
 			{
@@ -158,6 +173,32 @@ namespace WolfPaw_ScreenSnip
 			}
 		}
 
-		
-	}  
+        public static double[,] Laplacian5x5
+        {
+            get
+            {
+                return new double[,]
+              { { -1, -1, -1, -1, -1, },
+                { -1, -1, -1, -1, -1, },
+                { -1, -1, 24, -1, -1, },
+                { -1, -1, -1, -1, -1, },
+                { -1, -1, -1, -1, -1  } };
+            }
+        }
+
+        public static double[,] Gaussian5x5Type1
+        {
+            get
+            {
+                return new double[,]
+              { { 2, 04, 05, 04, 2 },
+                { 4, 09, 12, 09, 4 },
+                { 5, 12, 15, 12, 5 },
+                { 4, 09, 12, 09, 4 },
+                { 2, 04, 05, 04, 2 }, };
+            }
+        }
+
+
+    }  
 }

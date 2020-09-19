@@ -69,6 +69,7 @@
             this.btn_CMS_MainWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.btn_CMS_Exit = new System.Windows.Forms.ToolStripMenuItem();
+            this.uc_ValueButton1 = new WolfPaw_ScreenSnip.uc_ValueButton();
             this.uc_ButtonSelector1 = new WolfPaw_ScreenSnip.uc_ButtonSelector();
             ((System.ComponentModel.ISupportInitialize)(this.btn_Minimize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_Rollup)).BeginInit();
@@ -80,7 +81,7 @@
             this.btn_Copy.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.clipboard;
             this.btn_Copy.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btn_Copy.Enabled = false;
-            this.btn_Copy.Location = new System.Drawing.Point(302, 20);
+            this.btn_Copy.Location = new System.Drawing.Point(323, 20);
             this.btn_Copy.Name = "btn_Copy";
             this.btn_Copy.Size = new System.Drawing.Size(40, 40);
             this.btn_Copy.TabIndex = 1;
@@ -96,7 +97,7 @@
             this.btn_Save.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.save;
             this.btn_Save.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btn_Save.Enabled = false;
-            this.btn_Save.Location = new System.Drawing.Point(343, 20);
+            this.btn_Save.Location = new System.Drawing.Point(363, 20);
             this.btn_Save.Name = "btn_Save";
             this.btn_Save.Size = new System.Drawing.Size(40, 40);
             this.btn_Save.TabIndex = 2;
@@ -111,7 +112,7 @@
             // 
             this.btn_Clear.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.shredder;
             this.btn_Clear.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btn_Clear.Location = new System.Drawing.Point(193, 20);
+            this.btn_Clear.Location = new System.Drawing.Point(228, 20);
             this.btn_Clear.Name = "btn_Clear";
             this.btn_Clear.Size = new System.Drawing.Size(40, 40);
             this.btn_Clear.TabIndex = 4;
@@ -143,7 +144,7 @@
             // 
             this.btn_Options.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.gear;
             this.btn_Options.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btn_Options.Location = new System.Drawing.Point(495, 20);
+            this.btn_Options.Location = new System.Drawing.Point(497, 20);
             this.btn_Options.Name = "btn_Options";
             this.btn_Options.Size = new System.Drawing.Size(40, 40);
             this.btn_Options.TabIndex = 7;
@@ -159,7 +160,7 @@
             this.btn_Preview.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.preview;
             this.btn_Preview.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btn_Preview.Enabled = false;
-            this.btn_Preview.Location = new System.Drawing.Point(261, 20);
+            this.btn_Preview.Location = new System.Drawing.Point(283, 20);
             this.btn_Preview.Name = "btn_Preview";
             this.btn_Preview.Size = new System.Drawing.Size(40, 40);
             this.btn_Preview.TabIndex = 10;
@@ -190,7 +191,7 @@
             this.btn_SaveToDB.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.db;
             this.btn_SaveToDB.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btn_SaveToDB.Enabled = false;
-            this.btn_SaveToDB.Location = new System.Drawing.Point(384, 20);
+            this.btn_SaveToDB.Location = new System.Drawing.Point(403, 20);
             this.btn_SaveToDB.Name = "btn_SaveToDB";
             this.btn_SaveToDB.Size = new System.Drawing.Size(40, 40);
             this.btn_SaveToDB.TabIndex = 11;
@@ -205,7 +206,7 @@
             // 
             this.btn_DatabaseLoad.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.dbl;
             this.btn_DatabaseLoad.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btn_DatabaseLoad.Location = new System.Drawing.Point(425, 20);
+            this.btn_DatabaseLoad.Location = new System.Drawing.Point(443, 20);
             this.btn_DatabaseLoad.Name = "btn_DatabaseLoad";
             this.btn_DatabaseLoad.Size = new System.Drawing.Size(40, 40);
             this.btn_DatabaseLoad.TabIndex = 12;
@@ -221,7 +222,7 @@
             // 
             this.btn_Screen.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.screen;
             this.btn_Screen.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btn_Screen.Location = new System.Drawing.Point(152, 20);
+            this.btn_Screen.Location = new System.Drawing.Point(188, 20);
             this.btn_Screen.Name = "btn_Screen";
             this.btn_Screen.Size = new System.Drawing.Size(40, 40);
             this.btn_Screen.TabIndex = 4;
@@ -468,6 +469,15 @@
             this.btn_CMS_Exit.Text = "Exit Program";
             this.btn_CMS_Exit.Click += new System.EventHandler(this.btn_CMS_Exit_Click);
             // 
+            // uc_ValueButton1
+            // 
+            this.uc_ValueButton1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.uc_ValueButton1.Location = new System.Drawing.Point(61, 20);
+            this.uc_ValueButton1.MinimumSize = new System.Drawing.Size(40, 40);
+            this.uc_ValueButton1.Name = "uc_ValueButton1";
+            this.uc_ValueButton1.Size = new System.Drawing.Size(110, 40);
+            this.uc_ValueButton1.TabIndex = 17;
+            // 
             // uc_ButtonSelector1
             // 
             this.uc_ButtonSelector1.ButtonSize = 40;
@@ -486,6 +496,7 @@
             this.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.handle;
             this.ClientSize = new System.Drawing.Size(577, 60);
             this.ControlBox = false;
+            this.Controls.Add(this.uc_ValueButton1);
             this.Controls.Add(this.uc_ButtonSelector1);
             this.Controls.Add(this.btn_Rollup);
             this.Controls.Add(this.btn_Minimize);
@@ -561,6 +572,7 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
 		private System.Windows.Forms.ToolStripMenuItem btn_CMS_Exit;
 		private System.Windows.Forms.ToolStripMenuItem btn_CMS_QuickRectangle;
-	}
+        private uc_ValueButton uc_ValueButton1;
+    }
 }
 

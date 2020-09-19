@@ -68,7 +68,7 @@
             this.btn_CMS_MAIN_CopyImage = new System.Windows.Forms.ToolStripMenuItem();
             this.btn_CMS_MAIN_PasteImage = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
-            this.ts_Tools = new WolfPaw_ScreenSnip.myToolstrip();
+            this.ts_Tools = new WolfPaw_ScreenSnip.uc_myToolstrip();
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
             this.btn_ToolSelector = new FontAwesome.Sharp.IconDropDownButton();
             this.pointerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1162,7 +1162,7 @@
 		private myPanel p_Tools;
 		private System.Windows.Forms.ToolTip tt_Main;
 		private FontAwesome.Sharp.IconToolStripButton cb_Background;
-		private myToolstrip ts_Tools;
+		private uc_myToolstrip ts_Tools;
 		private System.Windows.Forms.ContextMenuStrip cms_Panel;
 		private System.Windows.Forms.ToolStripMenuItem cms_btn_Resize;
 		private System.Windows.Forms.ToolStripMenuItem cms_btn_Fit;

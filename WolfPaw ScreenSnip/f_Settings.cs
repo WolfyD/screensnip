@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlTypes;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -431,6 +432,14 @@ namespace WolfPaw_ScreenSnip
 					str = "If this box is checked, the program will attempt to save a screenshot for every cutout you make to make it possible to recut them in editing.";
 					break;
 
+				case 34:
+					str = "With this setting you can select if you prefer to use the automatic calculation of DPI using one of your monitor screens, or would you like to manually set your DPI level instead.";
+					break;
+
+				case 35:
+					str = "Pressing this button will open the manual DPI setup window, where you can set your DPI value simply.";
+					break;
+
 				default:
 					str = "";
 					break;
@@ -530,6 +539,16 @@ namespace WolfPaw_ScreenSnip
         private void btn_Cancel_Click(object sender, EventArgs e)
         {
 			Close();
+        }
+
+        private void btn_CalcDPI_Click(object sender, EventArgs e)
+        {
+			f_DPISetup fdpi = new f_DPISetup();
+			fdpi.TopMost = true;
+			fdpi.StartPosition = FormStartPosition.Manual;
+			Rectangle bounds = Screen.AllScreens[(int)num_MonitorToUse.Value - 1].Bounds;
+			fdpi.Location = new Point(bounds.Left + (bounds.Width / 2) - (fdpi.Width / 2), bounds.Top + (bounds.Height / 2) - (fdpi.Height / 2));
+			fdpi.ShowDialog();
         }
     }
 }

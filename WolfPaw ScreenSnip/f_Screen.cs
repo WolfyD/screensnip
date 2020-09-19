@@ -14,7 +14,7 @@ using static WolfPaw_ScreenSnip.c_ImageHolder;
 
 namespace WolfPaw_ScreenSnip
 {
-	public partial class f_Screen : Form
+    public partial class f_Screen : Form
 	{
         #region Variables
         //-------VARIABLES
@@ -1601,62 +1601,5 @@ namespace WolfPaw_ScreenSnip
 			Invalidate();
 		}
 	}
-
-	#region OTHER CLASSES / COMPARERS
-
-	public class myToolstrip : ToolStrip
-	{
-		public myToolstrip()
-		{
-			SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-		}
-
-		protected override CreateParams CreateParams
-		{
-			get
-			{
-				CreateParams cp = base.CreateParams;
-				cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
-				return cp;
-			}
-		}
-	}
-
-	public class myPanel : Panel
-	{
-
-		public myPanel()
-		{
-			SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-		}
-		
-		protected override CreateParams CreateParams
-		{
-			get
-			{
-				CreateParams cp = base.CreateParams;
-				cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
-				return cp;
-			}
-		}
-	}
-
-	public class intComparer : IComparer<c_ImageHolder>
-	{
-		public int Compare(c_ImageHolder a, c_ImageHolder b)
-		{
-			return (a.LayerIndex > b.LayerIndex ? 1 : -1);
-		}
-	}
-
-	public class intComparerDesc : IComparer<c_ImageHolder>
-	{
-		public int Compare(c_ImageHolder a, c_ImageHolder b)
-		{
-			return (a.LayerIndex < b.LayerIndex ? 1 : -1);
-		}
-	}
-
-#endregion
 
 }

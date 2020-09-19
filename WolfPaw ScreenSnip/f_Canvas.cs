@@ -37,7 +37,7 @@ namespace WolfPaw_ScreenSnip
 		List<Point> magicUnSelectPixels = new List<Point>();
 		Bitmap brect = new Bitmap(100, 100);
 
-		public bool shitDown = false;
+		public bool shiftDown = false;
 		public bool ctrlDown = false;
 		public bool altDown = false;
 
@@ -239,12 +239,15 @@ namespace WolfPaw_ScreenSnip
 
 					List<Point> pnts = new List<Point>();
 
-					brect = new Bitmap(75,75);
+					brect = new Bitmap(25,25);
 					using(Graphics g = Graphics.FromImage(brect))
 					{
 						g.DrawImage(bmp, new Rectangle(0, 0, brect.Width, brect.Height), new Rectangle(new Point(pnt.X - brect.Width / 2, pnt.Y - brect.Height / 2), brect.Size), GraphicsUnit.Pixel);
 					}
 					brect = brect.filter(true);
+					brect.Save("D:\\img1.bmp");
+					//brect = brect.Laplacian5x5OfGaussian5x5Filter1();
+					//brect.Save("D:\\img2.bmp");
 
 					//BitmapData bd = brect.LockBits(new Rectangle(0, 0, 100, 100), ImageLockMode.ReadOnly, PixelFormat.Canonical);
 
@@ -297,6 +300,8 @@ namespace WolfPaw_ScreenSnip
 					cut.Y = miny;
 					cut.Width = maxx - minx;
 					cut.Height = maxy - miny;
+
+					GC.Collect();
 				}
 
 			}
@@ -306,32 +311,32 @@ namespace WolfPaw_ScreenSnip
 
 		public string genRandomId()
 		{
-			long i1 = DateTime.Now.ToFileTimeUtc();
-			long i2 = (long)new Random((int)Math.Sqrt(i1) + 333).Next();
+			return Guid.NewGuid().ToString();
 
-			string i3 = i1 + "--" + i2;
-
-			System.Security.Cryptography.SHA1CryptoServiceProvider sha1 = new System.Security.Cryptography.SHA1CryptoServiceProvider();
-			string i4 = "";
-			int i = 0;
-			foreach(Byte b in sha1.ComputeHash(Encoding.UTF8.GetBytes(i3)))
-			{
-				if(i > 10) { break; }
-				i4 += b.ToString("X2");
-				i++;
-			}
-
-			i4 = i4 + "_" + DateTime.Now.ToFileTime();
-
-			return i4;
+			//long i1 = DateTime.Now.ToFileTimeUtc();
+			//long i2 = (long)new Random((int)Math.Sqrt(i1) + 333).Next();
+			//
+			//string i3 = i1 + "--" + i2;
+			//
+			//System.Security.Cryptography.SHA1CryptoServiceProvider sha1 = new System.Security.Cryptography.SHA1CryptoServiceProvider();
+			//string i4 = "";
+			//int i = 0;
+			//foreach(Byte b in sha1.ComputeHash(Encoding.UTF8.GetBytes(i3)))
+			//{
+			//	if(i > 10) { break; }
+			//	i4 += b.ToString("X2");
+			//	i++;
+			//}
+			//
+			//i4 = i4 + "_" + DateTime.Now.ToFileTime();
+			//this.Hide();
+			//return i4;
 		}
 
 		public void saveScreenCap(string randomID, List<Point> pnts)
 		{
 			string pointstr = "";
-
-			//MessageBox.Show(randomID);
-
+			
 			foreach(Point p in pnts) { pointstr += p.X + ":" + p.Y + "|"; }
 			pointstr = pointstr.Trim('|');
 
@@ -344,6 +349,7 @@ namespace WolfPaw_ScreenSnip
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
 			// Complete the snip on mouse-up
+			//Rectangle
 			if (mode == 0)
 			{
 				if (rcSelect.Width <= 0 || rcSelect.Height <= 0) return;
@@ -365,10 +371,12 @@ namespace WolfPaw_ScreenSnip
 				if (save_editable_backup) { saveScreenCap(genRandomId(), pp);  }
 				DialogResult = DialogResult.OK;
 			}
+			//Window detection
 			else if (mode == 1)
 			{
 				//Window
 			}
+			//Freehand
 			else if (mode == 2)
 			{
 				mdown = false;
@@ -376,21 +384,20 @@ namespace WolfPaw_ScreenSnip
                 using(Graphics g = Graphics.FromImage(b))
                 {
 					g.DrawImage(this.BackgroundImage, new Rectangle(0, 0, cut.Width, cut.Height), cut, GraphicsUnit.Pixel);
-                    //g.CopyFromScreen(cut.Location, new Point(0, 0), cut.Size);
                 }
 
-				//b.Save(@"c:\REPO\test1.bmp");
 				Bitmap bb = (Bitmap)c_Unsafe.getPixels(b, cut_points, cut);
-                //bb.Save(@"c:\REPO\test2.bmp");
 
                 retImg = bb;
 				if (save_editable_backup) { saveScreenCap(genRandomId(), cut_points); }
 				DialogResult = DialogResult.OK;
             }
+			//Point selector
 			else if (mode == 3)
 			{
 				mdown = false;
 			}
+			//Magic
 			else if (mode == 4)
 			{
 				mdown = false;
@@ -398,16 +405,12 @@ namespace WolfPaw_ScreenSnip
 				using (Graphics g = Graphics.FromImage(b))
 				{
 					g.DrawImage(this.BackgroundImage, new Rectangle(0, 0, cut.Width, cut.Height), cut, GraphicsUnit.Pixel);
-					//g.CopyFromScreen(cut.Location, new Point(0, 0), cut.Size);
 				}
 
-				//b.Save(@"c:\REPO\test1.bmp");
-				//Console.WriteLine("COUNT: " + cut_points.Count);
 				Bitmap bb = (Bitmap)c_Unsafe.getPixels(b, cut_points, cut);
-				//bb.Save(@"c:\REPO\test2.bmp");
 
-				/*
-				if (shitDown)
+				
+				if (shiftDown)
 				{
 					Hide();
 					f_EditSelection fed = new f_EditSelection
@@ -422,7 +425,7 @@ namespace WolfPaw_ScreenSnip
 					fed.ShowDialog();
 					bb = fed.CutImage;
 				}
-				*/
+				/**/
 
 				retImg = bb;
 				if (save_editable_backup) { saveScreenCap(genRandomId(), cut_points); }
@@ -658,7 +661,7 @@ namespace WolfPaw_ScreenSnip
 					e.Graphics.DrawString(s, this.Font, Brushes.Black, new Point(Cursor.Position.X + 10, Cursor.Position.Y + 10));
 				}
 			}
-
+			GC.Collect();
 		}
 
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -668,77 +671,13 @@ namespace WolfPaw_ScreenSnip
 			return base.ProcessCmdKey(ref msg, keyData);
 		}
 
-		#region Raycasting, not used
-
-		/*RayCasting
-		public bool raycast(Point p)
-		{
-			int k, j = cut_points.Count - 1;
-			bool oddNodes = false; //to check whether number of intersections is odd
-			for (k = 0; k < cut_points.Count; k++)
-			{
-				//fetch adjucent points of the polygon
-				PointF polyK = cut_points[k];
-				PointF polyJ = cut_points[j];
-
-				//check the intersections
-				if (((polyK.Y > p.Y) != (polyJ.Y > p.Y)) &&
-				 (p.X < (polyJ.X - polyK.X) * (p.Y - polyK.Y) / (polyJ.Y - polyK.Y) + polyK.X))
-					oddNodes = !oddNodes; //switch between odd and even
-				j = k;
-			}
-
-			//if odd number of intersections
-			if (oddNodes)
-			{
-				//mouse point is inside the polygon
-				return true;
-			}
-			else //if even number of intersections
-			{
-				//mouse point is outside the polygon so deselect the polygon
-				return false;
-			}
-		}
-		*/
-
-		/*PointInPoly
-		bool pinp(List<Loc> ll, Point p)
-		{
-			Loc l = new Loc(p.X, p.Y);
-			return IsPointInPolygon(ll, l);
-		}
-
-		bool IsPointInPolygon(List<Loc> poly, Loc point)
-		{
-			int i, j;
-			bool c = false;
-			for (i = 0, j = poly.Count - 1; i < poly.Count; j = i++)
-			{
-				if ((((poly[i].Lt <= point.Lt) && (point.Lt < poly[j].Lt))
-						|| ((poly[j].Lt <= point.Lt) && (point.Lt < poly[i].Lt)))
-						&& (point.Lg < (poly[j].Lg - poly[i].Lg) * (point.Lt - poly[i].Lt)
-							/ (poly[j].Lt - poly[i].Lt) + poly[i].Lg))
-				{
-					c = !c;
-				}
-			}
-
-			return c;
-		}
-		*/
-
-		#endregion
-
-
-
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
 			base.OnKeyDown(e);
 
 			if (e.KeyCode == Keys.Shift || e.KeyCode == Keys.LShiftKey || e.KeyCode == Keys.RShiftKey || e.KeyCode == Keys.ShiftKey)
 			{
-				shitDown = true;
+				shiftDown = true;
 			}else if (e.KeyCode == Keys.Control || e.KeyCode == Keys.LControlKey || e.KeyCode == Keys.RControlKey || e.KeyCode == Keys.ControlKey)
 			{
 				ctrlDown = true;
@@ -757,7 +696,7 @@ namespace WolfPaw_ScreenSnip
 
 			if (e.KeyCode == Keys.Shift || e.KeyCode == Keys.LShiftKey || e.KeyCode == Keys.RShiftKey || e.KeyCode == Keys.ShiftKey)
 			{
-				shitDown = false;
+				shiftDown = false;
 			}
 			else if (e.KeyCode == Keys.Control || e.KeyCode == Keys.LControlKey || e.KeyCode == Keys.RControlKey || e.KeyCode == Keys.ControlKey)
 			{
@@ -774,7 +713,7 @@ namespace WolfPaw_ScreenSnip
 		{
 			if (mode == 4)
 			{
-				
+				//TODO
 				
 			}
 		}

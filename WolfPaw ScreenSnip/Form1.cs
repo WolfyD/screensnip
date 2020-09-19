@@ -519,6 +519,8 @@ namespace WolfPaw_ScreenSnip
 			}
 			
 			loadSettings();
+
+
         }
 
 		private void Ck_KeyReleaseDetected(object sender, KeyEventArgs e)
@@ -1147,9 +1149,11 @@ namespace WolfPaw_ScreenSnip
 
 		private void btn_Options_Click(object sender, EventArgs e)
 		{
+			Opacity = .4;
 			f_Settings _fs = new f_Settings();
 			_fs.ShowDialog();
 			loadSettings();
+			Opacity = 1;
 		}
 
 		public void Form1_KeyDown(object sender, KeyEventArgs e)

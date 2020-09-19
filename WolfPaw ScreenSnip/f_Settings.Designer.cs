@@ -149,6 +149,11 @@
             this.lbl_Description = new System.Windows.Forms.Label();
             this.lbl_DescTitle = new System.Windows.Forms.Label();
             this.t_effect = new System.Windows.Forms.Timer(this.components);
+            this.label25 = new System.Windows.Forms.Label();
+            this.rb_DPI_AutoCheck = new System.Windows.Forms.RadioButton();
+            this.rb_DPI_ManualCheck = new System.Windows.Forms.RadioButton();
+            this.btn_CalcDPI = new System.Windows.Forms.Button();
+            this.label45 = new System.Windows.Forms.Label();
             this.p_MouseoverBorderColor = new WolfPaw_ScreenSnip.uc_ColorButton();
             this.p_SelectionBorderColor = new WolfPaw_ScreenSnip.uc_ColorButton();
             this.p_PanelColor = new WolfPaw_ScreenSnip.uc_ColorButton();
@@ -390,6 +395,9 @@
             // tc_Tabs
             // 
             this.tc_Tabs.Alignment = System.Windows.Forms.TabAlignment.Bottom;
+            this.tc_Tabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tc_Tabs.Controls.Add(this.tp_General);
             this.tc_Tabs.Controls.Add(this.tp_Program);
             this.tc_Tabs.Controls.Add(this.tp_Canvas);
@@ -401,7 +409,7 @@
             this.tc_Tabs.Location = new System.Drawing.Point(1, 0);
             this.tc_Tabs.Name = "tc_Tabs";
             this.tc_Tabs.SelectedIndex = 0;
-            this.tc_Tabs.Size = new System.Drawing.Size(382, 437);
+            this.tc_Tabs.Size = new System.Drawing.Size(382, 428);
             this.tc_Tabs.TabIndex = 0;
             // 
             // tp_General
@@ -412,7 +420,7 @@
             this.tp_General.Location = new System.Drawing.Point(4, 4);
             this.tp_General.Name = "tp_General";
             this.tp_General.Padding = new System.Windows.Forms.Padding(8);
-            this.tp_General.Size = new System.Drawing.Size(374, 411);
+            this.tp_General.Size = new System.Drawing.Size(374, 402);
             this.tp_General.TabIndex = 0;
             this.tp_General.Text = "General";
             this.tp_General.UseVisualStyleBackColor = true;
@@ -680,7 +688,7 @@
             this.tp_Program.Location = new System.Drawing.Point(4, 4);
             this.tp_Program.Name = "tp_Program";
             this.tp_Program.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_Program.Size = new System.Drawing.Size(374, 415);
+            this.tp_Program.Size = new System.Drawing.Size(374, 402);
             this.tp_Program.TabIndex = 1;
             this.tp_Program.Text = "Program";
             this.tp_Program.UseVisualStyleBackColor = true;
@@ -1026,19 +1034,24 @@
             this.tp_Canvas.Location = new System.Drawing.Point(4, 4);
             this.tp_Canvas.Name = "tp_Canvas";
             this.tp_Canvas.Padding = new System.Windows.Forms.Padding(8);
-            this.tp_Canvas.Size = new System.Drawing.Size(374, 415);
+            this.tp_Canvas.Size = new System.Drawing.Size(374, 402);
             this.tp_Canvas.TabIndex = 2;
             this.tp_Canvas.Text = "Canvas";
             this.tp_Canvas.UseVisualStyleBackColor = true;
             // 
             // gb_Settings_Additional
             // 
+            this.gb_Settings_Additional.Controls.Add(this.btn_CalcDPI);
+            this.gb_Settings_Additional.Controls.Add(this.rb_DPI_ManualCheck);
+            this.gb_Settings_Additional.Controls.Add(this.rb_DPI_AutoCheck);
             this.gb_Settings_Additional.Controls.Add(this.cb_DrawCrosshairs);
             this.gb_Settings_Additional.Controls.Add(this.cb_DrawPositionData);
             this.gb_Settings_Additional.Controls.Add(this.cb_DrawRulerBG);
             this.gb_Settings_Additional.Controls.Add(this.cb_AlwaysShowRuler);
             this.gb_Settings_Additional.Controls.Add(this.num_MonitorToUse);
             this.gb_Settings_Additional.Controls.Add(this.cb_DPIType);
+            this.gb_Settings_Additional.Controls.Add(this.label25);
+            this.gb_Settings_Additional.Controls.Add(this.label45);
             this.gb_Settings_Additional.Controls.Add(this.label19);
             this.gb_Settings_Additional.Controls.Add(this.label18);
             this.gb_Settings_Additional.Controls.Add(this.label32);
@@ -1049,7 +1062,7 @@
             this.gb_Settings_Additional.Location = new System.Drawing.Point(8, 102);
             this.gb_Settings_Additional.Margin = new System.Windows.Forms.Padding(0);
             this.gb_Settings_Additional.Name = "gb_Settings_Additional";
-            this.gb_Settings_Additional.Size = new System.Drawing.Size(358, 220);
+            this.gb_Settings_Additional.Size = new System.Drawing.Size(341, 292);
             this.gb_Settings_Additional.TabIndex = 1;
             this.gb_Settings_Additional.TabStop = false;
             this.gb_Settings_Additional.Text = "Additional Data";
@@ -1092,7 +1105,7 @@
             // 
             // num_MonitorToUse
             // 
-            this.num_MonitorToUse.Location = new System.Drawing.Point(201, 180);
+            this.num_MonitorToUse.Location = new System.Drawing.Point(201, 209);
             this.num_MonitorToUse.Maximum = new decimal(new int[] {
             1,
             0,
@@ -1104,7 +1117,7 @@
             0,
             0});
             this.num_MonitorToUse.Name = "num_MonitorToUse";
-            this.num_MonitorToUse.Size = new System.Drawing.Size(77, 20);
+            this.num_MonitorToUse.Size = new System.Drawing.Size(80, 20);
             this.num_MonitorToUse.TabIndex = 16;
             this.num_MonitorToUse.Value = new decimal(new int[] {
             1,
@@ -1119,20 +1132,20 @@
             "Centimeter",
             "Inch",
             "Pixel"});
-            this.cb_DPIType.Location = new System.Drawing.Point(201, 148);
+            this.cb_DPIType.Location = new System.Drawing.Point(201, 147);
             this.cb_DPIType.Name = "cb_DPIType";
-            this.cb_DPIType.Size = new System.Drawing.Size(77, 21);
+            this.cb_DPIType.Size = new System.Drawing.Size(80, 21);
             this.cb_DPIType.TabIndex = 15;
             // 
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(6, 182);
+            this.label19.Location = new System.Drawing.Point(6, 213);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(145, 13);
+            this.label19.Size = new System.Drawing.Size(194, 13);
             this.label19.TabIndex = 14;
             this.label19.Tag = "27";
-            this.label19.Text = "Monitor to use for DPI value: ";
+            this.label19.Text = "Monitor to use for automatic DPI value: ";
             this.label19.MouseEnter += new System.EventHandler(this.WriteHelpString);
             // 
             // label18
@@ -1140,10 +1153,10 @@
             this.label18.AutoSize = true;
             this.label18.Location = new System.Drawing.Point(6, 151);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(120, 13);
+            this.label18.Size = new System.Drawing.Size(117, 13);
             this.label18.TabIndex = 13;
             this.label18.Tag = "26";
-            this.label18.Text = "DPI measurement type: ";
+            this.label18.Text = "DPI measurement unit: ";
             this.label18.MouseEnter += new System.EventHandler(this.WriteHelpString);
             // 
             // label32
@@ -1200,7 +1213,7 @@
             this.gb_Settings_Display.Location = new System.Drawing.Point(8, 8);
             this.gb_Settings_Display.Margin = new System.Windows.Forms.Padding(0);
             this.gb_Settings_Display.Name = "gb_Settings_Display";
-            this.gb_Settings_Display.Size = new System.Drawing.Size(358, 94);
+            this.gb_Settings_Display.Size = new System.Drawing.Size(341, 94);
             this.gb_Settings_Display.TabIndex = 0;
             this.gb_Settings_Display.TabStop = false;
             this.gb_Settings_Display.Text = "Display";
@@ -1225,7 +1238,7 @@
             0,
             65536});
             this.num_CanvasTransparency.Name = "num_CanvasTransparency";
-            this.num_CanvasTransparency.Size = new System.Drawing.Size(77, 20);
+            this.num_CanvasTransparency.Size = new System.Drawing.Size(80, 20);
             this.num_CanvasTransparency.TabIndex = 2;
             this.num_CanvasTransparency.Value = new decimal(new int[] {
             9,
@@ -1266,7 +1279,7 @@
             this.tp_Render.Location = new System.Drawing.Point(4, 4);
             this.tp_Render.Name = "tp_Render";
             this.tp_Render.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_Render.Size = new System.Drawing.Size(374, 415);
+            this.tp_Render.Size = new System.Drawing.Size(374, 402);
             this.tp_Render.TabIndex = 3;
             this.tp_Render.Text = "Render";
             this.tp_Render.UseVisualStyleBackColor = true;
@@ -1277,7 +1290,7 @@
             this.rtb_Explanation.Location = new System.Drawing.Point(152, 124);
             this.rtb_Explanation.Margin = new System.Windows.Forms.Padding(3, 3, 3, 30);
             this.rtb_Explanation.Name = "rtb_Explanation";
-            this.rtb_Explanation.Size = new System.Drawing.Size(219, 288);
+            this.rtb_Explanation.Size = new System.Drawing.Size(219, 275);
             this.rtb_Explanation.TabIndex = 5;
             this.rtb_Explanation.Text = resources.GetString("rtb_Explanation.Text");
             // 
@@ -1417,7 +1430,7 @@
             this.tp_Help.Location = new System.Drawing.Point(4, 4);
             this.tp_Help.Name = "tp_Help";
             this.tp_Help.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_Help.Size = new System.Drawing.Size(374, 415);
+            this.tp_Help.Size = new System.Drawing.Size(374, 402);
             this.tp_Help.TabIndex = 4;
             this.tp_Help.Text = "Help";
             this.tp_Help.UseVisualStyleBackColor = true;
@@ -1439,7 +1452,7 @@
             this.tp_About.Location = new System.Drawing.Point(4, 4);
             this.tp_About.Name = "tp_About";
             this.tp_About.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_About.Size = new System.Drawing.Size(374, 404);
+            this.tp_About.Size = new System.Drawing.Size(374, 402);
             this.tp_About.TabIndex = 5;
             this.tp_About.Text = "About";
             this.tp_About.UseVisualStyleBackColor = true;
@@ -1448,7 +1461,7 @@
             // 
             this.ll_Version.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ll_Version.AutoSize = true;
-            this.ll_Version.Location = new System.Drawing.Point(3, 384);
+            this.ll_Version.Location = new System.Drawing.Point(3, 382);
             this.ll_Version.Name = "ll_Version";
             this.ll_Version.Size = new System.Drawing.Size(46, 13);
             this.ll_Version.TabIndex = 2;
@@ -1472,7 +1485,7 @@
             this.tp_Shortcuts.Location = new System.Drawing.Point(4, 4);
             this.tp_Shortcuts.Name = "tp_Shortcuts";
             this.tp_Shortcuts.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_Shortcuts.Size = new System.Drawing.Size(374, 415);
+            this.tp_Shortcuts.Size = new System.Drawing.Size(374, 402);
             this.tp_Shortcuts.TabIndex = 6;
             this.tp_Shortcuts.Text = "Shortcuts";
             this.tp_Shortcuts.UseVisualStyleBackColor = true;
@@ -1496,7 +1509,7 @@
             this.tp_Bugreport.Location = new System.Drawing.Point(4, 4);
             this.tp_Bugreport.Name = "tp_Bugreport";
             this.tp_Bugreport.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_Bugreport.Size = new System.Drawing.Size(374, 415);
+            this.tp_Bugreport.Size = new System.Drawing.Size(374, 402);
             this.tp_Bugreport.TabIndex = 7;
             this.tp_Bugreport.Text = "Bugreport";
             this.tp_Bugreport.UseVisualStyleBackColor = true;
@@ -1507,7 +1520,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(3, 32);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(368, 217);
+            this.panel3.Size = new System.Drawing.Size(368, 204);
             this.panel3.TabIndex = 9;
             // 
             // label9
@@ -1515,7 +1528,7 @@
             this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label9.Location = new System.Drawing.Point(0, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(368, 217);
+            this.label9.Size = new System.Drawing.Size(368, 204);
             this.label9.TabIndex = 4;
             this.label9.Text = resources.GetString("label9.Text");
             this.label9.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1526,7 +1539,7 @@
             this.panel2.Controls.Add(this.ll_Mailto);
             this.panel2.Controls.Add(this.ll_Copy);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(3, 249);
+            this.panel2.Location = new System.Drawing.Point(3, 236);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(368, 21);
             this.panel2.TabIndex = 8;
@@ -1568,7 +1581,7 @@
             // 
             this.panel1.Controls.Add(this.label44);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(3, 270);
+            this.panel1.Location = new System.Drawing.Point(3, 257);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(368, 142);
             this.panel1.TabIndex = 5;
@@ -1629,6 +1642,60 @@
             // 
             this.t_effect.Interval = 1;
             this.t_effect.Tick += new System.EventHandler(this.t_effect_Tick);
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(6, 182);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(120, 13);
+            this.label25.TabIndex = 14;
+            this.label25.Tag = "34";
+            this.label25.Text = "DPI calculation method:";
+            this.label25.MouseEnter += new System.EventHandler(this.WriteHelpString);
+            // 
+            // rb_DPI_AutoCheck
+            // 
+            this.rb_DPI_AutoCheck.AutoSize = true;
+            this.rb_DPI_AutoCheck.Checked = true;
+            this.rb_DPI_AutoCheck.Location = new System.Drawing.Point(201, 180);
+            this.rb_DPI_AutoCheck.Name = "rb_DPI_AutoCheck";
+            this.rb_DPI_AutoCheck.Size = new System.Drawing.Size(71, 17);
+            this.rb_DPI_AutoCheck.TabIndex = 21;
+            this.rb_DPI_AutoCheck.TabStop = true;
+            this.rb_DPI_AutoCheck.Text = "automatic";
+            this.rb_DPI_AutoCheck.UseVisualStyleBackColor = true;
+            // 
+            // rb_DPI_ManualCheck
+            // 
+            this.rb_DPI_ManualCheck.AutoSize = true;
+            this.rb_DPI_ManualCheck.Location = new System.Drawing.Point(278, 180);
+            this.rb_DPI_ManualCheck.Name = "rb_DPI_ManualCheck";
+            this.rb_DPI_ManualCheck.Size = new System.Drawing.Size(59, 17);
+            this.rb_DPI_ManualCheck.TabIndex = 21;
+            this.rb_DPI_ManualCheck.Text = "manual";
+            this.rb_DPI_ManualCheck.UseVisualStyleBackColor = true;
+            // 
+            // btn_CalcDPI
+            // 
+            this.btn_CalcDPI.Location = new System.Drawing.Point(201, 239);
+            this.btn_CalcDPI.Name = "btn_CalcDPI";
+            this.btn_CalcDPI.Size = new System.Drawing.Size(80, 23);
+            this.btn_CalcDPI.TabIndex = 22;
+            this.btn_CalcDPI.Text = "Calculate";
+            this.btn_CalcDPI.UseVisualStyleBackColor = true;
+            this.btn_CalcDPI.Click += new System.EventHandler(this.btn_CalcDPI_Click);
+            // 
+            // label45
+            // 
+            this.label45.AutoSize = true;
+            this.label45.Location = new System.Drawing.Point(6, 244);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(119, 13);
+            this.label45.TabIndex = 14;
+            this.label45.Tag = "35";
+            this.label45.Text = "Calculate DPI manually:";
+            this.label45.MouseEnter += new System.EventHandler(this.WriteHelpString);
             // 
             // p_MouseoverBorderColor
             // 
@@ -1876,5 +1943,10 @@
         private System.Windows.Forms.Label label44;
         private System.Windows.Forms.LinkLabel ll_Version;
         private System.Windows.Forms.Button btn_Cancel;
+        private System.Windows.Forms.Button btn_CalcDPI;
+        private System.Windows.Forms.RadioButton rb_DPI_ManualCheck;
+        private System.Windows.Forms.RadioButton rb_DPI_AutoCheck;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label45;
     }
 }

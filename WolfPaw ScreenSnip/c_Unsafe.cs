@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WolfPaw_ScreenSnip
 {
@@ -44,8 +41,9 @@ namespace WolfPaw_ScreenSnip
 			return lst.ToArray();
 		}
 
-		//UNSAFE CODE! Returns proper non-rectangular images
-		public static unsafe Image getPixels(Bitmap _image, List<Point> cut_points, Rectangle cut)
+        #region Unsafe
+        //UNSAFE CODE! Returns proper non-rectangular images
+        public static unsafe Image getPixels(Bitmap _image, List<Point> cut_points, Rectangle cut)
 		{
 			Bitmap b = new Bitmap(_image);
 			Bitmap bb = new Bitmap(b.Width, b.Height, PixelFormat.Format32bppArgb);
@@ -105,10 +103,10 @@ namespace WolfPaw_ScreenSnip
 			return dict;
 		}
 
-		//END UNSAFE CODE
+        //END UNSAFE CODE
+        #endregion
 
-
-		public static Rectangle getRect(List<Point> cut_points)
+        public static Rectangle getRect(List<Point> cut_points)
 		{
 			Rectangle cut = new Rectangle(0, 0, 0, 0);
 
