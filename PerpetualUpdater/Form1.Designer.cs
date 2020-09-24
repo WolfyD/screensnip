@@ -56,7 +56,6 @@
             this.lbl_LastChecked = new System.Windows.Forms.Label();
             this.lbl_LastDownload = new System.Windows.Forms.Label();
             this.p_SettingsPanel = new System.Windows.Forms.Panel();
-            this.btn_Info = new System.Windows.Forms.Button();
             this.btn_SettingsSaveAndClose = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.ll_OpenPath = new System.Windows.Forms.LinkLabel();
@@ -74,6 +73,8 @@
             this.btn_SWW = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.tb_ConsoleOutput = new System.Windows.Forms.TextBox();
+            this.btn_Info = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.cmd_NIMenu.SuspendLayout();
             this.p_ButtonPanel.SuspendLayout();
             this.p_SettingsPanel.SuspendLayout();
@@ -137,15 +138,16 @@
             // p_ButtonPanel
             // 
             this.p_ButtonPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            this.p_ButtonPanel.Controls.Add(this.btn_Info);
             this.p_ButtonPanel.Controls.Add(this.lbl_Time);
             this.p_ButtonPanel.Controls.Add(this.btn_Close);
             this.p_ButtonPanel.Controls.Add(this.btn_Hide);
             this.p_ButtonPanel.Controls.Add(this.btn_CheckForUpdate);
             this.p_ButtonPanel.Controls.Add(this.bnt_Settings);
             this.p_ButtonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.p_ButtonPanel.Location = new System.Drawing.Point(0, 163);
+            this.p_ButtonPanel.Location = new System.Drawing.Point(0, 210);
             this.p_ButtonPanel.Name = "p_ButtonPanel";
-            this.p_ButtonPanel.Size = new System.Drawing.Size(594, 33);
+            this.p_ButtonPanel.Size = new System.Drawing.Size(757, 33);
             this.p_ButtonPanel.TabIndex = 0;
             // 
             // lbl_Time
@@ -160,7 +162,7 @@
             // btn_Close
             // 
             this.btn_Close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Close.Location = new System.Drawing.Point(430, 5);
+            this.btn_Close.Location = new System.Drawing.Point(593, 5);
             this.btn_Close.Name = "btn_Close";
             this.btn_Close.Size = new System.Drawing.Size(75, 23);
             this.btn_Close.TabIndex = 1;
@@ -171,7 +173,7 @@
             // btn_Hide
             // 
             this.btn_Hide.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Hide.Location = new System.Drawing.Point(511, 5);
+            this.btn_Hide.Location = new System.Drawing.Point(674, 5);
             this.btn_Hide.Name = "btn_Hide";
             this.btn_Hide.Size = new System.Drawing.Size(75, 23);
             this.btn_Hide.TabIndex = 2;
@@ -204,7 +206,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 92);
+            this.label1.Location = new System.Drawing.Point(12, 104);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(84, 13);
             this.label1.TabIndex = 1;
@@ -222,7 +224,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 116);
+            this.label3.Location = new System.Drawing.Point(12, 132);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(153, 13);
             this.label3.TabIndex = 1;
@@ -231,7 +233,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 44);
+            this.label4.Location = new System.Drawing.Point(12, 48);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(114, 13);
             this.label4.TabIndex = 1;
@@ -240,7 +242,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 68);
+            this.label5.Location = new System.Drawing.Point(12, 76);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(35, 13);
             this.label5.TabIndex = 1;
@@ -249,7 +251,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 140);
+            this.label6.Location = new System.Drawing.Point(12, 160);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(79, 13);
             this.label6.TabIndex = 1;
@@ -269,7 +271,7 @@
             // lbl_Architecture
             // 
             this.lbl_Architecture.AutoSize = true;
-            this.lbl_Architecture.Location = new System.Drawing.Point(165, 44);
+            this.lbl_Architecture.Location = new System.Drawing.Point(165, 48);
             this.lbl_Architecture.Name = "lbl_Architecture";
             this.lbl_Architecture.Size = new System.Drawing.Size(16, 13);
             this.lbl_Architecture.TabIndex = 1;
@@ -278,7 +280,7 @@
             // lbl_Path
             // 
             this.lbl_Path.AutoSize = true;
-            this.lbl_Path.Location = new System.Drawing.Point(165, 68);
+            this.lbl_Path.Location = new System.Drawing.Point(165, 76);
             this.lbl_Path.Name = "lbl_Path";
             this.lbl_Path.Size = new System.Drawing.Size(16, 13);
             this.lbl_Path.TabIndex = 1;
@@ -287,7 +289,7 @@
             // lbl_CurrentVersion
             // 
             this.lbl_CurrentVersion.AutoSize = true;
-            this.lbl_CurrentVersion.Location = new System.Drawing.Point(165, 92);
+            this.lbl_CurrentVersion.Location = new System.Drawing.Point(165, 104);
             this.lbl_CurrentVersion.Name = "lbl_CurrentVersion";
             this.lbl_CurrentVersion.Size = new System.Drawing.Size(16, 13);
             this.lbl_CurrentVersion.TabIndex = 1;
@@ -296,7 +298,7 @@
             // lbl_LastChecked
             // 
             this.lbl_LastChecked.AutoSize = true;
-            this.lbl_LastChecked.Location = new System.Drawing.Point(165, 116);
+            this.lbl_LastChecked.Location = new System.Drawing.Point(165, 132);
             this.lbl_LastChecked.Name = "lbl_LastChecked";
             this.lbl_LastChecked.Size = new System.Drawing.Size(16, 13);
             this.lbl_LastChecked.TabIndex = 1;
@@ -305,7 +307,7 @@
             // lbl_LastDownload
             // 
             this.lbl_LastDownload.AutoSize = true;
-            this.lbl_LastDownload.Location = new System.Drawing.Point(165, 140);
+            this.lbl_LastDownload.Location = new System.Drawing.Point(165, 160);
             this.lbl_LastDownload.Name = "lbl_LastDownload";
             this.lbl_LastDownload.Size = new System.Drawing.Size(16, 13);
             this.lbl_LastDownload.TabIndex = 1;
@@ -317,7 +319,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.p_SettingsPanel.BackColor = System.Drawing.SystemColors.Control;
-            this.p_SettingsPanel.Controls.Add(this.btn_Info);
             this.p_SettingsPanel.Controls.Add(this.btn_SettingsSaveAndClose);
             this.p_SettingsPanel.Controls.Add(this.label11);
             this.p_SettingsPanel.Controls.Add(this.ll_OpenPath);
@@ -336,24 +337,14 @@
             this.p_SettingsPanel.Controls.Add(this.label7);
             this.p_SettingsPanel.Location = new System.Drawing.Point(7, 5);
             this.p_SettingsPanel.Name = "p_SettingsPanel";
-            this.p_SettingsPanel.Size = new System.Drawing.Size(587, 310);
+            this.p_SettingsPanel.Size = new System.Drawing.Size(750, 283);
             this.p_SettingsPanel.TabIndex = 2;
             this.p_SettingsPanel.Visible = false;
             // 
-            // btn_Info
-            // 
-            this.btn_Info.BackColor = System.Drawing.Color.MistyRose;
-            this.btn_Info.Location = new System.Drawing.Point(486, 131);
-            this.btn_Info.Name = "btn_Info";
-            this.btn_Info.Size = new System.Drawing.Size(98, 23);
-            this.btn_Info.TabIndex = 9;
-            this.btn_Info.Text = "Info";
-            this.btn_Info.UseVisualStyleBackColor = false;
-            this.btn_Info.Click += new System.EventHandler(this.btn_Info_Click);
-            // 
             // btn_SettingsSaveAndClose
             // 
-            this.btn_SettingsSaveAndClose.Location = new System.Drawing.Point(486, 3);
+            this.btn_SettingsSaveAndClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_SettingsSaveAndClose.Location = new System.Drawing.Point(644, 3);
             this.btn_SettingsSaveAndClose.Name = "btn_SettingsSaveAndClose";
             this.btn_SettingsSaveAndClose.Size = new System.Drawing.Size(98, 23);
             this.btn_SettingsSaveAndClose.TabIndex = 8;
@@ -364,16 +355,20 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(271, 111);
+            this.label11.Location = new System.Drawing.Point(268, 168);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(43, 13);
             this.label11.TabIndex = 7;
             this.label11.Text = "minutes";
+            this.toolTip1.SetToolTip(this.label11, "The delay in minutes, before the program \r\nchecks for updates automatically.\r\n---" +
+        "--------------------------------\r\nDefault: 240\r\n--------------------------------" +
+        "---\r\nSet to 0 to turn off!");
             // 
             // ll_OpenPath
             // 
+            this.ll_OpenPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ll_OpenPath.AutoSize = true;
-            this.ll_OpenPath.Location = new System.Drawing.Point(425, 136);
+            this.ll_OpenPath.Location = new System.Drawing.Point(533, 48);
             this.ll_OpenPath.Name = "ll_OpenPath";
             this.ll_OpenPath.Size = new System.Drawing.Size(33, 13);
             this.ll_OpenPath.TabIndex = 6;
@@ -383,20 +378,18 @@
             // 
             // num_Minutes
             // 
-            this.num_Minutes.Location = new System.Drawing.Point(174, 104);
+            this.num_Minutes.Location = new System.Drawing.Point(174, 164);
             this.num_Minutes.Maximum = new decimal(new int[] {
             99999,
-            0,
-            0,
-            0});
-            this.num_Minutes.Minimum = new decimal(new int[] {
-            30,
             0,
             0,
             0});
             this.num_Minutes.Name = "num_Minutes";
             this.num_Minutes.Size = new System.Drawing.Size(90, 20);
             this.num_Minutes.TabIndex = 5;
+            this.toolTip1.SetToolTip(this.num_Minutes, "The delay in minutes, before the program \r\nchecks for updates automatically.\r\n---" +
+        "--------------------------------\r\nDefault: 240\r\n--------------------------------" +
+        "---\r\nSet to 0 to turn off!");
             this.num_Minutes.Value = new decimal(new int[] {
             240,
             0,
@@ -405,9 +398,10 @@
             // 
             // cb_IsSWW
             // 
+            this.cb_IsSWW.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cb_IsSWW.AutoSize = true;
             this.cb_IsSWW.Enabled = false;
-            this.cb_IsSWW.Location = new System.Drawing.Point(189, 136);
+            this.cb_IsSWW.Location = new System.Drawing.Point(551, 86);
             this.cb_IsSWW.Name = "cb_IsSWW";
             this.cb_IsSWW.Size = new System.Drawing.Size(15, 14);
             this.cb_IsSWW.TabIndex = 4;
@@ -416,7 +410,7 @@
             // cb_StartMinimized
             // 
             this.cb_StartMinimized.AutoSize = true;
-            this.cb_StartMinimized.Location = new System.Drawing.Point(174, 55);
+            this.cb_StartMinimized.Location = new System.Drawing.Point(174, 87);
             this.cb_StartMinimized.Name = "cb_StartMinimized";
             this.cb_StartMinimized.Size = new System.Drawing.Size(15, 14);
             this.cb_StartMinimized.TabIndex = 4;
@@ -425,7 +419,7 @@
             // cb_CreateIcon
             // 
             this.cb_CreateIcon.AutoSize = true;
-            this.cb_CreateIcon.Location = new System.Drawing.Point(174, 29);
+            this.cb_CreateIcon.Location = new System.Drawing.Point(174, 47);
             this.cb_CreateIcon.Name = "cb_CreateIcon";
             this.cb_CreateIcon.Size = new System.Drawing.Size(15, 14);
             this.cb_CreateIcon.TabIndex = 4;
@@ -434,45 +428,57 @@
             // rb_x64
             // 
             this.rb_x64.AutoSize = true;
-            this.rb_x64.Location = new System.Drawing.Point(222, 80);
+            this.rb_x64.Location = new System.Drawing.Point(222, 126);
             this.rb_x64.Name = "rb_x64";
             this.rb_x64.Size = new System.Drawing.Size(42, 17);
             this.rb_x64.TabIndex = 3;
             this.rb_x64.Text = "x64";
+            this.toolTip1.SetToolTip(this.rb_x64, "Which architecture of the tool should be installed,\r\nthe 32 bit or the 64 bit.\r\n-" +
+        "----------------------------------\r\nThe system selects the appropriate \r\nversion" +
+        " by default.");
             this.rb_x64.UseVisualStyleBackColor = true;
             // 
             // rb_x86
             // 
             this.rb_x86.AutoSize = true;
-            this.rb_x86.Location = new System.Drawing.Point(174, 80);
+            this.rb_x86.Location = new System.Drawing.Point(174, 126);
             this.rb_x86.Name = "rb_x86";
             this.rb_x86.Size = new System.Drawing.Size(42, 17);
             this.rb_x86.TabIndex = 3;
             this.rb_x86.Text = "x86";
+            this.toolTip1.SetToolTip(this.rb_x86, "Which architecture of the tool should be installed,\r\nthe 32 bit or the 64 bit.\r\n-" +
+        "----------------------------------\r\nThe system selects the appropriate \r\nversion" +
+        " by default.");
             this.rb_x86.UseVisualStyleBackColor = true;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(10, 108);
+            this.label10.Location = new System.Drawing.Point(10, 168);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(161, 13);
             this.label10.TabIndex = 2;
             this.label10.Text = "Time between automatic checks";
+            this.toolTip1.SetToolTip(this.label10, "The delay in minutes, before the program \r\nchecks for updates automatically.\r\n---" +
+        "--------------------------------\r\nDefault: 240\r\n--------------------------------" +
+        "---\r\nSet to 0 to turn off!");
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(10, 82);
+            this.label9.Location = new System.Drawing.Point(10, 128);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(105, 13);
             this.label9.TabIndex = 2;
             this.label9.Text = "Architecture to install";
+            this.toolTip1.SetToolTip(this.label9, "Which architecture of the tool should be installed,\r\nthe 32 bit or the 64 bit.\r\n-" +
+        "----------------------------------\r\nThe system selects the appropriate \r\nversion" +
+        " by default.");
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(10, 56);
+            this.label12.Location = new System.Drawing.Point(10, 87);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(77, 13);
             this.label12.TabIndex = 2;
@@ -481,7 +487,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(10, 30);
+            this.label8.Location = new System.Drawing.Point(10, 48);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(120, 13);
             this.label8.TabIndex = 2;
@@ -489,7 +495,8 @@
             // 
             // btn_InstallPath
             // 
-            this.btn_InstallPath.Location = new System.Drawing.Point(249, 131);
+            this.btn_InstallPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_InstallPath.Location = new System.Drawing.Point(572, 43);
             this.btn_InstallPath.Name = "btn_InstallPath";
             this.btn_InstallPath.Size = new System.Drawing.Size(170, 23);
             this.btn_InstallPath.TabIndex = 1;
@@ -499,7 +506,8 @@
             // 
             // btn_SWW
             // 
-            this.btn_SWW.Location = new System.Drawing.Point(13, 131);
+            this.btn_SWW.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_SWW.Location = new System.Drawing.Point(572, 82);
             this.btn_SWW.Name = "btn_SWW";
             this.btn_SWW.Size = new System.Drawing.Size(170, 23);
             this.btn_SWW.TabIndex = 1;
@@ -510,9 +518,10 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(10, 1);
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(9, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(45, 13);
+            this.label7.Size = new System.Drawing.Size(84, 24);
             this.label7.TabIndex = 0;
             this.label7.Text = "Settings";
             // 
@@ -524,18 +533,30 @@
             this.tb_ConsoleOutput.BackColor = System.Drawing.Color.Black;
             this.tb_ConsoleOutput.Font = new System.Drawing.Font("Consolas", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_ConsoleOutput.ForeColor = System.Drawing.Color.White;
-            this.tb_ConsoleOutput.Location = new System.Drawing.Point(378, 5);
+            this.tb_ConsoleOutput.Location = new System.Drawing.Point(435, 5);
             this.tb_ConsoleOutput.Multiline = true;
             this.tb_ConsoleOutput.Name = "tb_ConsoleOutput";
             this.tb_ConsoleOutput.ReadOnly = true;
-            this.tb_ConsoleOutput.Size = new System.Drawing.Size(226, 134);
+            this.tb_ConsoleOutput.Size = new System.Drawing.Size(322, 158);
             this.tb_ConsoleOutput.TabIndex = 3;
+            // 
+            // btn_Info
+            // 
+            this.btn_Info.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Info.BackColor = System.Drawing.Color.MistyRose;
+            this.btn_Info.Location = new System.Drawing.Point(475, 5);
+            this.btn_Info.Name = "btn_Info";
+            this.btn_Info.Size = new System.Drawing.Size(98, 23);
+            this.btn_Info.TabIndex = 10;
+            this.btn_Info.Text = "Info";
+            this.btn_Info.UseVisualStyleBackColor = false;
+            this.btn_Info.Click += new System.EventHandler(this.btn_Info_Click);
             // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(594, 196);
+            this.ClientSize = new System.Drawing.Size(757, 243);
             this.ControlBox = false;
             this.Controls.Add(this.p_ButtonPanel);
             this.Controls.Add(this.p_SettingsPanel);
@@ -553,7 +574,7 @@
             this.Controls.Add(this.lbl_Architecture);
             this.Controls.Add(this.lbl_IsInstalled);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.MinimumSize = new System.Drawing.Size(506, 235);
+            this.MinimumSize = new System.Drawing.Size(773, 282);
             this.Name = "MainForm";
             this.Text = "WolfPaw - Perpetual Updater";
             this.cmd_NIMenu.ResumeLayout(false);
@@ -613,6 +634,7 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox tb_ConsoleOutput;
         private System.Windows.Forms.Button btn_Info;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 

@@ -1,6 +1,10 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Runtime.InteropServices;
+using Accord.Imaging;
+using Accord.Imaging.Filters;
 
 namespace WolfPaw_ScreenSnip
 {
@@ -140,10 +144,78 @@ namespace WolfPaw_ScreenSnip
 				return null;
 			}
 
-			Bitmap ret = ExtBitmap.ConvolutionFilter(src, matrix, 1.0, 0, bnw);
+			//Bitmap ret = ExtBitmap.ConvolutionFilter(src, matrix, 1.0, 0, bnw);
+			//Bitmap ret = ExtBitmap.Laplacian5x5OfGaussian5x5Filter1(src);
+            Bitmap ret = ExtBitmap.AccordCanny(src);
 
-			return ret;
+            return ret;
 		}
+
+        public static System.Drawing.Image Convert(Bitmap oldbmp)
+        {
+            using (var ms = new MemoryStream())
+            {
+                oldbmp.Save(ms, ImageFormat.Gif);
+                ms.Position = 0;
+                return System.Drawing.Image.FromStream(ms);
+            }
+        }
+
+        private static byte GetAVG(Bitmap bm)
+        {
+            byte[] totals = new byte[3];
+            BitmapData srcData = bm.LockBits(
+            new Rectangle(0, 0, bm.Width, bm.Height),
+            ImageLockMode.ReadOnly,
+            PixelFormat.Format32bppArgb);
+
+            int stride = srcData.Stride;
+
+            IntPtr Scan0 = srcData.Scan0;
+
+
+            int width = bm.Width;
+            int height = bm.Height;
+
+            unsafe
+            {
+                byte* p = (byte*)(void*)Scan0;
+
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++)
+                    {
+                        for (int color = 0; color < 3; color++)
+                        {
+                            int idx = (y * stride) + x * 4 + color;
+
+                            totals[color] += p[idx];
+                        }
+                    }
+                }
+            }
+
+            int avgB = totals[0] / (width * height);
+            int avgG = totals[1] / (width * height);
+            int avgR = totals[2] / (width * height);
+
+            int avgValue = (avgR + avgG + avgB) / 3;
+
+            bm.UnlockBits(srcData);
+
+            return (byte)avgValue;
+        }
+
+        public static Bitmap AccordCanny(Bitmap src)
+        {
+            Bitmap ret = (Bitmap)Convert(src);
+            //Bitmap ret2 = (Bitmap)ret.Clone();
+            byte avg = GetAVG(ret);
+            //ret.UnlockBits(null);
+            CannyEdgeDetector Canny = new CannyEdgeDetector((byte)(avg / 3 - 20), (byte)(2 * (avg / 3) + 20), 1);
+
+            return Canny.Apply(ret);
+        }
 
         public static Bitmap Laplacian5x5OfGaussian5x5Filter1(this Bitmap sourceBitmap)
         {

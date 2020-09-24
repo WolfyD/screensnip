@@ -202,5 +202,17 @@ namespace PerpetualUpdater.Properties {
                 this["s_FirstTime"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool s_WarnAtHide {
+            get {
+                return ((bool)(this["s_WarnAtHide"]));
+            }
+            set {
+                this["s_WarnAtHide"] = value;
+            }
+        }
     }
 }

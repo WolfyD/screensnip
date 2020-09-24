@@ -53,6 +53,8 @@ namespace WolfPaw_ScreenSnip
 		Bitmap rulerX = null;
 		Bitmap rulerY = null;
 
+		int imgCounter = 0;
+
 		public f_Canvas()
 		{
 			InitializeComponent();
@@ -70,8 +72,8 @@ namespace WolfPaw_ScreenSnip
 			BackgroundImage = bmp;
 			if(mode == 4)
 			{
-				//edge = bmp.filter(true);
-			    //BackgroundImage = edge;
+				edge = bmp.filter(true);
+			    BackgroundImage = edge;
 			}
 
 			int i = Properties.Settings.Default.s_DPIType;
@@ -239,13 +241,14 @@ namespace WolfPaw_ScreenSnip
 
 					List<Point> pnts = new List<Point>();
 
-					brect = new Bitmap(25,25);
+					brect = new Bitmap(50,50);
 					using(Graphics g = Graphics.FromImage(brect))
 					{
 						g.DrawImage(bmp, new Rectangle(0, 0, brect.Width, brect.Height), new Rectangle(new Point(pnt.X - brect.Width / 2, pnt.Y - brect.Height / 2), brect.Size), GraphicsUnit.Pixel);
 					}
 					brect = brect.filter(true);
-					brect.Save("D:\\img1.bmp");
+					//brect.Save("D:\\test\\img_" + imgCounter.ToString().PadLeft(3, '0') + ".bmp");
+					//imgCounter++;
 					//brect = brect.Laplacian5x5OfGaussian5x5Filter1();
 					//brect.Save("D:\\img2.bmp");
 

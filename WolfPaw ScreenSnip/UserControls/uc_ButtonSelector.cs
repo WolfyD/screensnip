@@ -53,6 +53,8 @@ namespace WolfPaw_ScreenSnip
 			cms_Buttons.ShowCheckMargin = false;
 			cms_Buttons.ShowImageMargin = false;
 
+			ClickedButtonIndex = Properties.Settings.Default.s_lastTool;
+
 			if (function == DropDownFunction.Cutout)
 			{
 				ToolStripItem tsiRec = new uc_myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Rectangle", Image = IconChar.Cut.ToBitmap(buttonSize, Color.Black), Tag = 0 };
@@ -178,6 +180,7 @@ namespace WolfPaw_ScreenSnip
 
 		private void btn_Button_Click(object sender, EventArgs e)
 		{
+            
             switch (function)
             {
                 case DropDownFunction.Cutout:

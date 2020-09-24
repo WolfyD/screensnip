@@ -94,6 +94,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="f_Warn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="f_Warn.Designer.cs">
+      <DependentUpon>f_Warn.cs</DependentUpon>
+    </Compile>
     <Compile Include="Info.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,6 +111,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="f_Warn.resx">
+      <DependentUpon>f_Warn.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Info.resx">
       <DependentUpon>Info.cs</DependentUpon>
@@ -149,6 +158,7 @@
   <ItemGroup>
     <None Include="Resources\update_smoll.ico" />
     <None Include="Resources\update.ico" />
+    <None Include="Resources\example.PNG" />
     <Content Include="update.ico" />
   </ItemGroup>
   <ItemGroup>

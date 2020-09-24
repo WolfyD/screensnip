@@ -165,6 +165,12 @@ namespace PerpetualUpdater
 
         private void btn_Hide_Click(object sender, EventArgs e)
         {
+            if (Properties.Settings.Default.s_WarnAtHide)
+            {
+                f_Warn warn = new f_Warn();
+                warn.ShowDialog();
+            }
+
             ShowInTaskbar = false;
             Hide();
             ni_Icon.Visible = true;
@@ -202,7 +208,7 @@ namespace PerpetualUpdater
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             fbd.Description = "Select install path";
-            fbd.RootFolder = Environment.SpecialFolder.ProgramFiles;
+            fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
             fbd.ShowNewFolderButton = true;
             if(fbd.ShowDialog() == DialogResult.OK)
             {

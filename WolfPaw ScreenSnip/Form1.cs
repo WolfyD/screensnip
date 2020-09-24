@@ -743,6 +743,7 @@ namespace WolfPaw_ScreenSnip
 
 		public Bitmap showCaptureArea(Size s, Bitmap b, int mode)
 		{
+			//if (Properties.Settings.Default.s_hasDelay) { /*TODO: Add delay */ }
 			f_Canvas fc = new f_Canvas
 			{
 				bounds = s,
