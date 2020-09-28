@@ -168,5 +168,11 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\WolfyD\source\repos\WolfPaw - BetterDialogs\WolfPaw - BetterDialogs\WolfPaw - BetterDialogs.csproj">
+      <Project>{9dca349b-ab77-4309-ab38-dc59fb6ffde7}</Project>
+      <Name>WolfPaw - BetterDialogs</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

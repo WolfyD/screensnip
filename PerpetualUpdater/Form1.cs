@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Up2Site;
+using WolfPaw___BetterDialogs;
 
 namespace PerpetualUpdater
 {
@@ -18,57 +19,22 @@ namespace PerpetualUpdater
 
             Load += Form1_Load;
             t.Interval = 1000;
-            t.Start();
+            if (Properties.Settings.Default.s_TimeCheck > 0)
+            {
+                t.Start();
+            }
             t.Tick += T_Tick;
             console.TextBox = tb_ConsoleOutput;
 
             this.Icon = Properties.Resources.update;
         }
 
-        private void T_Tick(object sender, EventArgs e)
-        {
-            TimerCountdown--;
-
-            if (TimerCountdown % 30 == 0)
-            {
-                LoadInfo();
-            }
-
-            if (TimerCountdown == 0)
-            {
-                SetTimerCountdown();
-                CheckUpdate();
-            }
-
-            lbl_Time.Text = GetTimeFromTimer();
-        }
-
-        public string GetTimeFromTimer()
+        private string GetTimeFromTimer()
         {
             return (TimerCountdown / 3600).ToString().PadLeft(2, '0') + ":" + ((TimerCountdown % 3600) / 60).ToString().PadLeft(2, '0');
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            if (Properties.Settings.Default.s_StartMinimized)
-            {
-                btn_Hide_Click(null, null);
-            }
-
-            if (Properties.Settings.Default.s_FirstTime)
-            {
-                Properties.Settings.Default.s_FirstTime = false;
-                btn_Info_Click(null, null);
-            }
-
-            LoadSettings();
-            LoadInfo();
-            Height = 235;
-
-            CheckIfPathOk();
-        }
-
-        public void SetTimerCountdown()
+        private void SetTimerCountdown()
         {
             TimerCountdown = Properties.Settings.Default.s_TimeCheck * 60;
         }
@@ -149,6 +115,81 @@ namespace PerpetualUpdater
 
         }
 
+        private bool CheckIfPathOk()
+        {
+            string path = Properties.Settings.Default.s_Path;
+            if (path == "" || Directory.Exists(path) == false)
+            {
+                MessageBox.Show("There is no path set up to save the program to.\r\nPlease open Settings and create/select a directory to save to.", "No path specified.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+
+            return true;
+        }
+
+        private void CheckUpdate(bool IsManual = false)
+        {
+            if (!CheckIfPathOk())
+            {
+                return;
+            }
+
+            UpdateManager um = new UpdateManager();
+            um.ConnectFtp(credentials.username, credentials.password, credentials.hostname);
+            um.TryUpdate(IsManual);
+            Properties.Settings.Default.Save();
+            LoadInfo();
+        }
+
+        private void Exit()
+        {
+            if (MessageBox.Show(this, "Are you sure you wish to exit the updater?", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+            {
+                ni_Icon.Icon = null;
+                ni_Icon.Visible = false;
+                ni_Icon.Dispose();
+                Application.Exit();
+            }
+        }
+
+        private void T_Tick(object sender, EventArgs e)
+        {
+            TimerCountdown--;
+
+            if (TimerCountdown % 30 == 0)
+            {
+                LoadInfo();
+            }
+
+            if (TimerCountdown == 0)
+            {
+                SetTimerCountdown();
+                CheckUpdate();
+            }
+
+            lbl_Time.Text = GetTimeFromTimer();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.s_StartMinimized)
+            {
+                btn_Hide_Click(null, null);
+            }
+
+            if (Properties.Settings.Default.s_FirstTime)
+            {
+                Properties.Settings.Default.s_FirstTime = false;
+                btn_Info_Click(null, null);
+            }
+
+            LoadSettings();
+            LoadInfo();
+            Height = 235;
+
+            CheckIfPathOk();
+        }
+
         private void bnt_Settings_Click(object sender, EventArgs e)
         {
             LoadSettings();
@@ -179,7 +220,11 @@ namespace PerpetualUpdater
 
         private void ll_OpenPath_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start(Properties.Settings.Default.s_Path);
+            try
+            {
+                System.Diagnostics.Process.Start(Properties.Settings.Default.s_Path);
+            }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
         }
 
         private void btn_SettingsSaveAndClose_Click(object sender, EventArgs e)
@@ -200,23 +245,44 @@ namespace PerpetualUpdater
             Properties.Settings.Default.s_StartMinimized = cb_StartMinimized.Checked;
 
             Properties.Settings.Default.s_TimeCheck = (int)num_Minutes.Value;
+            
+            if(num_Minutes.Value == 0)
+            {
+                t.Stop();
+                lbl_Time.Hide();
+            }
+            else
+            {
+                t.Start();
+                lbl_Time.Show();
+                SetTimerCountdown();
+            }
+
             p_SettingsPanel.Hide();
             Properties.Settings.Default.Save();
         }
 
         private void btn_InstallPath_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
-            fbd.Description = "Select install path";
-            fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-            fbd.ShowNewFolderButton = true;
-            if(fbd.ShowDialog() == DialogResult.OK)
+            try
             {
-                Properties.Settings.Default.s_Path = fbd.SelectedPath;
-            }
+                FolderBrowser fbd = new FolderBrowser();
 
-            LoadSettings();
-            //Properties.Settings.Default.Save();
+                fbd.TitleText = "Select install path";
+                string path = Properties.Settings.Default.s_Path;
+                if (path != "" && Directory.Exists(path))
+                {
+                    fbd.SelectedPath = path;
+                }
+                fbd.ShowCreateFolderButton = true;
+                if (fbd.ShowDialog() == DialogResult.OK)
+                {
+                    Properties.Settings.Default.s_Path = fbd.SelectedPath;
+                }
+
+                LoadSettings();
+            }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
         }
 
         private void btn_CheckForUpdate_Click(object sender, EventArgs e)
@@ -224,30 +290,25 @@ namespace PerpetualUpdater
             CheckUpdate(true);
         }
 
-        public bool CheckIfPathOk()
+        private void btn_Cancel_Click(object sender, EventArgs e)
         {
-            string path = Properties.Settings.Default.s_Path;
-            if (path == "" || Directory.Exists(path) == false)
-            {
-                MessageBox.Show("There is no path set up to save the program to.\r\nPlease open Settings and create/select a directory to save to.", "No path specified.", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return false;
-            }
-
-            return true;
+            p_ButtonPanel.Enabled = true;
+            p_SettingsPanel.Hide();
         }
 
-        public void CheckUpdate(bool IsManual = false)
+        private void lbl_CreateIcon_Click(object sender, EventArgs e)
         {
-            if (!CheckIfPathOk())
-            {
-                return;
-            }
+            cb_CreateIcon.Checked = !cb_CreateIcon.Checked;
+        }
 
-            UpdateManager um = new UpdateManager();
-            um.ConnectFtp(credentials.username, credentials.password, credentials.hostname);
-            um.TryUpdate(IsManual);
-            Properties.Settings.Default.Save();
-            LoadInfo();
+        private void lbl_StartMinimized_Click(object sender, EventArgs e)
+        {
+            cb_StartMinimized.Checked = !cb_StartMinimized.Checked;
+        }
+
+        private void lbl_AutoCheckTimer_Click(object sender, EventArgs e)
+        {
+            num_Minutes.Focus();
         }
 
         private void btn_NIMenu_ShowWindow_Click(object sender, EventArgs e)
@@ -260,17 +321,6 @@ namespace PerpetualUpdater
         private void btn_NIMenu_Exit_Click(object sender, EventArgs e)
         {
             Exit();
-        }
-
-        public void Exit()
-        {
-            if (MessageBox.Show(this, "Are you sure you wish to exit the updater?", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
-            {
-                ni_Icon.Icon = null;
-                ni_Icon.Visible = false;
-                ni_Icon.Dispose();
-                Application.Exit();
-            }
         }
 
         private void btn_SWW_Click(object sender, EventArgs e)
@@ -289,7 +339,7 @@ namespace PerpetualUpdater
 
         private void lbl_IsInstalled_TextChanged(object sender, EventArgs e)
         {
-            if(lbl_IsInstalled.Text == "✓ - Installed")
+            if (lbl_IsInstalled.Text == "✓ - Installed")
             {
                 lbl_IsInstalled.ForeColor = Color.Green;
             }
@@ -301,7 +351,15 @@ namespace PerpetualUpdater
 
         private void cmd_NIMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            btn_NIMenu_CheckUpdate.Text = $"Check for Update ({GetTimeFromTimer()})";
+            if (Properties.Settings.Default.s_TimeCheck == 0)
+            {
+                btn_NIMenu_CheckUpdate.Visible = false;
+            }
+            else
+            {
+                btn_NIMenu_CheckUpdate.Visible = true;
+                btn_NIMenu_CheckUpdate.Text = $"Check for Update ({GetTimeFromTimer()})";
+            }
         }
 
         private void btn_Info_Click(object sender, EventArgs e)
@@ -319,5 +377,7 @@ namespace PerpetualUpdater
         {
             btn_NIMenu_ShowWindow_Click(null, null);
         }
+
+
     }
 }

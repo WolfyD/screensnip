@@ -115,7 +115,6 @@ click the [Check for Update] button manually";
             if (!Properties.Settings.Default.s_CreateIcon)
             { return; }
              
-            //Check if Icon exists
             if(!CheckIfIconExists())
             {
                 CreateIcon();
@@ -187,7 +186,6 @@ click the [Check for Update] button manually";
             {
                 ftp = new FtpClient(Address, creds);
                 ftp.Connect();
-                ftp.SetWorkingDirectory("./versions");
                 ftp.SocketKeepAlive = true;
                 ftp.DataConnectionType = FtpDataConnectionType.PASV;
                 Console.WriteLine("FTP connected...");

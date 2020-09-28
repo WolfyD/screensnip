@@ -38,6 +38,7 @@
             this.btn_NIMenu_ShowWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.btn_NIMenu_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.p_ButtonPanel = new System.Windows.Forms.Panel();
+            this.btn_Info = new System.Windows.Forms.Button();
             this.lbl_Time = new System.Windows.Forms.Label();
             this.btn_Close = new System.Windows.Forms.Button();
             this.btn_Hide = new System.Windows.Forms.Button();
@@ -56,6 +57,7 @@
             this.lbl_LastChecked = new System.Windows.Forms.Label();
             this.lbl_LastDownload = new System.Windows.Forms.Label();
             this.p_SettingsPanel = new System.Windows.Forms.Panel();
+            this.btn_Cancel = new System.Windows.Forms.Button();
             this.btn_SettingsSaveAndClose = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.ll_OpenPath = new System.Windows.Forms.LinkLabel();
@@ -65,15 +67,14 @@
             this.cb_CreateIcon = new System.Windows.Forms.CheckBox();
             this.rb_x64 = new System.Windows.Forms.RadioButton();
             this.rb_x86 = new System.Windows.Forms.RadioButton();
-            this.label10 = new System.Windows.Forms.Label();
+            this.lbl_AutoCheckTimer = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.lbl_StartMinimized = new System.Windows.Forms.Label();
+            this.lbl_CreateIcon = new System.Windows.Forms.Label();
             this.btn_InstallPath = new System.Windows.Forms.Button();
             this.btn_SWW = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.tb_ConsoleOutput = new System.Windows.Forms.TextBox();
-            this.btn_Info = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.cmd_NIMenu.SuspendLayout();
             this.p_ButtonPanel.SuspendLayout();
@@ -145,10 +146,22 @@
             this.p_ButtonPanel.Controls.Add(this.btn_CheckForUpdate);
             this.p_ButtonPanel.Controls.Add(this.bnt_Settings);
             this.p_ButtonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.p_ButtonPanel.Location = new System.Drawing.Point(0, 210);
+            this.p_ButtonPanel.Location = new System.Drawing.Point(0, 233);
             this.p_ButtonPanel.Name = "p_ButtonPanel";
             this.p_ButtonPanel.Size = new System.Drawing.Size(757, 33);
             this.p_ButtonPanel.TabIndex = 0;
+            // 
+            // btn_Info
+            // 
+            this.btn_Info.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Info.BackColor = System.Drawing.Color.MistyRose;
+            this.btn_Info.Location = new System.Drawing.Point(475, 5);
+            this.btn_Info.Name = "btn_Info";
+            this.btn_Info.Size = new System.Drawing.Size(98, 23);
+            this.btn_Info.TabIndex = 10;
+            this.btn_Info.Text = "Info";
+            this.btn_Info.UseVisualStyleBackColor = false;
+            this.btn_Info.Click += new System.EventHandler(this.btn_Info_Click);
             // 
             // lbl_Time
             // 
@@ -319,6 +332,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.p_SettingsPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.p_SettingsPanel.Controls.Add(this.btn_Cancel);
             this.p_SettingsPanel.Controls.Add(this.btn_SettingsSaveAndClose);
             this.p_SettingsPanel.Controls.Add(this.label11);
             this.p_SettingsPanel.Controls.Add(this.ll_OpenPath);
@@ -328,23 +342,34 @@
             this.p_SettingsPanel.Controls.Add(this.cb_CreateIcon);
             this.p_SettingsPanel.Controls.Add(this.rb_x64);
             this.p_SettingsPanel.Controls.Add(this.rb_x86);
-            this.p_SettingsPanel.Controls.Add(this.label10);
+            this.p_SettingsPanel.Controls.Add(this.lbl_AutoCheckTimer);
             this.p_SettingsPanel.Controls.Add(this.label9);
-            this.p_SettingsPanel.Controls.Add(this.label12);
-            this.p_SettingsPanel.Controls.Add(this.label8);
+            this.p_SettingsPanel.Controls.Add(this.lbl_StartMinimized);
+            this.p_SettingsPanel.Controls.Add(this.lbl_CreateIcon);
             this.p_SettingsPanel.Controls.Add(this.btn_InstallPath);
             this.p_SettingsPanel.Controls.Add(this.btn_SWW);
             this.p_SettingsPanel.Controls.Add(this.label7);
-            this.p_SettingsPanel.Location = new System.Drawing.Point(7, 5);
+            this.p_SettingsPanel.Location = new System.Drawing.Point(0, 5);
             this.p_SettingsPanel.Name = "p_SettingsPanel";
-            this.p_SettingsPanel.Size = new System.Drawing.Size(750, 283);
+            this.p_SettingsPanel.Size = new System.Drawing.Size(757, 297);
             this.p_SettingsPanel.TabIndex = 2;
             this.p_SettingsPanel.Visible = false;
+            // 
+            // btn_Cancel
+            // 
+            this.btn_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Cancel.Location = new System.Drawing.Point(547, 3);
+            this.btn_Cancel.Name = "btn_Cancel";
+            this.btn_Cancel.Size = new System.Drawing.Size(98, 23);
+            this.btn_Cancel.TabIndex = 8;
+            this.btn_Cancel.Text = "Cancel and Close";
+            this.btn_Cancel.UseVisualStyleBackColor = true;
+            this.btn_Cancel.Click += new System.EventHandler(this.btn_Cancel_Click);
             // 
             // btn_SettingsSaveAndClose
             // 
             this.btn_SettingsSaveAndClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_SettingsSaveAndClose.Location = new System.Drawing.Point(644, 3);
+            this.btn_SettingsSaveAndClose.Location = new System.Drawing.Point(651, 3);
             this.btn_SettingsSaveAndClose.Name = "btn_SettingsSaveAndClose";
             this.btn_SettingsSaveAndClose.Size = new System.Drawing.Size(98, 23);
             this.btn_SettingsSaveAndClose.TabIndex = 8;
@@ -368,16 +393,22 @@
             // 
             this.ll_OpenPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ll_OpenPath.AutoSize = true;
-            this.ll_OpenPath.Location = new System.Drawing.Point(533, 48);
+            this.ll_OpenPath.Location = new System.Drawing.Point(540, 48);
             this.ll_OpenPath.Name = "ll_OpenPath";
             this.ll_OpenPath.Size = new System.Drawing.Size(33, 13);
             this.ll_OpenPath.TabIndex = 6;
             this.ll_OpenPath.TabStop = true;
             this.ll_OpenPath.Text = "Open";
+            this.toolTip1.SetToolTip(this.ll_OpenPath, "Click to open the selected install path\r\nin your default file explorer.");
             this.ll_OpenPath.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ll_OpenPath_LinkClicked);
             // 
             // num_Minutes
             // 
+            this.num_Minutes.Increment = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
             this.num_Minutes.Location = new System.Drawing.Point(174, 164);
             this.num_Minutes.Maximum = new decimal(new int[] {
             99999,
@@ -401,10 +432,12 @@
             this.cb_IsSWW.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cb_IsSWW.AutoSize = true;
             this.cb_IsSWW.Enabled = false;
-            this.cb_IsSWW.Location = new System.Drawing.Point(551, 86);
+            this.cb_IsSWW.Location = new System.Drawing.Point(558, 86);
             this.cb_IsSWW.Name = "cb_IsSWW";
             this.cb_IsSWW.Size = new System.Drawing.Size(15, 14);
             this.cb_IsSWW.TabIndex = 4;
+            this.toolTip1.SetToolTip(this.cb_IsSWW, "This is going to show checked, if the\r\nupdater is set up to start with Windows.\r\n" +
+        "Otherwise it will be unchecked.");
             this.cb_IsSWW.UseVisualStyleBackColor = true;
             // 
             // cb_StartMinimized
@@ -414,6 +447,7 @@
             this.cb_StartMinimized.Name = "cb_StartMinimized";
             this.cb_StartMinimized.Size = new System.Drawing.Size(15, 14);
             this.cb_StartMinimized.TabIndex = 4;
+            this.toolTip1.SetToolTip(this.cb_StartMinimized, "If checked, the updater will start in the\r\nnotification area of your tray.\r\n");
             this.cb_StartMinimized.UseVisualStyleBackColor = true;
             // 
             // cb_CreateIcon
@@ -423,6 +457,8 @@
             this.cb_CreateIcon.Name = "cb_CreateIcon";
             this.cb_CreateIcon.Size = new System.Drawing.Size(15, 14);
             this.cb_CreateIcon.TabIndex = 4;
+            this.toolTip1.SetToolTip(this.cb_CreateIcon, "If checked, the updater will create an icon\r\nfor the program when installing the " +
+        "update\r\nif an icon does not exist already.\r\n");
             this.cb_CreateIcon.UseVisualStyleBackColor = true;
             // 
             // rb_x64
@@ -451,17 +487,18 @@
         " by default.");
             this.rb_x86.UseVisualStyleBackColor = true;
             // 
-            // label10
+            // lbl_AutoCheckTimer
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(10, 168);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(161, 13);
-            this.label10.TabIndex = 2;
-            this.label10.Text = "Time between automatic checks";
-            this.toolTip1.SetToolTip(this.label10, "The delay in minutes, before the program \r\nchecks for updates automatically.\r\n---" +
+            this.lbl_AutoCheckTimer.AutoSize = true;
+            this.lbl_AutoCheckTimer.Location = new System.Drawing.Point(10, 168);
+            this.lbl_AutoCheckTimer.Name = "lbl_AutoCheckTimer";
+            this.lbl_AutoCheckTimer.Size = new System.Drawing.Size(161, 13);
+            this.lbl_AutoCheckTimer.TabIndex = 2;
+            this.lbl_AutoCheckTimer.Text = "Time between automatic checks";
+            this.toolTip1.SetToolTip(this.lbl_AutoCheckTimer, "The delay in minutes, before the program \r\nchecks for updates automatically.\r\n---" +
         "--------------------------------\r\nDefault: 240\r\n--------------------------------" +
         "---\r\nSet to 0 to turn off!");
+            this.lbl_AutoCheckTimer.Click += new System.EventHandler(this.lbl_AutoCheckTimer_Click);
             // 
             // label9
             // 
@@ -475,43 +512,48 @@
         "----------------------------------\r\nThe system selects the appropriate \r\nversion" +
         " by default.");
             // 
-            // label12
+            // lbl_StartMinimized
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(10, 87);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(77, 13);
-            this.label12.TabIndex = 2;
-            this.label12.Text = "Start minimized";
+            this.lbl_StartMinimized.AutoSize = true;
+            this.lbl_StartMinimized.Location = new System.Drawing.Point(10, 87);
+            this.lbl_StartMinimized.Name = "lbl_StartMinimized";
+            this.lbl_StartMinimized.Size = new System.Drawing.Size(77, 13);
+            this.lbl_StartMinimized.TabIndex = 2;
+            this.lbl_StartMinimized.Text = "Start minimized";
+            this.lbl_StartMinimized.Click += new System.EventHandler(this.lbl_StartMinimized_Click);
             // 
-            // label8
+            // lbl_CreateIcon
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(10, 48);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(120, 13);
-            this.label8.TabIndex = 2;
-            this.label8.Text = "Create Icon on Desktop";
+            this.lbl_CreateIcon.AutoSize = true;
+            this.lbl_CreateIcon.Location = new System.Drawing.Point(10, 48);
+            this.lbl_CreateIcon.Name = "lbl_CreateIcon";
+            this.lbl_CreateIcon.Size = new System.Drawing.Size(120, 13);
+            this.lbl_CreateIcon.TabIndex = 2;
+            this.lbl_CreateIcon.Text = "Create Icon on Desktop";
+            this.lbl_CreateIcon.Click += new System.EventHandler(this.lbl_CreateIcon_Click);
             // 
             // btn_InstallPath
             // 
             this.btn_InstallPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_InstallPath.Location = new System.Drawing.Point(572, 43);
+            this.btn_InstallPath.Location = new System.Drawing.Point(579, 43);
             this.btn_InstallPath.Name = "btn_InstallPath";
             this.btn_InstallPath.Size = new System.Drawing.Size(170, 23);
             this.btn_InstallPath.TabIndex = 1;
             this.btn_InstallPath.Text = "Set up Install Path";
+            this.toolTip1.SetToolTip(this.btn_InstallPath, "Open a dialog window to select a path\r\nwhere the program will be installed \r\nafte" +
+        "r downloading.");
             this.btn_InstallPath.UseVisualStyleBackColor = true;
             this.btn_InstallPath.Click += new System.EventHandler(this.btn_InstallPath_Click);
             // 
             // btn_SWW
             // 
             this.btn_SWW.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_SWW.Location = new System.Drawing.Point(572, 82);
+            this.btn_SWW.Location = new System.Drawing.Point(579, 82);
             this.btn_SWW.Name = "btn_SWW";
             this.btn_SWW.Size = new System.Drawing.Size(170, 23);
             this.btn_SWW.TabIndex = 1;
             this.btn_SWW.Text = "Set up to start with Windows";
+            this.toolTip1.SetToolTip(this.btn_SWW, "Click this button to toggle between\r\nit starting up with Windows or not.");
             this.btn_SWW.UseVisualStyleBackColor = true;
             this.btn_SWW.Click += new System.EventHandler(this.btn_SWW_Click);
             // 
@@ -540,23 +582,11 @@
             this.tb_ConsoleOutput.Size = new System.Drawing.Size(322, 158);
             this.tb_ConsoleOutput.TabIndex = 3;
             // 
-            // btn_Info
-            // 
-            this.btn_Info.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Info.BackColor = System.Drawing.Color.MistyRose;
-            this.btn_Info.Location = new System.Drawing.Point(475, 5);
-            this.btn_Info.Name = "btn_Info";
-            this.btn_Info.Size = new System.Drawing.Size(98, 23);
-            this.btn_Info.TabIndex = 10;
-            this.btn_Info.Text = "Info";
-            this.btn_Info.UseVisualStyleBackColor = false;
-            this.btn_Info.Click += new System.EventHandler(this.btn_Info_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(757, 243);
+            this.ClientSize = new System.Drawing.Size(757, 266);
             this.ControlBox = false;
             this.Controls.Add(this.p_ButtonPanel);
             this.Controls.Add(this.p_SettingsPanel);
@@ -622,19 +652,20 @@
         private System.Windows.Forms.RadioButton rb_x64;
         private System.Windows.Forms.RadioButton rb_x86;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lbl_CreateIcon;
         private System.Windows.Forms.Button btn_InstallPath;
         private System.Windows.Forms.NumericUpDown num_Minutes;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label lbl_AutoCheckTimer;
         private System.Windows.Forms.CheckBox cb_IsSWW;
         private System.Windows.Forms.LinkLabel ll_OpenPath;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btn_SettingsSaveAndClose;
         private System.Windows.Forms.CheckBox cb_StartMinimized;
-        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label lbl_StartMinimized;
         private System.Windows.Forms.TextBox tb_ConsoleOutput;
         private System.Windows.Forms.Button btn_Info;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button btn_Cancel;
     }
 }
 
