@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WolfPaw_ScreenSnip
+namespace SharpSnip
 {
     static class Program
     {

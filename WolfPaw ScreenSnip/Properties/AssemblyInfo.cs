@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WolfPaw ScreenSnip")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("SharpSnip")]
+[assembly: AssemblyDescription("The SharpSnip, the top screen area capture solution of the '20-s")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("WolfPaw Co")]
-[assembly: AssemblyProduct("WolfPaw ScreenSnip")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyProduct("WolfPaw #Snip")]
+[assembly: AssemblyCopyright("Copyright ©  2017-2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.8.0.2")]
-[assembly: AssemblyFileVersion("0.8.0.2")]
+[assembly: AssemblyVersion("0.8.0.3")]
+[assembly: AssemblyFileVersion("0.8.0.3")]

@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WolfPaw_ScreenSnip
+namespace SharpSnip
 {
 	public partial class f_LoadImageDB : Form
 	{

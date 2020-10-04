@@ -10,9 +10,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static WolfPaw_ScreenSnip.c_ImageHolder;
+using static SharpSnip.c_ImageHolder;
 
-namespace WolfPaw_ScreenSnip
+namespace SharpSnip
 {
     public partial class f_Screen : Form
 	{

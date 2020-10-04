@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using FontAwesome.Sharp;
 
-namespace WolfPaw_ScreenSnip
+namespace SharpSnip
 {
     public class c_ImageHolder : IDisposable
 	{
@@ -987,7 +987,6 @@ namespace WolfPaw_ScreenSnip
 						//Try1
 						try
 						{
-							//String editDBFileName = "editable_backup.db";
                             c_DatabaseHandler.deleteBackupsImage(c_DatabaseHandler.ConnectToDB("editable_backup.db", out string err), backup_id);
                         }
 						catch(Exception ex) { Console.WriteLine("ERROR:Dispose / try1 -> " + ex.Message); }

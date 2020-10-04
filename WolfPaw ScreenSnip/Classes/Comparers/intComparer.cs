@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WolfPaw_ScreenSnip
+namespace SharpSnip
 {
     public class intComparer : IComparer<c_ImageHolder>
 	{

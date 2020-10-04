@@ -8,12 +8,27 @@
     <ProjectGuid>{F77FB264-7BB3-4A5D-87B2-EB9315028B60}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WolfPaw_ScreenSnip</RootNamespace>
-    <AssemblyName>WolfPaw ScreenSnip</AssemblyName>
+    <RootNamespace>SharpSnip</RootNamespace>
+    <AssemblyName>SharpSnip</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -80,6 +95,21 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>25583605A895B835DDDEADBA036D5DDB0C88DDFD</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>SharpSnip_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>SharpSnip_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accord, Version=3.8.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
@@ -154,6 +184,7 @@
     <Compile Include="Classes\Image\c_ImageHolder.cs" />
     <Compile Include="c_ImgGen.cs" />
     <Compile Include="c_KeyboardHook.cs" />
+    <Compile Include="c_login.cs" />
     <Compile Include="c_Object.cs" />
     <Compile Include="c_PointStorage.cs" />
     <Compile Include="Classes\Image\c_RenderHandler.cs" />
@@ -254,6 +285,12 @@
     </Compile>
     <Compile Include="Classes\Comparers\intComparer.cs" />
     <Compile Include="Classes\Comparers\intComparerDesc.cs" />
+    <Compile Include="LockTools.cs" />
+    <Compile Include="Properties\user_settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>user_settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\uc_ValueButton.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -382,6 +419,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Properties\user_settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>user_settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="SharpSnip_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -530,6 +572,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\clock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

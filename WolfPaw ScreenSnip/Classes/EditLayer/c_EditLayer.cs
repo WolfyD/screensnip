@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WolfPaw_ScreenSnip
+namespace SharpSnip
 {
     public class c_EditLayer
 	{

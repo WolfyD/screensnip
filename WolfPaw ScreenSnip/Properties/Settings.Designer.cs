@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WolfPaw_ScreenSnip.Properties {
+namespace SharpSnip.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -645,6 +645,30 @@ namespace WolfPaw_ScreenSnip.Properties {
             }
             set {
                 this["s_KeepEditImage"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string s_Username {
+            get {
+                return ((string)(this["s_Username"]));
+            }
+            set {
+                this["s_Username"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string s_UserId {
+            get {
+                return ((string)(this["s_UserId"]));
+            }
+            set {
+                this["s_UserId"] = value;
             }
         }
     }

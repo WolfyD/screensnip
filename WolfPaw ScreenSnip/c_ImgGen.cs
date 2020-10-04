@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Shapes;
 
-namespace WolfPaw_ScreenSnip
+namespace SharpSnip
 {
 	static class c_ImgGen
 	{

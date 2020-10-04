@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using Accord.Imaging;
 using Accord.Imaging.Filters;
 
-namespace WolfPaw_ScreenSnip
+namespace SharpSnip
 {
     public static class ExtBitmap
     {

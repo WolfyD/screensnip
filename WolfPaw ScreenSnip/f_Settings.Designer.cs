@@ -1,4 +1,4 @@
-﻿namespace WolfPaw_ScreenSnip
+﻿namespace SharpSnip
 {
 	partial class f_Settings
 	{
@@ -70,6 +70,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.tp_Program = new System.Windows.Forms.TabPage();
             this.gb_Settings_Cutout = new System.Windows.Forms.GroupBox();
+            this.p_MouseoverBorderColor = new SharpSnip.uc_ColorButton();
+            this.p_SelectionBorderColor = new SharpSnip.uc_ColorButton();
+            this.p_PanelColor = new SharpSnip.uc_ColorButton();
             this.cb_DragaroundMode = new System.Windows.Forms.ComboBox();
             this.label26 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
@@ -81,6 +84,7 @@
             this.cb_PreviewOnOpen = new System.Windows.Forms.CheckBox();
             this.label20 = new System.Windows.Forms.Label();
             this.gb_Settings_Screen = new System.Windows.Forms.GroupBox();
+            this.p_ScreenBackground = new SharpSnip.uc_ColorButton();
             this.cb_AutBeforeDelete = new System.Windows.Forms.CheckBox();
             this.cb_HandleShortcuts = new System.Windows.Forms.CheckBox();
             this.cb_HandlePrintScreen = new System.Windows.Forms.CheckBox();
@@ -99,12 +103,17 @@
             this.label10 = new System.Windows.Forms.Label();
             this.tp_Canvas = new System.Windows.Forms.TabPage();
             this.gb_Settings_Additional = new System.Windows.Forms.GroupBox();
+            this.btn_CalcDPI = new System.Windows.Forms.Button();
+            this.rb_DPI_ManualCheck = new System.Windows.Forms.RadioButton();
+            this.rb_DPI_AutoCheck = new System.Windows.Forms.RadioButton();
             this.cb_DrawCrosshairs = new System.Windows.Forms.CheckBox();
             this.cb_DrawPositionData = new System.Windows.Forms.CheckBox();
             this.cb_DrawRulerBG = new System.Windows.Forms.CheckBox();
             this.cb_AlwaysShowRuler = new System.Windows.Forms.CheckBox();
             this.num_MonitorToUse = new System.Windows.Forms.NumericUpDown();
             this.cb_DPIType = new System.Windows.Forms.ComboBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label45 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
@@ -112,6 +121,7 @@
             this.label30 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.gb_Settings_Display = new System.Windows.Forms.GroupBox();
+            this.p_CanvasColor = new SharpSnip.uc_ColorButton();
             this.num_CanvasTransparency = new System.Windows.Forms.NumericUpDown();
             this.label28 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
@@ -149,16 +159,16 @@
             this.lbl_Description = new System.Windows.Forms.Label();
             this.lbl_DescTitle = new System.Windows.Forms.Label();
             this.t_effect = new System.Windows.Forms.Timer(this.components);
-            this.label25 = new System.Windows.Forms.Label();
-            this.rb_DPI_AutoCheck = new System.Windows.Forms.RadioButton();
-            this.rb_DPI_ManualCheck = new System.Windows.Forms.RadioButton();
-            this.btn_CalcDPI = new System.Windows.Forms.Button();
-            this.label45 = new System.Windows.Forms.Label();
-            this.p_MouseoverBorderColor = new WolfPaw_ScreenSnip.uc_ColorButton();
-            this.p_SelectionBorderColor = new WolfPaw_ScreenSnip.uc_ColorButton();
-            this.p_PanelColor = new WolfPaw_ScreenSnip.uc_ColorButton();
-            this.p_ScreenBackground = new WolfPaw_ScreenSnip.uc_ColorButton();
-            this.p_CanvasColor = new WolfPaw_ScreenSnip.uc_ColorButton();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.p_Login = new System.Windows.Forms.Panel();
+            this.tb_Pass = new System.Windows.Forms.TextBox();
+            this.tb_UserName = new System.Windows.Forms.TextBox();
+            this.lbl_Pwd = new System.Windows.Forms.Label();
+            this.label47 = new System.Windows.Forms.Label();
+            this.btn_LogIn = new System.Windows.Forms.Button();
+            this.ll_Register = new System.Windows.Forms.LinkLabel();
+            this.ll_LogIn = new System.Windows.Forms.LinkLabel();
+            this.btn_Register = new System.Windows.Forms.Button();
             this.p_Buttons.SuspendLayout();
             this.p_Title.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitter)).BeginInit();
@@ -193,6 +203,8 @@
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.p_Help.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.p_Login.SuspendLayout();
             this.SuspendLayout();
             // 
             // p_Buttons
@@ -414,6 +426,8 @@
             // 
             // tp_General
             // 
+            this.tp_General.AutoScroll = true;
+            this.tp_General.Controls.Add(this.groupBox1);
             this.tp_General.Controls.Add(this.gb_Settings_Misc);
             this.tp_General.Controls.Add(this.gb_Settings_Delay);
             this.tp_General.Controls.Add(this.gb_Settings_Save);
@@ -434,9 +448,9 @@
             this.gb_Settings_Misc.Controls.Add(this.label42);
             this.gb_Settings_Misc.Controls.Add(this.label41);
             this.gb_Settings_Misc.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gb_Settings_Misc.Location = new System.Drawing.Point(8, 238);
+            this.gb_Settings_Misc.Location = new System.Drawing.Point(8, 212);
             this.gb_Settings_Misc.Name = "gb_Settings_Misc";
-            this.gb_Settings_Misc.Size = new System.Drawing.Size(358, 119);
+            this.gb_Settings_Misc.Size = new System.Drawing.Size(341, 97);
             this.gb_Settings_Misc.TabIndex = 2;
             this.gb_Settings_Misc.TabStop = false;
             this.gb_Settings_Misc.Text = "Misc";
@@ -512,10 +526,10 @@
             this.gb_Settings_Delay.Controls.Add(this.label5);
             this.gb_Settings_Delay.Controls.Add(this.label4);
             this.gb_Settings_Delay.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gb_Settings_Delay.Location = new System.Drawing.Point(8, 107);
+            this.gb_Settings_Delay.Location = new System.Drawing.Point(8, 94);
             this.gb_Settings_Delay.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.gb_Settings_Delay.Name = "gb_Settings_Delay";
-            this.gb_Settings_Delay.Size = new System.Drawing.Size(358, 131);
+            this.gb_Settings_Delay.Size = new System.Drawing.Size(341, 118);
             this.gb_Settings_Delay.TabIndex = 1;
             this.gb_Settings_Delay.TabStop = false;
             this.gb_Settings_Delay.Text = "Delay";
@@ -615,7 +629,7 @@
             this.gb_Settings_Save.Location = new System.Drawing.Point(8, 8);
             this.gb_Settings_Save.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.gb_Settings_Save.Name = "gb_Settings_Save";
-            this.gb_Settings_Save.Size = new System.Drawing.Size(358, 99);
+            this.gb_Settings_Save.Size = new System.Drawing.Size(341, 86);
             this.gb_Settings_Save.TabIndex = 0;
             this.gb_Settings_Save.TabStop = false;
             this.gb_Settings_Save.Text = "Save";
@@ -629,7 +643,7 @@
             this.btn_BrowseQSDir.IconChar = FontAwesome.Sharp.IconChar.FolderOpen;
             this.btn_BrowseQSDir.IconColor = System.Drawing.Color.Black;
             this.btn_BrowseQSDir.IconSize = 22;
-            this.btn_BrowseQSDir.Location = new System.Drawing.Point(321, 54);
+            this.btn_BrowseQSDir.Location = new System.Drawing.Point(304, 54);
             this.btn_BrowseQSDir.Name = "btn_BrowseQSDir";
             this.btn_BrowseQSDir.Rotation = 0D;
             this.btn_BrowseQSDir.Size = new System.Drawing.Size(22, 20);
@@ -643,7 +657,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_QuickSaveDir.Location = new System.Drawing.Point(188, 54);
             this.tb_QuickSaveDir.Name = "tb_QuickSaveDir";
-            this.tb_QuickSaveDir.Size = new System.Drawing.Size(127, 20);
+            this.tb_QuickSaveDir.Size = new System.Drawing.Size(110, 20);
             this.tb_QuickSaveDir.TabIndex = 5;
             // 
             // cb_SaveFileNameDateTime
@@ -711,6 +725,36 @@
             this.gb_Settings_Cutout.TabIndex = 3;
             this.gb_Settings_Cutout.TabStop = false;
             this.gb_Settings_Cutout.Text = "Cutout Settings";
+            // 
+            // p_MouseoverBorderColor
+            // 
+            this.p_MouseoverBorderColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.p_MouseoverBorderColor.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.p_MouseoverBorderColor.Location = new System.Drawing.Point(210, 77);
+            this.p_MouseoverBorderColor.Name = "p_MouseoverBorderColor";
+            this.p_MouseoverBorderColor.Size = new System.Drawing.Size(80, 22);
+            this.p_MouseoverBorderColor.TabIndex = 4;
+            this.p_MouseoverBorderColor.Click += new System.EventHandler(this.p_MouseoverBorderColor_Click);
+            // 
+            // p_SelectionBorderColor
+            // 
+            this.p_SelectionBorderColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.p_SelectionBorderColor.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.p_SelectionBorderColor.Location = new System.Drawing.Point(210, 50);
+            this.p_SelectionBorderColor.Name = "p_SelectionBorderColor";
+            this.p_SelectionBorderColor.Size = new System.Drawing.Size(80, 22);
+            this.p_SelectionBorderColor.TabIndex = 4;
+            this.p_SelectionBorderColor.Click += new System.EventHandler(this.p_SelectionBorderColor_Click);
+            // 
+            // p_PanelColor
+            // 
+            this.p_PanelColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.p_PanelColor.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.p_PanelColor.Location = new System.Drawing.Point(210, 23);
+            this.p_PanelColor.Name = "p_PanelColor";
+            this.p_PanelColor.Size = new System.Drawing.Size(80, 22);
+            this.p_PanelColor.TabIndex = 21;
+            this.p_PanelColor.Click += new System.EventHandler(this.p_PanelColor_Click);
             // 
             // cb_DragaroundMode
             // 
@@ -842,6 +886,16 @@
             this.gb_Settings_Screen.TabIndex = 1;
             this.gb_Settings_Screen.TabStop = false;
             this.gb_Settings_Screen.Text = "Screen Window";
+            // 
+            // p_ScreenBackground
+            // 
+            this.p_ScreenBackground.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.p_ScreenBackground.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.p_ScreenBackground.Location = new System.Drawing.Point(210, 77);
+            this.p_ScreenBackground.Name = "p_ScreenBackground";
+            this.p_ScreenBackground.Size = new System.Drawing.Size(80, 22);
+            this.p_ScreenBackground.TabIndex = 11;
+            this.p_ScreenBackground.Click += new System.EventHandler(this.p_ScreenBackground_Click);
             // 
             // cb_AutBeforeDelete
             // 
@@ -1067,6 +1121,38 @@
             this.gb_Settings_Additional.TabStop = false;
             this.gb_Settings_Additional.Text = "Additional Data";
             // 
+            // btn_CalcDPI
+            // 
+            this.btn_CalcDPI.Location = new System.Drawing.Point(201, 239);
+            this.btn_CalcDPI.Name = "btn_CalcDPI";
+            this.btn_CalcDPI.Size = new System.Drawing.Size(80, 23);
+            this.btn_CalcDPI.TabIndex = 22;
+            this.btn_CalcDPI.Text = "Calculate";
+            this.btn_CalcDPI.UseVisualStyleBackColor = true;
+            this.btn_CalcDPI.Click += new System.EventHandler(this.btn_CalcDPI_Click);
+            // 
+            // rb_DPI_ManualCheck
+            // 
+            this.rb_DPI_ManualCheck.AutoSize = true;
+            this.rb_DPI_ManualCheck.Location = new System.Drawing.Point(278, 180);
+            this.rb_DPI_ManualCheck.Name = "rb_DPI_ManualCheck";
+            this.rb_DPI_ManualCheck.Size = new System.Drawing.Size(59, 17);
+            this.rb_DPI_ManualCheck.TabIndex = 21;
+            this.rb_DPI_ManualCheck.Text = "manual";
+            this.rb_DPI_ManualCheck.UseVisualStyleBackColor = true;
+            // 
+            // rb_DPI_AutoCheck
+            // 
+            this.rb_DPI_AutoCheck.AutoSize = true;
+            this.rb_DPI_AutoCheck.Checked = true;
+            this.rb_DPI_AutoCheck.Location = new System.Drawing.Point(201, 180);
+            this.rb_DPI_AutoCheck.Name = "rb_DPI_AutoCheck";
+            this.rb_DPI_AutoCheck.Size = new System.Drawing.Size(71, 17);
+            this.rb_DPI_AutoCheck.TabIndex = 21;
+            this.rb_DPI_AutoCheck.TabStop = true;
+            this.rb_DPI_AutoCheck.Text = "automatic";
+            this.rb_DPI_AutoCheck.UseVisualStyleBackColor = true;
+            // 
             // cb_DrawCrosshairs
             // 
             this.cb_DrawCrosshairs.AutoSize = true;
@@ -1136,6 +1222,28 @@
             this.cb_DPIType.Name = "cb_DPIType";
             this.cb_DPIType.Size = new System.Drawing.Size(80, 21);
             this.cb_DPIType.TabIndex = 15;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(6, 182);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(120, 13);
+            this.label25.TabIndex = 14;
+            this.label25.Tag = "34";
+            this.label25.Text = "DPI calculation method:";
+            this.label25.MouseEnter += new System.EventHandler(this.WriteHelpString);
+            // 
+            // label45
+            // 
+            this.label45.AutoSize = true;
+            this.label45.Location = new System.Drawing.Point(6, 244);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(119, 13);
+            this.label45.TabIndex = 14;
+            this.label45.Tag = "35";
+            this.label45.Text = "Calculate DPI manually:";
+            this.label45.MouseEnter += new System.EventHandler(this.WriteHelpString);
             // 
             // label19
             // 
@@ -1217,6 +1325,16 @@
             this.gb_Settings_Display.TabIndex = 0;
             this.gb_Settings_Display.TabStop = false;
             this.gb_Settings_Display.Text = "Display";
+            // 
+            // p_CanvasColor
+            // 
+            this.p_CanvasColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.p_CanvasColor.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.p_CanvasColor.Location = new System.Drawing.Point(201, 56);
+            this.p_CanvasColor.Name = "p_CanvasColor";
+            this.p_CanvasColor.Size = new System.Drawing.Size(80, 22);
+            this.p_CanvasColor.TabIndex = 3;
+            this.p_CanvasColor.Click += new System.EventHandler(this.p_CanvasColor_Click);
             // 
             // num_CanvasTransparency
             // 
@@ -1643,109 +1761,114 @@
             this.t_effect.Interval = 1;
             this.t_effect.Tick += new System.EventHandler(this.t_effect_Tick);
             // 
-            // label25
+            // groupBox1
             // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(6, 182);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(120, 13);
-            this.label25.TabIndex = 14;
-            this.label25.Tag = "34";
-            this.label25.Text = "DPI calculation method:";
-            this.label25.MouseEnter += new System.EventHandler(this.WriteHelpString);
+            this.groupBox1.Controls.Add(this.p_Login);
+            this.groupBox1.Controls.Add(this.btn_Register);
+            this.groupBox1.Controls.Add(this.ll_LogIn);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Location = new System.Drawing.Point(8, 309);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(341, 143);
+            this.groupBox1.TabIndex = 3;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Log In";
             // 
-            // rb_DPI_AutoCheck
+            // p_Login
             // 
-            this.rb_DPI_AutoCheck.AutoSize = true;
-            this.rb_DPI_AutoCheck.Checked = true;
-            this.rb_DPI_AutoCheck.Location = new System.Drawing.Point(201, 180);
-            this.rb_DPI_AutoCheck.Name = "rb_DPI_AutoCheck";
-            this.rb_DPI_AutoCheck.Size = new System.Drawing.Size(71, 17);
-            this.rb_DPI_AutoCheck.TabIndex = 21;
-            this.rb_DPI_AutoCheck.TabStop = true;
-            this.rb_DPI_AutoCheck.Text = "automatic";
-            this.rb_DPI_AutoCheck.UseVisualStyleBackColor = true;
+            this.p_Login.Controls.Add(this.ll_Register);
+            this.p_Login.Controls.Add(this.btn_LogIn);
+            this.p_Login.Controls.Add(this.tb_Pass);
+            this.p_Login.Controls.Add(this.tb_UserName);
+            this.p_Login.Controls.Add(this.lbl_Pwd);
+            this.p_Login.Controls.Add(this.label47);
+            this.p_Login.Location = new System.Drawing.Point(6, 15);
+            this.p_Login.Name = "p_Login";
+            this.p_Login.Size = new System.Drawing.Size(346, 122);
+            this.p_Login.TabIndex = 0;
             // 
-            // rb_DPI_ManualCheck
+            // tb_Pass
             // 
-            this.rb_DPI_ManualCheck.AutoSize = true;
-            this.rb_DPI_ManualCheck.Location = new System.Drawing.Point(278, 180);
-            this.rb_DPI_ManualCheck.Name = "rb_DPI_ManualCheck";
-            this.rb_DPI_ManualCheck.Size = new System.Drawing.Size(59, 17);
-            this.rb_DPI_ManualCheck.TabIndex = 21;
-            this.rb_DPI_ManualCheck.Text = "manual";
-            this.rb_DPI_ManualCheck.UseVisualStyleBackColor = true;
+            this.tb_Pass.Location = new System.Drawing.Point(182, 56);
+            this.tb_Pass.Name = "tb_Pass";
+            this.tb_Pass.PasswordChar = '•';
+            this.tb_Pass.Size = new System.Drawing.Size(147, 20);
+            this.tb_Pass.TabIndex = 7;
+            this.tb_Pass.TextChanged += new System.EventHandler(this.tb_UserName_TextChanged);
             // 
-            // btn_CalcDPI
+            // tb_UserName
             // 
-            this.btn_CalcDPI.Location = new System.Drawing.Point(201, 239);
-            this.btn_CalcDPI.Name = "btn_CalcDPI";
-            this.btn_CalcDPI.Size = new System.Drawing.Size(80, 23);
-            this.btn_CalcDPI.TabIndex = 22;
-            this.btn_CalcDPI.Text = "Calculate";
-            this.btn_CalcDPI.UseVisualStyleBackColor = true;
-            this.btn_CalcDPI.Click += new System.EventHandler(this.btn_CalcDPI_Click);
+            this.tb_UserName.Location = new System.Drawing.Point(182, 27);
+            this.tb_UserName.Name = "tb_UserName";
+            this.tb_UserName.Size = new System.Drawing.Size(147, 20);
+            this.tb_UserName.TabIndex = 8;
+            this.tb_UserName.TextChanged += new System.EventHandler(this.tb_UserName_TextChanged);
             // 
-            // label45
+            // lbl_Pwd
             // 
-            this.label45.AutoSize = true;
-            this.label45.Location = new System.Drawing.Point(6, 244);
-            this.label45.Name = "label45";
-            this.label45.Size = new System.Drawing.Size(119, 13);
-            this.label45.TabIndex = 14;
-            this.label45.Tag = "35";
-            this.label45.Text = "Calculate DPI manually:";
-            this.label45.MouseEnter += new System.EventHandler(this.WriteHelpString);
+            this.lbl_Pwd.AutoSize = true;
+            this.lbl_Pwd.Location = new System.Drawing.Point(0, 59);
+            this.lbl_Pwd.Name = "lbl_Pwd";
+            this.lbl_Pwd.Size = new System.Drawing.Size(59, 13);
+            this.lbl_Pwd.TabIndex = 6;
+            this.lbl_Pwd.Tag = "1";
+            this.lbl_Pwd.Text = "Password: ";
             // 
-            // p_MouseoverBorderColor
+            // label47
             // 
-            this.p_MouseoverBorderColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.p_MouseoverBorderColor.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.p_MouseoverBorderColor.Location = new System.Drawing.Point(210, 77);
-            this.p_MouseoverBorderColor.Name = "p_MouseoverBorderColor";
-            this.p_MouseoverBorderColor.Size = new System.Drawing.Size(80, 22);
-            this.p_MouseoverBorderColor.TabIndex = 4;
-            this.p_MouseoverBorderColor.Click += new System.EventHandler(this.p_MouseoverBorderColor_Click);
+            this.label47.AutoSize = true;
+            this.label47.Location = new System.Drawing.Point(0, 30);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(61, 13);
+            this.label47.TabIndex = 5;
+            this.label47.Tag = "0";
+            this.label47.Text = "Username: ";
             // 
-            // p_SelectionBorderColor
+            // btn_LogIn
             // 
-            this.p_SelectionBorderColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.p_SelectionBorderColor.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.p_SelectionBorderColor.Location = new System.Drawing.Point(210, 50);
-            this.p_SelectionBorderColor.Name = "p_SelectionBorderColor";
-            this.p_SelectionBorderColor.Size = new System.Drawing.Size(80, 22);
-            this.p_SelectionBorderColor.TabIndex = 4;
-            this.p_SelectionBorderColor.Click += new System.EventHandler(this.p_SelectionBorderColor_Click);
+            this.btn_LogIn.Enabled = false;
+            this.btn_LogIn.Location = new System.Drawing.Point(254, 86);
+            this.btn_LogIn.Name = "btn_LogIn";
+            this.btn_LogIn.Size = new System.Drawing.Size(75, 23);
+            this.btn_LogIn.TabIndex = 9;
+            this.btn_LogIn.Text = "Log In";
+            this.btn_LogIn.UseVisualStyleBackColor = true;
+            this.btn_LogIn.Click += new System.EventHandler(this.btn_LogIn_Click);
             // 
-            // p_PanelColor
+            // ll_Register
             // 
-            this.p_PanelColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.p_PanelColor.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.p_PanelColor.Location = new System.Drawing.Point(210, 23);
-            this.p_PanelColor.Name = "p_PanelColor";
-            this.p_PanelColor.Size = new System.Drawing.Size(80, 22);
-            this.p_PanelColor.TabIndex = 21;
-            this.p_PanelColor.Click += new System.EventHandler(this.p_PanelColor_Click);
+            this.ll_Register.AutoSize = true;
+            this.ll_Register.Location = new System.Drawing.Point(283, 4);
+            this.ll_Register.Name = "ll_Register";
+            this.ll_Register.Size = new System.Drawing.Size(46, 13);
+            this.ll_Register.TabIndex = 10;
+            this.ll_Register.TabStop = true;
+            this.ll_Register.Text = "Register";
+            this.ll_Register.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.ll_Register.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ll_Register_LinkClicked);
             // 
-            // p_ScreenBackground
+            // ll_LogIn
             // 
-            this.p_ScreenBackground.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.p_ScreenBackground.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.p_ScreenBackground.Location = new System.Drawing.Point(210, 77);
-            this.p_ScreenBackground.Name = "p_ScreenBackground";
-            this.p_ScreenBackground.Size = new System.Drawing.Size(80, 22);
-            this.p_ScreenBackground.TabIndex = 11;
-            this.p_ScreenBackground.Click += new System.EventHandler(this.p_ScreenBackground_Click);
+            this.ll_LogIn.AutoSize = true;
+            this.ll_LogIn.Location = new System.Drawing.Point(291, 19);
+            this.ll_LogIn.Name = "ll_LogIn";
+            this.ll_LogIn.Size = new System.Drawing.Size(37, 13);
+            this.ll_LogIn.TabIndex = 11;
+            this.ll_LogIn.TabStop = true;
+            this.ll_LogIn.Text = "Log In";
+            this.ll_LogIn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.ll_LogIn.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ll_LogIn_LinkClicked);
             // 
-            // p_CanvasColor
+            // btn_Register
             // 
-            this.p_CanvasColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.p_CanvasColor.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.p_CanvasColor.Location = new System.Drawing.Point(201, 56);
-            this.p_CanvasColor.Name = "p_CanvasColor";
-            this.p_CanvasColor.Size = new System.Drawing.Size(80, 22);
-            this.p_CanvasColor.TabIndex = 3;
-            this.p_CanvasColor.Click += new System.EventHandler(this.p_CanvasColor_Click);
+            this.btn_Register.Location = new System.Drawing.Point(173, 45);
+            this.btn_Register.Name = "btn_Register";
+            this.btn_Register.Size = new System.Drawing.Size(153, 23);
+            this.btn_Register.TabIndex = 12;
+            this.btn_Register.Text = "Register on the website";
+            this.btn_Register.UseVisualStyleBackColor = true;
+            this.btn_Register.Click += new System.EventHandler(this.btn_Register_Click);
             // 
             // f_Settings
             // 
@@ -1813,6 +1936,10 @@
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.p_Help.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.p_Login.ResumeLayout(false);
+            this.p_Login.PerformLayout();
             this.ResumeLayout(false);
 
 		}
@@ -1948,5 +2075,15 @@
         private System.Windows.Forms.RadioButton rb_DPI_AutoCheck;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label45;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Panel p_Login;
+        private System.Windows.Forms.LinkLabel ll_Register;
+        private System.Windows.Forms.Button btn_LogIn;
+        private System.Windows.Forms.TextBox tb_Pass;
+        private System.Windows.Forms.TextBox tb_UserName;
+        private System.Windows.Forms.Label lbl_Pwd;
+        private System.Windows.Forms.Label label47;
+        private System.Windows.Forms.Button btn_Register;
+        private System.Windows.Forms.LinkLabel ll_LogIn;
     }
 }

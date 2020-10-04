@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfPaw ScreenSnip", "WolfPaw ScreenSnip\WolfPaw ScreenSnip.csproj", "{F77FB264-7BB3-4A5D-87B2-EB9315028B60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpSnip", "WolfPaw ScreenSnip\SharpSnip.csproj", "{F77FB264-7BB3-4A5D-87B2-EB9315028B60}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Up2Site", "Up2Site\Up2Site.csproj", "{AF54178C-343D-487C-A80E-1915811A1DBF}"
 EndProject

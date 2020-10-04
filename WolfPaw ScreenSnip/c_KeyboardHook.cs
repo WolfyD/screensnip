@@ -16,7 +16,7 @@ using System.Windows.Forms;
 //				OnKeyUp(Ctrl) -> CTRLDOWN = false											//
 //==========================================================================================//
 
-namespace WolfPaw_ScreenSnip
+namespace SharpSnip
 {
 	public class c_KeyboardHook
 	{

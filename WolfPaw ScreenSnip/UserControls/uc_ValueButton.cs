@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
-namespace WolfPaw_ScreenSnip
+namespace SharpSnip
 {
     public partial class uc_ValueButton : UserControl
     {

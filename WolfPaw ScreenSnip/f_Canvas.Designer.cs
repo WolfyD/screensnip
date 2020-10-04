@@ -1,4 +1,4 @@
-﻿namespace WolfPaw_ScreenSnip
+﻿namespace SharpSnip
 {
 	partial class f_Canvas
 	{

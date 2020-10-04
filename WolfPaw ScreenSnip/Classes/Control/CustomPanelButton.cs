@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace WolfPaw_ScreenSnip
+namespace SharpSnip
 {
     public class CustomPanelButton
 	{

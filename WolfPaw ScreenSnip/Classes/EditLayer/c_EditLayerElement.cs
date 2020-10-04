@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace WolfPaw_ScreenSnip
+namespace SharpSnip
 {
     public class c_EditLayerElement
 	{

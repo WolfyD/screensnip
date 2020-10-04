@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
 using System.IO;
+using System.Security.AccessControl;
 
-namespace WolfPaw_ScreenSnip
+namespace SharpSnip
 {
 	static class c_DatabaseHandler
 	{
@@ -14,7 +15,7 @@ namespace WolfPaw_ScreenSnip
 
 		/// <summary>
 		/// Builds connection string
-		/// https://www.connectionstrings.com/sqlite/
+		/// <para>https://www.connectionstrings.com/sqlite/</para>
 		/// </summary>
 		public static SQLiteConnection ConnectToDB(String fileName, out string error)
 		{
@@ -42,10 +43,53 @@ namespace WolfPaw_ScreenSnip
 		}
 
 		/// <summary>
+		/// Attempts to disconnect the SQLite connection for a 
+		/// <para>specified connection if it is not in closed state</para>
+		/// </summary>
+		private static bool DisconnectFromDB(SQLiteConnection conn, out string ErrorMessage)
+        {
+			ErrorMessage = "";
+
+			try
+			{
+				if (conn.State != System.Data.ConnectionState.Closed)
+				{
+					conn.Close();
+					return true;
+                }
+                else { ErrorMessage = "Can not close connection, as Connection is not open."; }
+            }catch(Exception ex) { ErrorMessage = ex.Message; }
+
+			return false;
+        }
+
+		/// <summary>
+		/// Attempts to disconnect and delete the DB file for a specified connection.
+		/// </summary>
+		public static bool DeleteDB(SQLiteConnection conn, out string ErrorMessage)
+        {
+			ErrorMessage = "";
+			string name = conn.FileName;
+
+			try
+            {
+				if (DisconnectFromDB(conn, out ErrorMessage))
+				{
+					if (File.Exists(name))
+					{
+						File.Delete(name);
+						return true;
+					}
+					else { ErrorMessage = $"File [{name}] does not exist, or could not be reached."; }
+				}
+            }catch(Exception ex) { ErrorMessage = ex.Message; }
+
+			return false;
+        }
+
+		/// <summary>
 		/// Returns table names from current Database
 		/// </summary>
-		/// <param name="sqlc">SQLite3 Connection</param>
-		/// <returns>String array containing table names</returns>
 		public static String[] getTableNamesFromDB(SQLiteConnection sqlc)
 		{
 			string[] ret;
@@ -86,14 +130,17 @@ namespace WolfPaw_ScreenSnip
 		#region Table creators
 
 		/// <summary>
-		/// Creates main Images table.
-		/// Columns:
-		///		id INTEGER PRIMARY KEY AUTOINCREMENT, 
-		///		title TEXT, 
-		///		desc TEXT, 
-		///		image TEXT, 
-		///		tags TEXT, 
-		///		save_date TEXT
+		/// <para>Columns: </para>
+		/// <list type="bullet">
+		/// <para>Creates main Images table. </para>
+		///	<description>images </description>
+		///		<para><term>id </term><description> INTEGER PRIMARY KEY AUTOINCREMENT, </description></para>
+		///		<para><term>title </term><description> TEXT, </description></para>
+		///		<para><term>desc </term><description> TEXT, </description></para>
+		///		<para><term>image </term><description> TEXT, </description></para>
+		///		<para><term>tags </term><description> TEXT, </description></para>
+		///		<para><term>save_date </term><description> TEXT </description></para>
+		/// </list>
 		/// </summary>
 		/// <param name="sqlc">SQL Connection</param>
 		public static void generateTable(SQLiteConnection sqlc)
@@ -120,7 +167,7 @@ namespace WolfPaw_ScreenSnip
 		///		points TEXT
 		/// </summary>
 		/// <param name="sqlc">SQLite3 Connection</param>
-		public static void generateEditTable(SQLiteConnection sqlc)
+		public static SQLiteConnection generateEditTable(SQLiteConnection sqlc)
 		{
 			if (sqlc.State == System.Data.ConnectionState.Open)
 			{
@@ -130,8 +177,9 @@ namespace WolfPaw_ScreenSnip
 					CommandText = "Create TABLE backups_for_editing (id INTEGER PRIMARY KEY AUTOINCREMENT, imgid TEXT, image TEXT, points TEXT)"
 				};
 				sqlComm.ExecuteNonQuery();
+				return sqlc;
 			}
-
+			return null;
 		}
 
 		/// <summary>
@@ -180,31 +228,27 @@ namespace WolfPaw_ScreenSnip
 				return false;
 			}
 
-			SQLiteCommand sqlComm = new SQLiteCommand
+			using (SQLiteCommand sqlComm = new SQLiteCommand
 			{
 				Connection = sqlc,
 				CommandText = string.Format("INSERT INTO backups_for_editing (imgid,image,points) VALUES ('{0}','{1}','{2}')", imgid, image, points)
-			};
-			try
+			})
 			{
-				sqlComm.ExecuteNonQuery();
+				try
+				{
+					sqlComm.ExecuteNonQuery();
+				}
+				catch
+				{
+					return false;
+				}
 			}
-			catch
-			{
-				return false;
-			}
-
 			return ret;
 		}
 
 		/// <summary>
 		/// Updates the points data contained in backup images
 		/// </summary>
-		/// <param name="sqlc">SQLite3 Connection</param>
-		/// <param name="image">Image Data in X16</param>
-		/// <param name="imgid">Random ID connecting image to a cutout</param>
-		/// <param name="points">Array of points in the following format: x:y|x:y|x:y...</param>
-		/// <returns>Bool value if the update was successful</returns>
 		public static bool updateBackupsImage(SQLiteConnection sqlc, string image, string imgid, string points)
 		{
 			bool ret = true;

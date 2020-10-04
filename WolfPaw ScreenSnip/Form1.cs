@@ -10,8 +10,9 @@ using FontAwesome.Sharp;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Threading;
+using System.Data.SQLite;
 
-namespace WolfPaw_ScreenSnip
+namespace SharpSnip
 {
     public partial class Form1 : Form
     {
@@ -56,6 +57,10 @@ namespace WolfPaw_ScreenSnip
 		public System.Windows.Forms.Timer RollupTimer = new System.Windows.Forms.Timer() { Interval = 10 };
 		public System.Windows.Forms.Timer MouseTracker = new System.Windows.Forms.Timer() { Interval = 10 };
 
+		String editDBFileName = "editable_backup.db";
+		SQLiteConnection editDBConnection = null;
+
+		bool ShowTooltips { get { return GetShowToolTips(); } set { SetShowToolTips(value); } }
 
 		#region MAPI
 
@@ -260,20 +265,21 @@ namespace WolfPaw_ScreenSnip
 
 			EditableMode = Properties.Settings.Default.s_KeepEditImage;
 
-			String editDBFileName = "editable_backup.db";
-
-			if (justLoggedIn && File.Exists(editDBFileName))
+			try
 			{
-				File.Delete(editDBFileName);
-			}
+				if (justLoggedIn && File.Exists(editDBFileName))
+				{
+					File.Delete(editDBFileName);
+				}
+            }
+            catch(Exception ex) { Console.WriteLine(ex.Message); }
 
 			if (EditableMode)
 			{
 				if (!File.Exists(editDBFileName))
 				{
 					File.Create(editDBFileName).Close();
-					string err = "";
-					c_DatabaseHandler.generateEditTable(c_DatabaseHandler.ConnectToDB(editDBFileName, out err));
+					editDBConnection = c_DatabaseHandler.generateEditTable(c_DatabaseHandler.ConnectToDB(editDBFileName, out string err));
 					if(err != "")
 					{
 						MessageBox.Show("There was an error while creating the backup database.\r\nThe following Error was recieved:\r\n\r\n" + err, "Error creating table", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -288,17 +294,30 @@ namespace WolfPaw_ScreenSnip
 			else
 			{
 				if (File.Exists(editDBFileName))
-				{ 
-					//TODO: Fix issue when it can't delete
-					File.Delete(editDBFileName);
+				{
+					c_DatabaseHandler.DeleteDB(editDBConnection, out string err);
 					canSaveEditImages = false;
 				}
 			}
 
 			MaximumSize = Size;
 
+			ShowTooltips = Properties.Settings.Default.s_ShowTooltipOnMouseOver;
+
 			justLoggedIn = false;
 		}
+
+		public bool GetShowToolTips()
+        {
+			return Properties.Settings.Default.s_ShowTooltipOnMouseOver;
+        }
+
+		public void SetShowToolTips(bool show)
+        {
+			Properties.Settings.Default.s_ShowTooltipOnMouseOver = show;
+            if (show) { pb_Q.Image = Properties.Resources.questionmark_white; }
+            else { pb_Q.Image = Properties.Resources.questionmark_black; }
+        }
 
 		public void getDPIValues()
 		{
@@ -809,7 +828,17 @@ namespace WolfPaw_ScreenSnip
 
 		public void handleCutouts(int mode)
 		{
-			Bitmap bmp = doCutting(mode);
+			Bitmap bmp = null;
+			if (Properties.Settings.Default.s_hasDelay)
+			{
+
+			}
+			else
+			{
+				
+			}
+
+			bmp = doCutting(mode);
 
 			if (mode == -1)
 			{
@@ -1441,7 +1470,12 @@ namespace WolfPaw_ScreenSnip
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-			if(WindowState == FormWindowState.Normal && Properties.Settings.Default.s_RememberLastPosition)
+			if (File.Exists(editDBFileName))
+			{
+				File.Delete(editDBFileName);
+			}
+
+			if (WindowState == FormWindowState.Normal && Properties.Settings.Default.s_RememberLastPosition)
             {
 				Properties.Settings.Default.s_LastPosition = Location;
 				Properties.Settings.Default.Save();
@@ -1509,6 +1543,13 @@ namespace WolfPaw_ScreenSnip
 				return !MouseOverForm();
             }
         }
+
+        private void pb_Q_Click(object sender, EventArgs e)
+        {
+			ShowTooltips = !ShowTooltips;
+			toolTip1.Active = ShowTooltips;
+
+		}
     }
 
     public enum RollState

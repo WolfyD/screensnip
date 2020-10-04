@@ -1,4 +1,4 @@
-﻿namespace WolfPaw_ScreenSnip
+﻿namespace SharpSnip
 {
     partial class f_Screen
     {
@@ -68,7 +68,7 @@
             this.btn_CMS_MAIN_CopyImage = new System.Windows.Forms.ToolStripMenuItem();
             this.btn_CMS_MAIN_PasteImage = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
-            this.ts_Tools = new WolfPaw_ScreenSnip.uc_myToolstrip();
+            this.ts_Tools = new SharpSnip.uc_myToolstrip();
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
             this.btn_ToolSelector = new FontAwesome.Sharp.IconDropDownButton();
             this.pointerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -97,9 +97,9 @@
             this.btn_ToolWindow = new FontAwesome.Sharp.IconToolStripButton();
             this.btn_ToolPanel = new FontAwesome.Sharp.IconToolStripButton();
             this.lbl_Panel2_Info = new System.Windows.Forms.ToolStripLabel();
-            this.p_Tools = new WolfPaw_ScreenSnip.myPanel();
+            this.p_Tools = new SharpSnip.myPanel();
             this.lbl_Panel1_Info = new System.Windows.Forms.Label();
-            this.trackBar = new WolfPaw_ScreenSnip.uc_TrackBar();
+            this.trackBar = new SharpSnip.uc_TrackBar();
             this.lbl_Opacity = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.cb_Transparent = new System.Windows.Forms.CheckBox();
@@ -474,7 +474,7 @@
             // 
             // cms_btn_Resize
             // 
-            this.cms_btn_Resize.Image = global::WolfPaw_ScreenSnip.Properties.Resources.full_screen;
+            this.cms_btn_Resize.Image = global::SharpSnip.Properties.Resources.full_screen;
             this.cms_btn_Resize.Name = "cms_btn_Resize";
             this.cms_btn_Resize.Size = new System.Drawing.Size(147, 22);
             this.cms_btn_Resize.Text = "Resize";
@@ -482,7 +482,7 @@
             // 
             // cms_btn_Fit
             // 
-            this.cms_btn_Fit.Image = global::WolfPaw_ScreenSnip.Properties.Resources.fit;
+            this.cms_btn_Fit.Image = global::SharpSnip.Properties.Resources.fit;
             this.cms_btn_Fit.Name = "cms_btn_Fit";
             this.cms_btn_Fit.Size = new System.Drawing.Size(147, 22);
             this.cms_btn_Fit.Text = "Fit";
@@ -490,7 +490,7 @@
             // 
             // cms_btn_LayerUp
             // 
-            this.cms_btn_LayerUp.Image = global::WolfPaw_ScreenSnip.Properties.Resources.up;
+            this.cms_btn_LayerUp.Image = global::SharpSnip.Properties.Resources.up;
             this.cms_btn_LayerUp.Name = "cms_btn_LayerUp";
             this.cms_btn_LayerUp.Size = new System.Drawing.Size(147, 22);
             this.cms_btn_LayerUp.Text = "Layer Up";
@@ -498,7 +498,7 @@
             // 
             // cms_btn_LayerDown
             // 
-            this.cms_btn_LayerDown.Image = global::WolfPaw_ScreenSnip.Properties.Resources.down;
+            this.cms_btn_LayerDown.Image = global::SharpSnip.Properties.Resources.down;
             this.cms_btn_LayerDown.Name = "cms_btn_LayerDown";
             this.cms_btn_LayerDown.Size = new System.Drawing.Size(147, 22);
             this.cms_btn_LayerDown.Text = "Layer Down";
@@ -506,7 +506,7 @@
             // 
             // cms_btn_EditImage
             // 
-            this.cms_btn_EditImage.Image = global::WolfPaw_ScreenSnip.Properties.Resources.pencil;
+            this.cms_btn_EditImage.Image = global::SharpSnip.Properties.Resources.pencil;
             this.cms_btn_EditImage.Name = "cms_btn_EditImage";
             this.cms_btn_EditImage.Size = new System.Drawing.Size(147, 22);
             this.cms_btn_EditImage.Text = "Edit Cutout";
@@ -514,7 +514,7 @@
             // 
             // cms_btn_Save
             // 
-            this.cms_btn_Save.Image = global::WolfPaw_ScreenSnip.Properties.Resources.save_20;
+            this.cms_btn_Save.Image = global::SharpSnip.Properties.Resources.save_20;
             this.cms_btn_Save.Name = "cms_btn_Save";
             this.cms_btn_Save.Size = new System.Drawing.Size(147, 22);
             this.cms_btn_Save.Text = "Save Cutout";
@@ -522,7 +522,7 @@
             // 
             // cms_btn_Copy
             // 
-            this.cms_btn_Copy.Image = global::WolfPaw_ScreenSnip.Properties.Resources.clipboard_20;
+            this.cms_btn_Copy.Image = global::SharpSnip.Properties.Resources.clipboard_20;
             this.cms_btn_Copy.Name = "cms_btn_Copy";
             this.cms_btn_Copy.Size = new System.Drawing.Size(147, 22);
             this.cms_btn_Copy.Text = "Copy Cutout";
@@ -530,7 +530,7 @@
             // 
             // cms_btn_Delete
             // 
-            this.cms_btn_Delete.Image = global::WolfPaw_ScreenSnip.Properties.Resources.trashcan;
+            this.cms_btn_Delete.Image = global::SharpSnip.Properties.Resources.trashcan;
             this.cms_btn_Delete.Name = "cms_btn_Delete";
             this.cms_btn_Delete.Size = new System.Drawing.Size(147, 22);
             this.cms_btn_Delete.Text = "Delete Cutout";
@@ -551,7 +551,7 @@
             // 
             // btn_CMS_MAIN_Cascade
             // 
-            this.btn_CMS_MAIN_Cascade.Image = global::WolfPaw_ScreenSnip.Properties.Resources.full_screen;
+            this.btn_CMS_MAIN_Cascade.Image = global::SharpSnip.Properties.Resources.full_screen;
             this.btn_CMS_MAIN_Cascade.Name = "btn_CMS_MAIN_Cascade";
             this.btn_CMS_MAIN_Cascade.Size = new System.Drawing.Size(199, 22);
             this.btn_CMS_MAIN_Cascade.Text = "Cascade Cutouts";
@@ -570,28 +570,28 @@
             // 
             // btn_CMS_MAIN_SaveImage
             // 
-            this.btn_CMS_MAIN_SaveImage.Image = global::WolfPaw_ScreenSnip.Properties.Resources.save_20;
+            this.btn_CMS_MAIN_SaveImage.Image = global::SharpSnip.Properties.Resources.save_20;
             this.btn_CMS_MAIN_SaveImage.Name = "btn_CMS_MAIN_SaveImage";
             this.btn_CMS_MAIN_SaveImage.Size = new System.Drawing.Size(199, 22);
             this.btn_CMS_MAIN_SaveImage.Text = "Save Image";
             // 
             // btn_CMS_MAIN_CopyImage
             // 
-            this.btn_CMS_MAIN_CopyImage.Image = global::WolfPaw_ScreenSnip.Properties.Resources.clipboard_20;
+            this.btn_CMS_MAIN_CopyImage.Image = global::SharpSnip.Properties.Resources.clipboard_20;
             this.btn_CMS_MAIN_CopyImage.Name = "btn_CMS_MAIN_CopyImage";
             this.btn_CMS_MAIN_CopyImage.Size = new System.Drawing.Size(199, 22);
             this.btn_CMS_MAIN_CopyImage.Text = "Copy Image";
             // 
             // btn_CMS_MAIN_PasteImage
             // 
-            this.btn_CMS_MAIN_PasteImage.Image = global::WolfPaw_ScreenSnip.Properties.Resources.down;
+            this.btn_CMS_MAIN_PasteImage.Image = global::SharpSnip.Properties.Resources.down;
             this.btn_CMS_MAIN_PasteImage.Name = "btn_CMS_MAIN_PasteImage";
             this.btn_CMS_MAIN_PasteImage.Size = new System.Drawing.Size(199, 22);
             this.btn_CMS_MAIN_PasteImage.Text = "Paste Image";
             // 
             // toolStripMenuItem8
             // 
-            this.toolStripMenuItem8.Image = global::WolfPaw_ScreenSnip.Properties.Resources.trashcan;
+            this.toolStripMenuItem8.Image = global::SharpSnip.Properties.Resources.trashcan;
             this.toolStripMenuItem8.Name = "toolStripMenuItem8";
             this.toolStripMenuItem8.Size = new System.Drawing.Size(199, 22);
             this.toolStripMenuItem8.Text = "Delete All Cutouts";
@@ -948,10 +948,10 @@
             this.trackBar.Min = 1D;
             this.trackBar.Name = "trackBar";
             this.trackBar.Size = new System.Drawing.Size(66, 25);
-            this.trackBar.Style = WolfPaw_ScreenSnip.uc_TrackBar.style.emptyCircle;
+            this.trackBar.Style = SharpSnip.uc_TrackBar.style.emptyCircle;
             this.trackBar.TabIndex = 60;
             this.trackBar.Val = 5D;
-            this.trackBar.OnValueChange += new WolfPaw_ScreenSnip.uc_TrackBar.ValueChanged(this.TrackBar_OnValueChange);
+            this.trackBar.OnValueChange += new SharpSnip.uc_TrackBar.ValueChanged(this.TrackBar_OnValueChange);
             // 
             // lbl_Opacity
             // 

@@ -1,4 +1,4 @@
-﻿namespace WolfPaw_ScreenSnip
+﻿namespace SharpSnip
 {
     public enum elementTypes
 	{

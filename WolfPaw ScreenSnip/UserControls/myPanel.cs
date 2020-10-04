@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace WolfPaw_ScreenSnip
+namespace SharpSnip
 {
     public class myPanel : Panel
 	{

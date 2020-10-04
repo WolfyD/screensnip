@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharpSnip.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,7 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WolfPaw_ScreenSnip
+namespace SharpSnip
 {
 	public partial class f_Settings : Form
 	{
@@ -549,6 +550,55 @@ namespace WolfPaw_ScreenSnip
 			Rectangle bounds = Screen.AllScreens[(int)num_MonitorToUse.Value - 1].Bounds;
 			fdpi.Location = new Point(bounds.Left + (bounds.Width / 2) - (fdpi.Width / 2), bounds.Top + (bounds.Height / 2) - (fdpi.Height / 2));
 			fdpi.ShowDialog();
+        }
+
+        private void btn_Register_Click(object sender, EventArgs e)
+        {
+			System.Diagnostics.Process.Start("https://snip.wolfpaw.hu/register");
+        }
+
+        private void ll_LogIn_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+			p_Login.Show();
+        }
+
+        private void ll_Register_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+			p_Login.Hide();
+        }
+
+        private void btn_LogIn_Click(object sender, EventArgs e)
+        {
+			if (user_settings.Default.userid == "")
+			{
+				if (c_login.LogIn(tb_UserName.Text, tb_Pass.Text, out string userId))
+				{
+					user_settings.Default.username = tb_UserName.Text;
+					user_settings.Default.userid = userId;
+					ll_Register.Hide();
+					tb_UserName.Enabled = false;
+					tb_Pass.Enabled = false;
+				}
+				else
+				{
+
+				}
+            }
+            else
+            {
+				user_settings.Default.username = "";
+				user_settings.Default.userid = "";
+				tb_UserName.Text = "";
+				tb_Pass.Text = "";
+				ll_Register.Show();
+				tb_UserName.Enabled = true;
+				tb_Pass.Enabled = true;
+			}
+        }
+
+        private void tb_UserName_TextChanged(object sender, EventArgs e)
+        {
+			btn_LogIn.Enabled = (tb_UserName.Text != "" && tb_Pass.Text != "");
         }
     }
 }

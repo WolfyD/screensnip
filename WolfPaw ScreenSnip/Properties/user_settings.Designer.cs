@@ -13,11 +13,11 @@ namespace SharpSnip.Properties {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.7.0.0")]
-    internal sealed partial class tagLog : global::System.Configuration.ApplicationSettingsBase {
+    internal sealed partial class user_settings : global::System.Configuration.ApplicationSettingsBase {
         
-        private static tagLog defaultInstance = ((tagLog)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new tagLog())));
+        private static user_settings defaultInstance = ((user_settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new user_settings())));
         
-        public static tagLog Default {
+        public static user_settings Default {
             get {
                 return defaultInstance;
             }
@@ -25,14 +25,25 @@ namespace SharpSnip.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
-            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" />")]
-        public global::System.Collections.Specialized.StringCollection LOG {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string username {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["LOG"]));
+                return ((string)(this["username"]));
             }
             set {
-                this["LOG"] = value;
+                this["username"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string userid {
+            get {
+                return ((string)(this["userid"]));
+            }
+            set {
+                this["userid"] = value;
             }
         }
     }

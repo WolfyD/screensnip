@@ -1,4 +1,4 @@
-﻿namespace WolfPaw_ScreenSnip
+﻿namespace SharpSnip
 {
     partial class Form1
     {
@@ -69,16 +69,18 @@
             this.btn_CMS_MainWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.btn_CMS_Exit = new System.Windows.Forms.ToolStripMenuItem();
-            this.uc_ValueButton1 = new WolfPaw_ScreenSnip.uc_ValueButton();
-            this.uc_ButtonSelector1 = new WolfPaw_ScreenSnip.uc_ButtonSelector();
+            this.pb_Q = new System.Windows.Forms.PictureBox();
+            this.uc_ValueButton1 = new SharpSnip.uc_ValueButton();
+            this.uc_ButtonSelector1 = new SharpSnip.uc_ButtonSelector();
             ((System.ComponentModel.ISupportInitialize)(this.btn_Minimize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_Rollup)).BeginInit();
             this.cms_Notify.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_Q)).BeginInit();
             this.SuspendLayout();
             // 
             // btn_Copy
             // 
-            this.btn_Copy.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.clipboard;
+            this.btn_Copy.BackgroundImage = global::SharpSnip.Properties.Resources.clipboard;
             this.btn_Copy.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btn_Copy.Enabled = false;
             this.btn_Copy.Location = new System.Drawing.Point(323, 20);
@@ -86,7 +88,7 @@
             this.btn_Copy.Size = new System.Drawing.Size(40, 40);
             this.btn_Copy.TabIndex = 1;
             this.btn_Copy.Tag = "3";
-            this.toolTip1.SetToolTip(this.btn_Copy, "Copy Image\r\nCopies the image to your clipboard");
+            this.toolTip1.SetToolTip(this.btn_Copy, "Copy Image\r\n--------------\r\nCopies the image to your clipboard");
             this.btn_Copy.UseVisualStyleBackColor = true;
             this.btn_Copy.Click += new System.EventHandler(this.btn_Copy_Click);
             this.btn_Copy.MouseEnter += new System.EventHandler(this.Form1_MouseEnter);
@@ -94,7 +96,7 @@
             // 
             // btn_Save
             // 
-            this.btn_Save.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.save;
+            this.btn_Save.BackgroundImage = global::SharpSnip.Properties.Resources.save;
             this.btn_Save.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btn_Save.Enabled = false;
             this.btn_Save.Location = new System.Drawing.Point(363, 20);
@@ -102,7 +104,7 @@
             this.btn_Save.Size = new System.Drawing.Size(40, 40);
             this.btn_Save.TabIndex = 2;
             this.btn_Save.Tag = "4";
-            this.toolTip1.SetToolTip(this.btn_Save, "Save Image\r\nSaves the image to your PC");
+            this.toolTip1.SetToolTip(this.btn_Save, "Save Image\r\n-------------\r\nSaves the image to your PC");
             this.btn_Save.UseVisualStyleBackColor = true;
             this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
             this.btn_Save.MouseEnter += new System.EventHandler(this.Form1_MouseEnter);
@@ -110,15 +112,15 @@
             // 
             // btn_Clear
             // 
-            this.btn_Clear.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.shredder;
+            this.btn_Clear.BackgroundImage = global::SharpSnip.Properties.Resources.shredder;
             this.btn_Clear.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btn_Clear.Location = new System.Drawing.Point(228, 20);
             this.btn_Clear.Name = "btn_Clear";
             this.btn_Clear.Size = new System.Drawing.Size(40, 40);
             this.btn_Clear.TabIndex = 4;
             this.btn_Clear.Tag = "1";
-            this.toolTip1.SetToolTip(this.btn_Clear, "Clear Cutouts\r\nClears all the images you cut out from the screen\r\nWARNING: This a" +
-        "ction can not be undone");
+            this.toolTip1.SetToolTip(this.btn_Clear, "Clear Cutouts\r\n---------------\r\nClears all the images you cut out from the screen" +
+        "\r\nWARNING: This action can not be undone");
             this.btn_Clear.UseVisualStyleBackColor = true;
             this.btn_Clear.Click += new System.EventHandler(this.btn_Clear_Click);
             this.btn_Clear.MouseEnter += new System.EventHandler(this.Form1_MouseEnter);
@@ -127,14 +129,14 @@
             // btn_Exit
             // 
             this.btn_Exit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Exit.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.exit;
+            this.btn_Exit.BackgroundImage = global::SharpSnip.Properties.Resources.exit;
             this.btn_Exit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btn_Exit.Location = new System.Drawing.Point(537, 20);
             this.btn_Exit.Name = "btn_Exit";
             this.btn_Exit.Size = new System.Drawing.Size(40, 40);
             this.btn_Exit.TabIndex = 6;
             this.btn_Exit.Tag = "9";
-            this.toolTip1.SetToolTip(this.btn_Exit, "Exit \r\nCloses the application");
+            this.toolTip1.SetToolTip(this.btn_Exit, "Exit \r\n-----\r\nCloses the application");
             this.btn_Exit.UseVisualStyleBackColor = true;
             this.btn_Exit.Click += new System.EventHandler(this.btn_Exit_Click);
             this.btn_Exit.MouseEnter += new System.EventHandler(this.Form1_MouseEnter);
@@ -142,14 +144,14 @@
             // 
             // btn_Options
             // 
-            this.btn_Options.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.gear;
+            this.btn_Options.BackgroundImage = global::SharpSnip.Properties.Resources.gear;
             this.btn_Options.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btn_Options.Location = new System.Drawing.Point(497, 20);
             this.btn_Options.Name = "btn_Options";
             this.btn_Options.Size = new System.Drawing.Size(40, 40);
             this.btn_Options.TabIndex = 7;
             this.btn_Options.Tag = "7";
-            this.toolTip1.SetToolTip(this.btn_Options, "Options\r\nOpens the Options screen");
+            this.toolTip1.SetToolTip(this.btn_Options, "Options\r\n---------\r\nOpens the Options screen");
             this.btn_Options.UseVisualStyleBackColor = true;
             this.btn_Options.Click += new System.EventHandler(this.btn_Options_Click);
             this.btn_Options.MouseEnter += new System.EventHandler(this.Form1_MouseEnter);
@@ -157,7 +159,7 @@
             // 
             // btn_Preview
             // 
-            this.btn_Preview.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.preview;
+            this.btn_Preview.BackgroundImage = global::SharpSnip.Properties.Resources.preview;
             this.btn_Preview.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btn_Preview.Enabled = false;
             this.btn_Preview.Location = new System.Drawing.Point(283, 20);
@@ -165,7 +167,7 @@
             this.btn_Preview.Size = new System.Drawing.Size(40, 40);
             this.btn_Preview.TabIndex = 10;
             this.btn_Preview.Tag = "2";
-            this.toolTip1.SetToolTip(this.btn_Preview, "Preview Image\r\nOpens the Image preview screen");
+            this.toolTip1.SetToolTip(this.btn_Preview, "Preview Image\r\n----------------\r\nOpens the Image preview screen");
             this.btn_Preview.UseVisualStyleBackColor = true;
             this.btn_Preview.Click += new System.EventHandler(this.btn_Preview_Click);
             this.btn_Preview.MouseEnter += new System.EventHandler(this.Form1_MouseEnter);
@@ -188,7 +190,7 @@
             // 
             // btn_SaveToDB
             // 
-            this.btn_SaveToDB.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.db;
+            this.btn_SaveToDB.BackgroundImage = global::SharpSnip.Properties.Resources.db;
             this.btn_SaveToDB.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btn_SaveToDB.Enabled = false;
             this.btn_SaveToDB.Location = new System.Drawing.Point(403, 20);
@@ -196,7 +198,7 @@
             this.btn_SaveToDB.Size = new System.Drawing.Size(40, 40);
             this.btn_SaveToDB.TabIndex = 11;
             this.btn_SaveToDB.Tag = "10";
-            this.toolTip1.SetToolTip(this.btn_SaveToDB, "Save to Database\r\nSaves the image to the Database");
+            this.toolTip1.SetToolTip(this.btn_SaveToDB, "Save to Database\r\n-------------------\r\nSaves the image to the Database");
             this.btn_SaveToDB.UseVisualStyleBackColor = true;
             this.btn_SaveToDB.Click += new System.EventHandler(this.btn_SaveToDB_Click);
             this.btn_SaveToDB.MouseEnter += new System.EventHandler(this.Form1_MouseEnter);
@@ -204,15 +206,15 @@
             // 
             // btn_DatabaseLoad
             // 
-            this.btn_DatabaseLoad.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.dbl;
+            this.btn_DatabaseLoad.BackgroundImage = global::SharpSnip.Properties.Resources.dbl;
             this.btn_DatabaseLoad.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btn_DatabaseLoad.Location = new System.Drawing.Point(443, 20);
             this.btn_DatabaseLoad.Name = "btn_DatabaseLoad";
             this.btn_DatabaseLoad.Size = new System.Drawing.Size(40, 40);
             this.btn_DatabaseLoad.TabIndex = 12;
             this.btn_DatabaseLoad.Tag = "11";
-            this.toolTip1.SetToolTip(this.btn_DatabaseLoad, "Load from Database\r\nOpens the image browser where you can load images from the Da" +
-        "tabase");
+            this.toolTip1.SetToolTip(this.btn_DatabaseLoad, "Load from Database\r\n----------------------\r\nOpens the image browser where you \r\nc" +
+        "an load images from the Database");
             this.btn_DatabaseLoad.UseVisualStyleBackColor = true;
             this.btn_DatabaseLoad.Click += new System.EventHandler(this.btn_DatabaseLoad_Click);
             this.btn_DatabaseLoad.MouseEnter += new System.EventHandler(this.Form1_MouseEnter);
@@ -220,14 +222,14 @@
             // 
             // btn_Screen
             // 
-            this.btn_Screen.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.screen;
+            this.btn_Screen.BackgroundImage = global::SharpSnip.Properties.Resources.screen;
             this.btn_Screen.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btn_Screen.Location = new System.Drawing.Point(188, 20);
             this.btn_Screen.Name = "btn_Screen";
             this.btn_Screen.Size = new System.Drawing.Size(40, 40);
             this.btn_Screen.TabIndex = 4;
             this.btn_Screen.Tag = "12";
-            this.toolTip1.SetToolTip(this.btn_Screen, "Open Screen\r\nOpens the cutout editor screen");
+            this.toolTip1.SetToolTip(this.btn_Screen, "Open Screen\r\n--------------\r\nOpens the cutout editor screen");
             this.btn_Screen.UseVisualStyleBackColor = true;
             this.btn_Screen.Click += new System.EventHandler(this.btn_Screen_Click);
             this.btn_Screen.MouseEnter += new System.EventHandler(this.Form1_MouseEnter);
@@ -237,13 +239,14 @@
             // 
             this.btn_Minimize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Minimize.BackColor = System.Drawing.Color.Transparent;
-            this.btn_Minimize.Image = global::WolfPaw_ScreenSnip.Properties.Resources.minimize_black;
+            this.btn_Minimize.Image = global::SharpSnip.Properties.Resources.minimize_black;
             this.btn_Minimize.Location = new System.Drawing.Point(555, -2);
             this.btn_Minimize.Name = "btn_Minimize";
             this.btn_Minimize.Size = new System.Drawing.Size(20, 22);
             this.btn_Minimize.TabIndex = 13;
             this.btn_Minimize.TabStop = false;
-            this.toolTip1.SetToolTip(this.btn_Minimize, "Minimize\r\nMinimizes this toolbar to the tray or the Notification area");
+            this.toolTip1.SetToolTip(this.btn_Minimize, "Minimize\r\n----------\r\nMinimizes this toolbar to the tray or the Notification area" +
+        "");
             this.btn_Minimize.Click += new System.EventHandler(this.btn_Minimize_Click);
             this.btn_Minimize.MouseEnter += new System.EventHandler(this.btn_Minimize_MouseEnter);
             this.btn_Minimize.MouseLeave += new System.EventHandler(this.btn_Minimize_MouseLeave);
@@ -251,13 +254,14 @@
             // btn_Rollup
             // 
             this.btn_Rollup.BackColor = System.Drawing.Color.Transparent;
-            this.btn_Rollup.Image = global::WolfPaw_ScreenSnip.Properties.Resources.rollup_black;
+            this.btn_Rollup.Image = global::SharpSnip.Properties.Resources.rollup_black;
             this.btn_Rollup.Location = new System.Drawing.Point(0, 0);
             this.btn_Rollup.Name = "btn_Rollup";
             this.btn_Rollup.Size = new System.Drawing.Size(20, 20);
             this.btn_Rollup.TabIndex = 14;
             this.btn_Rollup.TabStop = false;
-            this.toolTip1.SetToolTip(this.btn_Rollup, "Roll up/down\r\nRolls this toolbar up or down making it take up less space ");
+            this.toolTip1.SetToolTip(this.btn_Rollup, "Roll-up on/off\r\n---------------\r\nTurns the roll-up function on or off if\r\nthe win" +
+        "dow is touching the top of the screen");
             this.btn_Rollup.Click += new System.EventHandler(this.btn_Rollup_Click);
             this.btn_Rollup.MouseEnter += new System.EventHandler(this.btn_Rollup_MouseEnter);
             this.btn_Rollup.MouseLeave += new System.EventHandler(this.btn_Rollup_MouseLeave);
@@ -469,36 +473,53 @@
             this.btn_CMS_Exit.Text = "Exit Program";
             this.btn_CMS_Exit.Click += new System.EventHandler(this.btn_CMS_Exit_Click);
             // 
+            // pb_Q
+            // 
+            this.pb_Q.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_Q.BackColor = System.Drawing.Color.Transparent;
+            this.pb_Q.Image = global::SharpSnip.Properties.Resources.questionmark_black;
+            this.pb_Q.Location = new System.Drawing.Point(533, 0);
+            this.pb_Q.Name = "pb_Q";
+            this.pb_Q.Size = new System.Drawing.Size(20, 20);
+            this.pb_Q.TabIndex = 13;
+            this.pb_Q.TabStop = false;
+            this.toolTip1.SetToolTip(this.pb_Q, resources.GetString("pb_Q.ToolTip"));
+            this.pb_Q.Click += new System.EventHandler(this.pb_Q_Click);
+            // 
             // uc_ValueButton1
             // 
             this.uc_ValueButton1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.uc_ValueButton1.Location = new System.Drawing.Point(61, 20);
             this.uc_ValueButton1.MinimumSize = new System.Drawing.Size(40, 40);
             this.uc_ValueButton1.Name = "uc_ValueButton1";
-            this.uc_ValueButton1.Size = new System.Drawing.Size(110, 40);
+            this.uc_ValueButton1.Size = new System.Drawing.Size(40, 40);
             this.uc_ValueButton1.TabIndex = 17;
+            this.toolTip1.SetToolTip(this.uc_ValueButton1, "Set Delay\r\nTurn the delay On or Off before a cut.\r\nYou can set the delay time up " +
+        "when it\'s on, or \r\nin the settings as well.");
             // 
             // uc_ButtonSelector1
             // 
             this.uc_ButtonSelector1.ButtonSize = 40;
-            this.uc_ButtonSelector1.Function = WolfPaw_ScreenSnip.DropDownFunction.Cutout;
+            this.uc_ButtonSelector1.Function = SharpSnip.DropDownFunction.Cutout;
             this.uc_ButtonSelector1.Location = new System.Drawing.Point(0, 20);
             this.uc_ButtonSelector1.Name = "uc_ButtonSelector1";
             this.uc_ButtonSelector1.parent = null;
             this.uc_ButtonSelector1.Size = new System.Drawing.Size(55, 40);
             this.uc_ButtonSelector1.TabIndex = 16;
+            this.toolTip1.SetToolTip(this.uc_ButtonSelector1, "Cut\r\n----\r\nMake a cutout from the screen and open\r\nit in the editor window");
             this.uc_ButtonSelector1.MouseEnter += new System.EventHandler(this.Form1_MouseEnter);
             this.uc_ButtonSelector1.MouseLeave += new System.EventHandler(this.Form1_MouseLeave);
             // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.BackgroundImage = global::WolfPaw_ScreenSnip.Properties.Resources.handle;
+            this.BackgroundImage = global::SharpSnip.Properties.Resources.handle;
             this.ClientSize = new System.Drawing.Size(577, 60);
             this.ControlBox = false;
             this.Controls.Add(this.uc_ValueButton1);
             this.Controls.Add(this.uc_ButtonSelector1);
             this.Controls.Add(this.btn_Rollup);
+            this.Controls.Add(this.pb_Q);
             this.Controls.Add(this.btn_Minimize);
             this.Controls.Add(this.btn_DatabaseLoad);
             this.Controls.Add(this.btn_SaveToDB);
@@ -527,6 +548,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.btn_Minimize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_Rollup)).EndInit();
             this.cms_Notify.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pb_Q)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -573,6 +595,7 @@
 		private System.Windows.Forms.ToolStripMenuItem btn_CMS_Exit;
 		private System.Windows.Forms.ToolStripMenuItem btn_CMS_QuickRectangle;
         private uc_ValueButton uc_ValueButton1;
+        private System.Windows.Forms.PictureBox pb_Q;
     }
 }
 

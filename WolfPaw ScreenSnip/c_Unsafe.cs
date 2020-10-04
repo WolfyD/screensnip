@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 
-namespace WolfPaw_ScreenSnip
+namespace SharpSnip
 {
 	static class c_Unsafe
 	{

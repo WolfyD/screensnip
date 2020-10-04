@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WolfPaw_ScreenSnip
+namespace SharpSnip
 {
 
 	static class c_Converter

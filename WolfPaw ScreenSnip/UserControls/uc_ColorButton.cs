@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Office.Interop.Outlook;
 
-namespace WolfPaw_ScreenSnip
+namespace SharpSnip
 {
     public partial class uc_ColorButton : Panel
     {

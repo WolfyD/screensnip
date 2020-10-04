@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FontAwesome.Sharp;
 
-namespace WolfPaw_ScreenSnip
+namespace SharpSnip
 {
     public partial class uc_ButtonSelector : UserControl
 	{
@@ -61,10 +61,14 @@ namespace WolfPaw_ScreenSnip
 				tsiRec.Click += ItemClick;
 				ToolStripItem tsiWindow = new uc_myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Window", Image = IconChar.WindowMaximize.ToBitmap(buttonSize, Color.Black), Tag = 1 };
 				tsiWindow.Click += ItemClick;
+				tsiWindow.Enabled = false;
+				tsiWindow.BackColor = Color.Gray;
 				ToolStripItem tsiFreehand = new uc_myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Freehand", Image = IconChar.PenSquare.ToBitmap(buttonSize, Color.Black), Tag = 2 };
 				tsiFreehand.Click += ItemClick;
 				ToolStripItem tsiPoint = new uc_myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Line", Image = IconChar.Star.ToBitmap(buttonSize, Color.Black), Tag = 3 };
 				tsiPoint.Click += ItemClick;
+				tsiPoint.Enabled = false;
+				tsiPoint.BackColor = Color.Gray;
 				ToolStripItem tsiMagic = new uc_myTSMI() { Width = this.Width, Height = buttonSize, AutoSize = false, myText = "Magic", Image = IconChar.Magic.ToBitmap(buttonSize, Color.Black), Tag = 4 };
 				tsiMagic.Click += ItemClick;
 
@@ -104,7 +108,6 @@ namespace WolfPaw_ScreenSnip
 					default:
 						bmp = (Bitmap)tsiRec.Image;
 						break;
-
 				}
 			}
 			else if (function == DropDownFunction.DataManagement)
